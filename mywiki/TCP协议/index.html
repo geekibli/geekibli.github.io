@@ -3,27 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>TCP-四次挥手/断开连接 | GeekIBLi</title>
+    <title>TCP协议 | GeekIBLi</title>
     
     
         <meta name="keywords" content="TCP" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="TCP断开连接四次挥手   开始客户端和服务端都是处理【established】状态 客户端发送「FIN」报文之后，进入FIN-WAIT-1状态 服务端收到客户端的FIN之后，恢复一个ACK，同时进入CLOSE_WAIT状态 客户端接收到ACK之后，进入到FIN-WAIT-2状态 服务端接着发送FIN报文，同时进入LAST-ACK状态 客户端接收到服务端的FIN报文之后，发送ACK报文，并进入TI">
+    <meta name="description" content="TCP协议学习笔记📒 w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！   1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时器的计算6、滑动窗口7、提升网络效率8、TCP拥塞控制之慢启动9、TCP拥塞控制之拥塞避免10、快速重传">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP-四次挥手&#x2F;断开连接">
-<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/index.html">
+<meta property="og:title" content="TCP协议">
+<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/index.html">
 <meta property="og:site_name" content="GeekIBLi">
-<meta property="og:description" content="TCP断开连接四次挥手   开始客户端和服务端都是处理【established】状态 客户端发送「FIN」报文之后，进入FIN-WAIT-1状态 服务端收到客户端的FIN之后，恢复一个ACK，同时进入CLOSE_WAIT状态 客户端接收到ACK之后，进入到FIN-WAIT-2状态 服务端接着发送FIN报文，同时进入LAST-ACK状态 客户端接收到服务端的FIN报文之后，发送ACK报文，并进入TI">
+<meta property="og:description" content="TCP协议学习笔记📒 w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！   1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时器的计算6、滑动窗口7、提升网络效率8、TCP拥塞控制之慢启动9、TCP拥塞控制之拥塞避免10、快速重传">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-8d9a6b405e874bc02b91e453bd277c46d46.png">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-d859884b062bda56a946ae9e3c0c148235b.png">
-<meta property="article:published_time" content="2021-07-04T08:34:11.000Z">
-<meta property="article:modified_time" content="2021-07-04T08:47:31.738Z">
+<meta property="article:published_time" content="2021-07-04T08:30:55.000Z">
+<meta property="article:modified_time" content="2021-07-04T08:47:45.892Z">
 <meta property="article:author" content="gaolei">
 <meta property="article:tag" content="TCP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-8d9a6b405e874bc02b91e453bd277c46d46.png">
     
 
     
@@ -195,7 +192,7 @@
                             &nbsp;
                             TCP
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file active"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -206,7 +203,7 @@
                             &nbsp;
                             Overview
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -279,7 +276,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-TCP-四次挥手-断开连接" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-TCP协议" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -301,8 +298,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">
-            <time datetime="2021-07-04T08:34:11.000Z" itemprop="datePublished">2021-07-04</time>
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/">
+            <time datetime="2021-07-04T08:30:55.000Z" itemprop="datePublished">2021-07-04</time>
         </a>
     </div>
 
@@ -313,13 +310,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/TCP-四次挥手-断开连接.md'> Source </a>
+                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/TCP协议.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/TCP-四次挥手-断开连接.md'> Edit </a>
+                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/TCP协议.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/TCP-四次挥手-断开连接.md'> History </a>
+                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/TCP协议.md'> History </a>
                             </div>
                         
                     </div>
@@ -327,7 +324,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            TCP-四次挥手/断开连接
+            TCP协议
         </h1>
     
 
@@ -340,48 +337,29 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">TCP断开连接</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">1.1.</span> <span class="toc-text">四次挥手</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%8D%8F%E8%AE%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%F0%9F%93%92"><span class="toc-number">1.</span> <span class="toc-text">TCP协议学习笔记📒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99"><span class="toc-number">2.</span> <span class="toc-text">学习资料</span></a></li></ol>
                 </div>
             
         
         
-            <h1 id="TCP断开连接"><a href="#TCP断开连接" class="headerlink" title="TCP断开连接"></a>TCP断开连接</h1><h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><img src="https://oscimg.oschina.net/oscnet/up-8d9a6b405e874bc02b91e453bd277c46d46.png" width=450 height=550>
-
-<ul>
-<li>开始客户端和服务端都是处理【established】状态</li>
-<li>客户端发送「FIN」报文之后，进入FIN-WAIT-1状态</li>
-<li>服务端收到客户端的FIN之后，恢复一个ACK，同时进入CLOSE_WAIT状态</li>
-<li>客户端接收到ACK之后，进入到FIN-WAIT-2状态</li>
-<li>服务端接着发送FIN报文，同时进入LAST-ACK状态</li>
-<li>客户端接收到服务端的FIN报文之后，发送ACK报文，并进入TIME_WAIT状态</li>
-<li>客户端在经历2个MSL时间之后，进入CLOSE状态</li>
-<li>服务端接收到客户端的ACK之后，进入CLOSE状态</li>
-</ul>
-<blockquote>
-<p>i 并不是所有的四次挥手都是上述流程，当客户端和服务端同时发送关闭连接的请求如下👇：</p>
+            <h2 id="TCP协议学习笔记📒"><a href="#TCP协议学习笔记📒" class="headerlink" title="TCP协议学习笔记📒"></a>TCP协议学习笔记📒</h2><blockquote>
+<p>w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！<br>可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！</p>
 </blockquote>
-<img src="https://oscimg.oschina.net/oscnet/up-d859884b062bda56a946ae9e3c0c148235b.png" width=450 height=550>
-
-<p>可以看到双方都主动发起断开请求所以各自都是主动发起方，状态会从 FIN_WAIT_1 都进入到 CLOSING 这个过度状态然后再到 TIME_WAIT。</p>
 <blockquote>
-<p>i 挥手一定需要四次吗？</p>
+<p><a href="doc:RGuKLdsI">1、TCP报文头部</a><br><a href="doc:OMRc4svF">2、TCP三次握手</a><br><a href="doc:MpizaHTg">3、TCP最大报文段（MSS）</a><br><a href="doc:ELxUb4mv">4、TCP超时与重传</a><br><a href="doc:wqRVLcNo">5、RTO重传计时器的计算</a><br><a href="doc:IhqiYamL">6、滑动窗口</a><br><a href="doc:HoE3w3UG">7、提升网络效率</a><br><a href="doc:N7riiaCk">8、TCP拥塞控制之慢启动</a><br><a href="doc:GQoRKrER">9、TCP拥塞控制之拥塞避免</a><br><a href="doc:y4aESoPN">10、快速重传与快速恢复</a><br><a href="doc:g1Onj7OR">11、四次挥手</a></p>
 </blockquote>
-<p>假设 client 已经没有数据发送给 server 了，所以它发送 FIN 给 server 表明自己数据发完了，不再发了，如果这时候 server 还是有数据要发送给 client 那么它就是先回复 ack ，然后继续发送数据。<br>等 server 数据发送完了之后再向 client 发送 FIN 表明它也发完了，然后等 client 的 ACK 这种情况下就会有四次挥手。<br>那么假设 client 发送 FIN 给 server 的时候 server 也没数据给 client，那么 server 就可以将 ACK 和它的 FIN 一起发给client ，然后等待 client 的 ACK，这样不就三次挥手了？</p>
+<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><blockquote>
+<p>i 敖丙Github整理的笔记 </p>
+</blockquote>
+<p>有大概10篇左右的文章，都是高质量的，原地址请点击着👉 <a href="https://github.com/AobingJava/JavaFamily">【Github】</a></p>
 <blockquote>
-<p>i 为什么要有 TIME_WAIT?</p>
+<p>i 极客时间《Web协议详解与抓包实战》– 陶辉老师</p>
 </blockquote>
-<p>断开连接发起方在接受到接受方的 FIN 并回复 ACK 之后并没有直接进入 CLOSED 状态，而是进行了一波等待，等待时间为 2MSL。MSL 是 Maximum Segment Lifetime，即报文最长生存时间，RFC 793 定义的 MSL 时间是 2 分钟，Linux 实际实现是 30s，那么 2MSL 是一分钟。</p>
+<p>这门课程专门讲解网络协议的，包括Http/Https,TLS协议，TCP协议，IP协议等；</p>
 <blockquote>
-<p>w <font color=red >那么为什么要等 2MSL 呢？</font></p>
+<p>i 《计算机网络 自顶向下方法》第7版</p>
 </blockquote>
-<ul>
-<li>就是怕被动关闭方没有收到最后的 ACK，如果被动方由于网络原因没有到，那么它会再次发送 FIN， 此时如果主动关闭方已经 CLOSED 那就傻了，因此等一会儿。</li>
-<li>假设立马断开连接，但是又重用了这个连接，就是五元组完全一致，并且序号还在合适的范围内，虽然概率很低但理论上也有可能，那么新的连接会被已关闭连接链路上的一些残留数据干扰，因此给予一定的时间来处理一些残留数据。</li>
-</ul>
-<blockquote>
-<p>i 等待 2MSL 会产生什么问题？</p>
-</blockquote>
-<p>如果服务器主动关闭大量的连接，那么会出现大量的资源占用，需要等到 2MSL 才会释放资源。<br>如果是客户端主动关闭大量的连接，那么在 2MSL 里面那些端口都是被占用的，端口只有 65535 个，如果端口耗尽了就无法发起送的连接了，不过我觉得这个概率很低，这么多端口你这是要建立多少个连接？</p>
+<p>很多名校计算机网络课程在使用的教材，非常权威！</p>
 
             </div>
         
@@ -394,19 +372,19 @@
     
 <nav id="article-nav">
     
-        <a href="/geekibli/geekibli.github.io/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%A4%B4%E9%83%A8/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    拥塞避免
+                    TCP头部
                 
             </div>
         </a>
     
     
-        <a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/index/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">快速重传/快速恢复</div>
+            <div class="article-nav-title">Welcome to GeekIBLi</div>
         </a>
     
 </nav>

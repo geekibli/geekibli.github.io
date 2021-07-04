@@ -3,28 +3,28 @@
 <head>
     <meta charset="utf-8">
     
-    <title>快速重传/快速恢复 | GeekIBLi</title>
+    <title>TCP-拥塞控制之慢启动 | GeekIBLi</title>
     
     
         <meta name="keywords" content="TCP" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="快速重传和快速恢复快速重传 d 为何会接收到以个失序数据段？    若报文丢失，将会产生连续的失序ACK段  若网络路径与设备导致数据段失序，将会产生少量的失序ACK段 若报文重复，将会产生少量的失序ACK段     当发送端发送pkt0是正常的，由于滑动窗口为满，发送方可以继续发送pkt1，pkt2； 加入pkt1发生了丢包，虽然pkt2接收端接收成功了，但是没有pkt1的数据段，接收端还是发送">
+    <meta name="description" content="由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景； 全局思考  拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过路由交换设备向右边的设备传输报文的时候，中间的某一链路的带宽肯定是一定的，这里假设1000M带宽，当左边R1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="快速重传&#x2F;快速恢复">
-<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/index.html">
+<meta property="og:title" content="TCP-拥塞控制之慢启动">
+<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/mywiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/index.html">
 <meta property="og:site_name" content="GeekIBLi">
-<meta property="og:description" content="快速重传和快速恢复快速重传 d 为何会接收到以个失序数据段？    若报文丢失，将会产生连续的失序ACK段  若网络路径与设备导致数据段失序，将会产生少量的失序ACK段 若报文重复，将会产生少量的失序ACK段     当发送端发送pkt0是正常的，由于滑动窗口为满，发送方可以继续发送pkt1，pkt2； 加入pkt1发生了丢包，虽然pkt2接收端接收成功了，但是没有pkt1的数据段，接收端还是发送">
+<meta property="og:description" content="由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景； 全局思考  拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过路由交换设备向右边的设备传输报文的时候，中间的某一链路的带宽肯定是一定的，这里假设1000M带宽，当左边R1">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-eaadaebd682089bdd3919de4f0d232749dc.png">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-9da669c35316aafb318674d3364ea07d72d.png">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-4a7f76cb315a13d1d905f2bfb3a376db087.png">
-<meta property="article:published_time" content="2021-07-04T08:33:35.000Z">
-<meta property="article:modified_time" content="2021-07-04T08:47:36.949Z">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-b70475e1aadd0776c54efdd5ecf26ef2606.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-4fffa8af1fb99c1ce534085f112fa9f065c.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-e632e6592fd276be90e5cf65a8365b3ddfb.png">
+<meta property="article:published_time" content="2021-07-04T08:33:19.000Z">
+<meta property="article:modified_time" content="2021-07-04T08:44:47.627Z">
 <meta property="article:author" content="gaolei">
 <meta property="article:tag" content="TCP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-eaadaebd682089bdd3919de4f0d232749dc.png">
+<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-b70475e1aadd0776c54efdd5ecf26ef2606.png">
     
 
     
@@ -196,7 +196,7 @@
                             &nbsp;
                             TCP
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file active"><a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file active"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -207,7 +207,7 @@
                             &nbsp;
                             Overview
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -280,7 +280,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-快速重传-快速恢复" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-TCP-拥塞控制之慢启动" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -302,8 +302,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">
-            <time datetime="2021-07-04T08:33:35.000Z" itemprop="datePublished">2021-07-04</time>
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">
+            <time datetime="2021-07-04T08:33:19.000Z" itemprop="datePublished">2021-07-04</time>
         </a>
     </div>
 
@@ -314,13 +314,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/快速重传-快速恢复.md'> Source </a>
+                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/TCP-拥塞控制之慢启动.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/快速重传-快速恢复.md'> Edit </a>
+                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/TCP-拥塞控制之慢启动.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/快速重传-快速恢复.md'> History </a>
+                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/TCP-拥塞控制之慢启动.md'> History </a>
                             </div>
                         
                     </div>
@@ -328,7 +328,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            快速重传/快速恢复
+            TCP-拥塞控制之慢启动
         </h1>
     
 
@@ -341,62 +341,56 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0%E5%92%8C%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D"><span class="toc-number">1.</span> <span class="toc-text">快速重传和快速恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0"><span class="toc-number">1.1.</span> <span class="toc-text">快速重传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0%E5%92%8C%E7%B4%AF%E7%A7%AF%E7%A1%AE%E8%AE%A4"><span class="toc-number">1.2.</span> <span class="toc-text">快速重传和累积确认</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D"><span class="toc-number">1.3.</span> <span class="toc-text">快速恢复</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E6%80%9D%E8%80%83"><span class="toc-number">1.</span> <span class="toc-text">全局思考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E7%AA%97%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">拥塞窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%85%A2%E5%90%AF%E5%8A%A8%E5%88%9D%E5%A7%8B%E7%AA%97%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">慢启动初始窗口</span></a></li></ol>
                 </div>
             
         
         
-            <h1 id="快速重传和快速恢复"><a href="#快速重传和快速恢复" class="headerlink" title="快速重传和快速恢复"></a>快速重传和快速恢复</h1><h2 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h2><blockquote>
-<p>d 为何会接收到以个失序数据段？ </p>
+            <p>由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景；</p>
+<h2 id="全局思考"><a href="#全局思考" class="headerlink" title="全局思考"></a>全局思考</h2><img src="https://oscimg.oschina.net/oscnet/up-b70475e1aadd0776c54efdd5ecf26ef2606.png" width=700 height=400>
+
+<p>拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过路由交换设备向右边的设备传输报文的时候，中间的某一链路的带宽肯定是一定的，这里假设1000M带宽，当左边R1以700Mb/s的速度向链路中发送数据，同时R2以600Mb/s的速率发送报文，那势必会有300Mb的数据报丢失；「路由交换设备基于存储转发来实现报文的发送」大量报文都是时，路由设备的缓冲队列肯定是慢的，这也会造成某些数据报在网络链路中停留时间过长，从而导致TCP通讯变慢，甚至网络瘫痪；</p>
+<p>理想的情况下，当链路带宽占满以后，链路以最大带宽传输数据，当然显示中是不可能的，当发生轻度拥塞时，链路的吞吐量就开始下降了，发展到严重阻塞时，链路的吞吐量会严重地下降，甚至瘫痪；</p>
+<p>那么，慢启动是如何发挥作用的呢？</p>
+<h2 id="拥塞窗口"><a href="#拥塞窗口" class="headerlink" title="拥塞窗口"></a>拥塞窗口</h2><blockquote>
+<p>s 拥塞窗口cwnd(congestion window)</p>
 </blockquote>
 <ul>
-<li>若报文丢失，将会产生连续的失序ACK段 </li>
-<li>若网络路径与设备导致数据段失序，将会产生少量的失序ACK段</li>
-<li>若报文重复，将会产生少量的失序ACK段</li>
-</ul>
-<img src="https://oscimg.oschina.net/oscnet/up-eaadaebd682089bdd3919de4f0d232749dc.png" width=450 height= 520>
-
-<ul>
-<li>当发送端发送pkt0是正常的，由于滑动窗口为满，发送方可以继续发送pkt1，pkt2；</li>
-<li>加入pkt1发生了丢包，虽然pkt2接收端接收成功了，但是没有pkt1的数据段，接收端还是发送ACK1的确认报文；</li>
-<li>在没有「快速重传」的情况下，发送端需要等到RTO之后，才可以重新发送pkt1</li>
-<li>重传成功之后，接收端其实收到了pkt2之前的所有数据段，所以发送ACK3的确认报文<blockquote>
-<p>w 这种需要等待RTO才可以重传的方式效率是比较低的，因此需要快速重传来进行优化；</p>
+<li>通告窗口rwnd(receiver‘s advertised window) <blockquote>
+<p>其实就是RCV.WND，标志在TCP首部的Window字段！</p>
+</blockquote>
+</li>
+<li>发送窗口swnd = min(cwnd，rwnd)<blockquote>
+<p>前面学习滑动窗口的时候提到发送窗口大致等于接受窗口，当引入拥塞窗口时，发送窗口就是拥塞窗口和对方接受窗口的最小值</p>
 </blockquote>
 </li>
 </ul>
-<h2 id="快速重传和累积确认"><a href="#快速重传和累积确认" class="headerlink" title="快速重传和累积确认"></a>快速重传和累积确认</h2><img src="https://oscimg.oschina.net/oscnet/up-9da669c35316aafb318674d3364ea07d72d.png" width=450 height=520>
+<img src="https://oscimg.oschina.net/oscnet/up-4fffa8af1fb99c1ce534085f112fa9f065c.png" width=360 height=360>
 
-<p>当发送方连续发送pkt3，pkt4，pkt5，pkt6四个数据端，但是pkt5在网络中丢包了，那后面发送的pkt6，pkt7，pkt8的确认报文都返回ACK5，希望发送方吃昂传pkt5的数据段；这个时候，发送方收到连续3个相同的确认报文，便立即重新发送pkt5的数据段；</p>
 <blockquote>
-<p>i 接收方:</p>
+<p>i 每收到一个ACK，cwnd扩充一倍</p>
 </blockquote>
-<ul>
-<li>当接收到一个失序数据段时，立刻发送它所期待的缺口 ACK 序列号</li>
-<li>当接收到填充失序缺口的数据段时，立刻发 送它所期待的下一个 ACK 序列号</li>
-</ul>
-<blockquote>
-<p>i 发送方</p>
-</blockquote>
-<ul>
-<li>当接收到3个重复的失序 ACK 段(4个相同的失序ACK段)时，不再等待重传定时器的触发，立刻基于快速重传机制重发报文段</li>
-</ul>
-<p>当pkt5重新发送并被接收端接收之后，接收端发送ACK9的确认报文，而不是再分别发送ACK6，ACK7，ACK8，这个称谓「 <strong><font color=red>累计确认</font></strong> 」。</p>
-<h2 id="快速恢复"><a href="#快速恢复" class="headerlink" title="快速恢复"></a>快速恢复</h2><blockquote>
-<p>i 快速重传下一定要进入慢启动吗?</p>
-</blockquote>
-<p>接受端收到重复ACK，意味着网络仍在流动，而如果要重新进入慢启动，会导致网络突然减少数据流，拥塞窗口恢复初始窗口，所以，「<strong>在快速恢复下发生丢包的场景下</strong>」，应该使用快速恢复，简单的讲，就是将慢启动阈值设置成当前拥塞窗口的一半，而拥塞窗口也适当放低，而不是一下字恢复到初始窗口大小；</p>
-<img src="https://oscimg.oschina.net/oscnet/up-4a7f76cb315a13d1d905f2bfb3a376db087.png" >
+<p>慢启动的窗口大小如何设置呢？<br>如上所示，起初拥塞窗口设置成1个报文段大小，当发送端发送一个报文段并且没有发生丢包时，调整拥塞窗口为2个报文段大小，如果还没有发生丢包，一次类推，知道发生丢包停止；发送窗口以「指数」的方式扩大；慢启动是无法确知网络拥塞程度的情况下，以试探性地方式快速扩大拥塞窗口；</p>
+<h2 id="慢启动初始窗口"><a href="#慢启动初始窗口" class="headerlink" title="慢启动初始窗口"></a>慢启动初始窗口</h2><p>慢启动的拥塞窗口真的就如上面所说的以一个报文段大小作为初始值吗？  </p>
+<img src="https://oscimg.oschina.net/oscnet/up-e632e6592fd276be90e5cf65a8365b3ddfb.png" width=360 height=360>  
 
-<p>快速恢复的流程如上图👆所示！</p>
 <blockquote>
-<p>w 快速恢复的具体操作：</p>
+<p>w 慢启动初始窗口 IW(Initial Window)的变迁</p>
 </blockquote>
 <ul>
-<li>将 ssthresh 设置为当前拥塞窗口 cwnd 的一半，设当前 cwnd 为 ssthresh 加上 3*MSS</li>
-<li>每收到一个重复 ACK，cwnd 增加 1 个 MSS</li>
-<li>当新数据 ACK 到达后，设置 cwnd 为 ssthresh</li>
+<li>1 SMSS:RFC2001(1997)</li>
+<li>2 - 4 SMSS:RFC2414(1998)<blockquote>
+<p>IW = min (4<em>SMSS, max (2</em>SMSS, 4380 bytes))</p>
+</blockquote>
+</li>
+<li>10 SMSS:RFC6928(2013)<blockquote>
+<p>IW = min (10<em>MSS, max (2</em>MSS, 14600))</p>
+</blockquote>
+</li>
 </ul>
+<blockquote>
+<p>w 其实在实际情况下，互联网中的网页都在10个mss左右，如果还是从1个mss开始，则会浪费3个RTT的时间；  </p>
+</blockquote>
 
             </div>
         
@@ -409,19 +403,19 @@
     
 <nav id="article-nav">
     
-        <a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    TCP-四次挥手/断开连接
+                    快速重传/快速恢复
                 
             </div>
         </a>
     
     
-        <a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">TCP-拥塞控制之慢启动</div>
+            <div class="article-nav-title">TCP-如何减少小报文提升网络效率</div>
         </a>
     
 </nav>

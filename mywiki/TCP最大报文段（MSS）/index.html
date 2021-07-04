@@ -3,28 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>TCP-拥塞控制之慢启动 | GeekIBLi</title>
+    <title>TCP最大报文段（MSS） | GeekIBLi</title>
     
     
         <meta name="keywords" content="TCP" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景； 全局思考  拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过路由交换设备向右边的设备传输报文的时候，中间的某一链路的带宽肯定是一定的，这里假设1000M带宽，当左边R1">
+    <meta name="description" content="MSS产生的背景我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。    什么是MSSMSS（Max S">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP-拥塞控制之慢启动">
-<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/index.html">
+<meta property="og:title" content="TCP最大报文段（MSS）">
+<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/mywiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/index.html">
 <meta property="og:site_name" content="GeekIBLi">
-<meta property="og:description" content="由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景； 全局思考  拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过路由交换设备向右边的设备传输报文的时候，中间的某一链路的带宽肯定是一定的，这里假设1000M带宽，当左边R1">
+<meta property="og:description" content="MSS产生的背景我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。    什么是MSSMSS（Max S">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-b70475e1aadd0776c54efdd5ecf26ef2606.png">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-4fffa8af1fb99c1ce534085f112fa9f065c.png">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-e632e6592fd276be90e5cf65a8365b3ddfb.png">
-<meta property="article:published_time" content="2021-07-04T08:33:19.000Z">
-<meta property="article:modified_time" content="2021-07-04T08:44:47.627Z">
+<meta property="article:published_time" content="2021-07-04T08:31:56.000Z">
+<meta property="article:modified_time" content="2021-07-04T08:42:16.166Z">
 <meta property="article:author" content="gaolei">
 <meta property="article:tag" content="TCP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-b70475e1aadd0776c54efdd5ecf26ef2606.png">
     
 
     
@@ -196,7 +192,7 @@
                             &nbsp;
                             TCP
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file active"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file active"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -207,7 +203,7 @@
                             &nbsp;
                             Overview
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -280,7 +276,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-TCP-拥塞控制之慢启动" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-TCP最大报文段（MSS）" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -302,8 +298,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">
-            <time datetime="2021-07-04T08:33:19.000Z" itemprop="datePublished">2021-07-04</time>
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">
+            <time datetime="2021-07-04T08:31:56.000Z" itemprop="datePublished">2021-07-04</time>
         </a>
     </div>
 
@@ -314,13 +310,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/TCP-拥塞控制之慢启动.md'> Source </a>
+                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/TCP最大报文段（MSS）.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/TCP-拥塞控制之慢启动.md'> Edit </a>
+                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/TCP最大报文段（MSS）.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/TCP-拥塞控制之慢启动.md'> History </a>
+                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/TCP最大报文段（MSS）.md'> History </a>
                             </div>
                         
                     </div>
@@ -328,7 +324,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            TCP-拥塞控制之慢启动
+            TCP最大报文段（MSS）
         </h1>
     
 
@@ -341,56 +337,45 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E6%80%9D%E8%80%83"><span class="toc-number">1.</span> <span class="toc-text">全局思考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A5%E5%A1%9E%E7%AA%97%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">拥塞窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%85%A2%E5%90%AF%E5%8A%A8%E5%88%9D%E5%A7%8B%E7%AA%97%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">慢启动初始窗口</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS%E4%BA%A7%E7%94%9F%E7%9A%84%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">MSS产生的背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMSS"><span class="toc-number">2.</span> <span class="toc-text">什么是MSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS-%E9%80%89%E6%8B%A9%E7%9B%AE%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">MSS 选择目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS%E9%BB%98%E8%AE%A4%E5%A4%A7%E5%B0%8F"><span class="toc-number">4.</span> <span class="toc-text">MSS默认大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS%E5%9C%A8%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text">MSS在什么时候使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS-%E5%88%86%E7%B1%BB"><span class="toc-number">6.</span> <span class="toc-text">MSS 分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8TCP%E5%B8%B8%E7%94%A8%E9%80%89%E9%A1%B9%E4%B8%AD%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E3%80%90MSS%E3%80%91%E7%9A%84%E9%80%89%E9%A1%B9"><span class="toc-number">7.</span> <span class="toc-text">在TCP常用选项中可以看到【MSS】的选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E6%B5%81%E4%B8%8E%E6%8A%A5%E6%96%87%E6%AE%B5%E5%9C%A8%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">8.</span> <span class="toc-text">TCP流与报文段在数据传输中的状态</span></a></li></ol>
                 </div>
             
         
         
-            <p>由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景；</p>
-<h2 id="全局思考"><a href="#全局思考" class="headerlink" title="全局思考"></a>全局思考</h2><img src="https://oscimg.oschina.net/oscnet/up-b70475e1aadd0776c54efdd5ecf26ef2606.png" width=700 height=400>
+            <h2 id="MSS产生的背景"><a href="#MSS产生的背景" class="headerlink" title="MSS产生的背景"></a>MSS产生的背景</h2><p>我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；<br>它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 <strong>TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。</strong></p>
+<image src="https://oscimg.oschina.net/oscnet/up-004bb74a9d5648d949d9549219c677f568f.png" width=450 height=300>
 
-<p>拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过路由交换设备向右边的设备传输报文的时候，中间的某一链路的带宽肯定是一定的，这里假设1000M带宽，当左边R1以700Mb/s的速度向链路中发送数据，同时R2以600Mb/s的速率发送报文，那势必会有300Mb的数据报丢失；「路由交换设备基于存储转发来实现报文的发送」大量报文都是时，路由设备的缓冲队列肯定是慢的，这也会造成某些数据报在网络链路中停留时间过长，从而导致TCP通讯变慢，甚至网络瘫痪；</p>
-<p>理想的情况下，当链路带宽占满以后，链路以最大带宽传输数据，当然显示中是不可能的，当发生轻度拥塞时，链路的吞吐量就开始下降了，发展到严重阻塞时，链路的吞吐量会严重地下降，甚至瘫痪；</p>
-<p>那么，慢启动是如何发挥作用的呢？</p>
-<h2 id="拥塞窗口"><a href="#拥塞窗口" class="headerlink" title="拥塞窗口"></a>拥塞窗口</h2><blockquote>
-<p>s 拥塞窗口cwnd(congestion window)</p>
-</blockquote>
-<ul>
-<li>通告窗口rwnd(receiver‘s advertised window) <blockquote>
-<p>其实就是RCV.WND，标志在TCP首部的Window字段！</p>
-</blockquote>
-</li>
-<li>发送窗口swnd = min(cwnd，rwnd)<blockquote>
-<p>前面学习滑动窗口的时候提到发送窗口大致等于接受窗口，当引入拥塞窗口时，发送窗口就是拥塞窗口和对方接受窗口的最小值</p>
+
+<h2 id="什么是MSS"><a href="#什么是MSS" class="headerlink" title="什么是MSS"></a>什么是MSS</h2><p>MSS（Max Segment Size）：仅指 TCP 承载数据，不包含 TCP 头部的大小，参见 RFC879</p>
+<h2 id="MSS-选择目的"><a href="#MSS-选择目的" class="headerlink" title="MSS 选择目的"></a>MSS 选择目的</h2><ul>
+<li>尽量每个 Segment 报文段携带更多的数据，以减少头部空间占用比率 </li>
+<li>防止 Segment 被某个设备的 IP 层基于 MTU 拆分<blockquote>
+<p>s IP层基于MTU的数据拆分是效率极差的，一个报文段丢失，所有的报文段都要重传</p>
 </blockquote>
 </li>
 </ul>
-<img src="https://oscimg.oschina.net/oscnet/up-4fffa8af1fb99c1ce534085f112fa9f065c.png" width=360 height=360>
-
-<blockquote>
-<p>i 每收到一个ACK，cwnd扩充一倍</p>
+<h2 id="MSS默认大小"><a href="#MSS默认大小" class="headerlink" title="MSS默认大小"></a>MSS默认大小</h2><blockquote>
+<p>s 默认 MSS:536 字节(默认 MTU576 字节，20 字节 IP 头部，20 字节 TCP 头部)</p>
 </blockquote>
-<p>慢启动的窗口大小如何设置呢？<br>如上所示，起初拥塞窗口设置成1个报文段大小，当发送端发送一个报文段并且没有发生丢包时，调整拥塞窗口为2个报文段大小，如果还没有发生丢包，一次类推，知道发生丢包停止；发送窗口以「指数」的方式扩大；慢启动是无法确知网络拥塞程度的情况下，以试探性地方式快速扩大拥塞窗口；</p>
-<h2 id="慢启动初始窗口"><a href="#慢启动初始窗口" class="headerlink" title="慢启动初始窗口"></a>慢启动初始窗口</h2><p>慢启动的拥塞窗口真的就如上面所说的以一个报文段大小作为初始值吗？  </p>
-<img src="https://oscimg.oschina.net/oscnet/up-e632e6592fd276be90e5cf65a8365b3ddfb.png" width=360 height=360>  
-
-<blockquote>
-<p>w 慢启动初始窗口 IW(Initial Window)的变迁</p>
+<h2 id="MSS在什么时候使用"><a href="#MSS在什么时候使用" class="headerlink" title="MSS在什么时候使用"></a>MSS在什么时候使用</h2><blockquote>
+<p>s 握手阶段协商 MSS 这个在TCP三次握手的文章中已经提及过了！</p>
 </blockquote>
-<ul>
-<li>1 SMSS:RFC2001(1997)</li>
-<li>2 - 4 SMSS:RFC2414(1998)<blockquote>
-<p>IW = min (4<em>SMSS, max (2</em>SMSS, 4380 bytes))</p>
+<h2 id="MSS-分类"><a href="#MSS-分类" class="headerlink" title="MSS 分类"></a>MSS 分类</h2><ul>
+<li><strong>发送方最大报文段:</strong> <blockquote>
+<p>SMSS:SENDER MAXIMUM SEGMENT SIZE</p>
 </blockquote>
 </li>
-<li>10 SMSS:RFC6928(2013)<blockquote>
-<p>IW = min (10<em>MSS, max (2</em>MSS, 14600))</p>
+<li><strong>接收方最大报文段:</strong> <blockquote>
+<p>RMSS:RECEIVER MAXIMUM SEGMENT SIZE</p>
 </blockquote>
 </li>
 </ul>
-<blockquote>
-<p>w 其实在实际情况下，互联网中的网页都在10个mss左右，如果还是从1个mss开始，则会浪费3个RTT的时间；  </p>
-</blockquote>
+<h2 id="在TCP常用选项中可以看到【MSS】的选项"><a href="#在TCP常用选项中可以看到【MSS】的选项" class="headerlink" title="在TCP常用选项中可以看到【MSS】的选项"></a>在TCP常用选项中可以看到【MSS】的选项</h2><image src="https://oscimg.oschina.net/oscnet/up-c1229634eb30eaa7391516cbee75258c9e1.png" width=750 height=420>
+
+
+<h2 id="TCP流与报文段在数据传输中的状态"><a href="#TCP流与报文段在数据传输中的状态" class="headerlink" title="TCP流与报文段在数据传输中的状态"></a>TCP流与报文段在数据传输中的状态</h2><image src="https://oscimg.oschina.net/oscnet/up-1a0015bf7b4d8481a4e624b0920bbb43917.png" width=450 height=620>
+
+<p>从上图可以看到，左边客户端在发送字节流数据给到右边客户端，客户端发送一个连续的字节流，会在TCP层按照MSS大小规定进行拆分成多个小的报文段，分别传送到另一个客户端或者其他的接收端；</p>
 
             </div>
         
@@ -403,19 +388,19 @@
     
 <nav id="article-nav">
     
-        <a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    快速重传/快速恢复
+                    TCP超时与重传
                 
             </div>
         </a>
     
     
-        <a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">TCP-如何减少小报文提升网络效率</div>
+            <div class="article-nav-title">TCP三次握手</div>
         </a>
     
 </nav>

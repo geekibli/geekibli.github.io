@@ -3,23 +3,22 @@
 <head>
     <meta charset="utf-8">
     
-    <title>TCP最大报文段（MSS） | GeekIBLi</title>
+    <title>Welcome to GeekIBLi | GeekIBLi</title>
     
     
-        <meta name="keywords" content="TCP" />
+        <meta name="keywords" content="Welcome to GeekIBLi" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="MSS产生的背景我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。    什么是MSSMSS（Max S">
+    <meta name="description" content="I am geekibli;   I come from HBU.  I like code.   😄😄😄😄">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP最大报文段（MSS）">
-<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/index.html">
+<meta property="og:title" content="Welcome to GeekIBLi">
+<meta property="og:url" content="https://github.com/geekibli/geekibli.github.io/mywiki/index/index.html">
 <meta property="og:site_name" content="GeekIBLi">
-<meta property="og:description" content="MSS产生的背景我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。    什么是MSSMSS（Max S">
+<meta property="og:description" content="I am geekibli;   I come from HBU.  I like code.   😄😄😄😄">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-07-04T08:31:56.000Z">
-<meta property="article:modified_time" content="2021-07-04T08:42:16.166Z">
+<meta property="article:published_time" content="2021-07-04T07:44:33.000Z">
+<meta property="article:modified_time" content="2021-07-04T08:22:05.574Z">
 <meta property="article:author" content="gaolei">
-<meta property="article:tag" content="TCP">
 <meta name="twitter:card" content="summary">
     
 
@@ -179,31 +178,31 @@
         
         
          <ul class="unstyled" id="tree" > 
-                    <li class="directory open">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
-                            &nbsp;
-                            Computer Network
-                        </a>
-                         <ul class="unstyled" id="tree" > 
-                    <li class="directory open">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
-                            &nbsp;
-                            TCP
-                        </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file active"><a href="/geekibli/geekibli.github.io/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
                     <li class="directory">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/geekibli/geekibli.github.io/mywiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
                             Overview
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/geekibli/geekibli.github.io/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/geekibli/geekibli.github.io/mywiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
                     </li> 
                      </ul> 
     </div>
@@ -276,7 +275,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-TCP最大报文段（MSS）" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-index" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -286,20 +285,15 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/geekibli/geekibli.github.io/categories/Computer-Network/">Computer Network</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/geekibli/geekibli.github.io/categories/Computer-Network/TCP/">TCP</a>
+        <a class="article-category-link" href="/geekibli/geekibli.github.io/categories/Overview/">Overview</a>
     </div>
 
                         
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link-link" href="/geekibli/geekibli.github.io/tags/TCP/" rel="tag">TCP</a>
-    </div>
-
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/geekibli/geekibli.github.io/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">
-            <time datetime="2021-07-04T08:31:56.000Z" itemprop="datePublished">2021-07-04</time>
+        <a href="/geekibli/geekibli.github.io/mywiki/index/">
+            <time datetime="2021-07-04T07:44:33.000Z" itemprop="datePublished">2021-07-04</time>
         </a>
     </div>
 
@@ -310,13 +304,13 @@
                         
                         
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/TCP最大报文段（MSS）.md'> Source </a>
+                                <a href='https://github.com/geekibli/geekibli/raw/master/source/_posts/index.md'> Source </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/TCP最大报文段（MSS）.md'> Edit </a>
+                                <a href='https://github.com/geekibli/geekibli/edit/master/source/_posts/index.md'> Edit </a>
                             </div>
                             <div class="article-meta-button">
-                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/TCP最大报文段（MSS）.md'> History </a>
+                                <a href='https://github.com/geekibli/geekibli/commits/master/source/_posts/index.md'> History </a>
                             </div>
                         
                     </div>
@@ -324,7 +318,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            TCP最大报文段（MSS）
+            Welcome to GeekIBLi
         </h1>
     
 
@@ -335,47 +329,10 @@
         
         
             
-                <div id="toc" class="toc-article">
-                <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS%E4%BA%A7%E7%94%9F%E7%9A%84%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">MSS产生的背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMSS"><span class="toc-number">2.</span> <span class="toc-text">什么是MSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS-%E9%80%89%E6%8B%A9%E7%9B%AE%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">MSS 选择目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS%E9%BB%98%E8%AE%A4%E5%A4%A7%E5%B0%8F"><span class="toc-number">4.</span> <span class="toc-text">MSS默认大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS%E5%9C%A8%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8"><span class="toc-number">5.</span> <span class="toc-text">MSS在什么时候使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSS-%E5%88%86%E7%B1%BB"><span class="toc-number">6.</span> <span class="toc-text">MSS 分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8TCP%E5%B8%B8%E7%94%A8%E9%80%89%E9%A1%B9%E4%B8%AD%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E3%80%90MSS%E3%80%91%E7%9A%84%E9%80%89%E9%A1%B9"><span class="toc-number">7.</span> <span class="toc-text">在TCP常用选项中可以看到【MSS】的选项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E6%B5%81%E4%B8%8E%E6%8A%A5%E6%96%87%E6%AE%B5%E5%9C%A8%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">8.</span> <span class="toc-text">TCP流与报文段在数据传输中的状态</span></a></li></ol>
-                </div>
-            
         
         
-            <h2 id="MSS产生的背景"><a href="#MSS产生的背景" class="headerlink" title="MSS产生的背景"></a>MSS产生的背景</h2><p>我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；<br>它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 <strong>TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。</strong></p>
-<image src="https://oscimg.oschina.net/oscnet/up-004bb74a9d5648d949d9549219c677f568f.png" width=450 height=300>
-
-
-<h2 id="什么是MSS"><a href="#什么是MSS" class="headerlink" title="什么是MSS"></a>什么是MSS</h2><p>MSS（Max Segment Size）：仅指 TCP 承载数据，不包含 TCP 头部的大小，参见 RFC879</p>
-<h2 id="MSS-选择目的"><a href="#MSS-选择目的" class="headerlink" title="MSS 选择目的"></a>MSS 选择目的</h2><ul>
-<li>尽量每个 Segment 报文段携带更多的数据，以减少头部空间占用比率 </li>
-<li>防止 Segment 被某个设备的 IP 层基于 MTU 拆分<blockquote>
-<p>s IP层基于MTU的数据拆分是效率极差的，一个报文段丢失，所有的报文段都要重传</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="MSS默认大小"><a href="#MSS默认大小" class="headerlink" title="MSS默认大小"></a>MSS默认大小</h2><blockquote>
-<p>s 默认 MSS:536 字节(默认 MTU576 字节，20 字节 IP 头部，20 字节 TCP 头部)</p>
-</blockquote>
-<h2 id="MSS在什么时候使用"><a href="#MSS在什么时候使用" class="headerlink" title="MSS在什么时候使用"></a>MSS在什么时候使用</h2><blockquote>
-<p>s 握手阶段协商 MSS 这个在TCP三次握手的文章中已经提及过了！</p>
-</blockquote>
-<h2 id="MSS-分类"><a href="#MSS-分类" class="headerlink" title="MSS 分类"></a>MSS 分类</h2><ul>
-<li><strong>发送方最大报文段:</strong> <blockquote>
-<p>SMSS:SENDER MAXIMUM SEGMENT SIZE</p>
-</blockquote>
-</li>
-<li><strong>接收方最大报文段:</strong> <blockquote>
-<p>RMSS:RECEIVER MAXIMUM SEGMENT SIZE</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="在TCP常用选项中可以看到【MSS】的选项"><a href="#在TCP常用选项中可以看到【MSS】的选项" class="headerlink" title="在TCP常用选项中可以看到【MSS】的选项"></a>在TCP常用选项中可以看到【MSS】的选项</h2><image src="https://oscimg.oschina.net/oscnet/up-c1229634eb30eaa7391516cbee75258c9e1.png" width=750 height=420>
-
-
-<h2 id="TCP流与报文段在数据传输中的状态"><a href="#TCP流与报文段在数据传输中的状态" class="headerlink" title="TCP流与报文段在数据传输中的状态"></a>TCP流与报文段在数据传输中的状态</h2><image src="https://oscimg.oschina.net/oscnet/up-1a0015bf7b4d8481a4e624b0920bbb43917.png" width=450 height=620>
-
-<p>从上图可以看到，左边客户端在发送字节流数据给到右边客户端，客户端发送一个连续的字节流，会在TCP层按照MSS大小规定进行拆分成多个小的报文段，分别传送到另一个客户端或者其他的接收端；</p>
+            <p>I am geekibli;  </p>
+<p>I come from HBU.  I like code.   😄😄😄😄</p>
 
             </div>
         
@@ -388,20 +345,15 @@
     
 <nav id="article-nav">
     
-        <a href="/geekibli/geekibli.github.io/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/geekibli/geekibli.github.io/mywiki/TCP%E5%8D%8F%E8%AE%AE/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    TCP超时与重传
+                    TCP协议
                 
             </div>
         </a>
     
-    
-        <a href="/geekibli/geekibli.github.io/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">TCP三次握手</div>
-        </a>
     
 </nav>
 
