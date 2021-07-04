@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://github.com/geekibli/geekibli.github.io/about/index.html</loc>
+    
+    <lastmod>2021-07-04</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://github.com/geekibli/geekibli.github.io/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</loc>
     
     <lastmod>2021-07-04</lastmod>
@@ -101,13 +108,6 @@
   
   <url>
     <loc>https://github.com/geekibli/geekibli.github.io/categories/index.html</loc>
-    
-    <lastmod>2021-07-04</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://github.com/geekibli/geekibli.github.io/about/index.html</loc>
     
     <lastmod>2021-07-04</lastmod>
     
