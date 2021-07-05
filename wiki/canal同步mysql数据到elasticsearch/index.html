@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>canal同步mysql数据到elasticsearch | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="elasticsearch" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="首先安装elk推荐大家到elasic中文社区去下载 👉 【传送】⚠️ elastcisearch | logstash | kibana 的版本最好保持一直，否则会出现很多坑的，切记！ 安装ELK的步骤这里就不做介绍了，可以查看 👉 【TODO】 下载安装canal-adaptercanal github传送门 👉  【Alibaba Canal】 canal-client 模式可以参照ca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="canal同步mysql数据到elasticsearch">
+<meta property="og:url" content="http://example.com/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="首先安装elk推荐大家到elasic中文社区去下载 👉 【传送】⚠️ elastcisearch | logstash | kibana 的版本最好保持一直，否则会出现很多坑的，切记！ 安装ELK的步骤这里就不做介绍了，可以查看 👉 【TODO】 下载安装canal-adaptercanal github传送门 👉  【Alibaba Canal】 canal-client 模式可以参照ca">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-afadff417c35ecb74811967d8e1da10f134.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-7f49aeda581a547bf528b55bad6d0af27de.png">
+<meta property="article:published_time" content="2021-07-05T03:26:50.000Z">
+<meta property="article:modified_time" content="2021-07-05T05:45:52.961Z">
+<meta property="article:author" content="gaolei">
+<meta property="article:tag" content="elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-afadff417c35ecb74811967d8e1da10f134.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQl
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-canal同步mysql数据到elasticsearch" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Elasticsearch/">Elasticsearch</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">
+            <time datetime="2021-07-05T03:26:50.000Z" itemprop="datePublished">2021-07-05</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/raw/master/source/_posts/canal同步mysql数据到elasticsearch.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/edit/master/source/_posts/canal同步mysql数据到elasticsearch.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/commits/master/source/_posts/canal同步mysql数据到elasticsearch.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            canal同步mysql数据到elasticsearch
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E5%AE%89%E8%A3%85elk"><span class="toc-number">1.</span> <span class="toc-text">首先安装elk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85canal-adapter"><span class="toc-number">2.</span> <span class="toc-text">下载安装canal-adapter</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#canal-client-%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">canal-client 模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.1.</span> <span class="toc-text">依赖配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.1.2.</span> <span class="toc-text">创建maven项目</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#canal-adapter-%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">canal-adapter 模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.1.</span> <span class="toc-text">创建表结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-number">2.2.2.</span> <span class="toc-text">创建索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95canal-adapter%E5%90%8C%E6%AD%A5%E6%95%88%E6%9E%9C"><span class="toc-number">2.2.3.</span> <span class="toc-text">测试canal-adapter同步效果</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E6%9D%A1%E8%AE%B0%E5%BD%95"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">创建一条记录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">修改数据</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE"><span class="toc-number">2.2.3.3.</span> <span class="toc-text">删除一条数据</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">3.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="首先安装elk"><a href="#首先安装elk" class="headerlink" title="首先安装elk"></a>首先安装elk</h2><p>推荐大家到elasic中文社区去下载 👉 <a target="_blank" rel="noopener" href="https://elasticsearch.cn/">【传送】</a><br>⚠️ elastcisearch | logstash | kibana 的版本最好保持一直，否则会出现很多坑的，切记！</p>
+<p>安装ELK的步骤这里就不做介绍了，可以查看 👉 【TODO】</p>
+<h2 id="下载安装canal-adapter"><a href="#下载安装canal-adapter" class="headerlink" title="下载安装canal-adapter"></a>下载安装canal-adapter</h2><p>canal github传送门 👉  <a target="_blank" rel="noopener" href="https://github.com/alibaba/canal">【Alibaba Canal】</a></p>
+<h3 id="canal-client-模式"><a href="#canal-client-模式" class="headerlink" title="canal-client 模式"></a>canal-client 模式</h3><p>可以参照canal给出的example项目和<a target="_blank" rel="noopener" href="https://github.com/alibaba/canal/wiki/ClientExample">官方文档</a>给出的例子来测试</p>
+<h4 id="依赖配置"><a href="#依赖配置" class="headerlink" title="依赖配置"></a>依赖配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.otter<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>canal.client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="创建maven项目"><a href="#创建maven项目" class="headerlink" title="创建maven项目"></a>创建maven项目</h4><p>保证canal-server 已经正确启动 👈  然后启动下面服务，操作数据库即可看到控制台的日志输出；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.redtom.canal.deploy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.otter.canal.client.CanalConnector;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.otter.canal.client.CanalConnectors;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.otter.canal.protocol.CanalEntry;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.otter.canal.protocol.Message;</span><br><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.InitializingBean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> gaolei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2021/6/30 2:57 下午</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CanalClient</span> <span class="keyword">implements</span> <span class="title">InitializingBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="keyword">int</span> BATCH_SIZE = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterPropertiesSet</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 创建链接</span></span><br><span class="line">        CanalConnector connector = CanalConnectors.newSingleConnector(<span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;***.***.***.***&quot;</span>, <span class="number">11111</span>),</span><br><span class="line">                <span class="string">&quot;example&quot;</span>, <span class="string">&quot;canal&quot;</span>, <span class="string">&quot;canal&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//打开连接</span></span><br><span class="line">            connector.connect();</span><br><span class="line">            <span class="comment">//订阅数据库表,全部表</span></span><br><span class="line">            connector.subscribe(<span class="string">&quot;.*\\..*&quot;</span>);</span><br><span class="line">            <span class="comment">//回滚到未进行ack的地方，下次fetch的时候，可以从最后一个没有ack的地方开始拿</span></span><br><span class="line">            connector.rollback();</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="comment">// 获取指定数量的数据</span></span><br><span class="line">                Message message = connector.getWithoutAck(BATCH_SIZE);</span><br><span class="line">                <span class="comment">//获取批量ID</span></span><br><span class="line">                <span class="keyword">long</span> batchId = message.getId();</span><br><span class="line">                <span class="comment">//获取批量的数量</span></span><br><span class="line">                <span class="keyword">int</span> size = message.getEntries().size();</span><br><span class="line">                <span class="comment">//如果没有数据</span></span><br><span class="line">                <span class="keyword">if</span> (batchId == -<span class="number">1</span> || size == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="comment">//线程休眠2秒</span></span><br><span class="line">                        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//如果有数据,处理数据</span></span><br><span class="line">                    printEntry(message.getEntries());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//进行 batch id 的确认。确认之后，小于等于此 batchId 的 Message 都会被确认。</span></span><br><span class="line">                connector.ack(batchId);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            connector.disconnect();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 打印canal server解析binlog获得的实体类信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printEntry</span><span class="params">(List&lt;CanalEntry.Entry&gt; entrys)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (CanalEntry.Entry entry : entrys) &#123;</span><br><span class="line">            <span class="keyword">if</span> (entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONBEGIN || entry.getEntryType() == CanalEntry.EntryType.TRANSACTIONEND) &#123;</span><br><span class="line">                <span class="comment">//开启/关闭事务的实体类型，跳过</span></span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//RowChange对象，包含了一行数据变化的所有特征</span></span><br><span class="line">            <span class="comment">//比如isDdl 是否是ddl变更操作 sql 具体的ddl sql beforeColumns afterColumns 变更前后的数据字段等等</span></span><br><span class="line">            CanalEntry.RowChange rowChage;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                rowChage = CanalEntry.RowChange.parseFrom(entry.getStoreValue());</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;ERROR ## parser of eromanga-event has an error , data:&quot;</span> + entry.toString(), e);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//获取操作类型：insert/update/delete类型</span></span><br><span class="line">            CanalEntry.EventType eventType = rowChage.getEventType();</span><br><span class="line">            <span class="comment">//打印Header信息</span></span><br><span class="line">            log.info(<span class="string">&quot;headers:&#123;&#125; &quot;</span>, String.format(<span class="string">&quot;================》; binlog[%s:%s] , name[%s,%s] , eventType : %s&quot;</span>,</span><br><span class="line">                    entry.getHeader().getLogfileName(), entry.getHeader().getLogfileOffset(),</span><br><span class="line">                    entry.getHeader().getSchemaName(), entry.getHeader().getTableName(),</span><br><span class="line">                    eventType));</span><br><span class="line">            <span class="comment">//判断是否是DDL语句</span></span><br><span class="line">            <span class="keyword">if</span> (rowChage.getIsDdl()) &#123;</span><br><span class="line">                log.info(<span class="string">&quot;================》;isDdl: true,sql: &#123;&#125;&quot;</span>, rowChage.getSql());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//获取RowChange对象里的每一行数据，打印出来</span></span><br><span class="line">            <span class="keyword">for</span> (CanalEntry.RowData rowData : rowChage.getRowDatasList()) &#123;</span><br><span class="line">                <span class="comment">//如果是删除语句</span></span><br><span class="line">                <span class="keyword">if</span> (eventType == CanalEntry.EventType.DELETE) &#123;</span><br><span class="line">                    printColumn(rowData.getBeforeColumnsList());</span><br><span class="line">                    <span class="comment">//如果是新增语句</span></span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (eventType == CanalEntry.EventType.INSERT) &#123;</span><br><span class="line">                    printColumn(rowData.getAfterColumnsList());</span><br><span class="line">                    <span class="comment">//如果是更新的语句</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">//变更前的数据</span></span><br><span class="line">                    log.info(<span class="string">&quot;-------&gt;; before&quot;</span>);</span><br><span class="line">                    printColumn(rowData.getBeforeColumnsList());</span><br><span class="line">                    <span class="comment">//变更后的数据</span></span><br><span class="line">                    log.info(<span class="string">&quot;-------&gt;; after&quot;</span>);</span><br><span class="line">                    printColumn(rowData.getAfterColumnsList());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printColumn</span><span class="params">(List&lt;CanalEntry.Column&gt; columns)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (CanalEntry.Column column : columns) &#123;</span><br><span class="line">            log.info(<span class="string">&quot; &#123;&#125; :  &#123;&#125;   update= &#123;&#125;&quot;</span>, column.getName(), column.getValue(), column.getUpdated());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="canal-adapter-模式"><a href="#canal-adapter-模式" class="headerlink" title="canal-adapter 模式"></a>canal-adapter 模式</h3><p>adapter 配置文件如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8081</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">jackson:</span></span><br><span class="line">    <span class="attr">date-format:</span> <span class="string">yyyy-MM-dd</span> <span class="string">HH:mm:ss</span></span><br><span class="line">    <span class="attr">time-zone:</span> <span class="string">GMT+8</span></span><br><span class="line">    <span class="attr">default-property-inclusion:</span> <span class="string">non_null</span></span><br><span class="line"></span><br><span class="line"><span class="attr">canal.conf:</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">tcp</span> <span class="comment">#tcp kafka rocketMQ rabbitMQ</span></span><br><span class="line">  <span class="attr">flatMessage:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">zookeeperHosts:</span></span><br><span class="line">  <span class="attr">syncBatchSize:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">batchSize:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">0</span></span><br><span class="line">  <span class="attr">timeout:</span></span><br><span class="line">  <span class="attr">accessKey:</span></span><br><span class="line">  <span class="attr">secretKey:</span></span><br><span class="line">  <span class="attr">consumerProperties:</span></span><br><span class="line">    <span class="comment"># canal tcp consumer</span></span><br><span class="line">    <span class="attr">canal.tcp.server.host:</span> <span class="number">172.25</span><span class="number">.101</span><span class="number">.75</span><span class="string">:11111</span></span><br><span class="line">    <span class="attr">canal.tcp.zookeeper.hosts:</span></span><br><span class="line">    <span class="attr">canal.tcp.batch.size:</span> <span class="number">500</span></span><br><span class="line">    <span class="attr">canal.tcp.username:</span></span><br><span class="line">    <span class="attr">canal.tcp.password:</span></span><br><span class="line">  <span class="attr">srcDataSources:</span></span><br><span class="line">    <span class="attr">defaultDS:</span></span><br><span class="line">      <span class="attr">url:</span> <span class="string">jdbc:mysql://xxxx:pppp/database?useUnicode=true</span></span><br><span class="line">      <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">pwd</span></span><br><span class="line">  <span class="attr">canalAdapters:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">instance:</span> <span class="string">example</span> <span class="comment"># canal instance Name or mq topic name</span></span><br><span class="line">    <span class="attr">groups:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">groupId:</span> <span class="string">g1</span></span><br><span class="line">      <span class="attr">outerAdapters:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">logger</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">es7</span></span><br><span class="line">        <span class="attr">hosts:</span> <span class="number">172.25</span><span class="number">.101</span><span class="number">.75</span><span class="string">:9300</span> <span class="comment"># 127.0.0.1:9200 for rest mode</span></span><br><span class="line">        <span class="attr">properties:</span></span><br><span class="line">          <span class="attr">mode:</span> <span class="string">transport</span> <span class="comment"># or rest</span></span><br><span class="line"><span class="comment">#          # security.auth: test:123456 #  only used for rest mode</span></span><br><span class="line">          <span class="attr">cluster.name:</span> <span class="string">my-application</span></span><br><span class="line"><span class="comment">#        - name: kudu</span></span><br><span class="line"><span class="comment">#          key: kudu</span></span><br><span class="line"><span class="comment">#          properties:</span></span><br><span class="line"><span class="comment">#            kudu.master.address: 127.0.0.1 # &#x27;,&#x27; split multi address</span></span><br></pre></td></tr></table></figure>
+
+<p>我的elasticsearch是7.10.0版本的<br><code>application.yml  bootstrap.yml  es6  es7  hbase  kudu  logback.xml  META-INF  rdb</code><br>所以：👇</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd es7</span><br><span class="line">biz_order.yml  customer.yml  mytest_user.yml</span><br><span class="line">vim customer.yml</span><br></pre></td></tr></table></figure>
+
+<p>customer.yml 配置文件如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dataSourceKey:</span> <span class="string">defaultDS</span></span><br><span class="line"><span class="attr">destination:</span> <span class="string">example</span></span><br><span class="line"><span class="attr">groupId:</span> <span class="string">g1</span></span><br><span class="line"><span class="attr">esMapping:</span></span><br><span class="line">  <span class="attr">_index:</span> <span class="string">customer</span></span><br><span class="line">  <span class="attr">_id:</span> <span class="string">id</span></span><br><span class="line">  <span class="attr">relations:</span></span><br><span class="line">    <span class="attr">customer_order:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">customer</span></span><br><span class="line">  <span class="attr">sql:</span> <span class="string">&quot;select t.id, t.name, t.email from customer t&quot;</span></span><br><span class="line">  <span class="attr">etlCondition:</span> <span class="string">&quot;where t.c_time&gt;=&#123;&#125;&quot;</span></span><br><span class="line">  <span class="attr">commitBatch:</span> <span class="number">3000</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="创建表结构"><a href="#创建表结构" class="headerlink" title="创建表结构"></a>创建表结构</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `customer` (</span><br><span class="line">  `id` <span class="type">bigint</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `name` <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `email` <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `order_id` <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `order_serial` <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `order_time` datetime <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `customer_order` <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `c_time` datetime <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">PUT customer</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;mappings&quot;</span>:&#123;</span><br><span class="line">      <span class="attr">&quot;properties&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;id&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;long&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;name&quot;</span>: &#123;</span><br><span class="line">         <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;email&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;order_id&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;long&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;order_serial&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;order_time&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>: <span class="string">&quot;date&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;customer_order&quot;</span>:&#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;join&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;relations&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;customer&quot;</span>:<span class="string">&quot;order&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="测试canal-adapter同步效果"><a href="#测试canal-adapter同步效果" class="headerlink" title="测试canal-adapter同步效果"></a>测试canal-adapter同步效果</h4><h5 id="创建一条记录"><a href="#创建一条记录" class="headerlink" title="创建一条记录"></a>创建一条记录</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021-07-05 11:50:53.725 [pool-3-thread-1] DEBUG c.a.o.canal.client.adapter.es.core.service.ESSyncService - DML: &#123;&quot;data&quot;:[&#123;&quot;id&quot;:1,&quot;name&quot;:&quot;1&quot;,&quot;email&quot;:&quot;1&quot;,&quot;order_id&quot;:1,&quot;order_serial&quot;:&quot;1&quot;,&quot;order_time&quot;:1625457046000,&quot;customer_order&quot;:&quot;1&quot;,&quot;c_time&quot;:1625457049000&#125;],&quot;database&quot;:&quot;redtom_dev&quot;,&quot;destination&quot;:&quot;example&quot;,&quot;es&quot;:1625457053000,&quot;groupId&quot;:&quot;g1&quot;,&quot;isDdl&quot;:false,&quot;old&quot;:null,&quot;pkNames&quot;:[],&quot;sql&quot;:&quot;&quot;,&quot;table&quot;:&quot;customer&quot;,&quot;ts&quot;:1625457053724,&quot;type&quot;:&quot;INSERT&quot;&#125;</span><br><span class="line">Affected indexes: customer</span><br></pre></td></tr></table></figure>
+<p>Elastcisearch 效果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;took&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;timed_out&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;successful&quot;</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;skipped&quot;</span> : <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;failed&quot;</span> : <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;value&quot;</span> : <span class="number">1</span>,</span><br><span class="line">      <span class="attr">&quot;relation&quot;</span> : <span class="string">&quot;eq&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;max_score&quot;</span> : <span class="number">1.0</span>,</span><br><span class="line">    <span class="attr">&quot;hits&quot;</span> : [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span> : <span class="number">1.0</span>,</span><br><span class="line">        <span class="attr">&quot;_source&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;name&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;email&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;customer_order&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;name&quot;</span> : <span class="string">&quot;customer&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021-07-05 11:54:36.402 [pool-3-thread-1] DEBUG c.a.o.canal.client.adapter.es.core.service.ESSyncService - DML: &#123;&quot;data&quot;:[&#123;&quot;id&quot;:1,&quot;name&quot;:&quot;2&quot;,&quot;email&quot;:&quot;2&quot;,&quot;order_id&quot;:2,&quot;order_serial&quot;:&quot;2&quot;,&quot;order_time&quot;:1625457046000,&quot;customer_order&quot;:&quot;2&quot;,&quot;c_time&quot;:1625457049000&#125;],&quot;database&quot;:&quot;redtom_dev&quot;,&quot;destination&quot;:&quot;example&quot;,&quot;es&quot;:1625457275000,&quot;groupId&quot;:&quot;g1&quot;,&quot;isDdl&quot;:false,&quot;old&quot;:[&#123;&quot;name&quot;:&quot;1&quot;,&quot;email&quot;:&quot;1&quot;,&quot;order_id&quot;:1,&quot;order_serial&quot;:&quot;1&quot;,&quot;customer_order&quot;:&quot;1&quot;&#125;],&quot;pkNames&quot;:[],&quot;sql&quot;:&quot;&quot;,&quot;table&quot;:&quot;customer&quot;,&quot;ts&quot;:1625457276401,&quot;type&quot;:&quot;UPDATE&quot;&#125;</span><br><span class="line">Affected indexes: customer</span><br></pre></td></tr></table></figure>
+<p>Elastcisearch 效果<br><img src="https://oscimg.oschina.net/oscnet/up-afadff417c35ecb74811967d8e1da10f134.png" width=700 height=400></p>
+<h5 id="删除一条数据"><a href="#删除一条数据" class="headerlink" title="删除一条数据"></a>删除一条数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2021-07-05 11:56:51.524 [pool-3-thread-1] DEBUG c.a.o.canal.client.adapter.es.core.service.ESSyncService - DML: &#123;&quot;data&quot;:[&#123;&quot;id&quot;:1,&quot;name&quot;:&quot;2&quot;,&quot;email&quot;:&quot;2&quot;,&quot;order_id&quot;:2,&quot;order_serial&quot;:&quot;2&quot;,&quot;order_time&quot;:1625457046000,&quot;customer_order&quot;:&quot;2&quot;,&quot;c_time&quot;:1625457049000&#125;],&quot;database&quot;:&quot;redtom_dev&quot;,&quot;destination&quot;:&quot;example&quot;,&quot;es&quot;:1625457411000,&quot;groupId&quot;:&quot;g1&quot;,&quot;isDdl&quot;:false,&quot;old&quot;:null,&quot;pkNames&quot;:[],&quot;sql&quot;:&quot;&quot;,&quot;table&quot;:&quot;customer&quot;,&quot;ts&quot;:1625457411523,&quot;type&quot;:&quot;DELETE&quot;&#125;</span><br><span class="line">Affected indexes: customer</span><br></pre></td></tr></table></figure>
+<p>Elastcisearch 效果<br><img src="https://oscimg.oschina.net/oscnet/up-7f49aeda581a547bf528b55bad6d0af27de.png" width=700 height=400></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/puhaiyang/article/details/100171395">使用canal client-adapter完成mysql到es数据同步教程(包括全量和增量)</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/alibaba/canal/issues/1514">es 同步问题 #1514 Github issue</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/binlog%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">mysql配置binlog</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
