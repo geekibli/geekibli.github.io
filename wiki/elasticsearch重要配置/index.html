@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>elasticsearch重要配置 | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="elasticsearch" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="虽然Elasticsearch仅需要很少的配置，但有许多设置需要手动配置，并且在进入生产之前绝对必须进行配置。 path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdiscovery.zen.ping.unicast.hostsdiscovery.zen.minimum_master_nodespat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch重要配置">
+<meta property="og:url" content="http://example.com/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="虽然Elasticsearch仅需要很少的配置，但有许多设置需要手动配置，并且在进入生产之前绝对必须进行配置。 path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdiscovery.zen.ping.unicast.hostsdiscovery.zen.minimum_master_nodespat">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-05T13:22:32.000Z">
+<meta property="article:modified_time" content="2021-07-05T13:35:52.307Z">
+<meta property="article:author" content="gaolei">
+<meta property="article:tag" content="elasticsearch">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQl
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            基本搜索
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file active"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-elasticsearch重要配置" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Elasticsearch/">Elasticsearch</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">
+            <time datetime="2021-07-05T13:22:32.000Z" itemprop="datePublished">2021-07-05</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/raw/master/source/_posts/elasticsearch重要配置.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/edit/master/source/_posts/elasticsearch重要配置.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/commits/master/source/_posts/elasticsearch重要配置.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            elasticsearch重要配置
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cluster-name"><span class="toc-number">1.</span> <span class="toc-text">cluster.name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#node-name"><span class="toc-number">2.</span> <span class="toc-text">node.name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#network-host"><span class="toc-number">3.</span> <span class="toc-text">network.host</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#discovery-zen-ping-unicast-hosts%EF%BC%88%E5%8D%95%E6%92%AD%E5%8F%91%E7%8E%B0%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">discovery.zen.ping.unicast.hosts（单播发现）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#discovery-zen-minimum-master-nodes"><span class="toc-number">5.</span> <span class="toc-text">discovery.zen.minimum_master_nodes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>虽然Elasticsearch仅需要很少的配置，但有许多设置需要手动配置，并且在进入生产之前绝对必须进行配置。</p>
+<p><code>path.data</code> 和 <code>path.logs</code><br><code>cluster.name</code><br><code>node.name</code><br><code>bootstrap.memory_lock</code><br><code>network.host</code><br><code>discovery.zen.ping.unicast.hosts</code><br><code>discovery.zen.minimum_master_nodes</code><br><code>path.data</code> 和 <code>path.logs</code><br>如果使用.zip或.tar.gz归档，则数据和日志目录是$ES_HOME的子文件夹。 如果这些重要的文件夹保留在其默认位置，则存在将Elasticsearch升级到新版本时被删除的高风险。  </p>
+<p>在生产使用中，肯定得更改数据和日志文件夹的位置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">path:</span></span><br><span class="line">  <span class="attr">logs:</span> <span class="string">/var/log/elasticsearch</span></span><br><span class="line">  <span class="attr">data:</span> <span class="string">/var/data/elasticsearch</span></span><br></pre></td></tr></table></figure>
+<p>RPM和Debian发行版已经使用数据和日志的自定义路径。  </p>
+<p><code>path.data</code> 设置可以设置为多个路径，在这种情况下，所有路径将用于存储数据（属于单个分片的文件将全部存储在同一数据路径上）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">path:</span></span><br><span class="line">  <span class="attr">data:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/mnt/elasticsearch_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/mnt/elasticsearch_2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">/mnt/elasticsearch_3</span></span><br></pre></td></tr></table></figure>
+<h2 id="cluster-name"><a href="#cluster-name" class="headerlink" title="cluster.name"></a>cluster.name</h2><p>节点只能在群集与群集中的所有其他节点共享其cluster.name时才能加入群集。 默认名称为elasticsearch，但您应将其更改为描述集群用途的适当名称。<br><code>cluster.name: logging-prod</code><br>确保不要在不同的环境中重复使用相同的集群名称，否则可能会导致加入错误集群的节点。  </p>
+<h2 id="node-name"><a href="#node-name" class="headerlink" title="node.name"></a>node.name</h2><p>默认情况下，Elasticsearch将使用随机生成的uuid的第一个字符作为节点id。 请注意，节点ID是持久化的，并且在节点重新启动时不会更改，因此默认节点名称也不会更改。<br>配置一个更有意义的名称是值得的，这是重启节点后也能一直保持的优势：<br><code>node.name: prod-data-2</code><br>node.name也可以设置为服务器的HOSTNAME，如下所示：  </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">node.name:</span> <span class="string">$&#123;HOSTNAME&#125;</span></span><br><span class="line"><span class="string">bootstrap.memory_lock</span></span><br></pre></td></tr></table></figure>
+<p>没有JVM被交换到磁盘上这事对于节点的健康来说是至关重要的。一种实现方法是将bootstrap.memory_lock设置为true。<br>要使此设置生效，需要首先配置其他系统设置。 有关如何正确设置内存锁定的更多详细信息，请参阅启用<a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#mlockall">bootstrap.memory_lock</a>。  </p>
+<h2 id="network-host"><a href="#network-host" class="headerlink" title="network.host"></a>network.host</h2><p>默认情况下，Elasticsearch仅仅绑定在本地回路地址——如：127.0.0.1与[::1]。这在一台服务器上跑一个开发节点是足够的。<br>提示</p>
+<p>事实上，多个节点可以在单个节点上相同的$ES_HOME位置一同运行。这可以用于测试Elasticsearch形成集群的能力,但这种配置方式不推荐用于生产环境。</p>
+<p>为了将其它服务器上的节点形成一个可以相互通讯的集群，你的节点将不能绑定在一个回路地址上。 这里有更多的网路配置，通常你只需要配置network.host：<br><code>network.host: 192.168.1.10</code><br>network.host也可以配置成一些能识别的特殊的值，譬如：_local_、_site、_global_，它们可以结合指定:ip4与ip6来使用。更多相信信息请参见：<a target="_blank" rel="noopener" href="https://aqlu.gitbooks.io/elasticsearch-reference/content/Modules/Network_Settings.html">网路配置</a></p>
+<p>重要 👇</p>
+<p>一旦你自定义了network.host的配置，Elasticsearch将假设你已经从开发模式转到了生产模式，并将升级系统检测的警告信息为异常信息。更多信息请参见：开发模式vs生产模式</p>
+<h2 id="discovery-zen-ping-unicast-hosts（单播发现）"><a href="#discovery-zen-ping-unicast-hosts（单播发现）" class="headerlink" title="discovery.zen.ping.unicast.hosts（单播发现）"></a>discovery.zen.ping.unicast.hosts（单播发现）</h2><p>开箱即用，无需任何网络配置，Elasticsearch将绑定到可用的回路地址，并扫描9300年到9305的端口去连接同一机器上的其他节点,试图连接到相同的服务器上运行的其他节点。它提供了不需要任何配置就能自动组建集群的体验。<br>当与其它机器上的节点要形成一个集群时，你需要提供一个在线且可访问的节点列表。像如下来配置：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">discovery.zen.ping.unicast.hosts:</span><br><span class="line">   - 192.168.1.10:9300</span><br><span class="line">   - 192.168.1.11 #①</span><br><span class="line">   - seeds.mydomain.com #②</span><br></pre></td></tr></table></figure>
+<p>① 未指定端口时，将使用默认的<code>transport.profiles.default.port</code>值，如果此值也为设置则使用<code>transport.tcp.port</code></p>
+<p>② 主机名将被尝试解析成能解析的多个IP</p>
+<h2 id="discovery-zen-minimum-master-nodes"><a href="#discovery-zen-minimum-master-nodes" class="headerlink" title="discovery.zen.minimum_master_nodes"></a>discovery.zen.minimum_master_nodes</h2><p>为防止数据丢失，配置discovery-zen-minimum_master_nodes将非常重要，他规定了必须至少要有多少个master节点才能形成一个集群。<br>没有此设置时，一个集群在发生网络问题是可能会分裂成多个集群——脑裂——这将导致数据丢失。更多详细信息请参见：通过minimum_master_nodes避免脑裂<br>为避免脑裂，你需要根据master节点数来设置法定人数：<br><code>(master_eligible_nodes / 2) + 1</code><br>换句话说，如果你有三个master节点，最小的主节点数因被设置为(3/2)+1或者是2<br><code>discovery.zen.minimum_master_nodes: 2</code></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#mlockall">elastic 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.codingdict.com/document">codingdict.com</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    多索引多类型搜索
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">elasticsearch操作索引</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
