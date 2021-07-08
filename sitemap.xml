@@ -382,13 +382,6 @@
 
   
   <url>
-    <loc>http://example.com/tags/TCP/</loc>
-    <lastmod>2021-07-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/elasticsearch/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
@@ -396,7 +389,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/MySQL/</loc>
+    <loc>http://example.com/tags/TCP/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -404,6 +397,13 @@
   
   <url>
     <loc>http://example.com/tags/flink/</loc>
+    <lastmod>2021-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/MySQL/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -426,20 +426,6 @@
 
   
   <url>
-    <loc>http://example.com/categories/Computer-Network/</loc>
-    <lastmod>2021-07-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/categories/Computer-Network/TCP/</loc>
-    <lastmod>2021-07-08</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/categories/Elasticsearch/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
@@ -447,7 +433,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Elasticsearch/Search-in-Depth/</loc>
+    <loc>http://example.com/categories/Computer-Network/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -461,7 +447,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/DataBase/</loc>
+    <loc>http://example.com/categories/Computer-Network/TCP/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -475,7 +461,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Elasticsearch/Getting-Started/</loc>
+    <loc>http://example.com/categories/DataBase/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -489,6 +475,20 @@
   </url>
   
   <url>
+    <loc>http://example.com/categories/Elasticsearch/Search-in-Depth/</loc>
+    <lastmod>2021-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/categories/Elasticsearch/Getting-Started/</loc>
+    <lastmod>2021-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/categories/Overview/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
@@ -496,14 +496,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/Elasticsearch/Aggregations/</loc>
+    <loc>http://example.com/categories/DataBase/MySQl/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/DataBase/MySQl/</loc>
+    <loc>http://example.com/categories/Elasticsearch/Aggregations/</loc>
     <lastmod>2021-07-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
