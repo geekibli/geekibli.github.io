@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>关于 Elasticsearch 内存占用及分配 | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="elasticsearch" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Elasticsearch 和 Lucene 对内存使用情况：     Elasticsearch 限制的内存大小是 JAVA 堆空间的大小，不包括Lucene 缓存倒排索引数据空间。 Lucene 中的 倒排索引 segments 存储在文件中，为提高访问速度，都会把它加载到内存中，从而提高 Lucene 性能。所以建议至少留系统一半内存给Lucene。Node Query Cache (负责缓">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 Elasticsearch 内存占用及分配">
+<meta property="og:url" content="http://example.com/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="Elasticsearch 和 Lucene 对内存使用情况：     Elasticsearch 限制的内存大小是 JAVA 堆空间的大小，不包括Lucene 缓存倒排索引数据空间。 Lucene 中的 倒排索引 segments 存储在文件中，为提高访问速度，都会把它加载到内存中，从而提高 Lucene 性能。所以建议至少留系统一半内存给Lucene。Node Query Cache (负责缓">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://nereuschen.github.io/2015/09/16/ElasticSearch%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%88%86%E6%9E%90/es-cache.png">
+<meta property="article:published_time" content="2021-07-08T02:39:16.000Z">
+<meta property="article:modified_time" content="2021-07-08T03:28:02.241Z">
+<meta property="article:author" content="gaolei">
+<meta property="article:tag" content="elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nereuschen.github.io/2015/09/16/ElasticSearch%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%88%86%E6%9E%90/es-cache.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQl
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            For search
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a></li>  <li class="file"><a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            analyzer
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            canal
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mapping
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            基本搜索
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a></li>  <li class="file"><a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a></li>  <li class="file"><a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a></li>  <li class="file"><a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a></li>  <li class="file"><a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            配置运维
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file active"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            问题记录
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a></li>  <li class="file"><a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            推荐系统
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-关于-Elasticsearch-内存占用及分配" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Elasticsearch/">Elasticsearch</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Elasticsearch/%E9%85%8D%E7%BD%AE%E8%BF%90%E7%BB%B4/">配置运维</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">
+            <time datetime="2021-07-08T02:39:16.000Z" itemprop="datePublished">2021-07-08</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/raw/master/source/_posts/关于-Elasticsearch-内存占用及分配.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/edit/master/source/_posts/关于-Elasticsearch-内存占用及分配.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/geekibli/geekibli/commits/master/source/_posts/关于-Elasticsearch-内存占用及分配.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            关于 Elasticsearch 内存占用及分配
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEElasticsearch%E5%A0%86%E5%86%85%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text">配置Elasticsearch堆内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E4%BA%A4%E6%8D%A2%E5%8C%BA"><span class="toc-number">3.</span> <span class="toc-text">关闭交换区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bnode%E8%8A%82%E7%82%B9%E6%95%B0%E6%8D%AE"><span class="toc-number">4.</span> <span class="toc-text">查看node节点数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-number">5.</span> <span class="toc-text">参考文章</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>Elasticsearch 和 Lucene 对内存使用情况： </p>
+<img src='https://nereuschen.github.io/2015/09/16/ElasticSearch%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%88%86%E6%9E%90/es-cache.png' width=500 height=550>
+
+
+<p>Elasticsearch 限制的内存大小是 JAVA 堆空间的大小，不包括Lucene 缓存倒排索引数据空间。</p>
+<p>Lucene 中的 倒排索引 segments 存储在文件中，为提高访问速度，都会把它加载到内存中，从而提高 Lucene 性能。所以建议至少留系统一半内存给Lucene。<br><code>Node Query Cache</code> (负责缓存f ilter 查询结果)，每个节点有一个，被所有 shard 共享，filter query查询结果要么是 yes 要么是no，不涉及 scores 的计算。<br>集群中每个节点都要配置，默认为：indices.queries.cache.size:10%</p>
+<p><code>Indexing Buffer</code> 索引缓冲区，用于存储新索引的文档，当其被填满时，缓冲区中的文档被写入磁盘中的 <code>segments</code> 中。节点上所有 <code>shard</code> 共享。<br>缓冲区默认大小： indices.memory.index_buffer_size: 10%<br>如果缓冲区大小设置了百分百则 indices.memory.min_index_buffer_size 用于这是最小值，默认为 48mb。indices.memory.max_index_buffer_size 用于最大大小，无默认值。</p>
+<p><code>segments</code><br>segments会长期占用内存，其初衷就是利用OS的cache提升性能。只有在Merge之后，才会释放掉标记为Delete的segments，释放部分内存。</p>
+<p><code>Shard Request Cache</code> 用于缓存请求结果，但之缓存request size为0的。比如说 hits.total, aggregations 和 suggestions.<br>默认最大为indices.requests.cache.size:1%</p>
+<p><code>Field Data Cache</code> 字段缓存重要用于对字段进行排序、聚合是使用。因为构建字段数据缓存代价昂贵，所以建议有足够的内训来存储。<br><code>Fielddata</code> 是 「 延迟 」 加载。如果你从来没有聚合一个分析字符串，就不会加载 fielddata 到内存中，也就不会使用大量的内存，所以可以考虑分配较小的heap给Elasticsearch。因为heap越小意味着Elasticsearch的GC会比较快，并且预留给Lucene的内存也会比较大。。<br>如果没有足够的内存保存fielddata时，Elastisearch会不断地从磁盘加载数据到内存，并剔除掉旧的内存数据。剔除操作会造成严重的磁盘I/O，并且引发大量的GC，会严重影响Elastisearch的性能。</p>
+<p>默认情况下Fielddata会不断占用内存，直到它触发了fielddata circuit breaker。<br>fielddata circuit breaker会根据查询条件评估这次查询会使用多少内存，从而计算加载这部分内存之后，Field Data Cache所占用的内存是否会超过indices.breaker.fielddata.limit。如果超过这个值，就会触发fielddata circuit breaker，abort这次查询并且抛出异常，防止OOM。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">indices.breaker.fielddata.limit:60% (默认heap的60%)  (es7之后改成70%)</span><br></pre></td></tr></table></figure>
+<p>如果设置了indices.fielddata.cache.size，当达到size时，cache会剔除旧的fielddata。</p>
+<blockquote>
+<p>indices.breaker.fielddata.limit 必须大于 indices.fielddata.cache.size，否则只会触发fielddata circuit breaker，而不会剔除旧的fielddata。</p>
+</blockquote>
+<h2 id="配置Elasticsearch堆内存"><a href="#配置Elasticsearch堆内存" class="headerlink" title="配置Elasticsearch堆内存"></a>配置Elasticsearch堆内存</h2><p>Elasticsearch默认安装后设置的内存是 <code>1GB</code>，这是远远不够用于生产环境的。<br>有两种方式修改Elasticsearch的堆内存：</p>
+<blockquote>
+<ol>
+<li>设置环境变量：<code>export ES_HEAP_SIZE=10g</code> 在es启动时会读取该变量；</li>
+<li>启动时作为参数传递给es： <code>./bin/elasticsearch -Xmx10g -Xms10g</code></li>
+</ol>
+</blockquote>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>给es分配内存时要注意，至少要分配一半儿内存留给 Lucene。<br>分配给 es 的内存最好不要超过 32G ，因为如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。如果大于32G 每个指针占用 8字节，并且会占用更多的内存带宽，降低了cpu性能。</p>
+<p>还有一点， 要关闭 <code>swap</code> 内存交换空间，禁用swapping。频繁的swapping 对服务器来说是致命的。<br>总结：给es JVM栈的内存最好不要超过32G，留给Lucene的内存越大越好，Lucene把所有的segment都缓存起来，会加快全文检索。</p>
+<h2 id="关闭交换区"><a href="#关闭交换区" class="headerlink" title="关闭交换区"></a>关闭交换区</h2><p>这应该显而易见了，但仍然需要明确的写出来：把内存换成硬盘将毁掉服务器的性能，想象一下：涉及内存的操作是需要快速执行的。如果介质从内存变为了硬盘，一个10微秒的操作变成需要10毫秒。而且这种延迟发生在所有本该只花费10微秒的操作上，就不难理解为什么交换区对于性能来说是噩梦。</p>
+<p>最好的选择是禁用掉操作系统的交换区。可以用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapoff -a</span><br></pre></td></tr></table></figure>
+<p>来禁用，你可能还需要编辑 <code>/etc/fstab</code> 文件。细节可以参考你的操作系统文档。</p>
+<p>如果实际环境不允许禁用掉 <code>swap</code>，你可以尝试降低 <code>swappiness</code>。此值控制操作系统使用交换区的积极性。这可以防止在正常情况下使用交换区，但仍允许操作系统在紧急情况下将内存里的东西放到交换区。</p>
+<p>对于大多数Linux系统来说，这可以用 <code>sysctl</code> 值来配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">vm.swappiness</span> <span class="string">=</span> <span class="number">1</span> <span class="comment"># 将此值配置为1会比0好，在kernal内核的某些版本中，0可能会引起OOM异常。</span></span><br></pre></td></tr></table></figure>
+<p>最后，如果两种方法都不可用，你应该在ElasticSearch的配置中启用 <code>mlockall.file</code>。这允许JVM锁定其使用的内存，而避免被放入操作系统交换区。</p>
+<p>在elasticsearch.yml中，做如下设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.mlockall: true</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看node节点数据"><a href="#查看node节点数据" class="headerlink" title="查看node节点数据"></a>查看node节点数据</h2><p><code>GET /_cat/nodes?v&amp;h=id,ip,port,v,master,name,heap.current,heap.percent,heap.max,ram.current,ram.percent,ram.max,fielddata.memory_size,fielddata.evictions,query_cache.memory_size,query_cache.evictions, request_cache.memory_size,request_cache.evictions,request_cache.hit_count,request_cache.miss_count</code></p>
+<p><code>GET /_cat/nodes?v&amp;h=id,heap.current,heap.percent,heap.max,ram.current,ram.percent,ram.max,fielddata.memory_size</code></p>
+<p><code>GET /_cat/nodes?v&amp;h=id,fielddata.evictions,query_cache.memory_size,query_cache.evictions, request_cache.memory_size,request_cache.evictions,request_cache.hit_count,request_cache.miss_count</code></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://nereuschen.github.io/2015/09/16/ElasticSearch%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E5%88%86%E6%9E%90/"></a></p>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/elasticsearch-overview/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    elasticsearch-overview
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">cross-fields跨字段查询</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
