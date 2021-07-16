@@ -3,24 +3,30 @@
 <head>
     <meta charset="utf-8">
     
-    <title>TCP协议 | GeekIBLi</title>
+    <title>kibana添加用户及控制权限 | GeekIBLi</title>
     
     
-        <meta name="keywords" content="TCP" />
+        <meta name="keywords" content="elasticsearch" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="TCP协议学习笔记📒 w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！   1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时器的计算6、滑动窗口7、提升网络效率8、TCP拥塞控制之慢启动9、TCP拥塞控制之拥塞避免10、快速重传">
+    <meta name="description" content="操作步骤： 【修改elasticsearch配置文件】 -&gt; 【重启elasticsearch】 -&gt; 【初始化账号&amp;密码】 -&gt; 【修改kibana配置文件】 -&gt; 【重启kibana】 -&gt; 【初始账号登录kibana】 -&gt; 【创建、配置角色】 -&gt; 【创建新用户】  配置elasticsearch开启自带的xpack的验证功能xpack.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP协议">
-<meta property="og:url" content="http://example.com/wiki/TCP%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:title" content="kibana添加用户及控制权限">
+<meta property="og:url" content="http://example.com/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/index.html">
 <meta property="og:site_name" content="GeekIBLi">
-<meta property="og:description" content="TCP协议学习笔记📒 w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！   1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时器的计算6、滑动窗口7、提升网络效率8、TCP拥塞控制之慢启动9、TCP拥塞控制之拥塞避免10、快速重传">
+<meta property="og:description" content="操作步骤： 【修改elasticsearch配置文件】 -&gt; 【重启elasticsearch】 -&gt; 【初始化账号&amp;密码】 -&gt; 【修改kibana配置文件】 -&gt; 【重启kibana】 -&gt; 【初始账号登录kibana】 -&gt; 【创建、配置角色】 -&gt; 【创建新用户】  配置elasticsearch开启自带的xpack的验证功能xpack.">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-07-04T08:30:55.000Z">
-<meta property="article:modified_time" content="2021-07-04T08:47:45.892Z">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-2073ba41d73f8d4b16cd39e420ee017f62d.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-be2569d2151c190b3f49f2faebae05dd19a.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-b662c15522750b55863cf006e9c8a9d63c4.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-3371b430006a3b65cffc8a41f04cb02f423.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-10b5d2b6e179b6c200c691631dd43fc1713.png">
+<meta property="article:published_time" content="2021-07-15T15:53:44.000Z">
+<meta property="article:modified_time" content="2021-07-15T16:19:19.479Z">
 <meta property="article:author" content="gaolei">
-<meta property="article:tag" content="TCP">
+<meta property="article:tag" content="elasticsearch">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-2073ba41d73f8d4b16cd39e420ee017f62d.png">
     
 
     
@@ -188,20 +194,20 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             Computer Network
                         </a>
                          <ul class="unstyled" id="tree" > 
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             TCP
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -260,20 +266,20 @@
                      </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             Elasticsearch
                         </a>
                          <ul class="unstyled" id="tree" > 
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             Administration and Deployment
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file active"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -429,7 +435,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-TCP协议" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-kibana添加用户及控制权限" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -439,20 +445,20 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Computer-Network/">Computer Network</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Computer-Network/TCP/">TCP</a>
+        <a class="article-category-link" href="/categories/Elasticsearch/">Elasticsearch</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Elasticsearch/Administration-and-Deployment/">Administration and Deployment</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link-link" href="/tags/TCP/" rel="tag">TCP</a>
+        <a class="tag-link-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">
-            <time datetime="2021-07-04T08:30:55.000Z" itemprop="datePublished">2021-07-04</time>
+        <a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">
+            <time datetime="2021-07-15T15:53:44.000Z" itemprop="datePublished">2021-07-15</time>
         </a>
     </div>
 
@@ -467,7 +473,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            TCP协议
+            kibana添加用户及控制权限
         </h1>
     
 
@@ -480,29 +486,39 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%8D%8F%E8%AE%AE%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%F0%9F%93%92"><span class="toc-number">1.</span> <span class="toc-text">TCP协议学习笔记📒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99"><span class="toc-number">2.</span> <span class="toc-text">学习资料</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEelasticsearch"><span class="toc-number">1.</span> <span class="toc-text">配置elasticsearch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9D%911-%E9%9B%86%E7%BE%A4%E8%8A%82%E7%82%B9%E9%85%8D%E7%BD%AE%E6%8A%A5%E9%94%99"><span class="toc-number">1.1.</span> <span class="toc-text">坑1: 集群节点配置报错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9D%912-%E6%9C%AC%E6%AC%A1%E5%AD%98%E5%82%A8%E8%8A%82%E7%82%B9%E9%85%8D%E7%BD%AE%E6%8A%A5%E9%94%99"><span class="toc-number">1.2.</span> <span class="toc-text">坑2: 本次存储节点配置报错</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E5%86%85%E7%BD%AE%E8%B4%A6%E5%8F%B7%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">为内置账号设置密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEkibana"><span class="toc-number">3.</span> <span class="toc-text">配置kibana</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E3%80%81%E9%85%8D%E7%BD%AE%E8%A7%92%E8%89%B2"><span class="toc-number">4.</span> <span class="toc-text">创建、配置角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="toc-number">5.</span> <span class="toc-text">创建新用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%B0%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AE%E7%95%8C%E9%9D%A2"><span class="toc-number">6.</span> <span class="toc-text">查看新用户访问界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
                 </div>
             
         
         
-            <h2 id="TCP协议学习笔记📒"><a href="#TCP协议学习笔记📒" class="headerlink" title="TCP协议学习笔记📒"></a>TCP协议学习笔记📒</h2><blockquote>
-<p>w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！<br>可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！</p>
+            <blockquote>
+<p>操作步骤： 【修改elasticsearch配置文件】 -&gt; 【重启elasticsearch】 -&gt; 【初始化账号&amp;密码】 -&gt; 【修改kibana配置文件】 -&gt; 【重启kibana】 -&gt; 【初始账号登录kibana】 -&gt; 【创建、配置角色】 -&gt; 【创建新用户】</p>
 </blockquote>
-<blockquote>
-<p><a href="doc:RGuKLdsI">1、TCP报文头部</a><br><a href="doc:OMRc4svF">2、TCP三次握手</a><br><a href="doc:MpizaHTg">3、TCP最大报文段（MSS）</a><br><a href="doc:ELxUb4mv">4、TCP超时与重传</a><br><a href="doc:wqRVLcNo">5、RTO重传计时器的计算</a><br><a href="doc:IhqiYamL">6、滑动窗口</a><br><a href="doc:HoE3w3UG">7、提升网络效率</a><br><a href="doc:N7riiaCk">8、TCP拥塞控制之慢启动</a><br><a href="doc:GQoRKrER">9、TCP拥塞控制之拥塞避免</a><br><a href="doc:y4aESoPN">10、快速重传与快速恢复</a><br><a href="doc:g1Onj7OR">11、四次挥手</a></p>
+<h2 id="配置elasticsearch"><a href="#配置elasticsearch" class="headerlink" title="配置elasticsearch"></a>配置elasticsearch</h2><p>开启自带的xpack的验证功能<br><code>xpack.security.enabled: true</code></p>
+<p>配置单节点模式<br><code>discovery.type: single-node</code></p>
+<h3 id="坑1-集群节点配置报错"><a href="#坑1-集群节点配置报错" class="headerlink" title="坑1: 集群节点配置报错"></a>坑1: 集群节点配置报错</h3><p><code>cluster.initial_master_nodes</code></p>
+<h3 id="坑2-本次存储节点配置报错"><a href="#坑2-本次存储节点配置报错" class="headerlink" title="坑2: 本次存储节点配置报错"></a>坑2: 本次存储节点配置报错</h3><p>maybe these locations are not writable or multiple nodes were started without increasing [node.max_local_storage_nodes] (was [1])?<br><code>node.max_local_storage_nodes: 2</code></p>
+<h2 id="为内置账号设置密码"><a href="#为内置账号设置密码" class="headerlink" title="为内置账号设置密码"></a>为内置账号设置密码</h2><p>在elasticsearch的bin下执行以下命令：<br><code>./elasticsearch-setup-passwords interactive</code></p>
+<img src="https://oscimg.oschina.net/oscnet/up-2073ba41d73f8d4b16cd39e420ee017f62d.png" width="800" height='480'>
+
+
+<h2 id="配置kibana"><a href="#配置kibana" class="headerlink" title="配置kibana"></a>配置kibana</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#使用初始用户kibana</span><br><span class="line">elasticsearch.username: &quot;kibana_system&quot;</span><br><span class="line">elasticsearch.password: &quot;密码&quot;</span><br></pre></td></tr></table></figure>
+
+<p>重启kibana之后使用初始账号 <code>elastic</code> 登录</p>
+<h2 id="创建、配置角色"><a href="#创建、配置角色" class="headerlink" title="创建、配置角色"></a>创建、配置角色</h2><img src='https://oscimg.oschina.net/oscnet/up-be2569d2151c190b3f49f2faebae05dd19a.png' width=840 height=750>
+
+
+<h2 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户"></a>创建新用户</h2><img src='https://oscimg.oschina.net/oscnet/up-b662c15522750b55863cf006e9c8a9d63c4.png' width=840 height=750>
+
+
+<h2 id="查看新用户访问界面"><a href="#查看新用户访问界面" class="headerlink" title="查看新用户访问界面"></a>查看新用户访问界面</h2><p>角色里面配置了kibana的访问权限，只开通了discover和dashboard两个入口<br><img src='https://oscimg.oschina.net/oscnet/up-3371b430006a3b65cffc8a41f04cb02f423.png' width=800 height=450></p>
+<p>索引的话，有好几个索引，但是只配置了一个索引的权限<br><img src='https://oscimg.oschina.net/oscnet/up-10b5d2b6e179b6c200c691631dd43fc1713.png' width=800 height=450></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/QiaoRui_/article/details/97375237">kibana7.2添加登录及权限</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tq1226112215/p/8435127.html">Elasticsearch 安装</a></li>
+</ul>
 </blockquote>
-<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><blockquote>
-<p>i 敖丙Github整理的笔记 </p>
-</blockquote>
-<p>有大概10篇左右的文章，都是高质量的，原地址请点击着👉 <a target="_blank" rel="noopener" href="https://github.com/AobingJava/JavaFamily">【Github】</a></p>
-<blockquote>
-<p>i 极客时间《Web协议详解与抓包实战》– 陶辉老师</p>
-</blockquote>
-<p>这门课程专门讲解网络协议的，包括Http/Https,TLS协议，TCP协议，IP协议等；</p>
-<blockquote>
-<p>i 《计算机网络 自顶向下方法》第7版</p>
-</blockquote>
-<p>很多名校计算机网络课程在使用的教材，非常权威！</p>
 
             </div>
         
@@ -515,19 +531,10 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/TCP%E5%A4%B4%E9%83%A8/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    TCP头部
-                
-            </div>
-        </a>
     
-    
-        <a href="/wiki/index/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Welcome to GeekIBLi</div>
+            <div class="article-nav-title">elasticsearch稳定性调优</div>
         </a>
     
 </nav>
