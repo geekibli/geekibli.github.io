@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>elasticsearch统计每年每小时访问量 | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="elasticsearch统计每年每小时访问量" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Elasticsearch索引如下123456789101112131415161718192021222324252627282930313233343536373839404142434445464748&amp;#123;  &quot;yj_visit_data&quot; : &amp;#123;    &quot;mappings&quot; : &amp;#123;      &quot;propertie">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch统计每年每小时访问量">
+<meta property="og:url" content="http://example.com/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="Elasticsearch索引如下123456789101112131415161718192021222324252627282930313233343536373839404142434445464748&amp;#123;  &quot;yj_visit_data&quot; : &amp;#123;    &quot;mappings&quot; : &amp;#123;      &quot;propertie">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-19T14:53:39.000Z">
+<meta property="article:modified_time" content="2021-07-19T14:57:04.230Z">
+<meta property="article:author" content="gaolei">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Index</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Index</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQL
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  <li class="file"><a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Lan
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a></li>  <li class="file"><a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a></li>  <li class="file"><a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Tools
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Administration and Deployment
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Aggregations
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a></li>  <li class="file"><a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a></li>  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a></li>  <li class="file"><a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a></li>  <li class="file"><a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Getting Started
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a></li>  <li class="file"><a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a></li>  <li class="file"><a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a></li>  <li class="file"><a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Other Question
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a></li>  <li class="file"><a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Search in Depth
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a></li>  <li class="file"><a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a></li>  <li class="file"><a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a></li>  <li class="file"><a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a></li>  <li class="file"><a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a></li>  <li class="file"><a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Common commands
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Recommend System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file active"><a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-elasticsearch统计每年每小时访问量" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">
+            <time datetime="2021-07-19T14:53:39.000Z" itemprop="datePublished">2021-07-19</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            elasticsearch统计每年每小时访问量
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Elasticsearch%E7%B4%A2%E5%BC%95%E5%A6%82%E4%B8%8B"><span class="toc-number">1.</span> <span class="toc-text">Elasticsearch索引如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-RestHighLevelClient%E5%86%99%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">Java RestHighLevelClient写法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python%E5%86%99%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">Python写法</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="Elasticsearch索引如下"><a href="#Elasticsearch索引如下" class="headerlink" title="Elasticsearch索引如下"></a>Elasticsearch索引如下</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;yj_visit_data&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;properties&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;_class&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;article&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;c&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;ip&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;p&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;ua&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;visitTime&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;date&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Java-RestHighLevelClient写法"><a href="#Java-RestHighLevelClient写法" class="headerlink" title="Java RestHighLevelClient写法"></a>Java RestHighLevelClient写法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDateDist</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        SearchRequest searchRequest = <span class="keyword">new</span> SearchRequest();</span><br><span class="line">        searchRequest.indices(<span class="string">&quot;yj_visit_data2&quot;</span>);</span><br><span class="line">        TermsAggregationBuilder termsAggregation = AggregationBuilders.terms(<span class="string">&quot;article&quot;</span>)</span><br><span class="line">                .field(<span class="string">&quot;article.keyword&quot;</span>).size(<span class="number">2200</span>)</span><br><span class="line">                .subAggregation(AggregationBuilders.dateHistogram(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                        .field(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                        .calendarInterval(DateHistogramInterval.HOUR));</span><br><span class="line"></span><br><span class="line">        SearchSourceBuilder sourceBuilder = <span class="keyword">new</span> SearchSourceBuilder();</span><br><span class="line">        sourceBuilder.aggregation(termsAggregation);</span><br><span class="line">        sourceBuilder.query(QueryBuilders.rangeQuery(<span class="string">&quot;visitTime&quot;</span>).gt(<span class="string">&quot;1609430400000&quot;</span>).lte(<span class="string">&quot;1625068799000&quot;</span>));</span><br><span class="line">        sourceBuilder.timeout(<span class="keyword">new</span> TimeValue(<span class="number">900000</span>));</span><br><span class="line">        SearchRequest request = <span class="keyword">new</span> SearchRequest();</span><br><span class="line">        request.source(sourceBuilder);</span><br><span class="line">        SearchResponse search = restHighLevelClient.search(request, RequestOptions.DEFAULT);</span><br><span class="line">        Aggregations aggregations = search.getAggregations();</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">&quot;agg -&gt; &#123;&#125;&quot;</span>, aggregations.asList().size());</span><br><span class="line">        List&lt;? extends Terms.Bucket&gt; buckets = ((ParsedStringTerms) aggregations.asList().get(<span class="number">0</span>)).getBuckets();</span><br><span class="line">        List&lt;ArticleHourData&gt; hourDataList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Terms.Bucket bucket : buckets) &#123;</span><br><span class="line">            List&lt;? extends Histogram.Bucket&gt; innerBuckets = ((ParsedDateHistogram) bucket.getAggregations().asList().get(<span class="number">0</span>)).getBuckets();</span><br><span class="line">            hourDataList.add(calcBucket(innerBuckets, bucket.getKeyAsString()));</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;result ----&gt; &#123;&#125;&quot;</span>, JSONObject.toJSONString(hourDataList));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ArticleHourData <span class="title">calcBucket</span><span class="params">(List&lt;? extends Histogram.Bucket&gt; innerBuckets, String article)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;innerBuckets get(0) ---&gt; &#123;&#125;&quot;</span>, JSON.toJSONString(innerBuckets.get(<span class="number">0</span>)));</span><br><span class="line">        Map&lt;String, ? extends List&lt;? extends Histogram.Bucket&gt;&gt; hourMap = innerBuckets.stream()</span><br><span class="line">                .collect(Collectors.groupingBy(bucket -&gt; getHour(bucket.getKeyAsString())));</span><br><span class="line">        log.info(<span class="string">&quot;collect  ======&gt; &#123;&#125; &quot;</span>, JSONObject.toJSONString(hourMap.keySet()));</span><br><span class="line"></span><br><span class="line">        ArticleHourData hourData = ArticleHourData.builder().article(article).build();</span><br><span class="line">        <span class="keyword">if</span> (hourMap.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span> hourData;</span><br><span class="line">        &#125;</span><br><span class="line">        HashMap&lt;String, Long&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (String hour : hourMap.keySet()) &#123;</span><br><span class="line">            List&lt;? extends Histogram.Bucket&gt; list = hourMap.get(hour);</span><br><span class="line">            <span class="keyword">if</span> (CollectionUtils.isEmpty(list)) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            hashMap.put(hour, list.stream().mapToLong(Histogram.Bucket::getDocCount).sum());</span><br><span class="line">        &#125;</span><br><span class="line">        hourData.setCountMap(hashMap);</span><br><span class="line">        <span class="keyword">return</span> hourData;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getHour</span><span class="params">(String date)</span> </span>&#123;</span><br><span class="line">        date = date.replace(<span class="string">&quot;Z&quot;</span>, <span class="string">&quot; UTC&quot;</span>);</span><br><span class="line">        SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&#x27;T&#x27;HH:mm:ss.SSS Z&quot;</span>);</span><br><span class="line">        Date d = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            d = format.parse(date);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> String.valueOf(DateUtil.asLocalDateTime(d).getHour());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Python写法"><a href="#Python写法" class="headerlink" title="Python写法"></a>Python写法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> json.decoder <span class="keyword">import</span> JSONDecoder</span><br><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="keyword">import</span> logging,json</span><br><span class="line"><span class="comment"># import DateUtil</span></span><br><span class="line"><span class="comment"># DateUtil.__package__.__add__(&quot;/Users/gaolei/Documents/DemoProjects/awesome-python3-webapp/www/DateUtil.py&quot;)</span></span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;init ...&quot;</span>)</span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;39.107.117.232&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;elastic&#x27;</span>), timeout = <span class="number">90000</span>)</span><br><span class="line"><span class="comment">#es = Elasticsearch([&#123;&#x27;host&#x27;:&#x27;39.107.117.232&#x27;,&#x27;port&#x27;:9200&#125;])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># print(es.get(index=&#x27;yj_ip_pool&#x27;, doc_type=&#x27;_doc&#x27;, id=&#x27;9256058&#x27;))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># countRes = es.count(index=&#x27;yj_ip_pool&#x27;)</span></span><br><span class="line"><span class="comment"># print(countRes)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sqs = &#123;</span><br><span class="line">   <span class="string">&quot;size&quot;</span> : <span class="number">0</span>,</span><br><span class="line">   <span class="string">&quot;aggs&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;art&quot;</span>: &#123;</span><br><span class="line">         <span class="string">&quot;terms&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;field&quot;</span>: <span class="string">&quot;article.keyword&quot;</span>,</span><br><span class="line">            <span class="string">&quot;size&quot;</span>: <span class="number">5</span></span><br><span class="line">         &#125;,</span><br><span class="line">         <span class="string">&quot;aggs&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;art_total&quot;</span>: &#123; </span><br><span class="line">               <span class="string">&quot;value_count&quot;</span>: &#123;</span><br><span class="line">                  <span class="string">&quot;field&quot;</span>: <span class="string">&quot;article.keyword&quot;</span></span><br><span class="line">               &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">&quot;_time&quot;</span>: &#123; </span><br><span class="line">                <span class="string">&quot;date_histogram&quot;</span>: &#123;</span><br><span class="line">                    <span class="string">&quot;field&quot;</span>: <span class="string">&quot;visitTime&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;calendar_interval&quot;</span>: <span class="string">&quot;hour&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_search_result = es.search(index=<span class="string">&quot;yj_visit_data2&quot;</span> , body=sqs)</span><br><span class="line">_result_json = json.dumps(_search_result,sort_keys=<span class="literal">True</span>, indent=<span class="number">4</span>, separators=(<span class="string">&#x27;, &#x27;</span>, <span class="string">&#x27;: &#x27;</span>), ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">aggregations = _search_result[<span class="string">&#x27;aggregations&#x27;</span>]</span><br><span class="line">art = aggregations[<span class="string">&#x27;art&#x27;</span>]</span><br><span class="line">buckets = art[<span class="string">&#x27;buckets&#x27;</span>]</span><br><span class="line"><span class="comment">#print(type(buckets))</span></span><br><span class="line"><span class="comment">#print(buckets)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHour</span>(<span class="params">time</span>):</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">int</span>)(time[<span class="number">11</span>:<span class="number">13</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每个小时的点击数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countByMonth</span>(<span class="params">dataList , hourTar</span>):</span></span><br><span class="line">    _count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> dataList:</span><br><span class="line">        timestamp = data[<span class="string">&#x27;key_as_string&#x27;</span>]</span><br><span class="line">        hour = getHour(timestamp)</span><br><span class="line">        <span class="keyword">if</span> hour == hourTar: </span><br><span class="line">            _count = (<span class="built_in">int</span>)(data[<span class="string">&#x27;doc_count&#x27;</span>]) + _count   </span><br><span class="line">    <span class="keyword">return</span> _count        </span><br><span class="line">            </span><br><span class="line">   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">final_list = []</span><br><span class="line"><span class="comment"># 循环计算每一个文章</span></span><br><span class="line"><span class="keyword">for</span> outBucket <span class="keyword">in</span> buckets: </span><br><span class="line">   simple_result = &#123;&#125;</span><br><span class="line">   _time = outBucket[<span class="string">&#x27;_time&#x27;</span>]</span><br><span class="line">   innerBuckets = _time[<span class="string">&#x27;buckets&#x27;</span>]</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;time inner bucker size&quot;</span> , <span class="built_in">len</span>(innerBuckets))</span><br><span class="line">   simple_list = []</span><br><span class="line">   <span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">24</span>):</span><br><span class="line">      simple_list.append(countByMonth(innerBuckets,num))</span><br><span class="line">   simple_result[<span class="number">0</span>] = outBucket[<span class="string">&#x27;key&#x27;</span>]</span><br><span class="line">   simple_result[<span class="number">1</span>] = simple_list</span><br><span class="line">   final_list.append(simple_result)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;final result ----&gt; &quot;</span>,final_list)   </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">elasticsearch踩坑</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

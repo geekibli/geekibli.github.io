@@ -3,26 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>TCP-RTO重传计数器的计算 | GeekIBLi</title>
+    <title>elasticsearch踩坑 | GeekIBLi</title>
     
     
-        <meta name="keywords" content="TCP" />
+        <meta name="keywords" content="elasticsearch" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="i 之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？  什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT 」；      如上图所示，从client发送第一个「SYN」报文，到Server接受到报文，并且返回">
+    <meta name="description" content="search.max_bucketsThis limit can be set by changing the [search.max_buckets] cluster level setting.]]; 123456PUT _cluster&#x2F;settings&amp;#123;  &quot;persistent&quot;: &amp;#123;    &quot;search.max_buckets&amp;quo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP-RTO重传计数器的计算">
-<meta property="og:url" content="http://example.com/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/index.html">
+<meta property="og:title" content="elasticsearch踩坑">
+<meta property="og:url" content="http://example.com/wiki/elasticsearch%E8%B8%A9%E5%9D%91/index.html">
 <meta property="og:site_name" content="GeekIBLi">
-<meta property="og:description" content="i 之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？  什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT 」；      如上图所示，从client发送第一个「SYN」报文，到Server接受到报文，并且返回">
+<meta property="og:description" content="search.max_bucketsThis limit can be set by changing the [search.max_buckets] cluster level setting.]]; 123456PUT _cluster&#x2F;settings&amp;#123;  &quot;persistent&quot;: &amp;#123;    &quot;search.max_buckets&amp;quo">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-6c558bfea1825bf5d3b2da74e087cdde43a.png">
-<meta property="article:published_time" content="2021-07-04T08:32:27.000Z">
-<meta property="article:modified_time" content="2021-07-04T08:43:21.073Z">
+<meta property="article:published_time" content="2021-07-19T09:46:59.000Z">
+<meta property="article:modified_time" content="2021-07-19T13:08:28.098Z">
 <meta property="article:author" content="gaolei">
-<meta property="article:tag" content="TCP">
+<meta property="article:tag" content="elasticsearch">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-6c558bfea1825bf5d3b2da74e087cdde43a.png">
     
 
     
@@ -190,20 +188,20 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
                     </li> 
                     
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             Computer Network
                         </a>
                          <ul class="unstyled" id="tree" > 
-                    <li class="directory open">
+                    <li class="directory">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder-open"></i>
+                            <i class="fa fa-folder"></i>
                             &nbsp;
                             TCP
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file active"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -271,20 +269,20 @@
                      </ul> 
                     </li> 
                     
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             Elasticsearch
                         </a>
                          <ul class="unstyled" id="tree" > 
-                    <li class="directory">
+                    <li class="directory open">
                         <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
+                            <i class="fa fa-folder-open"></i>
                             &nbsp;
                             Administration and Deployment
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file active"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -440,7 +438,7 @@
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
             
-            <section id="main"><article id="post-TCP-RTO重传计数器的计算" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-elasticsearch踩坑" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -450,20 +448,20 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Computer-Network/">Computer Network</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Computer-Network/TCP/">TCP</a>
+        <a class="article-category-link" href="/categories/Elasticsearch/">Elasticsearch</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Elasticsearch/Administration-and-Deployment/">Administration and Deployment</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link-link" href="/tags/TCP/" rel="tag">TCP</a>
+        <a class="tag-link-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a>
     </div>
 
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">
-            <time datetime="2021-07-04T08:32:27.000Z" itemprop="datePublished">2021-07-04</time>
+        <a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">
+            <time datetime="2021-07-19T09:46:59.000Z" itemprop="datePublished">2021-07-19</time>
         </a>
     </div>
 
@@ -478,7 +476,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            TCP-RTO重传计数器的计算
+            elasticsearch踩坑
         </h1>
     
 
@@ -491,53 +489,20 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">Catalogue</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRTT%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是RTT？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E9%87%8D%E4%BC%A0%E4%B8%8B%E6%9C%89%E6%95%88%E6%B5%8B%E9%87%8FRTT%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">如何在重传下有效测量RTT？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Timestamp%E6%96%B9%E5%BC%8F%E8%AE%A1%E7%AE%97RTT"><span class="toc-number">3.</span> <span class="toc-text">使用Timestamp方式计算RTT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97RTO%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">如何计算RTO？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E6%BB%91RTO"><span class="toc-number">4.1.</span> <span class="toc-text">平滑RTO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E8%B8%AARTT%E6%96%B9%E5%B7%AE%E8%AE%A1%E7%AE%97RTO"><span class="toc-number">4.2.</span> <span class="toc-text">追踪RTT方差计算RTO</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#search-max-buckets"><span class="toc-number">1.</span> <span class="toc-text">search.max_buckets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Required-one-of-fields-field-script"><span class="toc-number">2.</span> <span class="toc-text">Required one of fields [field, script]</span></a></li></ol>
                 </div>
             
         
         
-            <blockquote>
-<p>i 之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？</p>
-</blockquote>
-<h2 id="什么是RTT？"><a href="#什么是RTT？" class="headerlink" title="什么是RTT？"></a>什么是RTT？</h2><p>了解RTO如何计算之前，首先明确一个概念「 <strong>RTT</strong> 」；</p>
-<image src="https://oscimg.oschina.net/oscnet/up-9b45623a3b0652d842ffa3eecea13e92183.png" width=550 height=400>   
+            <h2 id="search-max-buckets"><a href="#search-max-buckets" class="headerlink" title="search.max_buckets"></a>search.max_buckets</h2><p>This limit can be set by changing the [search.max_buckets] cluster level setting.]];</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;persistent&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;search.max_buckets&quot;</span>: <span class="number">100000</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>如上图所示，从client发送第一个「SYN」报文，到Server接受到报文，并且返回「SYN ACK」报文之后，client接受到Server的「ACK」报文之后，client所经历的时间，叫做1个RTT时间；</p>
-<h2 id="如何在重传下有效测量RTT？"><a href="#如何在重传下有效测量RTT？" class="headerlink" title="如何在重传下有效测量RTT？"></a>如何在重传下有效测量RTT？</h2><p><img src="https://oscimg.oschina.net/oscnet/up-6c558bfea1825bf5d3b2da74e087cdde43a.png"></p>
-<p>如上图两种情况：<br>第一种，左侧a图所示，当一端发送的数据报丢失后要进行重传，到重传之后接收到确认报文之后，这种场景下该如何计算RTT呢？开始时间是按照第一次发送数据报时间呢还是按照重传数据报的时间呢？</p>
-<blockquote>
-<p>w 按照常理来说，如右侧b图所示，RTT时间应该以RTT2为准；</p>
-</blockquote>
-<p>第二种，左侧b图所示，第一次发送数据报文时，由于网络时延导致RTO时间内没有收到接收段的确认报文，发送端进行重发，但是在刚刚重发之后就收到了第一次报文的确认报文，那这种情况RTT该如何计算呢？</p>
-<blockquote>
-<p>w 如右侧a图所示，RTT时间应该以RTT1为准；</p>
-</blockquote>
-<p>就像上面提及的两种情况，一会以第一个RTT1为准，一会以RTT2为准，那么TCP协议如何正确的计算出RTT呢？</p>
-<h2 id="使用Timestamp方式计算RTT"><a href="#使用Timestamp方式计算RTT" class="headerlink" title="使用Timestamp方式计算RTT"></a>使用Timestamp方式计算RTT</h2><p>之前的文章中在介绍TCP超时与重传的笔记中有介绍通过使用Timtstamp的方式来区分相同Seq序列号的不同报文，<br>其实在TCP报文首部存储Timestamp的时候，会存储报文的发送时间和确认时间，如下所示：<br><image src="https://oscimg.oschina.net/oscnet/up-ad80265bbba417c72a8d02a5c0be7be5f83.png" width=800 height=230> </p>
-<h2 id="如何计算RTO？"><a href="#如何计算RTO？" class="headerlink" title="如何计算RTO？"></a>如何计算RTO？</h2><p>上面👆说到了RTT如何计算，那个RTO和RTT有什么关系呢？<br><image src="https://oscimg.oschina.net/oscnet/up-e25afa62f99830eb02c4c1df0c015dbde8a.png"><br> RTO的取值将会影响到TCP的传输效率以及网络的吞吐量；</p>
-<blockquote>
-<p>s 通常来说RTO应该略大于RTT，如果RTO小于RTT，则会造成发送端频繁重发，可能会造成网络阻塞；如果RTO设置的过大，则接受端已经收到确认报文之后的一段时间内仍然不能发送其他报文，会造成两端性能的浪费和网络吞吐量的下降；</p>
-</blockquote>
-<h3 id="平滑RTO"><a href="#平滑RTO" class="headerlink" title="平滑RTO"></a>平滑RTO</h3><p>网络的RTT是不断的变化的，所以计算RTO的时候，应当考虑RTO的平滑性，尽量避免RTT波动带来的干扰，以抵挡瞬时变化；</p>
-<p><strong>平滑RTO在文档RFC793定义，给出如下计算方式：</strong></p>
-<ul>
-<li>SRTT (smoothed round-trip time) = ( α * SRTT ) + ((1 - α) * RTT)<blockquote>
-<p>w α 从 0到 1(RFC 推荐 0.9)，越大越平滑</p>
-</blockquote>
-</li>
-<li>RTO = min[ UBOUND, max[ LBOUND, (β * SRTT) ] ]<blockquote>
-<p>w 如 UBOUND为1分钟，LBOUND为 1 秒钟， β从 1.3 到 2 之间 </p>
-</blockquote>
-</li>
-</ul>
-<p>这种计算方式不适用于 RTT 波动大(方差大)的场景,如果网络的RTT波动很大，会造成RTO调整不及时；</p>
-<h3 id="追踪RTT方差计算RTO"><a href="#追踪RTT方差计算RTO" class="headerlink" title="追踪RTT方差计算RTO"></a>追踪RTT方差计算RTO</h3><blockquote>
-<p>i RFC6298(RFC2988)，其中α = 1/8， β = 1/4，K = 4，G 为最小时间颗粒:</p>
-</blockquote>
-<ul>
-<li><strong>首次计算 RTO，R为第 1 次测量出的 RTT</strong><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SRTT(smoothed round-trip time) = R</span><br><span class="line">RTTVAR(round-trip time variation) = R/2</span><br><span class="line">RTO = SRTT + max (G, K*RTTVAR)</span><br></pre></td></tr></table></figure></li>
-<li><strong>后续计算 RTO，R’为最新测量出的 RTT</strong><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SRTT= (1-α)*SRTT+α*R’</span><br><span class="line">RTTVAR=(1-β)*RTTVAR+β*|SRTT-R’|</span><br><span class="line">RTO = SRTT + max (G, K*RTTVAR)</span><br></pre></td></tr></table></figure></li>
-</ul>
+
+<h2 id="Required-one-of-fields-field-script"><a href="#Required-one-of-fields-field-script" class="headerlink" title="Required one of fields [field, script]"></a>Required one of fields [field, script]</h2><p>[Elasticsearch exception [type=illegal_argument_exception, reason=Required one of fields [field, script], but none were specified. ]</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      NativeSearchQuery nativeSearchQuery = <span class="keyword">new</span> NativeSearchQuery(QueryBuilders.matchAllQuery(), <span class="keyword">null</span>);</span><br><span class="line">      Script script = <span class="keyword">new</span> Script(<span class="string">&quot;doc[&#x27;article.keyword&#x27;]&quot;</span>);</span><br><span class="line">      nativeSearchQuery.addAggregation(AggregationBuilders.terms(<span class="string">&quot;art&quot;</span>)</span><br><span class="line">              .field(<span class="string">&quot;article.keyword&quot;</span>).size(<span class="number">10</span>)</span><br><span class="line">              .subAggregation(AggregationBuilders.dateHistogram(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                      .field(<span class="string">&quot;visitTime&quot;</span>) <span class="comment">// 这一行没有写</span></span><br><span class="line">                      .calendarInterval(DateHistogramInterval.HOUR)));</span><br><span class="line">      SearchHits&lt;YjVisitData&gt; search = elasticsearchRestTemplate.search(nativeSearchQuery, YjVisitData.class);</span><br><span class="line">      System.err.println(<span class="string">&quot;search.getAggregations().asList() &#123;&#125;&quot;</span> + search.getAggregations().asList().size());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+
 
             </div>
         
@@ -550,19 +515,19 @@
     
 <nav id="article-nav">
     
-        <a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    TCP-滑动窗口
+                    elasticsearch统计每年每小时访问量
                 
             </div>
         </a>
     
     
-        <a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">TCP超时与重传</div>
+            <div class="article-nav-title">python3基本数据类型</div>
         </a>
     
 </nav>
