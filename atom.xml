@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-07-15T16:19:19.479Z</updated>
+  <updated>2021-07-18T13:20:04.697Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,85 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python3基本数据类型</title>
+    <link href="http://example.com/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <id>http://example.com/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
+    <published>2021-07-18T13:05:52.000Z</published>
+    <updated>2021-07-18T13:20:04.697Z</updated>
+    
+    <content type="html"><![CDATA[<p>Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。</p><p>在 Python 中，变量就是变量，它没有类型，我们所说的”类型”是变量所指的内存中对象的类型。</p><p>等号（=）用来给变量赋值。</p><p>等号（=）运算符左边是一个变量名,等号（=）运算符右边是存储在变量中的值</p><h2 id="标准数据类型"><a href="#标准数据类型" class="headerlink" title="标准数据类型"></a>标准数据类型</h2><p>Python3 中有六个标准的数据类型：</p><ul><li>Number（数字）</li><li>String（字符串）</li><li>List（列表）</li><li>Tuple（元组）</li><li>Set（集合）</li><li>Dictionary（字典）</li><li>Python3 的六个标准数据类型中：</li></ul><p><code>不可变数据</code>（3 个）：Number（数字）、String（字符串）、Tuple（元组）；<br><code>可变数据</code>（3 个）：List（列表）、Dictionary（字典）、Set（集合）。</p><h2 id="Number（数字）"><a href="#Number（数字）" class="headerlink" title="Number（数字）"></a>Number（数字）</h2><p>Python3 支持 int、float、bool、complex（复数）。</p><p>在Python 3里，只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</p><p>像大多数语言一样，数值类型的赋值和计算都是很直观的。</p><p>内置的 type() 函数可以用来查询变量所指的对象类型。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c, d = <span class="number">20</span>, <span class="number">5.5</span>, <span class="literal">True</span>, <span class="number">4</span>+<span class="number">3j</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="built_in">type</span>(a), <span class="built_in">type</span>(b), <span class="built_in">type</span>(c), <span class="built_in">type</span>(d))</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> &#x27;<span class="title">int</span>&#x27;&gt; &lt;<span class="title">class</span> &#x27;<span class="title">float</span>&#x27;&gt; &lt;<span class="title">class</span> &#x27;<span class="title">bool</span>&#x27;&gt; &lt;<span class="title">class</span> &#x27;<span class="title">complex</span>&#x27;&gt;</span></span><br></pre></td></tr></table></figure><p>此外还可以用 isinstance 来判断：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="number">111</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">isinstance</span>(a, <span class="built_in">int</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure><p>⚠️ isinstance 和 type 的区别在于：<br>type()不会认为子类是一种父类类型。<br>isinstance()会认为子类是一种父类类型。</p><blockquote><p>⚠️ 注意：Python3 中，bool 是 int 的子类，True 和 False 可以和数字相加 True==1，False==0 是会返回 Ture，但可以通过 is 来判断类型。<br>1、Python可以同时为多个变量赋值，如a, b = 1, 2。<br>2、一个变量可以通过赋值指向不同类型的对象。<br>3、数值的除法包含两个运算符：/ 返回一个浮点数，// 返回一个整数。<br>4、在混合计算时，Python会把整型转换成为浮点数。</p></blockquote><h2 id="String（字符串）"><a href="#String（字符串）" class="headerlink" title="String（字符串）"></a>String（字符串）</h2><p>Python中的字符串用单引号 ‘ 或双引号 “ 括起来，同时使用反斜杠 \ 转义特殊字符。<br>字符串的截取的语法格式如下：<br><code>变量[头下标:尾下标]</code><br>索引值以 0 为开始值，-1 为从末尾的开始位置。</p><h2 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h2><p>List（列表） 是 Python 中使用最频繁的数据类型。</p><p>列表可以完成大多数集合类的数据结构实现。列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）。</p><p>列表是写在方括号 [] 之间、用逗号分隔开的元素列表。</p><p>和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表。</p><p>列表截取的语法格式如下：<br><code>变量[头下标:尾下标]</code><br>索引值以 0 为开始值，-1 为从末尾的开始位置。</p><h2 id="Tuple（元组）"><a href="#Tuple（元组）" class="headerlink" title="Tuple（元组）"></a>Tuple（元组）</h2><p>元组（tuple）与列表类似，不同之处在于元组的元素不能修改。元组写在小括号 () 里，元素之间用逗号隔开。</p><p>元组中的元素类型也可以不相同：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">tuple</span> = ( <span class="string">&#x27;abcd&#x27;</span>, <span class="number">786</span> , <span class="number">2.23</span>, <span class="string">&#x27;runoob&#x27;</span>, <span class="number">70.2</span>  )</span><br><span class="line">tinytuple = (<span class="number">123</span>, <span class="string">&#x27;runoob&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>)             <span class="comment"># 输出完整元组</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>[<span class="number">0</span>])          <span class="comment"># 输出元组的第一个元素</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>[<span class="number">1</span>:<span class="number">3</span>])        <span class="comment"># 输出从第二个元素开始到第三个元素</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>[<span class="number">2</span>:])         <span class="comment"># 输出从第三个元素开始的所有元素</span></span><br><span class="line"><span class="built_in">print</span> (tinytuple * <span class="number">2</span>)     <span class="comment"># 输出两次元组</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span> + tinytuple) <span class="comment"># 连接元组</span></span><br></pre></td></tr></table></figure><h2 id="Set（集合）"><a href="#Set（集合）" class="headerlink" title="Set（集合）"></a>Set（集合）</h2><p>集合（set）是由一个或数个形态各异的大小整体组成的，构成集合的事物或对象称作元素或是成员。</p><p>基本功能是进行成员关系测试和删除重复元素。</p><p>可以使用大括号 { } 或者 set() 函数创建集合，注意：创建一个空集合必须用 set() 而不是 { }，因为 { } 是用来创建一个空字典。</p><p>创建格式：<br><code>parame = &#123;value01,value02,...&#125;</code> 或者 <code>set(value)</code></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line">sites = &#123;<span class="string">&#x27;Google&#x27;</span>, <span class="string">&#x27;Taobao&#x27;</span>, <span class="string">&#x27;Runoob&#x27;</span>, <span class="string">&#x27;Facebook&#x27;</span>, <span class="string">&#x27;Zhihu&#x27;</span>, <span class="string">&#x27;Baidu&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sites)   <span class="comment"># 输出集合，重复的元素被自动去掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 成员测试</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;Runoob&#x27;</span> <span class="keyword">in</span> sites :</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Runoob 在集合中&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span> :</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Runoob 不在集合中&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># set可以进行集合运算</span></span><br><span class="line">a = <span class="built_in">set</span>(<span class="string">&#x27;abracadabra&#x27;</span>)</span><br><span class="line">b = <span class="built_in">set</span>(<span class="string">&#x27;alacazam&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a - b)     <span class="comment"># a 和 b 的差集</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a | b)     <span class="comment"># a 和 b 的并集</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a &amp; b)     <span class="comment"># a 和 b 的交集</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a ^ b)     <span class="comment"># a 和 b 中不同时存在的元素</span></span><br></pre></td></tr></table></figure><h2 id="Dictionary（字典）"><a href="#Dictionary（字典）" class="headerlink" title="Dictionary（字典）"></a>Dictionary（字典）</h2><p>字典（dictionary）是Python中另一个非常有用的内置数据类型。</p><p>列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。</p><p>字典是一种映射类型，字典用 { } 标识，它是一个无序的 键(key) : 值(value) 的集合。</p><p>键(key)必须使用不可变类型。</p><p>在同一个字典中，键(key)必须是唯一的。</p><pre><code class="python">#!/usr/bin/python3dict = &#123;&#125;dict[&#39;one&#39;] = &quot;1 - 菜鸟教程&quot;dict[2]     = &quot;2 - 菜鸟工具&quot;tinydict = &#123;&#39;name&#39;: &#39;runoob&#39;,&#39;code&#39;:1, &#39;site&#39;: &#39;www.runoob.com&#39;&#125;print (dict[&#39;one&#39;])       # 输出键为 &#39;one&#39; 的值print (dict[2])           # 输出键为 2 的值print (tinydict)          # 输出完整的字典print (tinydict.keys())   # 输出所有键print (tinydict.values()) # 输出所有值</code></pre><p>注意：<br>1、字典是一种映射类型，它的元素是键值对。<br>2、字典的关键字必须为不可变类型，且不能重复。<br>3、创建空字典使用 { }。</p><h2 id="Python数据类型转换"><a href="#Python数据类型转换" class="headerlink" title="Python数据类型转换"></a>Python数据类型转换</h2><p>有时候，我们需要对数据内置的类型进行转换，数据类型的转换，你只需要将数据类型作为函数名即可。</p><p>以下几个内置的函数可以执行数据类型之间的转换。这些函数返回一个新的对象，表示转换的值。</p><img src = 'https://oscimg.oschina.net/oscnet/up-2af36cf02d5a8c9ba5c9148154bbdd83207.png' whdth='700'>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。&lt;/p&gt;
+&lt;p&gt;在 Python 中，变量就是变量，它没有类型，我们所说的”类型”是变量所指的内存中对象的类型。&lt;/p&gt;
+&lt;p&gt;等号（=）用来给变量赋值。&lt;/p&gt;
+&lt;p&gt;等号（=）运</summary>
+      
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Python" scheme="http://example.com/categories/Develop-Lan/Python/"/>
+    
+    
+    <category term="python" scheme="http://example.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python3基础语法</title>
+    <link href="http://example.com/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"/>
+    <id>http://example.com/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</id>
+    <published>2021-07-18T12:31:55.000Z</published>
+    <updated>2021-07-18T13:20:39.692Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：<br><code># -*- coding: cp-1252 -*-</code></p><h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><ul><li>第一个字符必须是字母表中字母或下划线 _ 。</li><li>标识符的其他的部分由字母、数字和下划线组成。</li><li>标识符对大小写敏感。<br>在 Python 3 中，可以用中文作为变量名，非 ASCII 标识符也是允许的了。</li></ul><h2 id="python保留字"><a href="#python保留字" class="headerlink" title="python保留字"></a>python保留字</h2><p>import keyword<br>keyword.kwlist<br>[‘False’, ‘None’, ‘True’, ‘and’, ‘as’, ‘assert’, ‘break’, ‘class’, ‘continue’, ‘def’, ‘del’, ‘elif’, ‘else’, ‘except’, ‘finally’, ‘for’, ‘from’, ‘global’, ‘if’, ‘import’, ‘in’, ‘is’, ‘lambda’, ‘nonlocal’, ‘not’, ‘or’, ‘pass’, ‘raise’, ‘return’, ‘try’, ‘while’, ‘with’, ‘yield’]</p><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>Python中单行注释以 # 开头,多行注释可以用多个 # 号，还有 ‘’’ 和 “””：</p><h2 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h2><p>python最具特色的就是使用缩进来表示代码块，不需要使用大括号 {} 。<br>缩进的空格数是可变的，但是同一个代码块的语句必须包含相同的缩进空格数。</p><h2 id="多行语句"><a href="#多行语句" class="headerlink" title="多行语句"></a>多行语句</h2><p>Python 通常是一行写完一条语句，但如果语句很长，我们可以使用反斜杠 \ 来实现多行语句，例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">total = item_one + \</span><br><span class="line">        item_two + \</span><br><span class="line">        item_three</span><br></pre></td></tr></table></figure><p>在 [], {}, 或 () 中的多行语句，不需要使用反斜杠 \，例如：</p><p><code>total = [&#39;item_one&#39;, &#39;item_two&#39;, &#39;item_three&#39;,         &#39;item_four&#39;, &#39;item_five&#39;]</code></p><h2 id="数字-Number-类型"><a href="#数字-Number-类型" class="headerlink" title="数字(Number)类型"></a>数字(Number)类型</h2><p>python中数字有四种类型：整数、布尔型、浮点数和复数。</p><ul><li>int (整数) , 如 1, 只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</li><li>bool (布尔), 如 True。</li><li>float (浮点数), 如 1.23、3E-2</li><li>complex (复数), 如 1 + 2j、 1.1 + 2.2j</li></ul><h2 id="字符串-String"><a href="#字符串-String" class="headerlink" title="字符串(String)"></a>字符串(String)</h2><ul><li>python中单引号和双引号使用完全相同。</li><li>使用三引号(‘’’ 或 “””)可以指定一个多行字符串。</li><li>转义符 \</li><li>反斜杠可以用来转义，使用r可以让反斜杠不发生转义。。 如 r”this is a line with \n” 则\n会显示，并不是换行。</li><li>按字面意义级联字符串，如”this “ “is “ “string”会被自动转换为this is string。</li><li>字符串可以用 + 运算符连接在一起，用 * 运算符重复。</li><li>Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以 -1 开始。</li><li>Python中的字符串不能改变。</li><li>Python 没有单独的字符类型，一个字符就是长度为 1 的字符串。</li><li>字符串的截取的语法格式如下：变量[头下标:尾下标:步长]</li></ul><h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><p>函数之间或类的方法之间用空行分隔，表示一段新的代码的开始。类和函数入口之间也用一行空行分隔，以突出函数入口的开始。</p><p>空行与代码缩进不同，空行并不是Python语法的一部分。书写时不插入空行，Python解释器运行也不会出错。但是空行的作用在于分隔两段不同功能或含义的代码，便于日后代码的维护或重构。</p><p>记住：空行也是程序代码的一部分。</p><h2 id="同一行显示多条语句"><a href="#同一行显示多条语句" class="headerlink" title="同一行显示多条语句"></a>同一行显示多条语句</h2><p>Python 可以在同一行中使用多条语句，语句之间使用分号 ; 分割，以下是一个简单的实例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> sys; x = <span class="string">&#x27;runoob&#x27;</span>; sys.stdout.write(x + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure><h2 id="多个语句构成代码组"><a href="#多个语句构成代码组" class="headerlink" title="多个语句构成代码组"></a>多个语句构成代码组</h2><p>缩进相同的一组语句构成一个代码块，我们称之代码组。</p><p>像if、while、def和class这样的复合语句，首行以关键字开始，以冒号( : )结束，该行之后的一行或多行代码构成代码组。</p><p>我们将首行及后面的代码组称为一个子句(clause)。</p><p>如下实例：  </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> expression : </span><br><span class="line">   suite</span><br><span class="line"><span class="keyword">elif</span> expression : </span><br><span class="line">   suite </span><br><span class="line"><span class="keyword">else</span> : </span><br><span class="line">   suite</span><br><span class="line">```      </span><br><span class="line"></span><br><span class="line"><span class="comment">## print 输出</span></span><br><span class="line"><span class="built_in">print</span> 默认输出是换行的，如果要实现不换行需要在变量末尾加上 end=<span class="string">&quot;&quot;</span>：</span><br><span class="line"></span><br><span class="line"><span class="comment">## import 与 from...import</span></span><br><span class="line">在 python 用 <span class="keyword">import</span> 或者 <span class="keyword">from</span>...<span class="keyword">import</span> 来导入相应的模块。</span><br><span class="line"></span><br><span class="line">将整个模块(somemodule)导入，格式为： <span class="keyword">import</span> somemodule</span><br><span class="line"></span><br><span class="line">从某个模块中导入某个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> somefunction</span><br><span class="line"></span><br><span class="line">从某个模块中导入多个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> firstfunc, secondfunc, thirdfunc</span><br><span class="line"></span><br><span class="line">将某个模块中的全部函数导入，格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">## 命令行参数</span></span><br><span class="line"></span><br><span class="line">很多程序可以执行一些操作来查看一些基本信息，Python可以使用-h参数查看各参数帮助信息：</span><br></pre></td></tr></table></figure><p>$ python -h<br>usage: python [option] … [-c cmd | -m mod | file | -] [arg] …<br>Options and arguments (and corresponding environment variables):<br>-c cmd : program passed in as string (terminates option list)<br>-d     : debug output from parser (also PYTHONDEBUG=x)<br>-E     : ignore environment variables (such as PYTHONPATH)<br>-h     : print this help message and exit</p><p>[ etc. ]</p><p>```<br>我们在使用脚本形式执行 Python 时，可以接收命令行输入的参数;</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;编码&quot;&gt;&lt;a href=&quot;#编码&quot; class=&quot;headerlink&quot; title=&quot;编码&quot;&gt;&lt;/a&gt;编码&lt;/h2&gt;&lt;p&gt;默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：</summary>
+      
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Python" scheme="http://example.com/categories/Develop-Lan/Python/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>python操作elasticsearch</title>
+    <link href="http://example.com/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/"/>
+    <id>http://example.com/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/</id>
+    <published>2021-07-18T12:20:25.000Z</published>
+    <updated>2021-07-18T12:25:15.722Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="下载python对应的elasticsearch依赖包"><a href="#下载python对应的elasticsearch依赖包" class="headerlink" title="下载python对应的elasticsearch依赖包"></a>下载python对应的elasticsearch依赖包</h2><p><code>pip3 install elasticsearch==7.10.0</code></p><h2 id="python操作elasticsearch代码"><a href="#python操作elasticsearch代码" class="headerlink" title="python操作elasticsearch代码"></a>python操作elasticsearch代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;init ...&quot;</span>)</span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;39.107.117.232&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;elastic&#x27;</span>))</span><br><span class="line"><span class="comment">#es = Elasticsearch([&#123;&#x27;host&#x27;:&#x27;39.107.117.232&#x27;,&#x27;port&#x27;:9200&#125;])</span></span><br><span class="line"><span class="comment"># print(es.get(index=&#x27;yj_ip_pool&#x27;, doc_type=&#x27;_doc&#x27;, id=&#x27;9256058&#x27;))</span></span><br><span class="line">countRes = es.count(index=<span class="string">&#x27;yj_ip_pool&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(countRes)</span><br></pre></td></tr></table></figure><h2 id="查询效果"><a href="#查询效果" class="headerlink" title="查询效果"></a>查询效果</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gaolei:awesome-python3-webapp gaolei$ /usr/local/opt/python/bin/python3.7 /Users/gaolei/Documents/DemoProjects/awesome-python3-webapp/www/es_test.py</span><br><span class="line">init ...</span><br><span class="line">&#123;&#x27;count&#x27;: 20095400, &#x27;_shards&#x27;: &#123;&#x27;total&#x27;: 1, &#x27;successful&#x27;: 1, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0&#125;&#125;</span><br><span class="line">gaolei:awesome-python3-webapp gaolei$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;下载python对应的elasticsearch依赖包&quot;&gt;&lt;a href=&quot;#下载python对应的elasticsearch依赖包&quot; class=&quot;headerlink&quot; title=&quot;下载python对应的elasticsearch依赖包&quot;&gt;&lt;/a&gt;下载pyt</summary>
+      
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Python" scheme="http://example.com/categories/Develop-Lan/Python/"/>
+    
+    
+    <category term="python" scheme="http://example.com/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>kibana添加用户及控制权限</title>
@@ -478,86 +557,6 @@
     
     
     <category term="elasticsearch" scheme="http://example.com/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>cross-fields跨字段查询</title>
-    <link href="http://example.com/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/"/>
-    <id>http://example.com/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/</id>
-    <published>2021-07-07T06:41:42.000Z</published>
-    <updated>2021-07-08T13:09:24.415Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_cross_fields_queries.html#_cross_fields_queries">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » cross-fields 跨字段查询</a></li><li><a href=""></a></li></ul></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;参考资料&quot;&gt;&lt;a href=&quot;#参考资料&quot; class=&quot;headerlink&quot; title=&quot;参考资料&quot;&gt;&lt;/a&gt;参考资料&lt;/h2&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.elastic.co/guide/cn/el</summary>
-      
-    
-    
-    
-    <category term="Elasticsearch" scheme="http://example.com/categories/Elasticsearch/"/>
-    
-    <category term="Search in Depth" scheme="http://example.com/categories/Elasticsearch/Search-in-Depth/"/>
-    
-    
-    <category term="elasticsearch" scheme="http://example.com/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>copy_to参数</title>
-    <link href="http://example.com/wiki/copy-to%E5%8F%82%E6%95%B0/"/>
-    <id>http://example.com/wiki/copy-to%E5%8F%82%E6%95%B0/</id>
-    <published>2021-07-07T06:34:42.000Z</published>
-    <updated>2021-07-08T13:07:44.463Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/custom-all.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 自定义 _all 字段</a></li><li><a href="https://doc.codingdict.com/elasticsearch/319/">Docs » Mapping parameters（映射参数） » Mapping(映射) » copy_to（合并参数）</a></li></ul></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;参考资料&quot;&gt;&lt;a href=&quot;#参考资料&quot; class=&quot;headerlink&quot; title=&quot;参考资料&quot;&gt;&lt;/a&gt;参考资料&lt;/h2&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.elastic.co/guide/cn/el</summary>
-      
-    
-    
-    
-    <category term="Elasticsearch" scheme="http://example.com/categories/Elasticsearch/"/>
-    
-    <category term="Search in Depth" scheme="http://example.com/categories/Elasticsearch/Search-in-Depth/"/>
-    
-    
-    <category term="elasticsearch" scheme="http://example.com/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>字符串排序与多字段</title>
-    <link href="http://example.com/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/"/>
-    <id>http://example.com/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/</id>
-    <published>2021-07-07T03:05:31.000Z</published>
-    <updated>2021-07-08T13:28:49.165Z</updated>
-    
-    <content type="html"><![CDATA[<p>被解析的字符串字段也是多值字段， 但是很少会按照你想要的方式进行排序。如果你想分析一个字符串，如 fine old art ， 这包含 3 项。我们很可能想要按第一项的字母排序，然后按第二项的字母排序，诸如此类，但是 Elasticsearch 在排序过程中没有这样的信息。</p><p>你可以使用 min 和 max 排序模式（默认是 min ），但是这会导致排序以 art 或是 old ，任何一个都不是所希望的。</p><p>为了以字符串字段进行排序，这个字段应仅包含一项： 整个 not_analyzed 字符串。 但是我们仍需要 analyzed 字段，这样才能以全文进行查询</p><p>一个简单的方法是用两种方式对同一个字符串进行索引，这将在文档中包括两个字段： analyzed 用于搜索， not_analyzed 用于排序</p><p>但是保存相同的字符串两次在 _source 字段是浪费空间的。 我们真正想要做的是传递一个 单字段 但是却用两种方式索引它。所有的 _core_field 类型 (strings, numbers, Booleans, dates) 接收一个 fields 参数</p><p>该参数允许你转化一个简单的映射如：</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;tweet&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span>:     <span class="string">&quot;string&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;english&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>为一个多字段映射如：</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;tweet&quot;</span>: &#123; </span><br><span class="line">    <span class="attr">&quot;type&quot;</span>:     <span class="string">&quot;string&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;english&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;fields&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;raw&quot;</span>: &#123; </span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:  <span class="string">&quot;string&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;not_analyzed&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li><p>tweet 主字段与之前的一样: 是一个 analyzed 全文字段。</p></li><li><p>新的 tweet.raw 子字段是 not_analyzed.</p></li></ul><p>现在，至少只要我们重新索引了我们的数据，使用 tweet 字段用于搜索，<code>tweet.raw</code> 字段用于排序：<br><code>curl -X GET &quot;localhost:9200/_search?pretty&quot; -H &#39;Content-Type: application/json&#39; -d</code></p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;tweet&quot;</span>: <span class="string">&quot;elasticsearch&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;sort&quot;</span>: <span class="string">&quot;tweet.raw&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;被解析的字符串字段也是多值字段， 但是很少会按照你想要的方式进行排序。如果你想分析一个字符串，如 fine old art ， 这包含 3 项。我们很可能想要按第一项的字母排序，然后按第二项的字母排序，诸如此类，但是 Elasticsearch 在排序过程中没有这样的信息。</summary>
-      
-    
-    
-    
-    <category term="Elasticsearch" scheme="http://example.com/categories/Elasticsearch/"/>
-    
-    <category term="Getting Started" scheme="http://example.com/categories/Elasticsearch/Getting-Started/"/>
-    
     
   </entry>
   
