@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>elasticsearch-reindex | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="reindex" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="reindex 常规使用 Reindex要求为源索引中的所有文档启用_source。Reindex不尝试设置目标索引，它不复制源索引的设置，你应该在运行_reindex操作之前设置目标索引，包括设置映射、碎片计数、副本等。  如下示例将把文档从twitter索引复制到new_twitter索引： 123456789curl -XPOST &quot;http:&#x2F;&#x2F;127.0.0.1:9200&#x2F;_r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch-reindex">
+<meta property="og:url" content="http://example.com/wiki/elasticsearch-reindex/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="reindex 常规使用 Reindex要求为源索引中的所有文档启用_source。Reindex不尝试设置目标索引，它不复制源索引的设置，你应该在运行_reindex操作之前设置目标索引，包括设置映射、碎片计数、副本等。  如下示例将把文档从twitter索引复制到new_twitter索引： 123456789curl -XPOST &quot;http:&#x2F;&#x2F;127.0.0.1:9200&#x2F;_r">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-20T03:59:18.000Z">
+<meta property="article:modified_time" content="2021-07-20T13:51:56.170Z">
+<meta property="article:author" content="gaolei">
+<meta property="article:tag" content="reindex">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Index</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Index</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            HTTP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/">Http状态码及含义</a></li>  <li class="file"><a href="/wiki/https%E5%8D%8F%E8%AE%AE/">https协议</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQL
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  <li class="file"><a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Lan
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Java
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a></li>  <li class="file"><a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a></li>  <li class="file"><a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Tools
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Administration and Deployment
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a></li>  <li class="file"><a href="/wiki/elasticsearch-%E6%9F%A5%E8%AF%A2%E5%80%BC%E5%89%8D%E7%BC%80%E4%B8%8D%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/">elasticsearch 查询值前缀不包含某个字符串</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Aggregations
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a></li>  <li class="file"><a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a></li>  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a></li>  <li class="file"><a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a></li>  <li class="file"><a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Getting Started
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a></li>  <li class="file"><a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a></li>  <li class="file"><a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a></li>  <li class="file"><a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Other Question
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a></li>  <li class="file"><a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Search in Depth
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a></li>  <li class="file"><a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a></li>  <li class="file"><a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a></li>  <li class="file"><a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a></li>  <li class="file"><a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a></li>  <li class="file"><a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a></li>  <li class="file active"><a href="/wiki/elasticsearch-reindex/">elasticsearch-reindex</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E8%AF%A2%E6%B1%87%E6%80%BB/">elasticsearch字符串查询汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Common commands
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Process
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">操作系统进程调度策略</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">操作系统-死锁</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Recommend System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-elasticsearch-reindex" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Elasticsearch/">Elasticsearch</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Elasticsearch/Search-in-Depth/">Search in Depth</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/reindex/" rel="tag">reindex</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/elasticsearch-reindex/">
+            <time datetime="2021-07-20T03:59:18.000Z" itemprop="datePublished">2021-07-20</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            elasticsearch-reindex
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#reindex-%E5%B8%B8%E8%A7%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">reindex 常规使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8Breindex"><span class="toc-number">2.</span> <span class="toc-text">远程reindex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AESSL%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">配置SSL参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL%E5%8F%82%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">URL参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8task-api"><span class="toc-number">5.</span> <span class="toc-text">使用task api</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%B6%88task"><span class="toc-number">6.</span> <span class="toc-text">取消task</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rethrottle"><span class="toc-number">7.</span> <span class="toc-text">rethrottle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reindex%E6%94%B9%E5%8F%98%E5%B1%9E%E6%80%A7%E5%90%8D%E7%A7%B0"><span class="toc-number">8.</span> <span class="toc-text">reindex改变属性名称</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%87%E7%89%87"><span class="toc-number">9.</span> <span class="toc-text">切片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%88%87%E7%89%87"><span class="toc-number">9.1.</span> <span class="toc-text">手动切片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%88%87%E9%9D%A2"><span class="toc-number">9.2.</span> <span class="toc-text">自动切面</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reindex%E5%A4%9A%E4%B8%AA%E7%B4%A2%E5%BC%95"><span class="toc-number">10.</span> <span class="toc-text">reindex多个索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reindex%E6%AF%8F%E6%97%A5%E7%B4%A2%E5%BC%95"><span class="toc-number">11.</span> <span class="toc-text">reindex每日索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E7%B4%A2%E5%BC%95%E4%B8%AD%E7%9A%84%E5%AD%90%E9%9B%86%E5%90%88"><span class="toc-number">12.</span> <span class="toc-text">提取索引中的子集合</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="reindex-常规使用"><a href="#reindex-常规使用" class="headerlink" title="reindex 常规使用"></a>reindex 常规使用</h2><blockquote>
+<p>Reindex要求为源索引中的所有文档启用_source。<br>Reindex不尝试设置目标索引，它不复制源索引的设置，你应该在运行_reindex操作之前设置目标索引，包括设置映射、碎片计数、副本等。</p>
+</blockquote>
+<p>如下示例将把文档从twitter索引复制到new_twitter索引：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST &quot;http://127.0.0.1:9200/_reindex?pretty&quot; -H &quot;Content-Type:application/json&quot; -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;source&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &quot;twitter&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dest&quot;: &#123;</span><br><span class="line">    &quot;index&quot;: &quot;new_twitter&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>下面是返回值：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;took&quot;</span> : <span class="number">299</span>,</span><br><span class="line">  <span class="attr">&quot;timed_out&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">&quot;total&quot;</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">&quot;updated&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;created&quot;</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">&quot;deleted&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;batches&quot;</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;version_conflicts&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;noops&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;retries&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;bulk&quot;</span> : <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;search&quot;</span> : <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;throttled_millis&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;requests_per_second&quot;</span> : <span class="number">-1.0</span>,</span><br><span class="line">  <span class="attr">&quot;throttled_until_millis&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;failures&quot;</span> : [ ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就像_update_by_query一样，_reindex获取源索引的快照，但它的目标必须是不同的索引，因此不太可能发生版本冲突。可以像index API那样配置dest元素来控制乐观并发控制。仅仅省略version_type(如上所述)或将其设置为internal，都会导致Elasticsearch盲目地将文档转储到目标中，覆盖任何碰巧具有相同类型和id的文档</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;version_type&quot;</span>: <span class="string">&quot;internal&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将version_type设置为external将导致Elasticsearch保存源文件的版本，创建任何缺失的文档，并更新目标索引中比源索引中版本更旧的文档：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter2&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;version_type&quot;</span>: <span class="string">&quot;external&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>设置op_type=create将导致_reindex只在目标索引中创建缺失的文档。所有现有文件将导致版本冲突：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter3&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;op_type&quot;</span>: <span class="string">&quot;create&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，版本冲突将中止_reindex进程，“conflicts”请求体参数可用于指示_reindex处理关于版本冲突的下一个文档，需要注意的是，其他错误类型的处理不受“conflicts”参数的影响，当在请求体中设置“conflicts”:“proceed”时，_reindex进程将继续处理版本冲突，并返回所遇到的版本冲突计数：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;conflicts&quot;</span>: <span class="string">&quot;proceed&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter3&quot;</span>,</span><br><span class="line">	<span class="attr">&quot;op_type&quot;</span>: <span class="string">&quot;create&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>返回值如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;took&quot;</span> : <span class="number">7</span>,</span><br><span class="line">  <span class="attr">&quot;timed_out&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">&quot;total&quot;</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">&quot;updated&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;created&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;deleted&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;batches&quot;</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;version_conflicts&quot;</span> : <span class="number">2</span>,</span><br><span class="line">  <span class="attr">&quot;noops&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;retries&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;bulk&quot;</span> : <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;search&quot;</span> : <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;throttled_millis&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;requests_per_second&quot;</span> : <span class="number">-1.0</span>,</span><br><span class="line">  <span class="attr">&quot;throttled_until_millis&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;failures&quot;</span> : [ ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以通过向源添加查询来限制文档。这将只复制由kimchy发出的tweet到new_twitter：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;conflicts&quot;</span>: <span class="string">&quot;proceed&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;term&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;user&quot;</span>: <span class="string">&quot;kimchy&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>source中的index可以是一个列表，允许你在一个请求中从多个源复制。这将从twitter和blog索引复制文档：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;conflicts&quot;</span>: <span class="string">&quot;proceed&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: [<span class="string">&quot;twitter&quot;</span>,<span class="string">&quot;blog&quot;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>注意：Reindex API不处理ID冲突，因此最后编写的文档将“胜出”，但顺序通常是不可预测的，因此依赖这种行为不是一个好主意，相反，可以使用脚本确保id是惟一的。<br>还可以通过设置大小来限制处理文档的数量，示例将只复制一个单一的文件从twitter到new_twitter：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;size&quot;</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>如果你想从twitter索引中获得一组特定的文档，你需要使用sort。排序会降低滚动的效率，但在某些上下文中，这样做是值得的。如果可能的话，选择一个比大小和排序更具选择性的查询。这将把10000个文档从twitter复制到new_twitter：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;size&quot;</span>: <span class="number">10000</span>,</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;blog2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;sort&quot;</span>: &#123; <span class="attr">&quot;age&quot;</span>: <span class="string">&quot;desc&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>source部分支持搜索请求中支持的所有元素。例如，只有原始文档中的一部分字段可以使用源过滤重新索引，如下所示：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;_source&quot;</span>: [<span class="string">&quot;user&quot;</span>, <span class="string">&quot;_doc&quot;</span>]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>与_update_by_query一样，_reindex支持修改文档的脚本。与_update_by_query不同，脚本允许修改文档的元数据。这个例子改变了源文档的版本：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;blog2&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;version_type&quot;</span>: <span class="string">&quot;external&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;script&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;if (ctx._source.foo == \&quot;bar\&quot;) &#123;ctx._version++; ctx._source.remove(\&quot;foo\&quot;)&#125;&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;lang&quot;</span>: <span class="string">&quot;painless&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>就像在_update_by_query中一样，你可以设置ctx.op更改在目标索引上执行的操作，值为noop，delete。<br>设置ctx.op到任何其他字段都会返回一个错误，在ctx中设置任何其他字段也是如此。可以修改以下值：_id、_index<br>、_version、_routing。<br>将_version设置为null或将它从ctx映射中清除，就像没有在索引请求中发送版本一样;它将导致在目标索引中覆盖文档，而不管目标上的版本或在_reindex请求中使用的版本类型。<br>默认情况下，如果_reindex看到一个带有路由的文档，那么该路由将被保留，除非脚本更改了它，你可以设置路由对dest的请求，以改变这一点：<br>keep：将为每个匹配发送的批量请求上的路由设置为匹配上的路由。这是默认值。<br>discard：将为每个匹配发送的批量请求上的路由设置为null。<br>=<some text>：将为每个匹配发送的批量请求上的路由设置为=之后的所有文本。<br>例如，你可以使用以下请求将所有文档从具有公司名称cat的源索引复制到路由设置为cat的dest索引中：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;source&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;company&quot;</span>: <span class="string">&quot;cat&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;dest&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;routing&quot;</span>: <span class="string">&quot;=cat&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+<p>默认情况下，_reindex使用滚动批次为1000，可以使用源元素中的size字段更改批大小：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;source&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;size&quot;</span>: <span class="number">100</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;dest&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;routing&quot;</span>: <span class="string">&quot;=cat&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>_reindex还可以通过像这样指定管道来使用Ingest节点特性：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;source&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;dest&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;pipeline&quot;</span>: <span class="string">&quot;some_ingest_pipeline&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="远程reindex"><a href="#远程reindex" class="headerlink" title="远程reindex"></a>远程reindex</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;remote&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;host&quot;</span>: <span class="string">&quot;http://otherhost:9200&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;username&quot;</span>: <span class="string">&quot;user&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;password&quot;</span>: <span class="string">&quot;pass&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;source&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;data&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;dest&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>host参数必须包含scheme, host, port（如：<a href="http://otherhost:9200）,也可以加路径（如：http://otherhost:9200/proxy），username和password是可选的，如果远程集群开启了安全认证，那么是必选的，如果需要使用username和password，需要使用https。">http://otherhost:9200）,也可以加路径（如：http://otherhost:9200/proxy），username和password是可选的，如果远程集群开启了安全认证，那么是必选的，如果需要使用username和password，需要使用https。</a><br>远程主机需要设置白名单，可以通过elasticsearch.yml文件里的reindex.remote.whitelist属性进行设置，如果设置多个值可以使用逗号来进行分隔（如：otherhost:9200, another:9200, 127.0.10.*:9200, localhost:*），这里的配置可以忽略scheme，如：</p>
+<p><code>reindex.remote.whitelist: &quot;otherhost:9200, another:9200, 127.0.10.*:9200, localhost:*&quot;</code></p>
+<p>必须让每个处理reindex的节点上添加白名单的配置。<br>这个特性应该适用于可能找到的任何版本的Elasticsearch的远程集群，这应该允许通过从旧版本的集群reindex，将Elasticsearch的任何版本升级到当前版本。<br>要启用发送到旧版本Elasticsearch的查询，无需验证或修改即可将查询参数直接发送到远程主机，注意：远程reindex不支持手动或者自动slicing。<br>从远程服务器reindex使用堆上缓冲区，默认最大大小为100mb，如果远程索引包含非常大的文档，则需要使用更小的批处理大小，下面的示例将批处理大小设置为10。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;remote&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;host&quot;</span>: <span class="string">&quot;http://otherhost:9200&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;source&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;size&quot;</span>: <span class="number">10</span>,</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;data&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;dest&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>还可以使用socket_timeout字段设置远程连接上的套接字读取超时，使用connect_timeout字段设置连接超时，他们的默认值为30秒，下面示例例将套接字读取超时设置为1分钟，连接超时设置为10秒：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line"> <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;remote&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;host&quot;</span>: <span class="string">&quot;http://otherhost:9200&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;socket_timeout&quot;</span>: <span class="string">&quot;1m&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;connect_timeout&quot;</span>: <span class="string">&quot;10s&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;source&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;test&quot;</span>: <span class="string">&quot;data&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;dest&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="配置SSL参数"><a href="#配置SSL参数" class="headerlink" title="配置SSL参数"></a>配置SSL参数</h2><p>远程reindex支持配置SSL参数，除了在Elasticsearch秘钥库中添加安全设置之外，还需要在elasticsearch.yml文件中进行配置，不可能在_reindex请求体中配置。<br>支持以下设置：<br>reindex.ssl.certificate_authorities<br>应受信任的PEM编码证书文件的路径列表，不同同时指定reindex.ssl.certificate_authorities和reindex.ssl.truststore.path。<br>reindex.ssl.truststore.path<br>包含要信任的证书的Java密钥存储文件的路径，这个密钥存储库可以是“JKS”或“PKCS#12”格式，不能同时指定reindex.ssl.certificate_authorities和reindex.ssl.truststore.path。<br>reindex.ssl.truststore.password<br>reindex.ssl.truststore.path配置的密码，不能和reindex.ssl.truststore.secure_password一起使用。<br>reindex.ssl.truststore.secure_password<br>reindex.ssl.truststore.path配置的密码，不能和reindex.ssl.truststore.password一起使用。<br>reindex.ssl.truststore.type<br>reindex.ssl.truststore.path信任存储库的类型，必须是jks或PKCS12，如果reindex.ssl.truststore.path的结束是”.p12”, “.pfx”或者”pkcs12”，那么该配置的默认值是PKCS12，否则默认值是jks。<br>reindex.ssl.verification_mode<br>指示用于防止中间人攻击和伪造证书的验证类型。可以设置为full（验证主机名和证书路径）、certificate（验证证书路径，但不验证主机名）、none（不执行验证——这在生产环境中是强烈不鼓励的），默认是full。<br>reindex.ssl.certificate<br>指定PEM编码证书的路径或者证书链用于HTTP客户端身份认证，这个配置还需要设置reindex.ssl.key值，不能同时设置reindex.ssl.certificate和reindex.ssl.keystore.path。<br>reindex.ssl.key<br>指定与用于客户端身份验证的证书相关联的PEM编码私钥的路径，不能同时设置reindex.ssl.key和reindex.ssl.keystore.path。<br>reindex.ssl.key_passphrase<br>指定用于解密已加密的PEM编码私钥(reindex.ssl.key)的口令，不能与reindex.ssl.secure_key_passphrase一起使用。<br>reindex.ssl.secure_key_passphrase<br>指定用于解密已加密的PEM编码私钥(reindex.ssl.key)的口令，不能与reindex.ssl.key_passphrase一起使用。<br>reindex.ssl.keystore.path<br>指定密钥存储库的路径，其中包含用于HTTP客户机身份验证的私钥和证书(如果远程集群需要)，这个密钥存储库可以是“JKS”或“PKCS#12”格式，不能同时指定reindex.ssl.key和reindex.ssl.keystore.path。<br>reindex.ssl.keystore.type<br>密钥存储库的类型(reindex.ssl.keystore.path)，必须是jks或者PKCS12，如果reindex.ssl.keystore.path的结束是”.p12”, “.pfx”或者”pkcs12”，那么该配置的默认值是PKCS12，否则默认值是jks。<br>reindex.ssl.keystore.password<br>密钥存储库的密码(reindex.ssl.keystore.path)，此设置不能与reindex.ssl.keystore.secure_password一起使用。<br>reindex.ssl.keystore.secure_password<br>密钥存储库的密码(reindex.ssl.keystore.path)，此设置不能与reindex.ssl.keystore.password一起使用。<br>reindex.ssl.keystore.key_password<br>密钥存储库中密钥的密码(reindex.ssl.keystore.path)，默认为密钥存储库密码，此设置不能与reindex.ssl.keystore.secure_key_password一起使用。<br>reindex.ssl.keystore.secure_key_password<br>密钥存储库中密钥的密码(reindex.ssl.keystore.path)，默认为密钥存储库密码，此设置不能与reindex.ssl.keystore.key_password一起使用。</p>
+<h2 id="URL参数"><a href="#URL参数" class="headerlink" title="URL参数"></a>URL参数</h2><p>除了标准的pretty参数外， reindex还支持refresh, wait_for_completion, wait_for_active_shards, timeout, scroll和requests_per_second。<br>发送refresh url参数将导致对所写请求的所有索引进行刷新，这与Index API的refresh参数不同，后者只会刷新接收新数据的碎片，与index API不同的是，它不支持wait_for。<br>如果请求包含wait_for_completion=false，则Elasticsearch将执行一些执行前检查，启动请求，然后返回一个任务，该任务可与Tasks api一起用于取消或获取任务状态，Elasticsearch还将创建此任务的记录，作为.tasks/task/${taskId}的文档，你可以自己决定是保留或者删除他，当你已经完成了，删除他，这样es会回收他使用的空间。<br>wait_for_active_shards控制在进行重新索引之前必须激活多少个shard副本，超时控制每个写请求等待不可用碎片变为可用的时间，两者在批量API中的工作方式完全相同，由于_reindex使用滚动搜索，你还可以指定滚动参数来控制“搜索上下文”存活的时间(例如?scroll=10m)，默认值是5分钟。<br>requests_per_second可以设置为任何正数(1.4、6、1000等)，并通过在每个批中填充等待时间来控制_reindex发出批索引操作的速率，可以通过将requests_per_second设置为-1来禁用。<br>节流是通过在批之间等待来完成的，这样就可以给_reindex内部使用的滚动设置一个考虑填充的超时，填充时间是批大小除以requests_per_second和写入时间之间的差额，默认情况下批处理大小为1000，所以如果requests_per_second被设置为500：</p>
+<p><code>target_time = 1000 / 500 per second = 2 seconds </code>padding time<code> = target_time - write_time = 2 seconds - 0.5 seconds = 1.5 seconds</code></p>
+<p>由于批处理是作为单个_bulk请求发出的，因此较大的批处理大小将导致Elasticsearch创建许多请求，然后等待一段时间再启动下一个请求集，这是“bursty”而不是“smooth”，默认值是-1。</p>
+<p>响应体 </p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;took&quot;</span>: <span class="number">639</span>,</span><br><span class="line">    <span class="attr">&quot;timed_out&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">&quot;total&quot;</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="attr">&quot;updated&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;created&quot;</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="attr">&quot;deleted&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;batches&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;noops&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;version_conflicts&quot;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">&quot;retries&quot;</span>: &#123;</span><br><span class="line">	<span class="attr">&quot;bulk&quot;</span>: <span class="number">0</span>,</span><br><span class="line">	<span class="attr">&quot;search&quot;</span>: <span class="number">0</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;throttled_millis&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;requests_per_second&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">&quot;throttled_until_millis&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;failures&quot;</span>: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>took<br>整个操作花费的总毫秒数。<br>timed_out<br>如果在reindex期间执行的任何请求超时，则将此标志设置为true。<br>total<br>成功处理的文档数量。<br>updated<br>成功更新的文档数量。<br>created<br>成功创建的文档的数量。<br>deleted<br>成功删除的文档数量。<br>batches<br>由reindex回拉的滚动响应的数量。<br>noops<br>由于用于reindex的脚本返回了ctx.op的noop值而被忽略的文档数量。<br>version_conflicts<br>reindex命中的版本冲突数。<br>retries<br>reindex尝试重试的次数,bulk是重试的批量操作的数量，search是重试的搜索操作的数量。<br>throttled_millis<br>请求休眠以符合requests_per_second的毫秒数。<br>requests_per_second<br>在reindex期间每秒有效执行的请求数。<br>throttled_until_millis<br>在_reindex响应中，该字段应该始终等于零，它只有在使用任务API时才有意义，在任务API中，它指示下一次(毫秒)再次执行节流请求，以符合requests_per_second。<br>failures<br>出现多个错误以数组返回。</p>
+<h2 id="使用task-api"><a href="#使用task-api" class="headerlink" title="使用task api"></a>使用task api</h2><p>获取task</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&amp;wait_for_completion=false&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;new_twitter&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>返回值为</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;task&quot;</span> : <span class="string">&quot;8uQK-B00RiWq03awtJok1Q:18&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你可以用任务API获取所有正在运行的reindex请求的状态：<br><code>curl -XGET &quot;http://127.0.0.1:9200/_tasks?detailed=true&amp;actions=*reindex&amp;pretty&quot;</code><br>或者根据task id获取<br><code>curl -XGET &quot;http://127.0.0.1:9200/_tasks/8uQK-B00RiWq03awtJok1Q:48?pretty&quot;</code><br>返回值为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;completed&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">&quot;task&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;node&quot;</span> : <span class="string">&quot;8uQK-B00RiWq03awtJok1Q&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;id&quot;</span> : <span class="number">48</span>,</span><br><span class="line">    <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;transport&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;action&quot;</span> : <span class="string">&quot;indices:data/write/reindex&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;status&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;total&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;updated&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;created&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;deleted&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;batches&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;version_conflicts&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;noops&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;retries&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;bulk&quot;</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="attr">&quot;search&quot;</span> : <span class="number">0</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;throttled_millis&quot;</span> : <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;requests_per_second&quot;</span> : <span class="number">0.0</span>,</span><br><span class="line">      <span class="attr">&quot;throttled_until_millis&quot;</span> : <span class="number">0</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;description&quot;</span> : <span class="string">&quot;reindex from [twitter] to [new_twitter][_doc]&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;start_time_in_millis&quot;</span> : <span class="number">1566216815832</span>,</span><br><span class="line">    <span class="attr">&quot;running_time_in_nanos&quot;</span> : <span class="number">86829</span>,</span><br><span class="line">    <span class="attr">&quot;cancellable&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">&quot;headers&quot;</span> : &#123; &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;error&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;index_not_found_exception&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;reason&quot;</span> : <span class="string">&quot;no such index [new_twitter] and [action.auto_create_index] ([twitter,index10,-index1*,+ind*,-myIndex]) doesn&#x27;t match&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;index_uuid&quot;</span> : <span class="string">&quot;_na_&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;index&quot;</span> : <span class="string">&quot;new_twitter&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="取消task"><a href="#取消task" class="headerlink" title="取消task"></a>取消task</h2><p>任何reindex接口都可以使用task cancel api取消：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_tasks/8uQK-B00RiWq03awtJok1Q:48/_cancel?pretty&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;node_failures&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;failed_node_exception&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;reason&quot;</span> : <span class="string">&quot;Failed node [8uQK-B00RiWq03awtJok1Q]&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;node_id&quot;</span> : <span class="string">&quot;8uQK-B00RiWq03awtJok1Q&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;caused_by&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;resource_not_found_exception&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;reason&quot;</span> : <span class="string">&quot;task [8uQK-B00RiWq03awtJok1Q:48] doesn&#x27;t support cancellation&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;nodes&quot;</span> : &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>取消应该很快发生，但可能需要几秒钟，Tasks API将继续列出任务，直到它醒来取消自己。</p>
+<h2 id="rethrottle"><a href="#rethrottle" class="headerlink" title="rethrottle"></a>rethrottle</h2><p>可以在url中使用_rethrottle，并使用requests_per_second参数来设置节流：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex/8uQK-B00RiWq03awtJok1Q:250/_rethrottle?requests_per_second=-1&amp;pretty&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;node_failures&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;failed_node_exception&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;reason&quot;</span> : <span class="string">&quot;Failed node [8uQK-B00RiWq03awtJok1Q]&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;node_id&quot;</span> : <span class="string">&quot;8uQK-B00RiWq03awtJok1Q&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;caused_by&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;resource_not_found_exception&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;reason&quot;</span> : <span class="string">&quot;task [8uQK-B00RiWq03awtJok1Q:250] is missing&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">&quot;nodes&quot;</span> : &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="reindex改变属性名称"><a href="#reindex改变属性名称" class="headerlink" title="reindex改变属性名称"></a>reindex改变属性名称</h2><p>_reindex可以重命名属性名，假设你创建了一个包含如下文档的索引：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/test/_doc/1?refresh&amp;pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;text&quot;</span>: <span class="string">&quot;words words&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;flag&quot;</span>: <span class="string">&quot;foo&quot;</span></span><br><span class="line">&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>在reindex的时候想把flag修改为tag，示例如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order2&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;script&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;ctx._source.tag = ctx._source.remove(\&quot;flag\&quot;)&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查看order2的数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&quot;http://127.0.0.1:9200/order2/_doc/1?pretty&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;_index&quot;</span> : <span class="string">&quot;order2&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;_version&quot;</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;_seq_no&quot;</span> : <span class="number">0</span>,</span><br><span class="line">  <span class="attr">&quot;_primary_term&quot;</span> : <span class="number">1</span>,</span><br><span class="line">  <span class="attr">&quot;found&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">&quot;_source&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;text&quot;</span> : <span class="string">&quot;words words&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;tag&quot;</span> : <span class="string">&quot;foo&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><p>Reindex支持切片滚动，以并行化重新索引过程。这种并行化可以提高效率，并提供一种方便的方法将请求分解为更小的部分</p>
+<h3 id="手动切片"><a href="#手动切片" class="headerlink" title="手动切片"></a>手动切片</h3><p>通过为每个请求提供一个片id和片的总数，手工切片一个重索引请求：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;slice&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;id&quot;</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">&quot;max&quot;</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;slice&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="attr">&quot;max&quot;</span>: <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>你可以通过以下方法来验证：</p>
+<p><code>curl -XGET &quot;http://127.0.0.1:9200/_refresh?pretty&quot;</code></p>
+<p><code>curl -XPOST &quot;http://127.0.0.1:9200/order2/_search?size=0&amp;filter_path=hits.total&amp;pretty&quot;</code></p>
+<p>返回值为：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;value&quot;</span> : <span class="number">1</span>,</span><br><span class="line">      <span class="attr">&quot;relation&quot;</span> : <span class="string">&quot;eq&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="自动切面"><a href="#自动切面" class="headerlink" title="自动切面"></a>自动切面</h3><p>你还可以让_reindex使用切片滚动自动并行化_uid上的切片，使用slices指定要使用的片数:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?slices=5&amp;refresh&amp;pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;order2&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过下面请求进行验证：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/order2/_search?size=0&amp;filter_path=hits.total&amp;pretty&quot;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;total&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;value&quot;</span> : <span class="number">1</span>,</span><br><span class="line">      <span class="attr">&quot;relation&quot;</span> : <span class="string">&quot;eq&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="reindex多个索引"><a href="#reindex多个索引" class="headerlink" title="reindex多个索引"></a>reindex多个索引</h2><p>如果有许多索引需要reindex，通常最好一次reindex一个索引，而不是使用一个glob模式来获取许多索引。这样，如果有任何错误，可以删除部分完成的索引并从该索引重新开始，从而恢复该过程。它还使并行化过程变得相当简单：将索引列表拆分为reindex并并行运行每个列表。<br>可以使用一次性脚本：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">for index in i1 i2 i3 i4 i5; do</span><br><span class="line">  curl -HContent-Type:application/json -XPOST localhost:<span class="number">9200</span>/_reindex?pretty -d&#x27;&#123;</span><br><span class="line">    <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;&#x27;$index&#x27;&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;&#x27;$index&#x27;-reindexed&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;&#x27;</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="reindex每日索引"><a href="#reindex每日索引" class="headerlink" title="reindex每日索引"></a>reindex每日索引</h2><p>尽管有上述建议，你仍然可以结合使用_reindex和Painless来reindex每日索引，从而将新模板应用于现有文档。<br>假设有以下文件组成的索引:</p>
+<p><code>curl -XPUT &quot;http://127.0.0.1:9200/metricbeat-2016.05.30/_doc/1?refresh&amp;pretty&quot; -H &quot;Content-Type:application/json&quot; -d</code><br>{“system.cpu.idle.pct”:  0.908}’</p>
+<p><code>curl -XPUT &quot;http://127.0.0.1:9200/metricbeat-2016.05.31/_doc/1?refresh&amp;pretty&quot; -H &quot;Content-Type:application/json&quot; -d&#39;</code><br>{“system.cpu.idle.pct”:  0.105}</p>
+<p>metricbeat-*索引的新模板已经加载到Elasticsearch中，但它只适用于新创建的索引。<br>下面的脚本从索引名称中提取日期，并创建一个附加-1的新索引。所有来自metricbeat-2016.05.31的数据将reindex到metricbeat-2016.05.31-1。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;metricbeat-*&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;metricbeat&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;script&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;lang&quot;</span>: <span class="string">&quot;painless&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;source&quot;</span>: <span class="string">&quot;ctx._index = &#x27;metricbeat-&#x27; + (ctx._index.substring(&#x27;metricbeat-&#x27;.length(),ctx._index.length())) + &#x27;-1&#x27;&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以前metricbeat索引中的所有文档现在都可以在*-1索引中找到。</p>
+<p><code>curl -XGET &quot;http://127.0.0.1:9200/metricbeat-2016.05.30-1/_doc/1?pretty&quot;</code><br><code>curl -XGET &quot;http://127.0.0.1:9200/metricbeat-2016.05.31-1/_doc/1?pretty&quot;</code></p>
+<p>前一种方法还可以与更改字段名称结合使用，以便仅将现有数据加载到新索引中，并在需要时重命名任何字段。</p>
+<h2 id="提取索引中的子集合"><a href="#提取索引中的子集合" class="headerlink" title="提取索引中的子集合"></a>提取索引中的子集合</h2><p>_reindex可用于提取索引的随机子集进行测试：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;http://127.0.0.1:9200/_reindex?pretty&quot;</span> -H <span class="string">&quot;Content-Type:application/json&quot;</span> -d&#x27;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;size&quot;</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">&quot;source&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;twitter&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;function_score&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span> : &#123; <span class="attr">&quot;match_all&quot;</span>: &#123;&#125; &#125;,</span><br><span class="line">        <span class="attr">&quot;random_score&quot;</span> : &#123;&#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;sort&quot;</span>: <span class="string">&quot;_score&quot;</span>    </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">&quot;dest&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;index&quot;</span>: <span class="string">&quot;random_twitter&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>_reindex默认按_doc排序，因此random_score不会有任何效果，除非你覆盖sort属性为_score。</p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/https%E5%8D%8F%E8%AE%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    https协议
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Http状态码及含义</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
