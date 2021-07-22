@@ -17,7 +17,7 @@
 <meta property="og:description" content="下载python对应的elasticsearch依赖包pip3 install elasticsearch&#x3D;&#x3D;7.10.0 python操作elasticsearch代码1234567from elasticsearch import Elasticsearchprint(&quot;init ...&quot;)es &#x3D; Elasticsearch([&amp;#123;&amp;#x27;host&amp;#x27;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-18T12:20:25.000Z">
-<meta property="article:modified_time" content="2021-07-18T12:25:15.722Z">
+<meta property="article:modified_time" content="2021-07-21T03:52:56.595Z">
 <meta property="article:author" content="gaolei">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -246,7 +246,16 @@
                             &nbsp;
                             Java
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            多线程与并发
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Overview/">Java并发编程-Overview</a></li>  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/">Java并发编程-多线程的发展和意义</a></li>  <li class="file"><a href="/wiki/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  <li class="file"><a href="/wiki/%E6%9E%81%E5%B0%BDHashMap%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">极尽HashMap底层原理</a></li>  <li class="file"><a href="/wiki/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E4%BF%AE%E6%94%B9-serialVersionUID-%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC/">为什么禁止开发人员修改 serialVersionUID 字段的值?</a></li>  <li class="file"><a href="/wiki/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E6%8A%8ASimpleDateFormat%E5%AE%9A%E4%B9%89%E6%88%90static%E5%8F%98%E9%87%8F/">Java-为什么禁止把SimpleDateFormat定义成static变量?</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory open">
@@ -513,7 +522,7 @@
         
         
             <h2 id="下载python对应的elasticsearch依赖包"><a href="#下载python对应的elasticsearch依赖包" class="headerlink" title="下载python对应的elasticsearch依赖包"></a>下载python对应的elasticsearch依赖包</h2><p><code>pip3 install elasticsearch==7.10.0</code></p>
-<h2 id="python操作elasticsearch代码"><a href="#python操作elasticsearch代码" class="headerlink" title="python操作elasticsearch代码"></a>python操作elasticsearch代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;init ...&quot;</span>)</span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;39.107.117.232&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;elastic&#x27;</span>))</span><br><span class="line"><span class="comment">#es = Elasticsearch([&#123;&#x27;host&#x27;:&#x27;39.107.117.232&#x27;,&#x27;port&#x27;:9200&#125;])</span></span><br><span class="line"><span class="comment"># print(es.get(index=&#x27;yj_ip_pool&#x27;, doc_type=&#x27;_doc&#x27;, id=&#x27;9256058&#x27;))</span></span><br><span class="line">countRes = es.count(index=<span class="string">&#x27;yj_ip_pool&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(countRes)</span><br></pre></td></tr></table></figure>
+<h2 id="python操作elasticsearch代码"><a href="#python操作elasticsearch代码" class="headerlink" title="python操作elasticsearch代码"></a>python操作elasticsearch代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;init ...&quot;</span>)</span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;XXXXXX&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;XXXXXX&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(es.get(index=&#x27;yj_ip_pool&#x27;, doc_type=&#x27;_doc&#x27;, id=&#x27;9256058&#x27;))</span></span><br><span class="line">countRes = es.count(index=<span class="string">&#x27;yj_ip_pool&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(countRes)</span><br></pre></td></tr></table></figure>
 
 <h2 id="查询效果"><a href="#查询效果" class="headerlink" title="查询效果"></a>查询效果</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gaolei:awesome-python3-webapp gaolei$ /usr/local/opt/python/bin/python3.7 /Users/gaolei/Documents/DemoProjects/awesome-python3-webapp/www/es_test.py</span><br><span class="line">init ...</span><br><span class="line">&#123;&#x27;count&#x27;: 20095400, &#x27;_shards&#x27;: &#123;&#x27;total&#x27;: 1, &#x27;successful&#x27;: 1, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0&#125;&#125;</span><br><span class="line">gaolei:awesome-python3-webapp gaolei$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
             </div>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Java-为什么禁止把SimpleDateFormat定义成static变量? | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="SimpleDateFormat" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文参照 《Java技术灵魂15问》  简介在日常开发中，我们经常会用到时间，我们有很多办法在 Java 代码中获取时 间。但是不同的方法获取到的时间的格式都不尽相同，这时候就需要一种格式化工 具，把时间显示成我们需要的格式。 最常用的方法就是使用 SimpleDateFormat 类。这是一个看上去功能比较简单 的类，但是，一旦使用不当也有可能导致很大的问题。在 Java 开发手册中，有如下明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-为什么禁止把SimpleDateFormat定义成static变量?">
+<meta property="og:url" content="http://example.com/wiki/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E6%8A%8ASimpleDateFormat%E5%AE%9A%E4%B9%89%E6%88%90static%E5%8F%98%E9%87%8F/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="本文参照 《Java技术灵魂15问》  简介在日常开发中，我们经常会用到时间，我们有很多办法在 Java 代码中获取时 间。但是不同的方法获取到的时间的格式都不尽相同，这时候就需要一种格式化工 具，把时间显示成我们需要的格式。 最常用的方法就是使用 SimpleDateFormat 类。这是一个看上去功能比较简单 的类，但是，一旦使用不当也有可能导致很大的问题。在 Java 开发手册中，有如下明">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-8b016ecefbdfc6ea675aaf7f2a0511bbc6a.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-80bd4dd81e9c6fb2f0fe9c3b5eae1cef2b8.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/up-0c95fadb15ae4ca6aedb2e8cb68ce7ec50b.png">
+<meta property="article:published_time" content="2021-07-21T12:06:46.000Z">
+<meta property="article:modified_time" content="2021-07-21T13:56:32.200Z">
+<meta property="article:author" content="gaolei">
+<meta property="article:tag" content="SimpleDateFormat">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/up-8b016ecefbdfc6ea675aaf7f2a0511bbc6a.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Index</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Index</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            HTTP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/">Http状态码及含义</a></li>  <li class="file"><a href="/wiki/https%E5%8D%8F%E8%AE%AE/">https协议</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQL
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  <li class="file"><a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Develop Lan
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Java
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            多线程与并发
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Overview/">Java并发编程-Overview</a></li>  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/">Java并发编程-多线程的发展和意义</a></li>  <li class="file"><a href="/wiki/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  <li class="file"><a href="/wiki/%E6%9E%81%E5%B0%BDHashMap%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">极尽HashMap底层原理</a></li>  <li class="file"><a href="/wiki/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E4%BF%AE%E6%94%B9-serialVersionUID-%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC/">为什么禁止开发人员修改 serialVersionUID 字段的值?</a></li>  <li class="file active"><a href="/wiki/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E6%8A%8ASimpleDateFormat%E5%AE%9A%E4%B9%89%E6%88%90static%E5%8F%98%E9%87%8F/">Java-为什么禁止把SimpleDateFormat定义成static变量?</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a></li>  <li class="file"><a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a></li>  <li class="file"><a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Tools
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Administration and Deployment
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a></li>  <li class="file"><a href="/wiki/elasticsearch-%E6%9F%A5%E8%AF%A2%E5%80%BC%E5%89%8D%E7%BC%80%E4%B8%8D%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/">elasticsearch 查询值前缀不包含某个字符串</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Aggregations
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a></li>  <li class="file"><a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a></li>  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a></li>  <li class="file"><a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a></li>  <li class="file"><a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Getting Started
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a></li>  <li class="file"><a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a></li>  <li class="file"><a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a></li>  <li class="file"><a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Other Question
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a></li>  <li class="file"><a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Search in Depth
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a></li>  <li class="file"><a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a></li>  <li class="file"><a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a></li>  <li class="file"><a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a></li>  <li class="file"><a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a></li>  <li class="file"><a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a></li>  <li class="file"><a href="/wiki/elasticsearch-reindex/">elasticsearch-reindex</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E8%AF%A2%E6%B1%87%E6%80%BB/">elasticsearch字符串查询汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Common commands
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Process
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">操作系统进程调度策略</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">操作系统-死锁</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Recommend System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Java-为什么禁止把SimpleDateFormat定义成static变量" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Develop-Lan/">Develop Lan</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Develop-Lan/Java/">Java</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/SimpleDateFormat/" rel="tag">SimpleDateFormat</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E6%8A%8ASimpleDateFormat%E5%AE%9A%E4%B9%89%E6%88%90static%E5%8F%98%E9%87%8F/">
+            <time datetime="2021-07-21T12:06:46.000Z" itemprop="datePublished">2021-07-21</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Java-为什么禁止把SimpleDateFormat定义成static变量?
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SimpleDateFormat-%E7%94%A8%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">SimpleDateFormat 用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E6%A8%A1%E5%BC%8F%E8%A1%A8%E8%BE%BE%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">日期和时间模式表达方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E4%B8%8D%E5%90%8C%E6%97%B6%E5%8C%BA%E7%9A%84%E6%97%B6%E9%97%B4"><span class="toc-number">4.</span> <span class="toc-text">输出不同时区的时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SimpleDateFormat-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">SimpleDateFormat 线程安全性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E5%8E%9F%E5%9B%A0"><span class="toc-number">6.</span> <span class="toc-text">线程不安全原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">如何解决线程安全问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-DateTimeFormatter"><span class="toc-number">8.</span> <span class="toc-text">使用 DateTimeFormatter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">总结</span></a></li></ol>
+                </div>
+            
+        
+        
+            <blockquote>
+<p>本文参照 《Java技术灵魂15问》</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在日常开发中，我们经常会用到时间，我们有很多办法在 Java 代码中获取时 间。但是不同的方法获取到的时间的格式都不尽相同，这时候就需要一种格式化工 具，把时间显示成我们需要的格式。</p>
+<p>最常用的方法就是使用 SimpleDateFormat 类。这是一个看上去功能比较简单 的类，但是，一旦使用不当也有可能导致很大的问题。<br>在 Java 开发手册中，有如下明确规定:</p>
+<img src="https://oscimg.oschina.net/oscnet/up-8b016ecefbdfc6ea675aaf7f2a0511bbc6a.png">
+
+<p>那么，本文就围绕 SimpleDateFormat 的用法、原理等来深入分析下如何以正 确的姿势使用它。</p>
+<p>SimpleDateFormat 是 Java 提供的一个格式化和解析日期的工具类。它允许进 行格式化(日期 -&gt; 文本)、解析(文本 -&gt; 日期)和规范化。SimpleDateFormat 使 得可以选择任何用户定义的日期 - 时间格式的模式。</p>
+<p>在 Java 中，可以使用 SimpleDateFormat 的 format 方法，将一个 Date 类型 转化成 String 类型，并且可以指定输出格式。</p>
+<h2 id="SimpleDateFormat-用法"><a href="#SimpleDateFormat-用法" class="headerlink" title="SimpleDateFormat 用法"></a>SimpleDateFormat 用法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// Date转String</span></span><br><span class="line">Date data = <span class="keyword">new</span> Date();</span><br><span class="line">SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">String dataStr = sdf.format(data);</span><br><span class="line">System.out.println(dataStr);</span><br></pre></td></tr></table></figure>
+
+<p>以上代码，转换的结果是:2018-11-25 13:00:00，日期和时间格式由”日期 和时间模式”字符串指定。如果你想要转换成其他格式，只要指定不同的时间模式就 行了。</p>
+<p>在 Java 中，可以使用 SimpleDateFormat 的 parse 方法，将一个 String 类型 转化成 Date 类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// String转Data </span></span><br><span class="line">System.out.println(sdf.parse(dataStr));</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="日期和时间模式表达方法"><a href="#日期和时间模式表达方法" class="headerlink" title="日期和时间模式表达方法"></a>日期和时间模式表达方法</h2><p>在使用 SimpleDateFormat 的时候，需要通过字母来描述时间元素，并组装成 想要的日期和时间模式。常用的时间元素和字母的对应表如下:</p>
+<img src='https://oscimg.oschina.net/oscnet/up-80bd4dd81e9c6fb2f0fe9c3b5eae1cef2b8.png'>
+
+<p>模式字母通常是重复的，其数量确定其精确表示。如下表是常用的输出格式的表 示方法。</p>
+<img src="https://oscimg.oschina.net/oscnet/up-0c95fadb15ae4ca6aedb2e8cb68ce7ec50b.png">
+
+
+<h2 id="输出不同时区的时间"><a href="#输出不同时区的时间" class="headerlink" title="输出不同时区的时间"></a>输出不同时区的时间</h2><p>时区是地球上的区域使用同一个时间定义。以前，人们通过观察太阳的位置(时 角)决定时间，这就使得不同经度的地方的时间有所不同(地方时)。1863 年，首次 使用时区的概念。时区通过设立一个区域的标准时间部分地解决了这个问题。</p>
+<p>世界各个国家位于地球不同位置上，因此不同国家，特别是东西跨度大的国家日 出、日落时间必定有所偏差。这些偏差就是所谓的时差。</p>
+<p>现今全球共分为 24 个时区。由于实用上常常 1 个国家，或 1 个省份同时跨着 2 个或更多时区，为了照顾到行政上的方便，常将 1 个国家或 1 个省份划在一起。所以 时区并不严格按南北直线来划分，而是按自然条件来划分。例如，中国幅员宽广，差 不多跨 5 个时区，但为了使用方便简单，实际上在只用东八时区的标准时即北京时间 为准。</p>
+<p>由于不同的时区的时间是不一样的，甚至同一个国家的不同城市时间都可能不一 样，所以，在 Java 中想要获取时间的时候，要重点关注一下时区问题。<br>默认情况下，如果不指明，在创建日期的时候，会使用当前计算机所在的时区作为默认时区，这也是为什么我们通过只要使用new Date()就可以获取中国的当前 时间的原因。</p>
+<p>那么，如何在 Java 代码中获取不同时区的时间呢? SimpleDateFormat 可以 实现这个功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>); </span><br><span class="line">sdf.setTimeZone(TimeZone.getTimeZone(<span class="string">&quot;America/Los_Angeles&quot;</span>)); </span><br><span class="line">System.out.println(sdf.format(Calendar.getInstance().getTime()));</span><br></pre></td></tr></table></figure>
+
+<p>以上代码，转换的结果是:2018-11-24 21:00:00 。既中国的时间是 11 月 25 日的 13 点，而美国洛杉矶时间比中国北京时间慢了 16 个小时(这还和冬夏令时有关 系，就不详细展开了)。</p>
+<p>如果你感兴趣，你还可以尝试打印一下美国纽约时间(America/New_York)。 纽约时间是 2018-11-25 00:00:00。纽约时间比中国北京时间早了 13 个小时。</p>
+<p>当然，这不是显示其他时区的唯一方法，不过本文主要为了介绍 SimpleDate-Format，其他方法暂不介绍了。</p>
+<h2 id="SimpleDateFormat-线程安全性"><a href="#SimpleDateFormat-线程安全性" class="headerlink" title="SimpleDateFormat 线程安全性"></a>SimpleDateFormat 线程安全性</h2><p>由于 SimpleDateFormat 比较常用，而且在一般情况下，一个应用中的时间显 示模式都是一样的，所以很多人愿意使用如下方式定义 SimpleDateFormat:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">            simpleDateFormat.setTimeZone(TimeZone.getTimeZone(<span class="string">&quot;America/New_York&quot;</span>));</span><br><span class="line">            System.out.println(simpleDateFormat.format(Calendar.getInstance().</span><br><span class="line">                    getTime()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>⚠️ 这种定义方式，存在很大的安全隐患。</p>
+<p>我们来看一段代码，以下代码使用线程池来执行时间输出。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 定义一个全局的SimpleDateFormat</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 使用ThreadFactoryBuilder定义一个线程池</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> ThreadFactory namedThreadFactory = <span class="keyword">new</span> ThreadFactoryBuilder().setNameFormat(<span class="string">&quot;demo-pool-%d&quot;</span>).build();</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> ExecutorService pool = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">5</span>, <span class="number">200</span>, <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(<span class="number">1024</span>), namedThreadFactory, <span class="keyword">new</span></span><br><span class="line">                ThreadPoolExecutor.AbortPolicy());</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 定义一个CountDownLatch，保证所有子线程执行完之后主线程再执行</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> CountDownLatch countDownLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 定义一个线程安全的 HashSet</span></span><br><span class="line">            Set&lt;String&gt; dates = Collections.synchronizedSet(<span class="keyword">new</span> HashSet&lt;String&gt;());</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">                <span class="comment">// 获取当前时间</span></span><br><span class="line">                Calendar calendar = Calendar.getInstance();</span><br><span class="line">                <span class="keyword">int</span> finalI = i;</span><br><span class="line">                pool.execute(() -&gt; &#123;</span><br><span class="line">        <span class="comment">// 时间增加</span></span><br><span class="line">                    calendar.add(Calendar.DATE, finalI);</span><br><span class="line">        <span class="comment">// 通过 simpleDateFormat 把时间转换成字符串</span></span><br><span class="line">                    String dateString = simpleDateFormat.format(calendar.</span><br><span class="line">                            getTime());</span><br><span class="line">                    <span class="comment">// 把字符串放入 Set 中</span></span><br><span class="line">                    dates.add(dateString); </span><br><span class="line">                    <span class="comment">//countDown countDownLatch.countDown();</span></span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 阻塞，直到 countDown 数量为 0 countDownLatch.await();</span></span><br><span class="line">        <span class="comment">// 输出去重后的时间个数 System.out.println(dates.size());</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>以上代码，其实比较简单，很容易理解。就是循环一百次，每次循环的时候都在 当前时间基础上增加一个天数(这个天数随着循环次数而变化)，然后把所有日期放入 一个线程安全的、带有去重功能的 Set 中，然后输出 Set 中元素个数。</p>
+<p>正常情况下，以上代码输出结果应该是 100。但是实际执行结果是一个小于 100 的数字。</p>
+<p>原因就是因为 SimpleDateFormat 作为一个非线程安全的类，被当做了共享变 量在多个线程中进行使用，这就出现了线程安全问题。</p>
+<h2 id="线程不安全原因"><a href="#线程不安全原因" class="headerlink" title="线程不安全原因"></a>线程不安全原因</h2><p>通过以上代码，我们发现了在并发场景中使用 SimpleDateFormat 会有线程安 全问题。其实，JDK 文档中已经明确表明了 SimpleDateFormat 不应该用在多线程 场景中:</p>
+<blockquote>
+<p>Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally.</p>
+</blockquote>
+<p>那么接下来分析下为什么会出现这种问题，SimpleDateFormat 底层到底是怎 么实现的?<br>我们跟一下 SimpleDateFormat 类中 format 方法的实现其实就能发现端倪。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Called from Format after creating a FieldDelegate</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> StringBuffer <span class="title">format</span><span class="params">(Date date, StringBuffer toAppendTo,</span></span></span><br><span class="line"><span class="params"><span class="function">                                FieldDelegate delegate)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Convert input date to time field list</span></span><br><span class="line">        calendar.setTime(date);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> useDateFormatSymbols = useDateFormatSymbols();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; compiledPattern.length; ) &#123;</span><br><span class="line">            <span class="keyword">int</span> tag = compiledPattern[i] &gt;&gt;&gt; <span class="number">8</span>;</span><br><span class="line">            <span class="keyword">int</span> count = compiledPattern[i++] &amp; <span class="number">0xff</span>;</span><br><span class="line">            <span class="keyword">if</span> (count == <span class="number">255</span>) &#123;</span><br><span class="line">                count = compiledPattern[i++] &lt;&lt; <span class="number">16</span>;</span><br><span class="line">                count |= compiledPattern[i++];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (tag) &#123;</span><br><span class="line">            <span class="keyword">case</span> TAG_QUOTE_ASCII_CHAR:</span><br><span class="line">                toAppendTo.append((<span class="keyword">char</span>)count);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">case</span> TAG_QUOTE_CHARS:</span><br><span class="line">                toAppendTo.append(compiledPattern, i, count);</span><br><span class="line">                i += count;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                subFormat(tag, count, delegate, toAppendTo, useDateFormatSymbols);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> toAppendTo;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>SimpleDateFormat 中的 format 方法在执行过程中，会使用一个成员变量 calendar 来保存时间。这其实就是问题的关键。</p>
+<p>由于我们在声明 SimpleDateFormat 的时候，使用的是 static 定义的。那么 这 个 SimpleDateFormat就是一个共享变量， 随 之，SimpleDateFormat 中 的 calendar 也就可以被多个线程访问到。</p>
+<p>假设线程 1 刚刚执行完 calendar.setTime 把时间设置成 2018-11-11，还 没等执行完，线程 2 又执行了 calendar.setTime 把时间改成了 2018-12-12。 这时候线程 1 继续往下执行，拿到的 calendar.getTime 得到的时间就是线程 2 改 过之后的。</p>
+<p>除了 format 方法以外，SimpleDateFormat 的 parse 方法也有同样的问题。 所以，不要把 SimpleDateFormat 作为一个共享变量使用。</p>
+<h2 id="如何解决线程安全问题"><a href="#如何解决线程安全问题" class="headerlink" title="如何解决线程安全问题"></a>如何解决线程安全问题</h2><ul>
+<li>使用局部变量<br> 不要使用static</li>
+<li>加同步锁<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123; <span class="comment">// 获取当前时间</span></span><br><span class="line">           Calendar calendar = Calendar.getInstance();</span><br><span class="line">           <span class="keyword">int</span> finalI = i;</span><br><span class="line">           pool.execute(() -&gt; &#123;</span><br><span class="line">               <span class="comment">// 加锁</span></span><br><span class="line">               <span class="keyword">synchronized</span> (simpleDateFormat) &#123;</span><br><span class="line">                   <span class="comment">// 时间增加</span></span><br><span class="line">                   calendar.add(Calendar.DATE, finalI);</span><br><span class="line">                   <span class="comment">// 通过 simpleDateFormat 把时间转换成字符串</span></span><br><span class="line">                   String dateString = simpleDateFormat.format(calendar.getTime()); <span class="comment">// 把字符串放入 Set 中</span></span><br><span class="line">                   dates.add(dateString);</span><br><span class="line">                   <span class="comment">//countDown</span></span><br><span class="line">                   countDownLatch.countDown();</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;);</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>其实以上代码还有可以改进的地方，就是可以把锁的粒度再设置的小一点，可以 只对 simpleDateFormat.format 这一行加锁，这样效率更高一些。</p>
+<ul>
+<li>使用 ThreadLocal<br> 第三种方式，就是使用 ThreadLocal。 ThreadLocal 可以确保每个线程都可以 得到单独的一个 SimpleDateFormat 的对象，那么自然也就不存在竞争问题了。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">        * 使用ThreadLocal定义一个全局的SimpleDateFormat */</span></span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; simpleDateFormatThreadLocal = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">protected</span> SimpleDateFormat <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;;</span><br><span class="line">       <span class="comment">// 用法</span></span><br><span class="line">       String dateString = simpleDateFormatThreadLocal.get().format(calendar.getTime());</span><br></pre></td></tr></table></figure>
+
+<p>用 ThreadLocal 来实现其实是有点类似于缓存的思路，每个线程都有一个独享 的对象，避免了频繁创建对象，也避免了多线程的竞争。</p>
+<p>当然，以上代码也有改进空间，就是，其实 SimpleDateFormat 的创建过程可 以改为延迟加载。这里就不详细介绍了。</p>
+<h2 id="使用-DateTimeFormatter"><a href="#使用-DateTimeFormatter" class="headerlink" title="使用 DateTimeFormatter"></a>使用 DateTimeFormatter</h2><p>如果是 Java8 应用，可以使用 DateTimeFormatter 代替 SimpleDateFormat， 这是一个线程安全的格式化工具类。就像官方文档中说的，这个类 simple beautiful strong immutable thread-safe。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 解析日期</span></span><br><span class="line">String dateStr = <span class="string">&quot;2016年10月25日&quot;</span>;</span><br><span class="line">DateTimeFormatter formatter = DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy年MM月dd日&quot;</span>);</span><br><span class="line">LocalDate date = LocalDate.parse(dateStr, formatter);</span><br><span class="line"><span class="comment">// 日期转换为字符串</span></span><br><span class="line">LocalDateTime now = LocalDateTime.now();</span><br><span class="line">DateTimeFormatter format = DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy年MM月dd日 hh:mm a&quot;</span>);</span><br><span class="line">String nowStr = now.format(format);</span><br><span class="line">System.out.println(nowStr);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本 文 介 绍 了 SimpleDateFormat 的 用 法，SimpleDateFormat 主 要 可 以 在 String 和 Date 之间做转换，还可以将时间转换成不同时区输出。同时提到在并发场 景中 SimpleDateFormat 是不能保证线程安全的，需要开发者自己来保证其安全性。</p>
+<p>主要的几个手段有改为局部变量、使用 synchronized 加锁、使用 Threadlocal 为每一个线程单独创建一个等。</p>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Java线程池
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Java并发编程-多线程的发展和意义</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
