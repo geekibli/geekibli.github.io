@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-07-21T14:38:46.214Z</updated>
+  <updated>2021-07-26T14:27:43.213Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,130 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java并发编程之同步锁</title>
+    <link href="http://example.com/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/"/>
+    <id>http://example.com/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/</id>
+    <published>2021-07-26T14:27:05.000Z</published>
+    <updated>2021-07-26T14:27:43.213Z</updated>
+    
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Java" scheme="http://example.com/categories/Develop-Lan/Java/"/>
+    
+    <category term="多线程与并发" scheme="http://example.com/categories/Develop-Lan/Java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Java多线程之ThreadLocal</title>
+    <link href="http://example.com/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/"/>
+    <id>http://example.com/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/</id>
+    <published>2021-07-26T08:28:01.000Z</published>
+    <updated>2021-07-26T08:30:44.911Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="ThreadLocalMap结构"><a href="#ThreadLocalMap结构" class="headerlink" title="ThreadLocalMap结构"></a>ThreadLocalMap结构</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b45487065b90?imageView2/0/w/1280/h/960/ignore-error/1'><h2 id="ThreadLocal-set流程"><a href="#ThreadLocal-set流程" class="headerlink" title="ThreadLocal set流程"></a>ThreadLocal set流程</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b454879fe57d?imageView2/0/w/1280/h/960/ignore-error/1'><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href="https://juejin.cn/post/6854573219916021767">Java面试必问：ThreadLocal终极篇 </a></li></ul></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;ThreadLocalMap结构&quot;&gt;&lt;a href=&quot;#ThreadLocalMap结构&quot; class=&quot;headerlink&quot; title=&quot;ThreadLocalMap结构&quot;&gt;&lt;/a&gt;ThreadLocalMap结构&lt;/h2&gt;&lt;img src=&#39;https:/</summary>
+      
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Java" scheme="http://example.com/categories/Develop-Lan/Java/"/>
+    
+    <category term="多线程与并发" scheme="http://example.com/categories/Develop-Lan/Java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/"/>
+    
+    
+    <category term="threadLocal" scheme="http://example.com/tags/threadLocal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>基础面试题目</title>
+    <link href="http://example.com/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/"/>
+    <id>http://example.com/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</id>
+    <published>2021-07-26T02:05:07.000Z</published>
+    <updated>2021-07-26T11:10:56.563Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="String不可变"><a href="#String不可变" class="headerlink" title="String不可变"></a>String不可变</h2><p>String 对象的不可变性</p><p>了解了 String 对象的实现后，你有没有发现在实现代码中 String 类被 final 关键字修饰了，而且变量 char 数组也被 final 修饰了。</p><p>我们知道类被 final 修饰代表该类不可继承，而 char[] 被 final+private 修饰，代表了 String 对象不可被更改。Java 实现的这个特性叫作 String 对象的不可变性，即 String 对象一旦创建成功，就不能再对它进行改变。</p><p>Java 这样做的好处在哪里呢？</p><p>第一，保证 String 对象的安全性。假设 String 对象是可变的，那么 String 对象将可能被恶意修改。</p><p>第二，保证 hash 属性值不会频繁变更，确保了唯一性，使得类似 HashMap 容器才能实现相应的 key-value 缓存功能。</p><p>第三，可以实现字符串常量池。在 Java 中，通常有两种创建字符串对象的方式，一种是通过字符串常量的方式创建，如 String str=“abc”；另一种是字符串变量通过 new 形式的创建，如 String str = new String(“abc”)。</p><p>当代码中使用第一种方式创建字符串对象时，JVM 首先会检查该对象是否在字符串常量池中，如果在，就返回该对象引用，否则新的字符串将在常量池中被创建。这种方式可以减少同一个值的字符串对象的重复创建，节约内存。</p><h3 id="String-和-StringBuilder、StringBuffer-的区别？"><a href="#String-和-StringBuilder、StringBuffer-的区别？" class="headerlink" title="String 和 StringBuilder、StringBuffer 的区别？"></a>String 和 StringBuilder、StringBuffer 的区别？</h3><p><a href="https://www.cnblogs.com/weibanggang/p/9455926.html">https://www.cnblogs.com/weibanggang/p/9455926.html</a></p><h2 id="描述一下-JVM-加载-class-文件的原理机制？"><a href="#描述一下-JVM-加载-class-文件的原理机制？" class="headerlink" title="描述一下 JVM 加载 class 文件的原理机制？"></a>描述一下 JVM 加载 class 文件的原理机制？</h2><p><a href="https://www.cnblogs.com/williamjie/p/11167920.html">https://www.cnblogs.com/williamjie/p/11167920.html</a></p><h2 id="char-型变量中能不能存贮一个中文汉字，为什么？"><a href="#char-型变量中能不能存贮一个中文汉字，为什么？" class="headerlink" title="char 型变量中能不能存贮一个中文汉字，为什么？"></a>char 型变量中能不能存贮一个中文汉字，为什么？</h2><p>正确答案：</p><p>char型变量是用来存储Unicode编码的字符的，unicode编码字符集中包含了汉字，</p><p>所以，char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在unicode编码字符集中，</p><p>那么，这个char型变量中就不能存储这个特殊汉字。</p><p>补充说明：unicode编码占用两个字节，所以，char类型的变量也是占用两个字节</p><h2 id="抽象类（abstract-class）和接口（interface）有什么异同？"><a href="#抽象类（abstract-class）和接口（interface）有什么异同？" class="headerlink" title="抽象类（abstract class）和接口（interface）有什么异同？"></a>抽象类（abstract class）和接口（interface）有什么异同？</h2><p><a href="https://blog.csdn.net/aptentity/article/details/68942916">https://blog.csdn.net/aptentity/article/details/68942916</a></p><h2 id="静态嵌套类-Static-Nested-Class-和内部类（Inner-Class）的不同？"><a href="#静态嵌套类-Static-Nested-Class-和内部类（Inner-Class）的不同？" class="headerlink" title="静态嵌套类(Static Nested Class)和内部类（Inner Class）的不同？"></a>静态嵌套类(Static Nested Class)和内部类（Inner Class）的不同？</h2><p><a href="https://blog.csdn.net/machinecat0898/article/details/80071242">https://blog.csdn.net/machinecat0898/article/details/80071242</a></p><h2 id="抽象的（abstract）方法是否可同时是静态的（static）-（native），-synchronized-修饰？"><a href="#抽象的（abstract）方法是否可同时是静态的（static）-（native），-synchronized-修饰？" class="headerlink" title="抽象的（abstract）方法是否可同时是静态的（static）,（native）， synchronized 修饰？"></a>抽象的（abstract）方法是否可同时是静态的（static）,（native）， synchronized 修饰？</h2><p> 答：都不能。<br>抽象方法需要子类重写，而静态的方法是无法被重写的，因此二者是矛盾的。<br>本地方法是由本地代码（如C代码）实现的方法，而抽象方法是没有实现的，也是矛盾的。<br>synchronized和方法的实现细节有关，抽象方法不涉及实现细节，因此也是相互矛盾的。 </p><h2 id="如何实现对象克隆"><a href="#如何实现对象克隆" class="headerlink" title="如何实现对象克隆"></a>如何实现对象克隆</h2><p><a href="https://www.cnblogs.com/fnlingnzb-learner/p/10649509.html">https://www.cnblogs.com/fnlingnzb-learner/p/10649509.html</a></p><h2 id="内部类可以引用它的包含类（外部类）的成员吗？有没有什么限制"><a href="#内部类可以引用它的包含类（外部类）的成员吗？有没有什么限制" class="headerlink" title="内部类可以引用它的包含类（外部类）的成员吗？有没有什么限制"></a>内部类可以引用它的包含类（外部类）的成员吗？有没有什么限制</h2><p><a href="https://www.cnblogs.com/aademeng/articles/11084885.html">https://www.cnblogs.com/aademeng/articles/11084885.html</a><br><a href="https://www.cnblogs.com/dolphin0520/p/3811445.html">https://www.cnblogs.com/dolphin0520/p/3811445.html</a></p><p>静态内部类：它是用static修饰的，在访问限制上它只能访问外部类中的static所修饰的成员变量或者是方法<br>成员内部类：成员内部类是最普通的内部类，它可以无条件访问外部类的所有成员属性和成员方法（包括private成员和静态成员）。<br>【注意】当成员内部类拥有和外部类同名的成员变量或者方法时，会发生隐藏现象，即默认情况下访问的是成员内部类的成员。如果要访问外部类的同名成员，需要以下面的形式进行访问：<br>局部内部类：局部内部类是定义在外围类的方法中的，在访问的时候它可以直接访问外围类的所有成员！但是不能随便访问局部变量，除非这个局部变量被final修饰。<br>匿名内部类：</p><h2 id="Java-中的-final-关键字有哪些用法？"><a href="#Java-中的-final-关键字有哪些用法？" class="headerlink" title="Java 中的 final 关键字有哪些用法？"></a>Java 中的 final 关键字有哪些用法？</h2><p><a href="https://www.cnblogs.com/dotgua/p/6357951.html">https://www.cnblogs.com/dotgua/p/6357951.html</a><br>多线程下的final语义 👇<br><a href="https://www.codercc.com/backend/basic/juc/concurrent-keywords/final.html#_1-final%E7%9A%84%E7%AE%80%E4%BB%8B">https://www.codercc.com/backend/basic/juc/concurrent-keywords/final.html#_1-final%E7%9A%84%E7%AE%80%E4%BB%8B</a></p><ul><li>修饰变量<br>基本类型的变量，值是不可以变化的<br>引用类型的变量，引用是不可以变化的，但是可以修改引用的值<br>方法参数： 保证这个变量在这个方法中的值不会发生变化</li><li>修饰方法<br>它表示该方法不能被覆盖。这种使用方式主要是从设计的角度考虑，即明确告诉其他可能会继承该类的程序员，不希望他们去覆盖这个方法。这种方式我们很容易理解，然而，关于private和final关键字还有一点联系，这就是类中所有的private方法都隐式地指定为是final的，由于无法在类外使用private方法，所以也就无法覆盖它</li><li>修饰类<br>用final修饰的类是无法被继承的</li></ul><h2 id="Thread-类的-sleep-方法和对象的-wait-方法都可以让线程暂停执行，它们有什么区别"><a href="#Thread-类的-sleep-方法和对象的-wait-方法都可以让线程暂停执行，它们有什么区别" class="headerlink" title="Thread 类的 sleep()方法和对象的 wait()方法都可以让线程暂停执行，它们有什么区别?"></a>Thread 类的 sleep()方法和对象的 wait()方法都可以让线程暂停执行，它们有什么区别?</h2><p>sleep()方法是Thread类</p><pre><code>sleep是Thread的静态native方法,可随时调用,会使当前线程休眠,并释放CPU资源,但不会释放对象锁;</code></pre><p>wait()方法是Object类</p><pre><code>wait()方法是Object的native方法,只能在同步方法或同步代码块中使用,调用会进入休眠状态,并释放CPU资源与对象锁,需要我们调用notify/notifyAll方法唤醒指定或全部的休眠线程,再次竞争CPU资源.</code></pre><p>注意:<br>sleep(long millis)存在睡眠时间,不算特点<br>因为wait()方法存在重载wait(long timeout),即设置了等待超时时间<br>它们两个都需要再次抢夺CPU资源</p><h2 id="线程的-sleep-方法和-yield-方法有什么区别？"><a href="#线程的-sleep-方法和-yield-方法有什么区别？" class="headerlink" title="线程的 sleep()方法和 yield()方法有什么区别？"></a>线程的 sleep()方法和 yield()方法有什么区别？</h2><p>sleep()方法在给其他线程运行机会时不考虑线程的优先级。因此会给低优先级的线程运行的机会，而yield()方法只会给相同优先级或更高优先级的线程运行的机会。<br>线程执行sleep()方法后会转入阻塞状态，所以执行sleep()方法的线程在指定的时间内肯定不会被执行，而yield()方法只是使当前线程重新回到就绪状态，所以执行yield()方法的线程有可能在进入到就绪状态后又立马被执行。</p><h2 id="线程的基本状态以及状态之间的关系"><a href="#线程的基本状态以及状态之间的关系" class="headerlink" title="线程的基本状态以及状态之间的关系"></a>线程的基本状态以及状态之间的关系</h2><img src='https://cdn.jsdelivr.net/gh/it-briefcode/it-briefcode-images/images/2020-10/15/15-58-29-0925f9fed78f11a87bbef280245e1e49-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%85%AD%E7%A7%8D%E8%BD%AC%E6%8D%A2-6ff1d1.png' width=600 height=450>https://blog.csdn.net/zhangdongnihao/article/details/104029972https://juejin.cn/post/6885159254764814349<h2 id="访问修饰符-public-private-protected-以及不写（默认）时的区别？"><a href="#访问修饰符-public-private-protected-以及不写（默认）时的区别？" class="headerlink" title="访问修饰符 public,private,protected,以及不写（默认）时的区别？"></a>访问修饰符 public,private,protected,以及不写（默认）时的区别？</h2><img src="https://oscimg.oschina.net/oscnet/up-07ccdf4c85f874c49b19c6201cb826dc739.png" width=600 height=280 >]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;String不可变&quot;&gt;&lt;a href=&quot;#String不可变&quot; class=&quot;headerlink&quot; title=&quot;String不可变&quot;&gt;&lt;/a&gt;String不可变&lt;/h2&gt;&lt;p&gt;String 对象的不可变性&lt;/p&gt;
+&lt;p&gt;了解了 String 对象的实现后，你有</summary>
+      
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Java" scheme="http://example.com/categories/Develop-Lan/Java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>面向对象特征</title>
+    <link href="http://example.com/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/"/>
+    <id>http://example.com/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/</id>
+    <published>2021-07-26T01:59:21.000Z</published>
+    <updated>2021-07-26T03:46:17.635Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装是保证软件部件具有优良的模块性的基础，封装的目标就是实现软件内部的“高内聚、低耦合”。防止程序相互依赖而带来的变动影响。在面向对象的编程语言中，对象是封装的最基本单位，面向对象的封装比传统语言的封装更为清晰、也更为有力，面向对象的封装就是把描述一个对象的属性和行为的代码封装在一个“模块”中，或者说是一个类中，属性用变量定义，行为用方法定义，方法可以直接访问同一个对象中的属性。</p><p>将一个类中的成员变量全部定义为私有的，只有这个类自己的方法才可以访问到这些成员变量，这就基本上实现对象的封装，把握一个原则：把对同一事物进行操作的方法和相关的方法放在同一个类中，把方法和它操作的数据放在同一个类中。</p><h2 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h2><p>抽象就是找出一些事物的相似和共性之处，然后将这些事物归为一类，这个类只考虑这些事物的相似和共性之处，并且会忽略与当前主题和目标无关的那些方面，将注意力集中在与当前目标有关的方面。</p><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>在定义和实现一个类的时候，可以在一个已经存在的类的基础上来进行，把这个已经存在的类所定义的内容作为自己的内容，并可以加入若干新的内容，或修改原来的方法使之更适合特殊的需要，这就是继承。</p><p>继承是子类自动共享父类资源（数据或者方法）的机制，这是类之间的一种关系，提高了软件的可重用性和可扩展性。</p><h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在该编程时不确定，而是在程序运行期间才确定，即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。因为在程序运行时才确定具体的类，这样，不用修改源程序代码，就可以让引用变量绑定到各种不同的类实现上，从而导致该引用调用的具体方法随之改变，即不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态，这就是多态性。</p><p>多态性增强了软件的灵活性和扩展性，简单一句话理解多态的话就是，编译看左边，运行看右边</p><blockquote><p>编译看左边 – 是指 想要成功的保存,就要使用左边也就是 只能使用父类提供的功能!!如果父类中没有，那么会编译报错<br>运行看右边 – 是指 想要得到结果,就要看右边也就是 使用子类的方法体!!!</p></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;封装&quot;&gt;&lt;a href=&quot;#封装&quot; class=&quot;headerlink&quot; title=&quot;封装&quot;&gt;&lt;/a&gt;封装&lt;/h2&gt;&lt;p&gt;封装是保证软件部件具有优良的模块性的基础，封装的目标就是实现软件内部的“高内聚、低耦合”。防止程序相互依赖而带来的变动影响。在面向对象的编程</summary>
+      
+    
+    
+    
+    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
+    
+    <category term="Java" scheme="http://example.com/categories/Develop-Lan/Java/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>kafka-overview</title>
+    <link href="http://example.com/wiki/kafka-overview/"/>
+    <id>http://example.com/wiki/kafka-overview/</id>
+    <published>2021-07-22T03:00:12.000Z</published>
+    <updated>2021-07-23T08:48:48.059Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href="https://blog.csdn.net/hellozpc/article/details/105680217">kafka详细教程</a></li><li><a href="http://download.kafka-eagle.org/">Kafka 集群管理</a></li><li><a href="https://www.orchome.com/kafka/index">OrcHome kafka中文教程</a></li><li><a href="https://juejin.cn/post/6847902220667748359">面试官：说说Kafka处理请求的全流程</a></li><li><a href="https://juejin.cn/post/6844904046340341768">蘑菇街千亿级消息Kafka上云实践</a></li><li><a href="https://www.imooc.com/article/262018">kafka 集群搭建</a></li><li><a href="https://wiki.eryajf.net/pages/2953.html">kafka-2-11集群部署</a></li></ul></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;参考资料&quot;&gt;&lt;a href=&quot;#参考资料&quot; class=&quot;headerlink&quot; title=&quot;参考资料&quot;&gt;&lt;/a&gt;参考资料&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/hellozpc/art</summary>
+      
+    
+    
+    
+    <category term="Distributed Dir" scheme="http://example.com/categories/Distributed-Dir/"/>
+    
+    <category term="Kafka" scheme="http://example.com/categories/Distributed-Dir/Kafka/"/>
+    
+    
+    <category term="kafka" scheme="http://example.com/tags/kafka/"/>
+    
+  </entry>
   
   <entry>
     <title>Java线程池</title>
@@ -78,14 +202,14 @@
     <link href="http://example.com/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/"/>
     <id>http://example.com/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/</id>
     <published>2021-07-21T11:45:01.000Z</published>
-    <updated>2021-07-21T12:03:03.200Z</updated>
+    <updated>2021-07-26T14:27:19.310Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己的独立内存，是线程不共享的。</p><h2 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h2><ul><li>并行<br> 同一时刻，横向有多少个线程可以运行</li><li>并发<br> 系统和服务器同一时刻能够承受的并发线程</li></ul><h2 id="线程的特征"><a href="#线程的特征" class="headerlink" title="线程的特征"></a>线程的特征</h2><ul><li>异步（不需要等待）<br> 比如说注册之后发送验证码，验证码的过程可以异步去做不需要客户去在注册接口等待这个时间；</li><li>并行（CPU核数）   </li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="线程基础概念"><a href="#线程基础概念" class="headerlink" title="线程基础概念"></a>线程基础概念</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己的独立内存，是线程不共享的。</p><h2 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h2><ul><li>并行<br> 同一时刻，横向有多少个线程可以运行</li><li>并发<br> 系统和服务器同一时刻能够承受的并发线程</li></ul><h2 id="线程的特征"><a href="#线程的特征" class="headerlink" title="线程的特征"></a>线程的特征</h2><ul><li>异步（不需要等待）<br> 比如说注册之后发送验证码，验证码的过程可以异步去做不需要客户去在注册接口等待这个时间；</li><li>并行（CPU核数）   </li></ul><h2 id="Java中线程的使用"><a href="#Java中线程的使用" class="headerlink" title="Java中线程的使用"></a>Java中线程的使用</h2><ul><li>继承Thread</li><li>实现Runnalbe</li><li>实现Callable/Future</li></ul><h2 id="线程原理"><a href="#线程原理" class="headerlink" title="线程原理"></a>线程原理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> <span class="title">extend</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">      b = a + <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>执行start方法，其实是调用JVM相关的指令， thread.cpp</p><blockquote><p>java thread.start() -&gt; cpp thread.start() -&gt; os指令:create.thread    start.thread<br>操作系统层面会创建线程，线程创建之后，线程可以启动，（线程启动之后并不一定马上执行）这些线程统一有CPU调度算法来处理；决定那个线程分配给那个执行CPU；<br>CPU执行线程任务的时候，会调用run方法 -&gt; cpp run方法  -&gt; java  thread.run()</p></blockquote><img src='https://oscimg.oschina.net/oscnet/up-9147a0440e839bc9946fc87147e97b7c793.png' whith=600 height=380><p>⚠️ CompletableFuture 异步回调通知，基于Future的优化 </p><h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>线程创建，当线程中的指令执行完成之后，run（）结束 线程销毁<br>其他线程状态</p><ul><li>等待状态 （sleep join wait）</li><li>锁阻塞状态 （blocked 竞争锁失败 park）</li></ul><img src="https://oscimg.oschina.net/oscnet/up-dc87c94066283689df31680050c67edd7b1.png" width=500 height=450><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadStatusDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;time waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (ThreadStatusDemo.class)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        ThreadStatusDemo.class.wait();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (BlockDemo.class)&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p><code>查看线程状态</code></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jps -l</span><br><span class="line">jstack pid</span><br></pre></td></tr></table></figure><h2 id="线程如何停止"><a href="#线程如何停止" class="headerlink" title="线程如何停止"></a>线程如何停止</h2><p>interrupt() 停止线程<br>主动停止方式 -&gt; run方法执行结束<br>被动停止方式</p><p>一般中断线程是在无法控制线程的情况下，比如线程wait ， 线程sleep ， 线程while(true)<br><code>Thread.currnetThread().isInterrupted()</code></p><blockquote><p>stop方法停止线程 禁止使用 相当于kill线程 不友好</p></blockquote><p>interrupt 功能</p><ul><li>唤醒阻塞状态的线程</li><li>修改中断标志，false -&gt; true</li></ul><h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2>]]></content>
     
     
       
       
-    <summary type="html">&lt;h2 id=&quot;什么是线程&quot;&gt;&lt;a href=&quot;#什么是线程&quot; class=&quot;headerlink&quot; title=&quot;什么是线程&quot;&gt;&lt;/a&gt;什么是线程&lt;/h2&gt;&lt;p&gt;线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己</summary>
+    <summary type="html">&lt;h1 id=&quot;线程基础概念&quot;&gt;&lt;a href=&quot;#线程基础概念&quot; class=&quot;headerlink&quot; title=&quot;线程基础概念&quot;&gt;&lt;/a&gt;线程基础概念&lt;/h1&gt;&lt;h2 id=&quot;什么是线程&quot;&gt;&lt;a href=&quot;#什么是线程&quot; class=&quot;headerlink&quot; title=</summary>
       
     
     
@@ -416,138 +540,6 @@
 &lt;p&gt;需求背景，要统计文章在一年的时间内，每个小时的访问情况，按照0点举例子，每个文章，一年内每一天0点的访问次数累加起来；&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&quot;Elasticsearch索引如下&quot;&gt;&lt;a href=&quot;#Elasticse</summary>
-      
-    
-    
-    
-    <category term="Elasticsearch" scheme="http://example.com/categories/Elasticsearch/"/>
-    
-    <category term="Administration and Deployment" scheme="http://example.com/categories/Elasticsearch/Administration-and-Deployment/"/>
-    
-    
-    <category term="elasticsearch" scheme="http://example.com/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>elasticsearch踩坑</title>
-    <link href="http://example.com/wiki/elasticsearch%E8%B8%A9%E5%9D%91/"/>
-    <id>http://example.com/wiki/elasticsearch%E8%B8%A9%E5%9D%91/</id>
-    <published>2021-07-19T09:46:59.000Z</published>
-    <updated>2021-07-19T13:08:28.098Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="search-max-buckets"><a href="#search-max-buckets" class="headerlink" title="search.max_buckets"></a>search.max_buckets</h2><p>This limit can be set by changing the [search.max_buckets] cluster level setting.]];</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT _cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;persistent&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;search.max_buckets&quot;</span>: <span class="number">100000</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="Required-one-of-fields-field-script"><a href="#Required-one-of-fields-field-script" class="headerlink" title="Required one of fields [field, script]"></a>Required one of fields [field, script]</h2><p>[Elasticsearch exception [type=illegal_argument_exception, reason=Required one of fields [field, script], but none were specified. ]</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      NativeSearchQuery nativeSearchQuery = <span class="keyword">new</span> NativeSearchQuery(QueryBuilders.matchAllQuery(), <span class="keyword">null</span>);</span><br><span class="line">      Script script = <span class="keyword">new</span> Script(<span class="string">&quot;doc[&#x27;article.keyword&#x27;]&quot;</span>);</span><br><span class="line">      nativeSearchQuery.addAggregation(AggregationBuilders.terms(<span class="string">&quot;art&quot;</span>)</span><br><span class="line">              .field(<span class="string">&quot;article.keyword&quot;</span>).size(<span class="number">10</span>)</span><br><span class="line">              .subAggregation(AggregationBuilders.dateHistogram(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                      .field(<span class="string">&quot;visitTime&quot;</span>) <span class="comment">// 这一行没有写</span></span><br><span class="line">                      .calendarInterval(DateHistogramInterval.HOUR)));</span><br><span class="line">      SearchHits&lt;YjVisitData&gt; search = elasticsearchRestTemplate.search(nativeSearchQuery, YjVisitData.class);</span><br><span class="line">      System.err.println(<span class="string">&quot;search.getAggregations().asList() &#123;&#125;&quot;</span> + search.getAggregations().asList().size());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;search-max-buckets&quot;&gt;&lt;a href=&quot;#search-max-buckets&quot; class=&quot;headerlink&quot; title=&quot;search.max_buckets&quot;&gt;&lt;/a&gt;search.max_buckets&lt;/h2&gt;&lt;p&gt;This l</summary>
-      
-    
-    
-    
-    <category term="Elasticsearch" scheme="http://example.com/categories/Elasticsearch/"/>
-    
-    <category term="Administration and Deployment" scheme="http://example.com/categories/Elasticsearch/Administration-and-Deployment/"/>
-    
-    
-    <category term="elasticsearch" scheme="http://example.com/tags/elasticsearch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python3基本数据类型</title>
-    <link href="http://example.com/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
-    <id>http://example.com/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</id>
-    <published>2021-07-18T13:05:52.000Z</published>
-    <updated>2021-07-19T13:06:36.526Z</updated>
-    
-    <content type="html"><![CDATA[<p>Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。</p><p>在 Python 中，变量就是变量，它没有类型，我们所说的”类型”是变量所指的内存中对象的类型。</p><p>等号（=）用来给变量赋值。</p><p>等号（=）运算符左边是一个变量名,等号（=）运算符右边是存储在变量中的值</p><h2 id="标准数据类型"><a href="#标准数据类型" class="headerlink" title="标准数据类型"></a>标准数据类型</h2><p>Python3 中有六个标准的数据类型：</p><ul><li>Number（数字）</li><li>String（字符串）</li><li>List（列表）</li><li>Tuple（元组）</li><li>Set（集合）</li><li>Dictionary（字典）</li><li>Python3 的六个标准数据类型中：</li></ul><p><code>不可变数据</code>（3 个）：Number（数字）、String（字符串）、Tuple（元组）；<br><code>可变数据</code>（3 个）：List（列表）、Dictionary（字典）、Set（集合）。</p><h2 id="Number（数字）"><a href="#Number（数字）" class="headerlink" title="Number（数字）"></a>Number（数字）</h2><p>Python3 支持 int、float、bool、complex（复数）。</p><p>在Python 3里，只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</p><p>像大多数语言一样，数值类型的赋值和计算都是很直观的。</p><p>内置的 type() 函数可以用来查询变量所指的对象类型。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a, b, c, d = <span class="number">20</span>, <span class="number">5.5</span>, <span class="literal">True</span>, <span class="number">4</span>+<span class="number">3j</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="built_in">type</span>(a), <span class="built_in">type</span>(b), <span class="built_in">type</span>(c), <span class="built_in">type</span>(d))</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> &#x27;<span class="title">int</span>&#x27;&gt; &lt;<span class="title">class</span> &#x27;<span class="title">float</span>&#x27;&gt; &lt;<span class="title">class</span> &#x27;<span class="title">bool</span>&#x27;&gt; &lt;<span class="title">class</span> &#x27;<span class="title">complex</span>&#x27;&gt;</span></span><br></pre></td></tr></table></figure><p>此外还可以用 isinstance 来判断：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="number">111</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">isinstance</span>(a, <span class="built_in">int</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure><p>⚠️ isinstance 和 type 的区别在于：<br>type()不会认为子类是一种父类类型。<br>isinstance()会认为子类是一种父类类型。</p><blockquote><p>⚠️ 注意：Python3 中，bool 是 int 的子类，True 和 False 可以和数字相加 True==1，False==0 是会返回 Ture，但可以通过 is 来判断类型。<br>1、Python可以同时为多个变量赋值，如a, b = 1, 2。<br>2、一个变量可以通过赋值指向不同类型的对象。<br>3、数值的除法包含两个运算符：/ 返回一个浮点数，// 返回一个整数。<br>4、在混合计算时，Python会把整型转换成为浮点数。</p></blockquote><h2 id="String（字符串）"><a href="#String（字符串）" class="headerlink" title="String（字符串）"></a>String（字符串）</h2><p>Python中的字符串用单引号 ‘ 或双引号 “ 括起来，同时使用反斜杠 \ 转义特殊字符。<br>字符串的截取的语法格式如下：<br><code>变量[头下标:尾下标]</code><br>索引值以 0 为开始值，-1 为从末尾的开始位置。</p><h2 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h2><p>List（列表） 是 Python 中使用最频繁的数据类型。</p><p>列表可以完成大多数集合类的数据结构实现。列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）。</p><p>列表是写在方括号 [] 之间、用逗号分隔开的元素列表。</p><p>和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表。</p><p>列表截取的语法格式如下：<br><code>变量[头下标:尾下标]</code><br>索引值以 0 为开始值，-1 为从末尾的开始位置。</p><h2 id="Tuple（元组）"><a href="#Tuple（元组）" class="headerlink" title="Tuple（元组）"></a>Tuple（元组）</h2><p>元组（tuple）与列表类似，不同之处在于元组的元素不能修改。元组写在小括号 () 里，元素之间用逗号隔开。</p><p>元组中的元素类型也可以不相同：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">tuple</span> = ( <span class="string">&#x27;abcd&#x27;</span>, <span class="number">786</span> , <span class="number">2.23</span>, <span class="string">&#x27;runoob&#x27;</span>, <span class="number">70.2</span>  )</span><br><span class="line">tinytuple = (<span class="number">123</span>, <span class="string">&#x27;runoob&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>)             <span class="comment"># 输出完整元组</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>[<span class="number">0</span>])          <span class="comment"># 输出元组的第一个元素</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>[<span class="number">1</span>:<span class="number">3</span>])        <span class="comment"># 输出从第二个元素开始到第三个元素</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span>[<span class="number">2</span>:])         <span class="comment"># 输出从第三个元素开始的所有元素</span></span><br><span class="line"><span class="built_in">print</span> (tinytuple * <span class="number">2</span>)     <span class="comment"># 输出两次元组</span></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">tuple</span> + tinytuple) <span class="comment"># 连接元组</span></span><br></pre></td></tr></table></figure><h2 id="Set（集合）"><a href="#Set（集合）" class="headerlink" title="Set（集合）"></a>Set（集合）</h2><p>集合（set）是由一个或数个形态各异的大小整体组成的，构成集合的事物或对象称作元素或是成员。</p><p>基本功能是进行成员关系测试和删除重复元素。</p><p>可以使用大括号 { } 或者 set() 函数创建集合，注意：创建一个空集合必须用 set() 而不是 { }，因为 { } 是用来创建一个空字典。</p><p>创建格式：<br><code>parame = &#123;value01,value02,...&#125;</code> 或者 <code>set(value)</code></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line">sites = &#123;<span class="string">&#x27;Google&#x27;</span>, <span class="string">&#x27;Taobao&#x27;</span>, <span class="string">&#x27;Runoob&#x27;</span>, <span class="string">&#x27;Facebook&#x27;</span>, <span class="string">&#x27;Zhihu&#x27;</span>, <span class="string">&#x27;Baidu&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sites)   <span class="comment"># 输出集合，重复的元素被自动去掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 成员测试</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;Runoob&#x27;</span> <span class="keyword">in</span> sites :</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Runoob 在集合中&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span> :</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Runoob 不在集合中&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># set可以进行集合运算</span></span><br><span class="line">a = <span class="built_in">set</span>(<span class="string">&#x27;abracadabra&#x27;</span>)</span><br><span class="line">b = <span class="built_in">set</span>(<span class="string">&#x27;alacazam&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a - b)     <span class="comment"># a 和 b 的差集</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a | b)     <span class="comment"># a 和 b 的并集</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a &amp; b)     <span class="comment"># a 和 b 的交集</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a ^ b)     <span class="comment"># a 和 b 中不同时存在的元素</span></span><br></pre></td></tr></table></figure><h2 id="Dictionary（字典）"><a href="#Dictionary（字典）" class="headerlink" title="Dictionary（字典）"></a>Dictionary（字典）</h2><p>字典（dictionary）是Python中另一个非常有用的内置数据类型。</p><p>列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。</p><p>字典是一种映射类型，字典用 { } 标识，它是一个无序的 键(key) : 值(value) 的集合。</p><p>键(key)必须使用不可变类型。</p><p>在同一个字典中，键(key)必须是唯一的。</p><pre><code class="python">#!/usr/bin/python3dict = &#123;&#125;dict[&#39;one&#39;] = &quot;1 - 菜鸟教程&quot;dict[2]     = &quot;2 - 菜鸟工具&quot;tinydict = &#123;&#39;name&#39;: &#39;runoob&#39;,&#39;code&#39;:1, &#39;site&#39;: &#39;www.runoob.com&#39;&#125;print (dict[&#39;one&#39;])       # 输出键为 &#39;one&#39; 的值print (dict[2])           # 输出键为 2 的值print (tinydict)          # 输出完整的字典print (tinydict.keys())   # 输出所有键print (tinydict.values()) # 输出所有值</code></pre><p>注意：<br>1、字典是一种映射类型，它的元素是键值对。<br>2、字典的关键字必须为不可变类型，且不能重复。<br>3、创建空字典使用 { }。</p><h2 id="Python数据类型转换"><a href="#Python数据类型转换" class="headerlink" title="Python数据类型转换"></a>Python数据类型转换</h2><p>有时候，我们需要对数据内置的类型进行转换，数据类型的转换，你只需要将数据类型作为函数名即可。</p><p>以下几个内置的函数可以执行数据类型之间的转换。这些函数返回一个新的对象，表示转换的值。</p><img src = 'https://oscimg.oschina.net/oscnet/up-2af36cf02d5a8c9ba5c9148154bbdd83207.png' whdth='700'>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。&lt;/p&gt;
-&lt;p&gt;在 Python 中，变量就是变量，它没有类型，我们所说的”类型”是变量所指的内存中对象的类型。&lt;/p&gt;
-&lt;p&gt;等号（=）用来给变量赋值。&lt;/p&gt;
-&lt;p&gt;等号（=）运</summary>
-      
-    
-    
-    
-    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
-    
-    <category term="Python" scheme="http://example.com/categories/Develop-Lan/Python/"/>
-    
-    
-    <category term="python" scheme="http://example.com/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python3基础语法</title>
-    <link href="http://example.com/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"/>
-    <id>http://example.com/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</id>
-    <published>2021-07-18T12:31:55.000Z</published>
-    <updated>2021-07-19T13:06:34.289Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：<br><code># -*- coding: cp-1252 -*-</code></p><h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><ul><li>第一个字符必须是字母表中字母或下划线 _ 。</li><li>标识符的其他的部分由字母、数字和下划线组成。</li><li>标识符对大小写敏感。<br>在 Python 3 中，可以用中文作为变量名，非 ASCII 标识符也是允许的了。</li></ul><h2 id="python保留字"><a href="#python保留字" class="headerlink" title="python保留字"></a>python保留字</h2><p>import keyword<br>keyword.kwlist<br>[‘False’, ‘None’, ‘True’, ‘and’, ‘as’, ‘assert’, ‘break’, ‘class’, ‘continue’, ‘def’, ‘del’, ‘elif’, ‘else’, ‘except’, ‘finally’, ‘for’, ‘from’, ‘global’, ‘if’, ‘import’, ‘in’, ‘is’, ‘lambda’, ‘nonlocal’, ‘not’, ‘or’, ‘pass’, ‘raise’, ‘return’, ‘try’, ‘while’, ‘with’, ‘yield’]</p><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>Python中单行注释以 # 开头,多行注释可以用多个 # 号，还有 ‘’’ 和 “””：</p><h2 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h2><p>python最具特色的就是使用缩进来表示代码块，不需要使用大括号 {} 。<br>缩进的空格数是可变的，但是同一个代码块的语句必须包含相同的缩进空格数。</p><h2 id="多行语句"><a href="#多行语句" class="headerlink" title="多行语句"></a>多行语句</h2><p>Python 通常是一行写完一条语句，但如果语句很长，我们可以使用反斜杠 \ 来实现多行语句，例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">total = item_one + \</span><br><span class="line">        item_two + \</span><br><span class="line">        item_three</span><br></pre></td></tr></table></figure><p>在 [], {}, 或 () 中的多行语句，不需要使用反斜杠 \，例如：</p><p><code>total = [&#39;item_one&#39;, &#39;item_two&#39;, &#39;item_three&#39;,         &#39;item_four&#39;, &#39;item_five&#39;]</code></p><h2 id="数字-Number-类型"><a href="#数字-Number-类型" class="headerlink" title="数字(Number)类型"></a>数字(Number)类型</h2><p>python中数字有四种类型：整数、布尔型、浮点数和复数。</p><ul><li>int (整数) , 如 1, 只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</li><li>bool (布尔), 如 True。</li><li>float (浮点数), 如 1.23、3E-2</li><li>complex (复数), 如 1 + 2j、 1.1 + 2.2j</li></ul><h2 id="字符串-String"><a href="#字符串-String" class="headerlink" title="字符串(String)"></a>字符串(String)</h2><ul><li>python中单引号和双引号使用完全相同。</li><li>使用三引号(‘’’ 或 “””)可以指定一个多行字符串。</li><li>转义符 \</li><li>反斜杠可以用来转义，使用r可以让反斜杠不发生转义。。 如 r”this is a line with \n” 则\n会显示，并不是换行。</li><li>按字面意义级联字符串，如”this “ “is “ “string”会被自动转换为this is string。</li><li>字符串可以用 + 运算符连接在一起，用 * 运算符重复。</li><li>Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以 -1 开始。</li><li>Python中的字符串不能改变。</li><li>Python 没有单独的字符类型，一个字符就是长度为 1 的字符串。</li><li>字符串的截取的语法格式如下：变量[头下标:尾下标:步长]</li></ul><h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><p>函数之间或类的方法之间用空行分隔，表示一段新的代码的开始。类和函数入口之间也用一行空行分隔，以突出函数入口的开始。</p><p>空行与代码缩进不同，空行并不是Python语法的一部分。书写时不插入空行，Python解释器运行也不会出错。但是空行的作用在于分隔两段不同功能或含义的代码，便于日后代码的维护或重构。</p><p>记住：空行也是程序代码的一部分。</p><h2 id="同一行显示多条语句"><a href="#同一行显示多条语句" class="headerlink" title="同一行显示多条语句"></a>同一行显示多条语句</h2><p>Python 可以在同一行中使用多条语句，语句之间使用分号 ; 分割，以下是一个简单的实例：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> sys; x = <span class="string">&#x27;runoob&#x27;</span>; sys.stdout.write(x + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure><h2 id="多个语句构成代码组"><a href="#多个语句构成代码组" class="headerlink" title="多个语句构成代码组"></a>多个语句构成代码组</h2><p>缩进相同的一组语句构成一个代码块，我们称之代码组。</p><p>像if、while、def和class这样的复合语句，首行以关键字开始，以冒号( : )结束，该行之后的一行或多行代码构成代码组。</p><p>我们将首行及后面的代码组称为一个子句(clause)。</p><p>如下实例：  </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> expression : </span><br><span class="line">   suite</span><br><span class="line"><span class="keyword">elif</span> expression : </span><br><span class="line">   suite </span><br><span class="line"><span class="keyword">else</span> : </span><br><span class="line">   suite</span><br><span class="line">```      </span><br><span class="line"></span><br><span class="line"><span class="comment">## print 输出</span></span><br><span class="line"><span class="built_in">print</span> 默认输出是换行的，如果要实现不换行需要在变量末尾加上 end=<span class="string">&quot;&quot;</span>：</span><br><span class="line"></span><br><span class="line"><span class="comment">## import 与 from...import</span></span><br><span class="line">在 python 用 <span class="keyword">import</span> 或者 <span class="keyword">from</span>...<span class="keyword">import</span> 来导入相应的模块。</span><br><span class="line"></span><br><span class="line">将整个模块(somemodule)导入，格式为： <span class="keyword">import</span> somemodule</span><br><span class="line"></span><br><span class="line">从某个模块中导入某个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> somefunction</span><br><span class="line"></span><br><span class="line">从某个模块中导入多个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> firstfunc, secondfunc, thirdfunc</span><br><span class="line"></span><br><span class="line">将某个模块中的全部函数导入，格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">## 命令行参数</span></span><br><span class="line"></span><br><span class="line">很多程序可以执行一些操作来查看一些基本信息，Python可以使用-h参数查看各参数帮助信息：</span><br></pre></td></tr></table></figure><p>$ python -h<br>usage: python [option] … [-c cmd | -m mod | file | -] [arg] …<br>Options and arguments (and corresponding environment variables):<br>-c cmd : program passed in as string (terminates option list)<br>-d     : debug output from parser (also PYTHONDEBUG=x)<br>-E     : ignore environment variables (such as PYTHONPATH)<br>-h     : print this help message and exit</p><p>[ etc. ]</p><p>```<br>我们在使用脚本形式执行 Python 时，可以接收命令行输入的参数;</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;编码&quot;&gt;&lt;a href=&quot;#编码&quot; class=&quot;headerlink&quot; title=&quot;编码&quot;&gt;&lt;/a&gt;编码&lt;/h2&gt;&lt;p&gt;默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：</summary>
-      
-    
-    
-    
-    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
-    
-    <category term="Python" scheme="http://example.com/categories/Develop-Lan/Python/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>python操作elasticsearch</title>
-    <link href="http://example.com/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/"/>
-    <id>http://example.com/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/</id>
-    <published>2021-07-18T12:20:25.000Z</published>
-    <updated>2021-07-21T03:52:56.595Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="下载python对应的elasticsearch依赖包"><a href="#下载python对应的elasticsearch依赖包" class="headerlink" title="下载python对应的elasticsearch依赖包"></a>下载python对应的elasticsearch依赖包</h2><p><code>pip3 install elasticsearch==7.10.0</code></p><h2 id="python操作elasticsearch代码"><a href="#python操作elasticsearch代码" class="headerlink" title="python操作elasticsearch代码"></a>python操作elasticsearch代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;init ...&quot;</span>)</span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;XXXXXX&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;XXXXXX&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># print(es.get(index=&#x27;yj_ip_pool&#x27;, doc_type=&#x27;_doc&#x27;, id=&#x27;9256058&#x27;))</span></span><br><span class="line">countRes = es.count(index=<span class="string">&#x27;yj_ip_pool&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(countRes)</span><br></pre></td></tr></table></figure><h2 id="查询效果"><a href="#查询效果" class="headerlink" title="查询效果"></a>查询效果</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gaolei:awesome-python3-webapp gaolei$ /usr/local/opt/python/bin/python3.7 /Users/gaolei/Documents/DemoProjects/awesome-python3-webapp/www/es_test.py</span><br><span class="line">init ...</span><br><span class="line">&#123;&#x27;count&#x27;: 20095400, &#x27;_shards&#x27;: &#123;&#x27;total&#x27;: 1, &#x27;successful&#x27;: 1, &#x27;skipped&#x27;: 0, &#x27;failed&#x27;: 0&#125;&#125;</span><br><span class="line">gaolei:awesome-python3-webapp gaolei$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;下载python对应的elasticsearch依赖包&quot;&gt;&lt;a href=&quot;#下载python对应的elasticsearch依赖包&quot; class=&quot;headerlink&quot; title=&quot;下载python对应的elasticsearch依赖包&quot;&gt;&lt;/a&gt;下载pyt</summary>
-      
-    
-    
-    
-    <category term="Develop Lan" scheme="http://example.com/categories/Develop-Lan/"/>
-    
-    <category term="Python" scheme="http://example.com/categories/Develop-Lan/Python/"/>
-    
-    
-    <category term="python" scheme="http://example.com/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kibana添加用户及控制权限</title>
-    <link href="http://example.com/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/"/>
-    <id>http://example.com/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/</id>
-    <published>2021-07-15T15:53:44.000Z</published>
-    <updated>2021-07-15T16:19:19.479Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>操作步骤： 【修改elasticsearch配置文件】 -&gt; 【重启elasticsearch】 -&gt; 【初始化账号&amp;密码】 -&gt; 【修改kibana配置文件】 -&gt; 【重启kibana】 -&gt; 【初始账号登录kibana】 -&gt; 【创建、配置角色】 -&gt; 【创建新用户】</p></blockquote><h2 id="配置elasticsearch"><a href="#配置elasticsearch" class="headerlink" title="配置elasticsearch"></a>配置elasticsearch</h2><p>开启自带的xpack的验证功能<br><code>xpack.security.enabled: true</code></p><p>配置单节点模式<br><code>discovery.type: single-node</code></p><h3 id="坑1-集群节点配置报错"><a href="#坑1-集群节点配置报错" class="headerlink" title="坑1: 集群节点配置报错"></a>坑1: 集群节点配置报错</h3><p><code>cluster.initial_master_nodes</code></p><h3 id="坑2-本次存储节点配置报错"><a href="#坑2-本次存储节点配置报错" class="headerlink" title="坑2: 本次存储节点配置报错"></a>坑2: 本次存储节点配置报错</h3><p>maybe these locations are not writable or multiple nodes were started without increasing [node.max_local_storage_nodes] (was [1])?<br><code>node.max_local_storage_nodes: 2</code></p><h2 id="为内置账号设置密码"><a href="#为内置账号设置密码" class="headerlink" title="为内置账号设置密码"></a>为内置账号设置密码</h2><p>在elasticsearch的bin下执行以下命令：<br><code>./elasticsearch-setup-passwords interactive</code></p><img src="https://oscimg.oschina.net/oscnet/up-2073ba41d73f8d4b16cd39e420ee017f62d.png" width="800" height='480'><h2 id="配置kibana"><a href="#配置kibana" class="headerlink" title="配置kibana"></a>配置kibana</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#使用初始用户kibana</span><br><span class="line">elasticsearch.username: &quot;kibana_system&quot;</span><br><span class="line">elasticsearch.password: &quot;密码&quot;</span><br></pre></td></tr></table></figure><p>重启kibana之后使用初始账号 <code>elastic</code> 登录</p><h2 id="创建、配置角色"><a href="#创建、配置角色" class="headerlink" title="创建、配置角色"></a>创建、配置角色</h2><img src='https://oscimg.oschina.net/oscnet/up-be2569d2151c190b3f49f2faebae05dd19a.png' width=840 height=750><h2 id="创建新用户"><a href="#创建新用户" class="headerlink" title="创建新用户"></a>创建新用户</h2><img src='https://oscimg.oschina.net/oscnet/up-b662c15522750b55863cf006e9c8a9d63c4.png' width=840 height=750><h2 id="查看新用户访问界面"><a href="#查看新用户访问界面" class="headerlink" title="查看新用户访问界面"></a>查看新用户访问界面</h2><p>角色里面配置了kibana的访问权限，只开通了discover和dashboard两个入口<br><img src='https://oscimg.oschina.net/oscnet/up-3371b430006a3b65cffc8a41f04cb02f423.png' width=800 height=450></p><p>索引的话，有好几个索引，但是只配置了一个索引的权限<br><img src='https://oscimg.oschina.net/oscnet/up-10b5d2b6e179b6c200c691631dd43fc1713.png' width=800 height=450></p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href="https://blog.csdn.net/QiaoRui_/article/details/97375237">kibana7.2添加登录及权限</a></li><li><a href="https://www.cnblogs.com/tq1226112215/p/8435127.html">Elasticsearch 安装</a></li></ul></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;操作步骤： 【修改elasticsearch配置文件】 -&amp;gt; 【重启elasticsearch】 -&amp;gt; 【初始化账号&amp;amp;密码】 -&amp;gt; 【修改kibana配置文件】 -&amp;gt; 【重启kibana】 -&amp;gt; 【初始账号登录</summary>
       
     
     
