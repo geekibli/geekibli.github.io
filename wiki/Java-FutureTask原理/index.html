@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Java-FutureTask原理 | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="Java-FutureTask原理" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="FutureTaskFuture方法介绍123456789101112131415161718public interface Future&lt;V&gt; &amp;#123;        &#x2F;&#x2F; 取消任务 可中断的方式取消    boolean cancel(boolean mayInterruptIfRunning);        &#x2F;&#x2F; 判断任务是否处于取消状态     boolean isCa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-FutureTask原理">
+<meta property="og:url" content="http://example.com/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="FutureTaskFuture方法介绍123456789101112131415161718public interface Future&lt;V&gt; &amp;#123;        &#x2F;&#x2F; 取消任务 可中断的方式取消    boolean cancel(boolean mayInterruptIfRunning);        &#x2F;&#x2F; 判断任务是否处于取消状态     boolean isCa">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-28T09:58:47.000Z">
+<meta property="article:modified_time" content="2021-07-28T10:06:42.488Z">
+<meta property="article:author" content="gaolei">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Index</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Index</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            HTTP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/">Http状态码及含义</a></li>  <li class="file"><a href="/wiki/https%E5%8D%8F%E8%AE%AE/">https协议</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MongoDB
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/docker-compost%E5%AE%89%E8%A3%85mongodb/">docker-compost安装mongodb</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQL
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  <li class="file"><a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a></li>  <li class="file"><a href="/wiki/mysql%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">mysql乐观锁实现分布式锁</a></li>  <li class="file"><a href="/wiki/Mysql-MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/">Mysql-MVCC多版本并发控制</a></li>  <li class="file"><a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">Mysql-事务隔离级别</a></li>  <li class="file"><a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Mysql-事务特性与实现原理</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Redis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Redis-list%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Redis-list底层实现</a></li>  <li class="file"><a href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Redis-哈希表实现</a></li>  <li class="file"><a href="/wiki/Redis-overview/">Redis-overview</a></li>  <li class="file"><a href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Redis-字符串底层原理</a></li>  <li class="file"><a href="/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/">Redis-缓存穿透、击穿和雪崩</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Develop Lan
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Java
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            IO
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">netty实现简易tomcat</a></li>  <li class="file"><a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">netty实现简易RPC调用</a></li>  <li class="file"><a href="/wiki/%E5%9F%BA%E4%BA%8EBIO%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">基于BIO实现简易tomcat</a></li>  <li class="file"><a href="/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/">Java-传统的BIO</a></li>  <li class="file"><a href="/wiki/Java-NIO/">Java-NIO</a></li>  <li class="file"><a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Java-NIO核心组件--buffer</a></li>  <li class="file"><a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Java-NIO核心组件--selector</a></li>  <li class="file"><a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            JVM
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/JVM-jmap/">JVM-jmap</a></li>  <li class="file"><a href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">JVM-类加载机制</a></li>  <li class="file"><a href="/wiki/JVM-jstack/">JVM-jstack</a></li>  <li class="file"><a href="/wiki/JVM-jstat/">JVM-jstat</a></li>  <li class="file"><a href="/wiki/JVM-strace/">JVM-strace</a></li>  <li class="file"><a href="/wiki/JVM-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">JVM-自定义类加载器</a></li>  <li class="file"><a href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">JVM-Xms,Xmx和Xss</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            多线程与并发
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Overview/">Java并发编程-Overview</a></li>  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/">Java并发编程-多线程的发展和意义</a></li>  <li class="file"><a href="/wiki/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/">Java多线程之ThreadLocal</a></li>  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/">Java并发编程之同步锁</a></li>  <li class="file"><a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a></li>  <li class="file"><a href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Java-锁消除和锁膨胀</a></li>  <li class="file"><a href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Java-synchronzied底层原理</a></li>  <li class="file"><a href="/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></li>  <li class="file"><a href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Java-join方法原理解析</a></li>  <li class="file active"><a href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">Java-FutureTask原理</a></li>  <li class="file"><a href="/wiki/Java-CAS%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Java-CAS原理和底层实现</a></li>  <li class="file"><a href="/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/">Java对象头</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  <li class="file"><a href="/wiki/%E6%9E%81%E5%B0%BDHashMap%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">极尽HashMap底层原理</a></li>  <li class="file"><a href="/wiki/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E4%BF%AE%E6%94%B9-serialVersionUID-%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC/">为什么禁止开发人员修改 serialVersionUID 字段的值?</a></li>  <li class="file"><a href="/wiki/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E6%8A%8ASimpleDateFormat%E5%AE%9A%E4%B9%89%E6%88%90static%E5%8F%98%E9%87%8F/">Java-为什么禁止把SimpleDateFormat定义成static变量?</a></li>  <li class="file"><a href="/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/">面向对象特征</a></li>  <li class="file"><a href="/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">基础面试题目</a></li>  <li class="file"><a href="/wiki/Java%E5%8F%8D%E5%B0%84/">Java反射</a></li>  <li class="file"><a href="/wiki/Java%E6%B3%9B%E5%9E%8B/">Java泛型</a></li>  <li class="file"><a href="/wiki/Java%E6%B3%A8%E8%A7%A3/">Java注解</a></li>  <li class="file"><a href="/wiki/Java%E4%BD%8D%E8%BF%90%E7%AE%97/">Java位运算</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a></li>  <li class="file"><a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a></li>  <li class="file"><a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Tools
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/docker%E5%B8%B8%E7%94%A8%E6%89%8B%E5%86%8C/">docker常用手册</a></li>  <li class="file"><a href="/wiki/docker%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE/">docker整体架构图</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Distributed Dir
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Kafka
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/kafka-overview/">kafka-overview</a></li>  <li class="file"><a href="/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/">kafka安装与初体验</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Administration and Deployment
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a></li>  <li class="file"><a href="/wiki/elasticsearch-%E6%9F%A5%E8%AF%A2%E5%80%BC%E5%89%8D%E7%BC%80%E4%B8%8D%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/">elasticsearch 查询值前缀不包含某个字符串</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Aggregations
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a></li>  <li class="file"><a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a></li>  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a></li>  <li class="file"><a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a></li>  <li class="file"><a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Getting Started
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a></li>  <li class="file"><a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a></li>  <li class="file"><a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a></li>  <li class="file"><a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Other Question
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a></li>  <li class="file"><a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Search in Depth
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a></li>  <li class="file"><a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a></li>  <li class="file"><a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a></li>  <li class="file"><a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a></li>  <li class="file"><a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a></li>  <li class="file"><a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a></li>  <li class="file"><a href="/wiki/elasticsearch-reindex/">elasticsearch-reindex</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E8%AF%A2%E6%B1%87%E6%80%BB/">elasticsearch字符串查询汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Common commands
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Process
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">操作系统进程调度策略</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">操作系统-死锁</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Recommend System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Spring Family
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Spring Framework
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Spring梳理启动脉络</a></li>  <li class="file"><a href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Spring加载配置文件原理</a></li>  <li class="file"><a href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">SpringBean循环依赖</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mybatis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">mybatis-工作原理</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/mybatis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/"></a></li>  <li class="file"><a href="/wiki/Spring-Overview/"></a></li>  <li class="file"><a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-CAP%E7%90%86%E8%AE%BA/">分布式-CAP理论</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">分布式-一致性哈希算法</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Java-FutureTask原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Develop-Lan/">Develop Lan</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Develop-Lan/Java/">Java</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Develop-Lan/Java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/">多线程与并发</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">
+            <time datetime="2021-07-28T09:58:47.000Z" itemprop="datePublished">2021-07-28</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Java-FutureTask原理
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FutureTask"><span class="toc-number">1.</span> <span class="toc-text">FutureTask</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Future%E6%96%B9%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.0.1.</span> <span class="toc-text">Future方法介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%A4%BA%E8%8C%83Callable-amp-Future"><span class="toc-number">1.0.2.</span> <span class="toc-text">简单示范Callable&amp;Future</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="toc-number">1.0.2.0.1.</span> <span class="toc-text">执行结果</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-number">1.0.2.0.2.</span> <span class="toc-text">注意点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FutureTask%E8%AE%B2%E8%A7%A3"><span class="toc-number">1.0.3.</span> <span class="toc-text">FutureTask讲解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FutureTask%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">FutureTask继承关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C-report%E6%96%B9%E6%B3%95"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">执行结果 | report方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C-run"><span class="toc-number">1.0.3.3.</span> <span class="toc-text">任务执行 |   run()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%BB%93%E6%9E%9C-get-throws-InterruptedException-ExecutionException"><span class="toc-number">1.0.3.4.</span> <span class="toc-text">获取结果 | get() throws InterruptedException, ExecutionException</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E9%98%BB%E5%A1%9E-awaitDone-boolean-timed-long-nanos"><span class="toc-number">1.0.3.5.</span> <span class="toc-text">任务阻塞 | awaitDone(boolean timed, long nanos)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E4%BB%BB%E5%8A%A1-cancel-boolean-mayInterruptIfRunning"><span class="toc-number">1.0.3.6.</span> <span class="toc-text">取消任务 |  cancel(boolean mayInterruptIfRunning)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Callable-amp-Future%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.0.4.</span> <span class="toc-text">Callable&amp;Future使用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.0.5.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h1><h3 id="Future方法介绍"><a href="#Future方法介绍" class="headerlink" title="Future方法介绍"></a>Future方法介绍</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 取消任务 可中断的方式取消</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">boolean</span> mayInterruptIfRunning)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 判断任务是否处于取消状态 </span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isCancelled</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 判断异步任务是否执行完成      ==这里使用轮训的方式监听==</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取异步线程的执行结果，如果没有执行完成，则一直阻塞到有结果返回；</span></span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取异步线程的执行结果，如果没有执行完成，则一直阻塞到设置的时间，有结果返回，没有结果则抛出异常；</span></span><br><span class="line">    <span class="function">V <span class="title">get</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="简单示范Callable-amp-Future"><a href="#简单示范Callable-amp-Future" class="headerlink" title="简单示范Callable&amp;Future"></a>简单示范Callable&amp;Future</h3><p>（1）向线程池中提交任务的submit方法不是阻塞方法，而Future.get方法是一个阻塞方法<br>（2）submit提交多个任务时，只有所有任务都完成后，才能使用get按照任务的提交顺序得到返回结果，所以一般需要使用future.isDone先判断任务是否全部执行完成，完成后再使用future.get得到结果。（也可以用get (long timeout, TimeUnit unit)方法可以设置超时时间，防止无限时间的等待）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureTest</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Computes a result, or throws an exception if unable to do so.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> computed result</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception if unable to compute a result</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.err.println(<span class="string">&quot;start call method...&quot;</span>);</span><br><span class="line">        Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1111</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ExecutionException, InterruptedException </span>&#123;</span><br><span class="line">        System.err.println(<span class="string">&quot;main method start....&quot;</span>);</span><br><span class="line">        FutureTest futureTest = <span class="keyword">new</span> FutureTest();</span><br><span class="line">        Future1Test future1Test = <span class="keyword">new</span> Future1Test();</span><br><span class="line">        <span class="keyword">long</span> time = System.currentTimeMillis();</span><br><span class="line">        ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">        Future&lt;String&gt; future = executorService.submit(future1Test);</span><br><span class="line">        <span class="keyword">if</span> (!future.isDone()) &#123;</span><br><span class="line">            System.err.println(<span class="string">&quot;future not done !&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        Future&lt;Integer&gt; future1 = executorService.submit(futureTest);</span><br><span class="line">        <span class="comment">// submit提交多个任务时，只有所有任务都完成后，才能使用get按照任务的提交顺序得到返回结果</span></span><br><span class="line">        <span class="comment">// 这里先提交了future1Test，休眠了4s, futureTest休眠了3s，但是等我们get到结果的时候，是消耗的4s时间的；</span></span><br><span class="line">        System.err.println(<span class="string">&quot;cost time: &quot;</span> + (System.currentTimeMillis() - time));</span><br><span class="line">        System.err.println(<span class="string">&quot;future: &quot;</span> + future.get());</span><br><span class="line">        System.err.println(<span class="string">&quot;future1: &quot;</span> + future1.get());</span><br><span class="line">        System.err.println(<span class="string">&quot;main method end....&quot;</span>);</span><br><span class="line">        executorService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">main method start....</span><br><span class="line">future not done !</span><br><span class="line"><span class="comment">// 说明了第一 get()方法是阻塞，第二线程池任务都执行完成之后，按提交任务顺序get结果返回值</span></span><br><span class="line">cost time: <span class="number">4</span></span><br><span class="line">start call method...</span><br><span class="line">future: future <span class="number">2</span> test</span><br><span class="line">future1: <span class="number">1111</span></span><br><span class="line">main method end....</span><br></pre></td></tr></table></figure>
+
+<h5 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h5><ul>
+<li>线程池执行任务有两种方式execute和submit，execute是不带返回值的，submit是有返回值的;</li>
+<li>main方法中可以不使用线程池，可以直接创建线程，调用start方法就可以，切记只有在演示代码的时候后。手动直接创建线程的方式还是不要用，因为一旦请求变多，则会创建无数的线程，线程数大于CPU核数，进而导致CPU频繁切换上下分进行调度，性能严重下降。</li>
+<li>而且线程的数据是存放在内存中的，会占用大量的内存，增加垃圾回收的压力。严重的会发生OOM;</li>
+<li>异常main方法中我们使用的是Future<String> future接收异步任务执行的放回结果，但实际上Future其实是一个interface，并不能接收返回结果的，那实际我们调用future.get()是，是实例了一个FutureTask对象来接受的；</li>
+</ul>
+<h3 id="FutureTask讲解"><a href="#FutureTask讲解" class="headerlink" title="FutureTask讲解"></a>FutureTask讲解</h3><p>下面主要针对Future的实现类FutureTask的几个重要方法展开</p>
+<h4 id="FutureTask继承关系"><a href="#FutureTask继承关系" class="headerlink" title="FutureTask继承关系"></a>FutureTask继承关系</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureTask</span>&lt;<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; </span>&#123;...&#125;</span><br><span class="line"><span class="comment">// 下面是RunnableFuture接口的继承关系</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Runnable</span>, <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Sets this Future to the result of its computation</span></span><br><span class="line"><span class="comment">     * unless it has been cancelled.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>FutureTask 重要的成员变量</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The underlying callable; nulled out after running */</span></span><br><span class="line"><span class="keyword">private</span> Callable&lt;V&gt; callable;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** The result to return or exception to throw from get() */</span></span><br><span class="line"><span class="comment">//任务执行结果或者任务异常</span></span><br><span class="line"><span class="keyword">private</span> Object outcome; <span class="comment">// non-volatile, protected by state reads/writes</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** The thread running the callable; CASed during run() */</span></span><br><span class="line"><span class="comment">//执行任务的线程</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> Thread runner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Treiber stack of waiting threads */</span></span><br><span class="line"><span class="comment">//等待节点，关联等待线程</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> WaitNode waiters;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> sun.misc.Unsafe UNSAFE;</span><br><span class="line"><span class="comment">//state字段的内存偏移量     这个在线程池执行任务的时候进行状态判断的时候会用到</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> stateOffset;</span><br><span class="line"><span class="comment">//runner字段的内存偏移量</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> runnerOffset;</span><br><span class="line"><span class="comment">//waiters字段的内存偏移量</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> waitersOffset;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>定义任务的生命周期</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NEW          = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COMPLETING   = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NORMAL       = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> EXCEPTIONAL  = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CANCELLED    = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INTERRUPTING = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INTERRUPTED  = <span class="number">6</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>NORMAL:指的是任务能够正常执行状态  </li>
+<li>EXCEPTIONAL：表示任务执行异常  </li>
+<li>CANCELLED：取消状态，之后的状态都表示任务取消或终端  </li>
+</ul>
+<p>下面看一下FutureTask中几个重要的方法</p>
+<h4 id="执行结果-report方法"><a href="#执行结果-report方法" class="headerlink" title="执行结果 | report方法"></a>执行结果 | report方法</h4><blockquote>
+<p>Returns result or throws exception for completed task.<br>主要是上报异步任务执行的结果或返回任务执行发生的异常</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Returns result or throws exception for completed task.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> s completed state value</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> V <span class="title">report</span><span class="params">(<span class="keyword">int</span> s)</span> <span class="keyword">throws</span> ExecutionException </span>&#123;</span><br><span class="line">       Object x = outcome;</span><br><span class="line">       <span class="keyword">if</span> (s == NORMAL)</span><br><span class="line">           <span class="keyword">return</span> (V)x;</span><br><span class="line">       <span class="keyword">if</span> (s &gt;= CANCELLED)</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> CancellationException();</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> ExecutionException((Throwable)x);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断逻辑就是根据参数，也是是任务状态，根据不同的状态处理相应的逻辑。比如NORNAL状态，表示任务正常执行，直接返回结果就可以。如果状态大于CANCELLED，说明任务被取消或终端，会抛出CancellationException()；如果不是异常状态，则抛出ExecutionException；</p>
+<h4 id="任务执行-run"><a href="#任务执行-run" class="headerlink" title="任务执行 |   run()"></a>任务执行 |   run()</h4><blockquote>
+<p>执行异步任务</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="comment">// 如果状态 state 不是 NEW，或者设置 runner 值失败</span></span><br><span class="line">     <span class="comment">// 表示有别的线程在此之前调用 run 方法，并成功设置了 runner 值</span></span><br><span class="line">     <span class="comment">// 保证了只有一个线程可以运行 try 代码块中的代码。</span></span><br><span class="line">     <span class="keyword">if</span> (state != NEW ||</span><br><span class="line">             !UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, runnerOffset,</span><br><span class="line">                     <span class="keyword">null</span>, Thread.currentThread()))</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     <span class="comment">//以上state值变更的由CAS操作保证原子性</span></span><br><span class="line">     </span><br><span class="line">     <span class="keyword">try</span> &#123;</span><br><span class="line">         Callable&lt;V&gt; c = callable;</span><br><span class="line">         <span class="comment">//只有c不为null且状态state为NEW的情况</span></span><br><span class="line">         <span class="keyword">if</span> (c != <span class="keyword">null</span> &amp;&amp; state == NEW) &#123;</span><br><span class="line">             V result;</span><br><span class="line">             <span class="keyword">boolean</span> ran;</span><br><span class="line">             <span class="keyword">try</span> &#123;</span><br><span class="line">                 <span class="comment">//调用callable的call方法，并获得返回结果</span></span><br><span class="line">                 result = c.call();</span><br><span class="line">                 <span class="comment">//运行成功</span></span><br><span class="line">                 ran = <span class="keyword">true</span>;</span><br><span class="line">             &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">                 result = <span class="keyword">null</span>;</span><br><span class="line">                 ran = <span class="keyword">false</span>;</span><br><span class="line">                 setException(ex);</span><br><span class="line">             &#125;</span><br><span class="line">             <span class="keyword">if</span> (ran)</span><br><span class="line">                 <span class="comment">//设置结果</span></span><br><span class="line">                 set(result);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">         <span class="comment">// runner must be non-null until state is settled to</span></span><br><span class="line">         <span class="comment">// prevent concurrent calls to run()</span></span><br><span class="line">         runner = <span class="keyword">null</span>;</span><br><span class="line">         <span class="comment">// state must be re-read after nulling runner to prevent</span></span><br><span class="line">         <span class="comment">// leaked interrupts</span></span><br><span class="line">         <span class="keyword">int</span> s = state;</span><br><span class="line">         <span class="keyword">if</span> (s &gt;= INTERRUPTING)</span><br><span class="line">             handlePossibleCancellationInterrupt(s);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>核心逻辑就是调用Callable的call方法，==result=c.call();== 并且对任务执行的结果或异常信息进行处理；</p>
+<h4 id="获取结果-get-throws-InterruptedException-ExecutionException"><a href="#获取结果-get-throws-InterruptedException-ExecutionException" class="headerlink" title="获取结果 | get() throws InterruptedException, ExecutionException"></a>获取结果 | get() throws InterruptedException, ExecutionException</h4><blockquote>
+<p>获取异步任务执行的结果或异常信息</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, ExecutionException </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> s = state;</span><br><span class="line">    <span class="keyword">if</span> (s &lt;= COMPLETING)</span><br><span class="line">        s = awaitDone(<span class="keyword">false</span>, <span class="number">0L</span>);</span><br><span class="line">    <span class="keyword">return</span> report(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>get方法执行两个操作：  </p>
+<ul>
+<li>判断任务的状态,如果没有执行完成，调用awaitDone方法</li>
+<li>任务完成，调用我们上面说的report方法，返回任务执行结果</li>
+</ul>
+<h4 id="任务阻塞-awaitDone-boolean-timed-long-nanos"><a href="#任务阻塞-awaitDone-boolean-timed-long-nanos" class="headerlink" title="任务阻塞 | awaitDone(boolean timed, long nanos)"></a>任务阻塞 | awaitDone(boolean timed, long nanos)</h4><blockquote>
+<p>等到任务执行完成 也是get方法阻塞特性的关键所在</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">awaitDone</span><span class="params">(<span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">long</span> deadline = timed ? System.nanoTime() + nanos : <span class="number">0L</span>;</span><br><span class="line">        WaitNode q = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">boolean</span> queued = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">// CPU轮转</span></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="comment">// 如果线程中断了，将线程移除等待队列，抛出中断异常</span></span><br><span class="line">            <span class="keyword">if</span> (Thread.interrupted()) &#123;</span><br><span class="line">                removeWaiter(q);</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> s = state;</span><br><span class="line">            <span class="comment">// 如果任务状态大于完成，则直接返回；</span></span><br><span class="line">            <span class="keyword">if</span> (s &gt; COMPLETING) &#123;</span><br><span class="line">                <span class="keyword">if</span> (q != <span class="keyword">null</span>)</span><br><span class="line">                    q.thread = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">return</span> s;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 如果任务完成，但是返回值outcome还没有设置，可以先让出线程执行权，让其他线程执行</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (s == COMPLETING) <span class="comment">// cannot time out yet</span></span><br><span class="line">                Thread.yield();</span><br><span class="line">            <span class="comment">// 下面是任务还没有执行完成的状态，将线程添加到等待队列</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (q == <span class="keyword">null</span>)</span><br><span class="line">                q = <span class="keyword">new</span> WaitNode();</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (!queued)</span><br><span class="line">                queued = UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset,</span><br><span class="line">                                                     q.next = waiters, q);</span><br><span class="line">            <span class="comment">// 判断get方法是否设置了超时时间</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (timed) &#123;</span><br><span class="line">                nanos = deadline - System.nanoTime();</span><br><span class="line">                <span class="comment">// 如果超出设置的时间，线程移除等到队列</span></span><br><span class="line">                <span class="keyword">if</span> (nanos &lt;= <span class="number">0L</span>) &#123;</span><br><span class="line">                    removeWaiter(q);</span><br><span class="line">                    <span class="keyword">return</span> state;</span><br><span class="line">                &#125;</span><br><span class="line">                LockSupport.parkNanos(<span class="keyword">this</span>, nanos);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 没有设置超时时间，线程直接阻塞，直到任务完成</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>主要执行步骤：</p>
+<ul>
+<li>判断线程是否被中断，如果被中断了，就从等待的线程栈中移除该等待节点，然后抛出中断异常 </li>
+<li>读取state,判断任务是否已经完成，如果已经完成或者任务已经取消，此时调用get方法的线程不会阻塞，会直接获取到结果或者拿到异常信息；  </li>
+<li>如果s == COMPLETING，说明任务已经结束，但是结果还没有保存到outcome中，==此时线程让出执行权，给其他线程先执行；==   </li>
+<li>如果任务没有执行完成，则需要创建等待节点，等待插入到阻塞队列  </li>
+<li>判断queued，这里是将c中创建节点q加入队列头。使用Unsafe的CAS方法，对waiters进行赋值，waiters也是一个WaitNode节点，相当于队列头，或者理解为队列的头指针。通过WaitNode可以遍历整个阻塞队列  </li>
+<li>然后判断超时时间，时间是在调用get方法的时候传输进来的，如果有超时时间，则设置超时时间，如果超出时间，则将线程移除等待队列；如果没有设置时间，则直接阻塞线程；  </li>
+</ul>
+<h4 id="取消任务-cancel-boolean-mayInterruptIfRunning"><a href="#取消任务-cancel-boolean-mayInterruptIfRunning" class="headerlink" title="取消任务 |  cancel(boolean mayInterruptIfRunning)"></a>取消任务 |  cancel(boolean mayInterruptIfRunning)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Param</span> mayInterruptIfRunning 是否中断</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">cancel</span><span class="params">(<span class="keyword">boolean</span> mayInterruptIfRunning)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 在状态还为NEW的时候，根据参数中的是否允许传递，</span></span><br><span class="line"><span class="comment">     * 将状态流转到INTERRUPTING或者CANCELLED。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">        <span class="keyword">if</span> (!(state == NEW &amp;&amp;</span><br><span class="line">              UNSAFE.compareAndSwapInt(<span class="keyword">this</span>, stateOffset, NEW,</span><br><span class="line">                  mayInterruptIfRunning ? INTERRUPTING : CANCELLED)))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;    <span class="comment">// in case call to interrupt throws exception</span></span><br><span class="line">            <span class="keyword">if</span> (mayInterruptIfRunning) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread t = runner;</span><br><span class="line">                    <span class="keyword">if</span> (t != <span class="keyword">null</span>)</span><br><span class="line">                        t.interrupt();</span><br><span class="line">                &#125; <span class="keyword">finally</span> &#123; <span class="comment">// final state</span></span><br><span class="line">                    UNSAFE.putOrderedInt(<span class="keyword">this</span>, stateOffset, INTERRUPTED);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            finishCompletion();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">finishCompletion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (WaitNode q; (q = waiters) != <span class="keyword">null</span>;) &#123;</span><br><span class="line">        <span class="comment">// 必须将栈顶CAS为null，否则重读栈顶并重试。</span></span><br><span class="line">        <span class="keyword">if</span> (UNSAFE.compareAndSwapObject(<span class="keyword">this</span>, waitersOffset, q, <span class="keyword">null</span>)) &#123;</span><br><span class="line">            <span class="comment">// 遍历并唤醒栈中节点对应的线程。</span></span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                Thread t = q.thread;</span><br><span class="line">                <span class="keyword">if</span> (t != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    q.thread = <span class="keyword">null</span>;</span><br><span class="line">                    LockSupport.unpark(t);</span><br><span class="line">                &#125;</span><br><span class="line">                WaitNode next = q.next;</span><br><span class="line">                <span class="keyword">if</span> (next == <span class="keyword">null</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="comment">// 将next域置为null，这样对GC友好。</span></span><br><span class="line">                q.next = <span class="keyword">null</span>; </span><br><span class="line">                q = next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * done方法是暴露给子类的一个钩子方法。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 这个方法在ExecutorCompletionService.QueueingFuture中的override实现是把结果加到阻塞队列里。</span></span><br><span class="line"><span class="comment">     * CompletionService谁用谁知道，奥秘全在这。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    done();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* </span></span><br><span class="line"><span class="comment">     * callable置为null主要为了减少内存开销,</span></span><br><span class="line"><span class="comment">     * 更多可以了解JVM memory footprint相关资料。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    callable = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Callable-amp-Future使用场景"><a href="#Callable-amp-Future使用场景" class="headerlink" title="Callable&amp;Future使用场景"></a>Callable&amp;Future使用场景</h3><ul>
+<li>异步任务需要拿到返回值</li>
+<li>多线程并发调用，顺序组装返回值，一些并发框架中会看到相应体现</li>
+<li>还有一些分布式任务调度的场景，远程调用需要回填执行结果</li>
+<li>还有很多通信框架中都有体现</li>
+</ul>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><blockquote>
+<p>(1) <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34562093/article/details/90209520">future.get方法阻塞问题的解决，实现按照任务完成的先后顺序获取任务的结果</a><br>(2) <a target="_blank" rel="noopener" href="https://blog.csdn.net/luofenghan/article/details/78596950#%E6%97%A0%E9%99%90%E5%88%B6%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B">Java多线程引发的性能问题以及调优策略</a><br>(3) <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/55221d045f39">可取消的异步任务——FutureTask用法及解析</a><br>(4) <a target="_blank" rel="noopener" href="https://www.cnblogs.com/micrari/p/7374513.html">FutureTask源码解读</a></p>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Java-CAS%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Java-CAS原理和底层实现
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Java-join方法原理解析</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

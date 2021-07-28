@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Java-synchronzied底层原理 | GeekIBLi</title>
+    
+    
+        <meta name="keywords" content="Java-synchronzied底层原理" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="synchronzied底层原理synchronzied四个层级实现 Java代码 通过添加synchronzied给对象或者方法或者代码块 字节码层级通过一组 MONITORENTER&#x2F;MONITOREXIT指令 JVM层级：锁升级过程 汇编执行通过 lock comxchg指令保证原子操作  JDK早期，synchronized 叫做重量级锁， 因为申请锁资源必须通过kernel, 系统调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java-synchronzied底层原理">
+<meta property="og:url" content="http://example.com/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="GeekIBLi">
+<meta property="og:description" content="synchronzied底层原理synchronzied四个层级实现 Java代码 通过添加synchronzied给对象或者方法或者代码块 字节码层级通过一组 MONITORENTER&#x2F;MONITOREXIT指令 JVM层级：锁升级过程 汇编执行通过 lock comxchg指令保证原子操作  JDK早期，synchronized 叫做重量级锁， 因为申请锁资源必须通过kernel, 系统调用">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-28T09:57:19.000Z">
+<meta property="article:modified_time" content="2021-07-28T10:07:06.714Z">
+<meta property="article:author" content="gaolei">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">GeekIBLi</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Index</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Index</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>categories</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Apache Flink
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a></li>  <li class="file"><a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a></li>  <li class="file"><a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a></li>  <li class="file"><a href="/wiki/apache-flink-overview/">apache-flink-overview</a></li>  <li class="file"><a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Computer Network
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            HTTP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/">Http状态码及含义</a></li>  <li class="file"><a href="/wiki/https%E5%8D%8F%E8%AE%AE/">https协议</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            TCP
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a></li>  <li class="file"><a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a></li>  <li class="file"><a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a></li>  <li class="file"><a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a></li>  <li class="file"><a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a></li>  <li class="file"><a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a></li>  <li class="file"><a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a></li>  <li class="file"><a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a></li>  <li class="file"><a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a></li>  <li class="file"><a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a></li>  <li class="file"><a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a></li>  <li class="file"><a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            DataBase
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MongoDB
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/docker-compost%E5%AE%89%E8%A3%85mongodb/">docker-compost安装mongodb</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            MySQL
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a></li>  <li class="file"><a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a></li>  <li class="file"><a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a></li>  <li class="file"><a href="/wiki/mysql%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">mysql乐观锁实现分布式锁</a></li>  <li class="file"><a href="/wiki/Mysql-MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/">Mysql-MVCC多版本并发控制</a></li>  <li class="file"><a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">Mysql-事务隔离级别</a></li>  <li class="file"><a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Mysql-事务特性与实现原理</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Redis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Redis-list%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Redis-list底层实现</a></li>  <li class="file"><a href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Redis-哈希表实现</a></li>  <li class="file"><a href="/wiki/Redis-overview/">Redis-overview</a></li>  <li class="file"><a href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Redis-字符串底层原理</a></li>  <li class="file"><a href="/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/">Redis-缓存穿透、击穿和雪崩</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Develop Lan
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            Java
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            IO
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">netty实现简易tomcat</a></li>  <li class="file"><a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">netty实现简易RPC调用</a></li>  <li class="file"><a href="/wiki/%E5%9F%BA%E4%BA%8EBIO%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">基于BIO实现简易tomcat</a></li>  <li class="file"><a href="/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/">Java-传统的BIO</a></li>  <li class="file"><a href="/wiki/Java-NIO/">Java-NIO</a></li>  <li class="file"><a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Java-NIO核心组件--buffer</a></li>  <li class="file"><a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Java-NIO核心组件--selector</a></li>  <li class="file"><a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            JVM
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/JVM-jmap/">JVM-jmap</a></li>  <li class="file"><a href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">JVM-类加载机制</a></li>  <li class="file"><a href="/wiki/JVM-jstack/">JVM-jstack</a></li>  <li class="file"><a href="/wiki/JVM-jstat/">JVM-jstat</a></li>  <li class="file"><a href="/wiki/JVM-strace/">JVM-strace</a></li>  <li class="file"><a href="/wiki/JVM-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">JVM-自定义类加载器</a></li>  <li class="file"><a href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">JVM-Xms,Xmx和Xss</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            多线程与并发
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Overview/">Java并发编程-Overview</a></li>  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/">Java并发编程-多线程的发展和意义</a></li>  <li class="file"><a href="/wiki/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">Java线程池</a></li>  <li class="file"><a href="/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/">Java多线程之ThreadLocal</a></li>  <li class="file"><a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/">Java并发编程之同步锁</a></li>  <li class="file"><a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a></li>  <li class="file"><a href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Java-锁消除和锁膨胀</a></li>  <li class="file active"><a href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Java-synchronzied底层原理</a></li>  <li class="file"><a href="/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></li>  <li class="file"><a href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Java-join方法原理解析</a></li>  <li class="file"><a href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">Java-FutureTask原理</a></li>  <li class="file"><a href="/wiki/Java-CAS%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Java-CAS原理和底层实现</a></li>  <li class="file"><a href="/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/">Java对象头</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a></li>  <li class="file"><a href="/wiki/%E6%9E%81%E5%B0%BDHashMap%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">极尽HashMap底层原理</a></li>  <li class="file"><a href="/wiki/%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E4%BF%AE%E6%94%B9-serialVersionUID-%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC/">为什么禁止开发人员修改 serialVersionUID 字段的值?</a></li>  <li class="file"><a href="/wiki/Java-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A6%81%E6%AD%A2%E6%8A%8ASimpleDateFormat%E5%AE%9A%E4%B9%89%E6%88%90static%E5%8F%98%E9%87%8F/">Java-为什么禁止把SimpleDateFormat定义成static变量?</a></li>  <li class="file"><a href="/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/">面向对象特征</a></li>  <li class="file"><a href="/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">基础面试题目</a></li>  <li class="file"><a href="/wiki/Java%E5%8F%8D%E5%B0%84/">Java反射</a></li>  <li class="file"><a href="/wiki/Java%E6%B3%9B%E5%9E%8B/">Java泛型</a></li>  <li class="file"><a href="/wiki/Java%E6%B3%A8%E8%A7%A3/">Java注解</a></li>  <li class="file"><a href="/wiki/Java%E4%BD%8D%E8%BF%90%E7%AE%97/">Java位运算</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Python
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a></li>  <li class="file"><a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a></li>  <li class="file"><a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Develop Tools
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Git
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            docker
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/docker%E5%B8%B8%E7%94%A8%E6%89%8B%E5%86%8C/">docker常用手册</a></li>  <li class="file"><a href="/wiki/docker%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE/">docker整体架构图</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Distributed Dir
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Kafka
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/kafka-overview/">kafka-overview</a></li>  <li class="file"><a href="/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/">kafka安装与初体验</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Elasticsearch
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Administration and Deployment
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a></li>  <li class="file"><a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a></li>  <li class="file"><a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a></li>  <li class="file"><a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a></li>  <li class="file"><a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a></li>  <li class="file"><a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a></li>  <li class="file"><a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a></li>  <li class="file"><a href="/wiki/elasticsearch-%E6%9F%A5%E8%AF%A2%E5%80%BC%E5%89%8D%E7%BC%80%E4%B8%8D%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2/">elasticsearch 查询值前缀不包含某个字符串</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Aggregations
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a></li>  <li class="file"><a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a></li>  <li class="file"><a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a></li>  <li class="file"><a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a></li>  <li class="file"><a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Getting Started
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a></li>  <li class="file"><a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a></li>  <li class="file"><a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a></li>  <li class="file"><a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a></li>  <li class="file"><a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a></li>  <li class="file"><a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a></li>  <li class="file"><a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a></li>  <li class="file"><a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Other Question
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a></li>  <li class="file"><a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Search in Depth
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a></li>  <li class="file"><a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a></li>  <li class="file"><a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a></li>  <li class="file"><a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a></li>  <li class="file"><a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a></li>  <li class="file"><a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a></li>  <li class="file"><a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a></li>  <li class="file"><a href="/wiki/elasticsearch-reindex/">elasticsearch-reindex</a></li>  <li class="file"><a href="/wiki/elasticsearch%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E8%AF%A2%E6%B1%87%E6%80%BB/">elasticsearch字符串查询汇总</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Linux System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Common commands
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Process
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">操作系统进程调度策略</a></li>  <li class="file"><a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">操作系统-死锁</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/index/">Welcome to GeekIBLi</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Recommend System
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Overview
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Spring Family
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Spring Framework
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Spring梳理启动脉络</a></li>  <li class="file"><a href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Spring加载配置文件原理</a></li>  <li class="file"><a href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">SpringBean循环依赖</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            mybatis
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">mybatis-工作原理</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/mybatis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/"></a></li>  <li class="file"><a href="/wiki/Spring-Overview/"></a></li>  <li class="file"><a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-CAP%E7%90%86%E8%AE%BA/">分布式-CAP理论</a></li>  <li class="file"><a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">分布式-一致性哈希算法</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-Java-synchronzied底层原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Develop-Lan/">Develop Lan</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Develop-Lan/Java/">Java</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/Develop-Lan/Java/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%B9%B6%E5%8F%91/">多线程与并发</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
+            <time datetime="2021-07-28T09:57:19.000Z" itemprop="datePublished">2021-07-28</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Java-synchronzied底层原理
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">Catalogue</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">synchronzied底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronzied%E5%9B%9B%E4%B8%AA%E5%B1%82%E7%BA%A7%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">synchronzied四个层级实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%B1%82%E7%BA%A7"><span class="toc-number">1.2.</span> <span class="toc-text">Java层级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E5%B1%82%E7%BA%A7"><span class="toc-number">1.3.</span> <span class="toc-text">字节码层级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E5%B1%82%E7%BA%A7"><span class="toc-number">1.4.</span> <span class="toc-text">JVM层级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4%E7%BA%A7%E5%88%AB"><span class="toc-number">1.5.</span> <span class="toc-text">汇编指令级别</span></a></li></ol></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="synchronzied底层原理"><a href="#synchronzied底层原理" class="headerlink" title="synchronzied底层原理"></a>synchronzied底层原理</h1><h2 id="synchronzied四个层级实现"><a href="#synchronzied四个层级实现" class="headerlink" title="synchronzied四个层级实现"></a>synchronzied四个层级实现</h2><ul>
+<li>Java代码 通过添加synchronzied给对象或者方法或者代码块</li>
+<li>字节码层级通过一组 MONITORENTER/MONITOREXIT指令</li>
+<li>JVM层级：锁升级过程</li>
+<li>汇编执行通过 lock comxchg指令保证原子操作</li>
+</ul>
+<p>JDK早期，synchronized 叫做重量级锁， 因为申请锁资源必须通过kernel, 系统调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">;hello.asm</span><br><span class="line">;write(<span class="keyword">int</span> fd, <span class="keyword">const</span> <span class="keyword">void</span> *buffer, size_t nbytes)</span><br><span class="line"></span><br><span class="line">section data</span><br><span class="line">    msg db <span class="string">&quot;Hello&quot;</span>, <span class="number">0xA</span></span><br><span class="line">    len equ $ - msg</span><br><span class="line"></span><br><span class="line">section .text</span><br><span class="line">global _start</span><br><span class="line">_start:</span><br><span class="line"></span><br><span class="line">    mov edx, len</span><br><span class="line">    mov ecx, msg</span><br><span class="line">    mov ebx, <span class="number">1</span> ;文件描述符<span class="number">1</span> std_out</span><br><span class="line">    mov eax, <span class="number">4</span> ;write函数系统调用号 <span class="number">4</span></span><br><span class="line">    <span class="keyword">int</span> <span class="number">0x80</span></span><br><span class="line"></span><br><span class="line">    mov ebx, <span class="number">0</span></span><br><span class="line">    mov eax, <span class="number">1</span> ;exit函数系统调用号</span><br><span class="line">    <span class="keyword">int</span> <span class="number">0x80</span></span><br></pre></td></tr></table></figure>
+
+<p>优化后的synchronized如下👇：</p>
+<h2 id="Java层级"><a href="#Java层级" class="headerlink" title="Java层级"></a>Java层级</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      Object object = <span class="keyword">new</span> Object();</span><br><span class="line">      System.out.println(ClassLayout.parseInstance(object).toPrintable());</span><br><span class="line"></span><br><span class="line">      <span class="keyword">synchronized</span> (object)&#123;</span><br><span class="line">          System.out.println(ClassLayout.parseInstance(object).toPrintable());</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="字节码层级"><a href="#字节码层级" class="headerlink" title="字节码层级"></a>字节码层级</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// access flags 0x9</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">main</span><span class="params">([Ljava/lang/String;)</span>V</span></span><br><span class="line"><span class="function">    <span class="comment">// parameter  args</span></span></span><br><span class="line"><span class="function">    TRYCATCHBLOCK L0 L1 L2 <span class="keyword">null</span></span></span><br><span class="line"><span class="function">    TRYCATCHBLOCK L2 L3 L2 <span class="keyword">null</span></span></span><br><span class="line"><span class="function">   L4</span></span><br><span class="line"><span class="function">    LINENUMBER 13 L4</span></span><br><span class="line"><span class="function">    NEW java/lang/Object</span></span><br><span class="line"><span class="function">    DUP</span></span><br><span class="line"><span class="function">    INVOKESPECIAL java/lang/Object.&lt;init&gt; <span class="params">()</span>V</span></span><br><span class="line"><span class="function">    ASTORE 1</span></span><br><span class="line"><span class="function">   L5</span></span><br><span class="line"><span class="function">    LINENUMBER 14 L5</span></span><br><span class="line"><span class="function">    GETSTATIC java/lang/System.out : Ljava/io/PrintStream</span>;</span><br><span class="line">    ALOAD <span class="number">1</span></span><br><span class="line">    INVOKESTATIC org/openjdk/jol/info/ClassLayout.parseInstance (Ljava/lang/Object;)Lorg/openjdk/jol/info/ClassLayout;</span><br><span class="line">    INVOKEVIRTUAL org/openjdk/jol/info/ClassLayout.toPrintable ()Ljava/lang/String;</span><br><span class="line">    INVOKEVIRTUAL java/io/PrintStream.println (Ljava/lang/String;)V</span><br><span class="line">   L6</span><br><span class="line">    LINENUMBER <span class="number">16</span> L6</span><br><span class="line">    ALOAD <span class="number">1</span></span><br><span class="line">    DUP</span><br><span class="line">    ASTORE <span class="number">2</span></span><br><span class="line">    MONITORENTER</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER <span class="number">17</span> L0</span><br><span class="line">    GETSTATIC java/lang/System.out : Ljava/io/PrintStream;</span><br><span class="line">    ALOAD <span class="number">1</span></span><br><span class="line">    INVOKESTATIC org/openjdk/jol/info/ClassLayout.parseInstance (Ljava/lang/Object;)Lorg/openjdk/jol/info/ClassLayout;</span><br><span class="line">    INVOKEVIRTUAL org/openjdk/jol/info/ClassLayout.toPrintable ()Ljava/lang/String;</span><br><span class="line">    INVOKEVIRTUAL java/io/PrintStream.println (Ljava/lang/String;)V</span><br><span class="line">   L7</span><br><span class="line">    LINENUMBER <span class="number">18</span> L7</span><br><span class="line">    ALOAD <span class="number">2</span></span><br><span class="line">    MONITOREXIT</span><br><span class="line">   L1</span><br><span class="line">    GOTO L8</span><br><span class="line">   L2</span><br><span class="line">   FRAME FULL [[Ljava/lang/String; java/lang/Object java/lang/Object] [java/lang/Throwable]</span><br><span class="line">    ASTORE <span class="number">3</span></span><br><span class="line">    ALOAD <span class="number">2</span></span><br><span class="line">    MONITOREXIT</span><br><span class="line">   L3</span><br><span class="line">    ALOAD <span class="number">3</span></span><br><span class="line">    ATHROW</span><br><span class="line">   L8</span><br><span class="line">    LINENUMBER <span class="number">19</span> L8</span><br><span class="line">   FRAME CHOP <span class="number">1</span></span><br><span class="line">    RETURN</span><br><span class="line">   L9</span><br><span class="line">    LOCALVARIABLE args [Ljava/lang/String; L4 L9 <span class="number">0</span></span><br><span class="line">    LOCALVARIABLE object Ljava/lang/Object; L5 L9 <span class="number">1</span></span><br><span class="line">    MAXSTACK = <span class="number">2</span></span><br><span class="line">    MAXLOCALS = <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>i 主要通过MONITORENTER 和 MONITOREXIT 两个字节码指令控制加锁过程</p>
+</blockquote>
+<h2 id="JVM层级"><a href="#JVM层级" class="headerlink" title="JVM层级"></a>JVM层级</h2><p>通过锁升级过程实现加锁；<br>无锁 -&gt; 偏向锁 -&gt; 自旋锁（轻量级锁 自适应锁）-&gt; 重量级锁<br>锁升级过程可以查看 <a href="doc:rjG4EIhi">锁升级过程</a>  复制理解</p>
+<h2 id="汇编指令级别"><a href="#汇编指令级别" class="headerlink" title="汇编指令级别"></a>汇编指令级别</h2><p>linux操作系统安装hsdis插件，查看java代码的汇编指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class T &#123;</span><br><span class="line">    static volatile int i = 0;</span><br><span class="line">    </span><br><span class="line">    public static void n() &#123; i++; &#125;</span><br><span class="line">    </span><br><span class="line">    public static synchronized void m() &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    publics static void main(String[] args) &#123;</span><br><span class="line">        for(int j=0; j&lt;1000_000; j++) &#123;</span><br><span class="line">            m();</span><br><span class="line">            n();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly T</span><br></pre></td></tr></table></figure>
+<ul>
+<li>C1 Compile Level 1 (一级优化)</li>
+<li>C2 Compile Level 2 (二级优化)</li>
+</ul>
+<blockquote>
+<p>找到m() n()方法的汇编码，会看到 lock comxchg …..指令</p>
+</blockquote>
+
+            </div>
+        
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Java内存模型
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Java-锁消除和锁膨胀</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            gaolei &copy; 2021 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
