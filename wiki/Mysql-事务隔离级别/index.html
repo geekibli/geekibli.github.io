@@ -180,39 +180,39 @@
   <article class="post-article">
     <section class="markdown-content"><h1 id="数据库隔离级别"><a href="#数据库隔离级别" class="headerlink" title="数据库隔离级别"></a>数据库隔离级别</h1><p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。</p>
 <blockquote>
-<p>i Read Uncommitted（读取未提交内容）</p>
+<p>Read Uncommitted（读取未提交内容）</p>
 </blockquote>
 <p>在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
 <blockquote>
-<p>i Read Committed（读取提交内容）</p>
+<p>Read Committed（读取提交内容）</p>
 </blockquote>
 <p>这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
 <blockquote>
-<p>i Repeatable Read（可重读）</p>
+<p>Repeatable Read（可重读）</p>
 </blockquote>
 <p>这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
 <blockquote>
-<p>i Serializable（可串行化）</p>
+<p>Serializable（可串行化）</p>
 </blockquote>
 <p>这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
 <h2 id="事务隔离级别产生的问题"><a href="#事务隔离级别产生的问题" class="headerlink" title="事务隔离级别产生的问题"></a>事务隔离级别产生的问题</h2><img src="https://oscimg.oschina.net/oscnet/up-ee3cb778a32220ff81103f9163d22f774b2.png"> 
 
 
 <blockquote>
-<p>w 脏读(Drity Read)</p>
+<p>脏读(Drity Read)</p>
 </blockquote>
 <p>某个事务已更新一份数据，另一个事务在此时读取了同一份数据，由于某些原因，前一个RollBack了操作，则后一个事务所读取的数据就会是不正确的。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新update price=120，但是此时的事务B还未commit</span><br><span class="line">事务A读取的price=120</span><br><span class="line">事务B-&gt;rollback操作</span><br><span class="line">事务A读取到的是脏数据</span><br></pre></td></tr></table></figure>
 
 
 <blockquote>
-<p>w不可重复读(Non-repeatable read)</p>
+<p>不可重复读(Non-repeatable read)</p>
 </blockquote>
 <p>在一个事务的两次查询之中数据不一致，这可能是两次查询过程中间插入了一个事务更新的原有的数据。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新update price=120，并commit</span><br><span class="line">事务A读取的price=120</span><br><span class="line">事务A多次读取的结果不一致</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>w 幻读(Phantom Read) </p>
+<p>幻读(Phantom Read) </p>
 </blockquote>
 <p><font color=red >幻读和不可重复读的区别在于，幻读主要表现在数据的删除和插入，而不可重复读表现在数据的更新。</font></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新delete price=100 这条记录，并commit</span><br><span class="line">事务A读取的price=100</span><br><span class="line">price这条记录已经不存在，但是事务A还是可以读取到</span><br></pre></td></tr></table></figure>

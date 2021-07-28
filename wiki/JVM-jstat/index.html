@@ -180,7 +180,7 @@
   <article class="post-article">
     <section class="markdown-content"><h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><p>jstat是一个简单的实用工具，在JDK中存在，用于提供与JVM性能相关的统计信息，例如垃圾收集，编译活动。 jstat的主要优势在于，它可以在运行JVM且无需任何先决条件的情况下动态捕获这些指标。 这是什么意思？ 例如，如果要捕获与垃圾回收相关的统计信息，则需要在启动JVM之前传递以下参数：</p>
 <blockquote>
-<p>i  -Xlog:gc*:file={file-path} </p>
+<p> -Xlog:gc*:file={file-path} </p>
 </blockquote>
 <p>此参数将启用GC日志并将其打印在指定的文件路径中。 假设您尚未传递此参数，那么将不会生成与GC相关的统计信息。 这是jstat可以派上用场的地方。 您可以动态地连接到JVM并捕获GC，编译相关的统计信息如下所示。</p>
 <h2 id="jstat操作"><a href="#jstat操作" class="headerlink" title="jstat操作"></a>jstat操作</h2><p>执行命令：</p>

@@ -182,7 +182,7 @@
 
 <p>如上图👆所示，设备A向设备B发送消息，消息在网络中会由于各种各样的问题导致丢失，那么该如何解决上述问题呢？</p>
 <h2 id="采用定时器重传"><a href="#采用定时器重传" class="headerlink" title="采用定时器重传"></a>采用定时器重传</h2><blockquote>
-<p>i PAR：Positive Acknowledgment with Retransmission</p>
+<p>PAR：Positive Acknowledgment with Retransmission</p>
 </blockquote>
 <image src="https://oscimg.oschina.net/oscnet/up-17f5567e452afb45cf18d01e62bdfa33f96.png" width=680 height=330>
 
@@ -193,7 +193,7 @@
 <li>这种方式是串型发送的，只有第一个消息发送成功之后，才可以发送下一条消息，「 <strong>效率极差</strong> 」；</li>
 </ul>
 <h2 id="并发能力PAR"><a href="#并发能力PAR" class="headerlink" title="并发能力PAR"></a>并发能力PAR</h2><blockquote>
-<p>i 基于上述PAR效率低下的方式进行改造，在发送端采用并发+定时器的方式进行数据发送；</p>
+<p>基于上述PAR效率低下的方式进行改造，在发送端采用并发+定时器的方式进行数据发送；</p>
 </blockquote>
 <image src="https://oscimg.oschina.net/oscnet/up-96114b57ac73a41915bea1a7d11e0145102.png" width=600 height="500">
 
@@ -211,13 +211,13 @@
 <li><strong>序列号的值针对的是字节而不是报文</strong> ⚠️⚠️⚠️</li>
 </ul>
 <blockquote>
-<p>i TCP的定位就是面向字节流的！</p>
+<p>TCP的定位就是面向字节流的！</p>
 </blockquote>
 <h2 id="TCP序列号如何设计的"><a href="#TCP序列号如何设计的" class="headerlink" title="TCP序列号如何设计的"></a>TCP序列号如何设计的</h2><image src="https://oscimg.oschina.net/oscnet/up-f5f274ec300162985b9bef86ebd94f6a81e.png" width=450 height=450>
 
 <p>通过TCP报文头我们可以知道，Sequment序列号包括32位长度；也就是说一个Sequment可以发送2的32次方个字节，大约4G的数量，Sequment就无法表示了，当传输的数据超过“4G”之后，如果这个连接依然要使用的话，Sequment会重新复用；Sequment复用会产生一个问题，也就是序列号回绕；👇</p>
 <h2 id="序列号回绕"><a href="#序列号回绕" class="headerlink" title="序列号回绕"></a>序列号回绕</h2><blockquote>
-<p>i 序列号回绕 (Protect Against Wrapped Sequence numbers)</p>
+<p>序列号回绕 (Protect Against Wrapped Sequence numbers)</p>
 </blockquote>
 <image src="https://oscimg.oschina.net/oscnet/up-4edfd2031f0ec6ebdaa23c497e18df359cd.png" width=800 height=380>
 

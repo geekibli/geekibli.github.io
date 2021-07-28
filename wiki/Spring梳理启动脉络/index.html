@@ -185,7 +185,7 @@
 </ul>
 <p>思考：我们是如何使用Spring的呢？</p>
 <blockquote>
-<p>i  加入从配置文件中加载bean 我们猜想一下大致流程是怎样的</p>
+<p> 加入从配置文件中加载bean 我们猜想一下大致流程是怎样的</p>
 </blockquote>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">getPerson</span> <span class="attr">class</span>=<span class="string">com.ibli.Person</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">id</span> <span class="attr">value</span>=<span class="string">1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">age</span> <span class="attr">value</span>=<span class="string">20</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -202,28 +202,28 @@
 <img src="https://oscimg.oschina.net/oscnet/up-baea159953c9590bba80022b251df95a255.png" >
 
 <blockquote>
-<p>i 1、首先容器是创建好的，容器创建好之后，才可以加载配置文件</p>
+<p>1、首先容器是创建好的，容器创建好之后，才可以加载配置文件</p>
 </blockquote>
 <p>也就是我们猜想的Map</p>
 <blockquote>
-<p>i 2、加载配置文件</p>
+<p>2、加载配置文件</p>
 </blockquote>
 <p>配置文件可能会有多种方式，比如XML格式，property格式，yaml格式，注解格式，这个格式各不相同，又是如何加载的呢？<br>Spring提供了一个接口，BeanDefinitionReader,它有一个抽象实现类AbstractBeanDefinitionReader，不同配置文件的Reader来继承这个抽象类，实现它们自己的逻辑；</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertiesBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">GroovyBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span> <span class="keyword">implements</span> <span class="title">GroovyObject</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">XmlBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span></span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>i 3、读取的配置文件会转换成Spring定义的格式，也就是BeanDefinition；</p>
+<p>3、读取的配置文件会转换成Spring定义的格式，也就是BeanDefinition；</p>
 </blockquote>
 <p>BeanDefinition定义了类的所有相关的数据； 此时得到的BeanDefinition的属性值只是「符号类型」,并不是真正的属性值；</p>
 <p>我们可能会见过这中加载数据源的方式👇</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">dataSource</span> <span class="attr">class</span>=<span class="string">com.alibab.durid.pool.DruidDataSource</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">url</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.url&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">username</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.username&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">password</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.password&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br></pre></td></tr></table></figure>
 <p>数据源的具体配置是放在配置文件中的，当通过XmlBeanDefinitionReader读取并解析到的BeanDefinition，仅仅是将Xml中的文件数据存放到BeanDefinition中，属性的值是${jdbc.url}而不是真正的我们数据源的地址；</p>
 <blockquote>
-<p>i 4、得到所有的BeanDefinition之后，通过BeanFactoryPostProcessor来处理上一步骤中，属性value不是真实数据的问题</p>
+<p>4、得到所有的BeanDefinition之后，通过BeanFactoryPostProcessor来处理上一步骤中，属性value不是真实数据的问题</p>
 </blockquote>
 <p>比如PlaceHolderConfigurerSupport(占位符处理) 经过工厂后置处理器处理之后，BeanDefinition的属性值就是真实需要的数据了；</p>
 <blockquote>
-<p>i 5、BeanDefinition数据准备完成之后，由BeanFactory来完成Bean的创建</p>
+<p>5、BeanDefinition数据准备完成之后，由BeanFactory来完成Bean的创建</p>
 </blockquote>
 <ul>
 <li>实例化 对象中分配堆内存等操作<blockquote>
@@ -233,11 +233,11 @@
 <li>初始化</li>
 </ul>
 <blockquote>
-<p>i 6、初始化之前需要准备的工作 </p>
+<p>6、初始化之前需要准备的工作 </p>
 </blockquote>
 <p>1、准备BeanPostProcessors<br>2、观察者模式，准备监听器 事件 广播器</p>
 <blockquote>
-<p>i 7、初始化环节有很多步骤</p>
+<p>7、初始化环节有很多步骤</p>
 </blockquote>
 <ul>
 <li><p>对象的填充</p>
@@ -261,7 +261,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 前置方法</span><br><span class="line">postProcessBeforeInitialization</span><br><span class="line">// 后置方法</span><br><span class="line">postProcessAfterInitialization</span><br></pre></td></tr></table></figure></li>
 </ul>
 <blockquote>
-<p>i 8、执行到此，完成对象的创建，得到一个可以使用的对象</p>
+<p>8、执行到此，完成对象的创建，得到一个可以使用的对象</p>
 </blockquote>
 </section>
     <!-- Tags START -->

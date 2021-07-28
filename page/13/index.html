@@ -231,14 +231,14 @@ SWS(Silly Window syndrome) 糊涂窗口综合症
       <div class="article-summary">
         
           滑动窗口
-i 之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口
+之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口
 
 发送端窗口滑动窗口按照传输数据方向分为两种，发送端窗口和接收端窗口；下面先看一下发送端窗口👇：
 
 
 上图分为四个部分：
 
-已发 ...
+已发送并 ...
         
       </div>
       <a class="more" href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">Read more</a>
@@ -259,9 +259,9 @@ i 之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送
       <div class="article-summary">
         
           
-i 之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？
+之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？
 
-什么是RTT？了解RTO如何计算之前，首先明确一个概念「 R ...
+什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT ...
         
       </div>
       <a class="more" href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">Read more</a>
@@ -285,13 +285,13 @@ i 之前的文章已经介绍了TCP超时重传的过程中使用了定时器的
 
 如上图👆所示，设备A向设备B发送消息，消息在网络中会由于各种各样的问题导致丢失，那么该如何解决上述问题呢？
 采用定时器重传
-i PAR：Positive Acknowledgment with Retransmission
+PAR：Positive Acknowledgment with Retransmission
 
 
 
 最简单的思路是在发送方设置「 定时器 」：
 
-当设备 ...
+当设备A发 ...
         
       </div>
       <a class="more" href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">Read more</a>
@@ -333,17 +333,17 @@ i PAR：Positive Acknowledgment with Retransmission
         
           握手🤝的目的
 同步Sequence序列号
-i 初始化序列号ISN （Inital Sequence Number）
+初始化序列号ISN （Inital Sequence Number）
 
 
 交换TCP通讯的参数
-i 比如最大报文段参数（MSS）、窗口比例因子（Window）、选择性确认（SACK）、制定校验和算法；
+比如最大报文段参数（MSS）、窗口比例因子（Window）、选择性确认（SACK）、制定校验和算法；
 
 
 
 三次握手握手过程
 
-TCP三次握手的 ...
+TCP三次握手的大致流程 ...
         
       </div>
       <a class="more" href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">Read more</a>
@@ -391,10 +391,10 @@ t ...
       <div class="article-summary">
         
           TCP协议学习笔记📒
-w 下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！
+下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！
 
 
-1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传 ...
+1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时 ...
         
       </div>
       <a class="more" href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">Read more</a>

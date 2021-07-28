@@ -185,11 +185,11 @@
 <h3 id="SWS-避免算法"><a href="#SWS-避免算法" class="headerlink" title="SWS 避免算法"></a>SWS 避免算法</h3><p>SWS 避免算法对发送方和接收方都做客</p>
 <ul>
 <li>接收方<blockquote>
-<p>i David D Clark 算法:窗口边界移动值小于 min(MSS, 缓存/2)时，<br>通知窗口为 0</p>
+<p>David D Clark 算法:窗口边界移动值小于 min(MSS, 缓存/2)时，<br>通知窗口为 0</p>
 </blockquote>
 </li>
 <li>发送方<blockquote>
-<p>w Nagle 算法:<br>1、TCP_NODELAY 用于关闭 Nagle 算法<br>2、没有已发送未确认报文段时，立刻发送数据<br>3、存在未确认报文段时，直到:1-没有已发送未确认报文段，或者 2-数据长度达到MSS时再发送</p>
+<p>Nagle 算法:<br>1、TCP_NODELAY 用于关闭 Nagle 算法<br>2、没有已发送未确认报文段时，立刻发送数据<br>3、存在未确认报文段时，直到:1-没有已发送未确认报文段，或者 2-数据长度达到MSS时再发送</p>
 </blockquote>
 </li>
 </ul>

@@ -186,15 +186,15 @@
 <h2 id="MSS-选择目的"><a href="#MSS-选择目的" class="headerlink" title="MSS 选择目的"></a>MSS 选择目的</h2><ul>
 <li>尽量每个 Segment 报文段携带更多的数据，以减少头部空间占用比率 </li>
 <li>防止 Segment 被某个设备的 IP 层基于 MTU 拆分<blockquote>
-<p>s IP层基于MTU的数据拆分是效率极差的，一个报文段丢失，所有的报文段都要重传</p>
+<p>IP层基于MTU的数据拆分是效率极差的，一个报文段丢失，所有的报文段都要重传</p>
 </blockquote>
 </li>
 </ul>
 <h2 id="MSS默认大小"><a href="#MSS默认大小" class="headerlink" title="MSS默认大小"></a>MSS默认大小</h2><blockquote>
-<p>s 默认 MSS:536 字节(默认 MTU576 字节，20 字节 IP 头部，20 字节 TCP 头部)</p>
+<p>默认 MSS:536 字节(默认 MTU576 字节，20 字节 IP 头部，20 字节 TCP 头部)</p>
 </blockquote>
 <h2 id="MSS在什么时候使用"><a href="#MSS在什么时候使用" class="headerlink" title="MSS在什么时候使用"></a>MSS在什么时候使用</h2><blockquote>
-<p>s 握手阶段协商 MSS 这个在TCP三次握手的文章中已经提及过了！</p>
+<p>握手阶段协商 MSS 这个在TCP三次握手的文章中已经提及过了！</p>
 </blockquote>
 <h2 id="MSS-分类"><a href="#MSS-分类" class="headerlink" title="MSS 分类"></a>MSS 分类</h2><ul>
 <li><strong>发送方最大报文段:</strong> <blockquote>

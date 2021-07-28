@@ -177,25 +177,25 @@
       <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
   <a href="/tags#JVM" >
     <span class="tag-code">JVM</span>
+  </a>
+
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
   </a>
 
       
       <div class="article-summary">
         
           性能调优参数Xms，Xmx，Xss的含义
-s -Xss
+-Xss
 
 规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。
 
-s -Xms
+-Xms
 
-表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的 ...
+表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量 ...
         
       </div>
       <a class="more" href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">Read more</a>
@@ -281,13 +281,13 @@ s -Xms
       <div class="article-summary">
         
           事务特性与实现原理事务特性
-i 原子性(Atomicity)
+原子性(Atomicity)
 
 事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。
 
-i 一致性(Consistency)
+一致性(Consistency)
 
-事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性 ...
+事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主 ...
         
       </div>
       <a class="more" href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Read more</a>
@@ -303,7 +303,9 @@ i 一致性(Consistency)
         
           数据库隔离级别SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。
 
-i Read Uncommitted（读取未提交内容） ...
+Read Uncommitted（读取未提交内容）
+
+ ...
         
       </div>
       <a class="more" href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">Read more</a>

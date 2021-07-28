@@ -179,19 +179,19 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
-<p>i 原子性(Atomicity)</p>
+<p>原子性(Atomicity)</p>
 </blockquote>
 <p>事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。</p>
 <blockquote>
-<p>i 一致性(Consistency)</p>
+<p>一致性(Consistency)</p>
 </blockquote>
 <p>事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主码,参照完整性,check约束等) 2.系统的状态反应数据库本应描述的现实世界的真实状态,比如转账前后两个账户的金额总和应该保持不变。</p>
 <blockquote>
-<p>i 隔离性(Isolation)</p>
+<p>隔离性(Isolation)</p>
 </blockquote>
 <p>并发执行的事务不会相互影响,其对数据库的影响和它们串行执行时一样。比如多个用户同时往一个账户转账,最后账户的结果应该和他们按先后次序转账的结果一样。</p>
 <blockquote>
-<p>i 持久性(Durability)</p>
+<p>持久性(Durability)</p>
 </blockquote>
 <p>事务一旦提交,其对数据库的更新就是持久的。任何事务或系统故障都不会导致数据丢失。</p>
 <p>在事务的ACID特性中,C即一致性是事务的根本追求,而对数据一致性的破坏主要来自两个方面<br>1.事务的并发执行<br>2.事务故障或系统故障</p>

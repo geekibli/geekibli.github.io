@@ -180,7 +180,7 @@
   <article class="post-article">
     <section class="markdown-content"><h1 id="一致性哈希算法"><a href="#一致性哈希算法" class="headerlink" title="一致性哈希算法"></a>一致性哈希算法</h1><p>一致性哈希算法(Consistent Hashing Algorithm)是一种分布式算法，常用于负载均衡。Memcached client也选择这种算法，解决将key-value均匀分配到众多Memcached server上的问题。它可以取代传统的取模操作，解决了取模操作无法应对增删Memcached Server的问题(增删server会导致同一个key,在get操作时分配不到数据真正存储的server，命中率会急剧下降)。</p>
 <h2 id="哈希指标"><a href="#哈希指标" class="headerlink" title="哈希指标"></a>哈希指标</h2><blockquote>
-<p>i 评估一个哈希算法的优劣，有如下指标，而一致性哈希全部满足：</p>
+<p>评估一个哈希算法的优劣，有如下指标，而一致性哈希全部满足：</p>
 </blockquote>
 <ul>
 <li>均衡性(Balance)：将关键字的哈希地址均匀地分布在地址空间中，使地址空间得到充分利用，这是设计哈希的一个基本特性。</li>
@@ -189,20 +189,20 @@
 <li>负载(Load): 负载问题实际上是从另一个角度看待分散性问题。既然不同的终端可能将相同的内容映射到不同的缓冲区中，那么对于一个特定的缓冲区而言，也可能被不同的用户映射为不同的内容。与分散性一样，这种情况也是应当避免的，因此好的哈希算法应能够尽量降低缓冲的负荷</li>
 </ul>
 <h2 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h2><blockquote>
-<p>i 将节点通过hash映射到hash环上，理想的情况是多个节点直接分布均匀</p>
+<p>将节点通过hash映射到hash环上，理想的情况是多个节点直接分布均匀</p>
 </blockquote>
 <img src="https://oscimg.oschina.net/oscnet/up-ac8ab4cd06d150b14ddfe58e2cdcbdb7dff.png" >
 
 
 <p>当我们的对象通过hash算法分配在hash环上的时候，它是固定分配到一个节点的空间上的，当我们在BC之间插入一个节点时，仅仅会影响到BC这一段空间上的数据，而不是整个环上的数据都要跟着变化；</p>
 <blockquote>
-<p>i 现实情况下，节点之间可能分配不均匀</p>
+<p>现实情况下，节点之间可能分配不均匀</p>
 </blockquote>
 <img src="https://oscimg.oschina.net/oscnet/up-3a12f9634fed9d5f67debfcdd7fe22f1fae.png">
 
 <p>这和传统的hash取模一样，同样会数据倾斜的问题！</p>
 <blockquote>
-<p>i 虚拟节点</p>
+<p>虚拟节点</p>
 </blockquote>
 <p>这个时候虚拟节点就此诞生，下面让我们来看一下虚拟节点在一致性Hash中的作用。当我们在Hash环上新增若干个点，那么每个点之间的距离就会接近相等。按照这个思路我们可以新增若干个片/表，但是成本有限，我们通过复制多个A、B、C的副本({A1-An},{B1-Bn},{C1-Cn})一起参与计算，按照顺时针的方向进行数据分布，按照下图示意:<br><img src="https://oscimg.oschina.net/oscnet/up-88c2aef2ec993ede090695ffe78f53f999a.png"></p>
 <p>此时A=[A,C1)&amp;[A1,C2)&amp;[A2,B4)&amp;[A3,A4)&amp;[A4,B1)；B=[B,A1)&amp;[B2,C)&amp;[B3,C3)&amp;[B4,C4)&amp;[B1,A)；C=[C1,B)&amp;[C2,B2)&amp;[C,B3)&amp;[B3,C3)&amp;[C4,A3)；由图可以看出分布点越密集，平衡性约好。</p>

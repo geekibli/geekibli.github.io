@@ -189,11 +189,11 @@
 
 <ul>
 <li>markword<blockquote>
-<p>i 存储sync锁标志，分代年龄等一些关键信息 8字节</p>
+<p>存储sync锁标志，分代年龄等一些关键信息 8字节</p>
 </blockquote>
 </li>
 <li>class pointer<blockquote>
-<p>i 指向当前对象所属类类型 4字节</p>
+<p>指向当前对象所属类类型 4字节</p>
 </blockquote>
 </li>
 </ul>
@@ -203,29 +203,29 @@
 </blockquote>
 <ul>
 <li>instance data<blockquote>
-<p>i 寸尺当前对象的实例数据</p>
+<p>寸尺当前对象的实例数据</p>
 </blockquote>
 </li>
 <li>padding<blockquote>
-<p>i 对齐填充，当对象所占字节数不能被8整除之后，进行填充对齐。 目前的操作系统基本上都是64位的；</p>
+<p>对齐填充，当对象所占字节数不能被8整除之后，进行填充对齐。 目前的操作系统基本上都是64位的；</p>
 </blockquote>
 </li>
 </ul>
 <h2 id="顺丰面试题，new-Object-在内存中占多少个字节"><a href="#顺丰面试题，new-Object-在内存中占多少个字节" class="headerlink" title="顺丰面试题，new Object()在内存中占多少个字节"></a>顺丰面试题，new Object()在内存中占多少个字节</h2><p>1、如果创建的是空对象，没有实例数据</p>
 <ul>
 <li>默认开启了class pointer指针压缩<blockquote>
-<p>w 8字节markword + 4字节class pointer + 4字节 padding</p>
+<p>8字节markword + 4字节class pointer + 4字节 padding</p>
 </blockquote>
 </li>
 <li>如果关闭了类指针压缩<blockquote>
-<p>w 8字节markword + 8字节class pointer</p>
+<p>8字节markword + 8字节class pointer</p>
 </blockquote>
 </li>
 </ul>
 <p>2、如果创建的对象有实力数据，如下对象：<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person（int age , String name）</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>默认开启了class pointer指针压缩<blockquote>
-<p>w 8字节markword + 4字节class pointer + 4字节int + 4字节String + 4字节padding对齐</p>
+<p>8字节markword + 4字节class pointer + 4字节int + 4字节String + 4字节padding对齐</p>
 </blockquote>
 </li>
 </ul>

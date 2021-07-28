@@ -184,18 +184,18 @@
 
 
 <h2 id="锁升级过程"><a href="#锁升级过程" class="headerlink" title="锁升级过程"></a>锁升级过程</h2><blockquote>
-<p>w 锁升级过程： new - 偏向锁 - 轻量级锁 （无锁, 自旋锁，自适应自旋）- 重量级锁</p>
+<p>锁升级过程： new - 偏向锁 - 轻量级锁 （无锁, 自旋锁，自适应自旋）- 重量级锁</p>
 </blockquote>
 <image src="https://oscimg.oschina.net/oscnet/up-2f555289640d34755ca4288ab080906554b.png" width=750 height=450> 
 
 <p><strong>自旋锁什么时候升级为重量级锁？</strong></p>
 <p><strong>为什么有自旋锁还需要重量级锁？</strong></p>
 <blockquote>
-<p>i 自旋是消耗CPU资源的，如果锁的时间长，或者自旋线程多，CPU会被大量消耗<br>重量级锁有等待队列，所有拿不到锁的进入等待队列，不需要消耗CPU资源</p>
+<p>自旋是消耗CPU资源的，如果锁的时间长，或者自旋线程多，CPU会被大量消耗<br>重量级锁有等待队列，所有拿不到锁的进入等待队列，不需要消耗CPU资源</p>
 </blockquote>
 <p><strong>偏向锁是否一定比自旋锁效率高？</strong></p>
 <blockquote>
-<p>i 不一定，在明确知道会有多线程竞争的情况下，偏向锁肯定会涉及锁撤销，这时候直接使用自旋锁<br>JVM启动过程，会有很多线程竞争（明确），所以默认情况启动时不打开偏向锁，过一段儿时间再打开</p>
+<p>不一定，在明确知道会有多线程竞争的情况下，偏向锁肯定会涉及锁撤销，这时候直接使用自旋锁<br>JVM启动过程，会有很多线程竞争（明确），所以默认情况启动时不打开偏向锁，过一段儿时间再打开</p>
 </blockquote>
 <h3 id="synchronized优化的过程和markword息息相关"><a href="#synchronized优化的过程和markword息息相关" class="headerlink" title="synchronized优化的过程和markword息息相关"></a>synchronized优化的过程和markword息息相关</h3><p>用markword中最低的三位代表锁状态 其中1位是偏向锁位 两位是普通锁位</p>
 <ol>
@@ -221,7 +221,7 @@
 <p>(以上实验环境是JDK11，打开就是偏向锁，而JDK8默认对象头是无锁)<br>偏向锁默认是打开的，但是有一个时延，如果要观察到偏向锁，应该设定参数</p>
 <p><strong>如果计算过对象的hashCode，则对象无法进入偏向状态！</strong></p>
 <blockquote>
-<p>i <strong>轻量级锁重量级锁的hashCode存在与什么地方？</strong><br>答案：线程栈中，轻量级锁的LR中，或是代表重量级锁的ObjectMonitor的成员中</p>
+<p><strong>轻量级锁重量级锁的hashCode存在与什么地方？</strong><br>答案：线程栈中，轻量级锁的LR中，或是代表重量级锁的ObjectMonitor的成员中</p>
 </blockquote>
 <p>关于epoch: (不重要)</p>
 <blockquote>

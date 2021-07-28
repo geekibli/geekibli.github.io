@@ -182,7 +182,7 @@
 
 <p>如上图👆所示，A对象的一个属性是B,B对象的一个属性是A,而Spring中的bean默认情况下都是单例的，所以这两个Bean就产生了循环依赖的问题！</p>
 <blockquote>
-<p>i 那么循环依赖的问题出现在什么情况呢</p>
+<p>那么循环依赖的问题出现在什么情况呢</p>
 </blockquote>
 <p>想一下属性赋值的方式有几种呢？</p>
 <ul>
@@ -204,11 +204,11 @@
 </blockquote>
 <p>不能，如果放在一起将无法区分对象是成品对象还是半成品对象了<br>所以再次引出多级缓存的概念，可以创建两个缓存对象，一个用来存放已经实例化的半成品对象，另一个存放完成实例化并且完成初始化的成品对象，这个应该比较好理解吧！</p>
 <blockquote>
-<p>i 思考一下以上的设计有没有问题呢？</p>
+<p>思考一下以上的设计有没有问题呢？</p>
 </blockquote>
 <h3 id="为什么需要三级缓存？"><a href="#为什么需要三级缓存？" class="headerlink" title="为什么需要三级缓存？"></a>为什么需要三级缓存？</h3><p>Spring在解决对象Bean循环依赖的问题的解决方案是使用了「三级缓存」；<br>为什么需要三级缓存，也就是三个Map对象；</p>
 <blockquote>
-<p>i org.springframework.beans.factory.support.DefaultSingletonBeanRegistry</p>
+<p>org.springframework.beans.factory.support.DefaultSingletonBeanRegistry</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一级缓存</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; singletonObjects = <span class="keyword">new</span> ConcurrentHashMap(<span class="number">256</span>);</span><br><span class="line"><span class="comment">// 二级缓存</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; earlySingletonObjects = <span class="keyword">new</span> HashMap(<span class="number">16</span>);</span><br><span class="line"><span class="comment">// 三级缓存</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, ObjectFactory&lt;?&gt;&gt; singletonFactories = <span class="keyword">new</span> HashMap(<span class="number">16</span>);</span><br></pre></td></tr></table></figure>
 
@@ -219,7 +219,7 @@
 
 
 <blockquote>
-<p>w 三级缓存中分别保存的是什么内容</p>
+<p>三级缓存中分别保存的是什么内容</p>
 </blockquote>
 <ul>
 <li>一级缓存： 成品对象</li>
@@ -227,7 +227,7 @@
 <li>三级缓存； lambda表达式</li>
 </ul>
 <blockquote>
-<p>w 如果只有二级缓存可不可行</p>
+<p>如果只有二级缓存可不可行</p>
 </blockquote>
 <p>在Spring源码中，只有addSingleton方法和doCreateBean方法中向三级缓存中添加东西的；</p>
 <p>org.springframework.beans.factory.support.DefaultSingletonBeanRegistry#addSingletonFactory</p>

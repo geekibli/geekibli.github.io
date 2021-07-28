@@ -179,7 +179,7 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h1 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h1><blockquote>
-<p>i 之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口</p>
+<p>之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口</p>
 </blockquote>
 <h2 id="发送端窗口"><a href="#发送端窗口" class="headerlink" title="发送端窗口"></a>发送端窗口</h2><p>滑动窗口按照传输数据方向分为两种，发送端窗口和接收端窗口；下面先看一下发送端窗口👇：</p>
 <image src="https://oscimg.oschina.net/oscnet/up-13e77c53892b884d334614e4fa9550a1113.png">
@@ -195,7 +195,7 @@
 
 <p>如上图这里可以引出两个概念：「可用窗口」和「发送窗口」</p>
 <blockquote>
-<p>s 【 <strong>可用窗口</strong> 】： 就是上图中的第三部分，属于还未发送，但是在接收端可以处理范围内的部分；<br>【 <strong>发送窗口</strong> 】： 就是发送端可以发送的最大报文大小，如上图中的第二部分+第三部分合成发送窗口；</p>
+<p>【 <strong>可用窗口</strong> 】： 就是上图中的第三部分，属于还未发送，但是在接收端可以处理范围内的部分；<br>【 <strong>发送窗口</strong> 】： 就是发送端可以发送的最大报文大小，如上图中的第二部分+第三部分合成发送窗口；</p>
 </blockquote>
 <h3 id="可用窗口耗尽"><a href="#可用窗口耗尽" class="headerlink" title="可用窗口耗尽"></a>可用窗口耗尽</h3><image src="https://oscimg.oschina.net/oscnet/up-333b88e14f6fd5833fd92a9ab45894e60dd.png"> 
 
@@ -208,21 +208,21 @@
 <p>再次引出三个概念：</p>
 <ul>
 <li>SND.WND<blockquote>
-<p>i SND 指的是发送端，WND指的是window，也就是发送端窗口的意思</p>
+<p>SND 指的是发送端，WND指的是window，也就是发送端窗口的意思</p>
 </blockquote>
 </li>
 <li>SND.UNA<blockquote>
-<p>i UNA 就是un ACK的意思，指的是已经发送但是没有没有确认 它指向窗口的第一个字节处</p>
+<p>UNA 就是un ACK的意思，指的是已经发送但是没有没有确认 它指向窗口的第一个字节处</p>
 </blockquote>
 </li>
 <li>SND.NXT<blockquote>
-<p>i NXT 是next的位置，是发送方接下来要发送的位置，它指向可用窗口的第一个字节处</p>
+<p>NXT 是next的位置，是发送方接下来要发送的位置，它指向可用窗口的第一个字节处</p>
 </blockquote>
 </li>
 </ul>
 <p><strong>那就很容易得出可用窗口的大小了，计算公式如下：</strong></p>
 <blockquote>
-<p>i Usable Window Size = SND.UNA + SND.WND - SND.NXT </p>
+<p>Usable Window Size = SND.UNA + SND.WND - SND.NXT </p>
 </blockquote>
 <h2 id="接收端窗口"><a href="#接收端窗口" class="headerlink" title="接收端窗口"></a>接收端窗口</h2><p>上面介绍了发送端窗口的一些概念，下面👇是接收端窗口的学习：</p>
 <image src="https://oscimg.oschina.net/oscnet/up-0313775eaecc790ad26b44c3daa17ced593.png">
@@ -235,11 +235,11 @@
 <p>这里引出两个概念：</p>
 <ul>
 <li>RCV.WND<blockquote>
-<p>i RCV是接收端的意思，WND是接受端窗口的大小</p>
+<p>RCV是接收端的意思，WND是接受端窗口的大小</p>
 </blockquote>
 </li>
 <li>RCV.NXT<blockquote>
-<p>i NXT表示的是接受端接收窗口的开始位置，也就是接收方接下来处理的第一个字节；</p>
+<p>NXT表示的是接受端接收窗口的开始位置，也就是接收方接下来处理的第一个字节；</p>
 </blockquote>
 </li>
 </ul>
@@ -248,53 +248,53 @@
 <image src="https://oscimg.oschina.net/oscnet/up-08e7b2cd9ee3ddaa44bca900a1824e08b09.png" width=900 height=480> 
 
 <blockquote>
-<p>s 这里假设MSS和窗口的大小不发生变化，同时客户端和发送端状态如下：<br>【 客户端 】： 发送窗口默认360字节 接收窗口设定200字节<br>【 服务端 】： 发送窗口设定200字节 接收窗口设定360字节</p>
+<p>这里假设MSS和窗口的大小不发生变化，同时客户端和发送端状态如下：<br>【 客户端 】： 发送窗口默认360字节 接收窗口设定200字节<br>【 服务端 】： 发送窗口设定200字节 接收窗口设定360字节</p>
 </blockquote>
 <p>Step1： 客户端发送140字节的数据到服务端</p>
 <blockquote>
-<p>i 【客户端】发送140字节，【SND.NXT】从1-&gt;141 </p>
+<p>【客户端】发送140字节，【SND.NXT】从1-&gt;141 </p>
 </blockquote>
 <blockquote>
-<p>w 【服务端】状态不变，等待接收客户端传输的140字节</p>
+<p>【服务端】状态不变，等待接收客户端传输的140字节</p>
 </blockquote>
 <p>Step2: 服务端接收140字节，发送80字节响应以及ACK</p>
 <blockquote>
-<p>i 【 客户端 】发送140字节之后等待【 服务端 】的ACK</p>
+<p>【 客户端 】发送140字节之后等待【 服务端 】的ACK</p>
 </blockquote>
 <blockquote>
-<p>w【 服务端 】可用窗口右移，【RCV.NXT】从1-&gt;141<br>【 服务端 】发送80字节数据，【SND.NXT】从241-&gt;321</p>
+<p>【 服务端 】可用窗口右移，【RCV.NXT】从1-&gt;141<br>【 服务端 】发送80字节数据，【SND.NXT】从241-&gt;321</p>
 </blockquote>
 <p>Step3: 客户端接收响应ACK，并且发送ACK </p>
 <blockquote>
-<p>i 【 客户端 】发出的140字节得到确认，【SND.UNA】右移140字节<br>【 客户端 】接收80字节数据，【RCV.NXT】右移80字节，从241-&gt;321</p>
+<p>【 客户端 】发出的140字节得到确认，【SND.UNA】右移140字节<br>【 客户端 】接收80字节数据，【RCV.NXT】右移80字节，从241-&gt;321</p>
 </blockquote>
 <p>Step4: 服务端发送一个280字节的文件，但是280字节超出了客户端的接收窗口，所以客户端分成两部分传输，先传输120字节；</p>
 <blockquote>
-<p>w 【 服务端 】发送120字节，【SND.NXT】向右移动120字节，从321-&gt;441</p>
+<p>【 服务端 】发送120字节，【SND.NXT】向右移动120字节，从321-&gt;441</p>
 </blockquote>
 <p>Step5: 客户端接收文件第一部分，并发送ACK</p>
 <blockquote>
-<p>i 【 客户端 】接收120字节，【RCV.NXT】从321-&gt;441</p>
+<p>【 客户端 】接收120字节，【RCV.NXT】从321-&gt;441</p>
 </blockquote>
 <p>Step6：服务端接收到第二步80字节的ACK</p>
 <blockquote>
-<p>w [ 服务器 ] 80字节得到ACK 【SND.UNA】从241-&gt;321</p>
+<p>[ 服务器 ] 80字节得到ACK 【SND.UNA】从241-&gt;321</p>
 </blockquote>
 <p>Step7: 服务端接收到第4步的确认</p>
 <blockquote>
-<p>w 【 服务端 】之前发送文件第一部分的120字节得到确认，【SND.UNA】右移动120，从321-&gt;441</p>
+<p>【 服务端 】之前发送文件第一部分的120字节得到确认，【SND.UNA】右移动120，从321-&gt;441</p>
 </blockquote>
 <p>Step8: 服务端发送文件第二部分的160字节</p>
 <blockquote>
-<p>w 【 服务端 】： 发送160字节，【SND.NXT】向右移动160字节，从441-&gt;601</p>
+<p>【 服务端 】： 发送160字节，【SND.NXT】向右移动160字节，从441-&gt;601</p>
 </blockquote>
 <p>Step9: 客户端接收到文件第二部分160字节，同时发送ACK</p>
 <blockquote>
-<p>i 【 客户端 】接收160字节，【RCV.NXT】向右移动160字节，从441-&gt;601</p>
+<p>【 客户端 】接收160字节，【RCV.NXT】向右移动160字节，从441-&gt;601</p>
 </blockquote>
 <p>Step10: 服务端收到文件第二部分的ACK</p>
 <blockquote>
-<p>w 【 服务端 】发送的160字节得到确认，【SND.UNA】向右一定160字节，从441-&gt;601；至此客户端收到服务端发送的完整的文件；</p>
+<p>【 服务端 】发送的160字节得到确认，【SND.UNA】向右一定160字节，从441-&gt;601；至此客户端收到服务端发送的完整的文件；</p>
 </blockquote>
 <p>上面通过表格列举服务端和客户端每个状态在每个步骤的状态，如果不是很好理解，可以看如下示意图辅助理解：</p>
 <h3 id="客户端交互流程"><a href="#客户端交互流程" class="headerlink" title="客户端交互流程"></a>客户端交互流程</h3><image src="https://oscimg.oschina.net/oscnet/up-6ee487f0677efac1a822207f45fc0a2b842.png" width=500 >
@@ -307,20 +307,20 @@
 
 <h3 id="应用进程读取缓冲区数据不及时造成窗口收缩"><a href="#应用进程读取缓冲区数据不及时造成窗口收缩" class="headerlink" title="应用进程读取缓冲区数据不及时造成窗口收缩"></a>应用进程读取缓冲区数据不及时造成窗口收缩</h3><p>step1: 客户端发送140字节</p>
 <blockquote>
-<p>i 客户端发送到140字节之后，可用窗口收缩到220字节，发送窗口不变</p>
+<p>客户端发送到140字节之后，可用窗口收缩到220字节，发送窗口不变</p>
 </blockquote>
 <p>Step2: 服务端接收140字节 但是应用进程仅仅读取40字节</p>
 <blockquote>
-<p>w 服务端应用进程仅仅读取40字节，仍有100字节占用缓冲区大小，导致接受窗口收缩，服务端发送ACK报文时，在首部Window带上接收窗口的大小260</p>
+<p>服务端应用进程仅仅读取40字节，仍有100字节占用缓冲区大小，导致接受窗口收缩，服务端发送ACK报文时，在首部Window带上接收窗口的大小260</p>
 </blockquote>
 <p>Step3: 客户端收到确认报文之后，发送窗口收缩到260</p>
 <p>Step4: 客户端继续发送180字节数据</p>
 <blockquote>
-<p>i 客户端发送180字节之后，可用窗口变成80字节</p>
+<p>客户端发送180字节之后，可用窗口变成80字节</p>
 </blockquote>
 <p>Step5: 服务端接收到180字节</p>
 <blockquote>
-<p>w 假设应用程序仍然不读取这180字节，最终也导致服务端接收窗口再次收缩180字节，仅剩下80字节，在发送确认报文时，设置首部window=80</p>
+<p>假设应用程序仍然不读取这180字节，最终也导致服务端接收窗口再次收缩180字节，仅剩下80字节，在发送确认报文时，设置首部window=80</p>
 </blockquote>
 <p>Step6: 客户端收到80字节的窗口时，调整发送窗口大小为80字节，可用窗口也是80字节</p>
 <p>Step7: 客户端仍然发送80字节到服务端，此时可用窗口为空</p>
@@ -330,27 +330,27 @@
 
 <p>Step1：客户端服务端开始的窗口大小都是360字节，客户端发送140字节数据</p>
 <blockquote>
-<p>i 客户端发送140字节之后，可用窗口变成220字节</p>
+<p>客户端发送140字节之后，可用窗口变成220字节</p>
 </blockquote>
 <p>Step2：服务端应用进程骤增，进程缓存区平均分配，造成服务端接收窗口减少，从360变成240字节；</p>
 <blockquote>
-<p>w 假设接收了140字节之后，应用进程没有读取，那个可用窗口进一步压缩，变成100字节；</p>
+<p>假设接收了140字节之后，应用进程没有读取，那个可用窗口进一步压缩，变成100字节；</p>
 </blockquote>
 <p>Step3：假设同一个连接在没有收到服务端确认之后，又发送了180个字节的数据（Retramission）</p>
 <blockquote>
-<p>i 先发送了140字节，后发送了180字节，都没有得到确认，客户端可用窗口大小变成40字节</p>
+<p>先发送了140字节，后发送了180字节，都没有得到确认，客户端可用窗口大小变成40字节</p>
 </blockquote>
 <p>Step4：服务端收到上面👆第三步发送的180字节的数据，但是接受窗口的大小只有100字节，所以不能接收</p>
 <blockquote>
-<p>w 服务端拒绝接收180字节</p>
+<p>服务端拒绝接收180字节</p>
 </blockquote>
 <p>Step5：此时客户端才收到之前140字节的确认报文，才知道接收窗口发生了变化</p>
 <blockquote>
-<p>i 客户端由于没有收到180字节的确认，加入客户端正在准备发送180字节数据，得到接受端的窗口大小是100字节之后，须强制将右侧窗口向左收缩80字节；</p>
+<p>客户端由于没有收到180字节的确认，加入客户端正在准备发送180字节数据，得到接受端的窗口大小是100字节之后，须强制将右侧窗口向左收缩80字节；</p>
 </blockquote>
 <h2 id="窗口关闭"><a href="#窗口关闭" class="headerlink" title="窗口关闭"></a>窗口关闭</h2><p>这个例子和上面的例子都发生了「 <strong><font color="red">窗口关闭</font></strong> 」</p>
 <blockquote>
-<p>s 窗口关闭： 发送端的发送窗口变成0的状态；</p>
+<p>窗口关闭： 发送端的发送窗口变成0的状态；</p>
 </blockquote>
 <p>上面讲的两种情况一般不会发生的，因为操作系统不会既收缩窗口，同时减少连接缓存；而是一般先使用窗口收缩策略，之后在压缩缓冲区的方式来规避以上问题；<br>发生窗口关闭之后，发送端不会被动的等待服务端的通知，而是会采用定时嗅探的方式去查看服务端接收窗口是否开放；</p>
 <h2 id="Linux中对TCP缓冲区的调整方式"><a href="#Linux中对TCP缓冲区的调整方式" class="headerlink" title="Linux中对TCP缓冲区的调整方式"></a>Linux中对TCP缓冲区的调整方式</h2><ul>

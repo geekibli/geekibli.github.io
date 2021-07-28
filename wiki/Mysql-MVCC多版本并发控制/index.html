@@ -181,11 +181,11 @@
     <section class="markdown-content"><h1 id="MVCC多版本并发控制"><a href="#MVCC多版本并发控制" class="headerlink" title="MVCC多版本并发控制"></a>MVCC多版本并发控制</h1><p>MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
 <p>MVCC在MySQL InnoDB中的实现主要是为了 「<font color=red> 提高数据库并发性能，用更好的方式去处理读-写冲突，做到即使有读写冲突时，也能做到不加锁，非阻塞并发读 </font>」</p>
 <h2 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h2><blockquote>
-<p>i 当前读</p>
+<p>当前读</p>
 </blockquote>
 <p>像select lock in share mode(共享锁), select for update ; update, insert ,delete(排他锁)这些操作都是一种当前读，为什么叫当前读？就是它读取的是记录的最新版本，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁。</p>
 <blockquote>
-<p>i 快照读</p>
+<p>快照读</p>
 </blockquote>
 <p>像不加锁的select操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行级别，串行级别下的快照读会退化成当前读；之所以出现快照读的情况，是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即MVCC,可以认为MVCC是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本</p>
 <p>说白了MVCC就是为了实现读-写冲突不加锁，而这个读指的就是快照读, 而非当前读，当前读实际上是一种加锁的操作，是悲观锁的实现</p>
@@ -198,24 +198,24 @@
 <h2 id="MVCC的实现原理"><a href="#MVCC的实现原理" class="headerlink" title="MVCC的实现原理"></a>MVCC的实现原理</h2><p>MVCC的目的就是多版本并发控制，在数据库中的实现，就是为了解决读写冲突，它的实现原理主要是依赖记录中的  <font color=red>3个隐式字段</font>，<font color=red>undo日志</font> ，<font color=red>Read View</font> 来实现的。所以我们先来看看这个三个point的概念</p>
 <h3 id="隐式字段"><a href="#隐式字段" class="headerlink" title="隐式字段"></a>隐式字段</h3><p>每行记录除了我们自定义的字段外，还有数据库隐式定义的DB_TRX_ID,DB_ROLL_PTR,DB_ROW_ID等字段</p>
 <blockquote>
-<p>w DB_TRX_ID</p>
+<p>DB_TRX_ID</p>
 </blockquote>
 <p>6byte，最近修改(修改/插入)事务ID：记录创建这条记录/最后一次修改该记录的事务ID</p>
 <blockquote>
-<p>w DB_ROLL_PTR</p>
+<p>DB_ROLL_PTR</p>
 </blockquote>
 <p>7byte，回滚指针，指向这条记录的上一个版本（存储于rollback segment里）</p>
 <blockquote>
-<p>w DB_ROW_ID</p>
+<p>DB_ROW_ID</p>
 </blockquote>
 <p>6byte，隐含的自增ID（隐藏主键），如果数据表没有主键，InnoDB会自动以DB_ROW_ID产生一个聚簇索引<br>实际还有一个删除flag隐藏字段, 既记录被更新或删除并不代表真的删除，而是删除flag变了</p>
 <h3 id="undo日志"><a href="#undo日志" class="headerlink" title="undo日志"></a>undo日志</h3><p>undo log主要分为两种：</p>
 <blockquote>
-<p>s insert undo log</p>
+<p>insert undo log</p>
 </blockquote>
 <p>代表事务在insert新记录时产生的undo log, 只在事务回滚时需要，并且在事务提交后可以被立即丢弃</p>
 <blockquote>
-<p>s update undo log</p>
+<p>update undo log</p>
 </blockquote>
 <p>事务在进行update或delete时产生的undo log; 不仅在事务回滚时需要，在快照读时也需要；所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除</p>
 <h3 id="Read-View-读视图"><a href="#Read-View-读视图" class="headerlink" title="Read View(读视图)"></a>Read View(读视图)</h3><p>什么是Read View，说白了Read View就是事务进行快照读操作的时候生产的读视图(Read View)，在该事务执行的快照读的那一刻，会生成数据库系统当前的一个快照，记录并维护系统当前活跃事务的ID(当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以最新的事务，ID值越大)</p>
