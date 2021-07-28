@@ -40,9 +40,9 @@
     <category term="JVM" scheme="http://example.com/categories/Develop-Lan/Java/JVM/"/>
     
     
-    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
-    
     <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+    <category term="JVM" scheme="http://example.com/tags/JVM/"/>
     
   </entry>
   

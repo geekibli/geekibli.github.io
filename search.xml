@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JVM-Xms,Xmx和Xss</title>
+    <url>/wiki/JVM-Xms-Xmx%E5%92%8CXss/</url>
+    <content><![CDATA[<h1 id="性能调优参数Xms，Xmx，Xss的含义"><a href="#性能调优参数Xms，Xmx，Xss的含义" class="headerlink" title="性能调优参数Xms，Xmx，Xss的含义"></a>性能调优参数Xms，Xmx，Xss的含义</h1><blockquote>
+<p>-Xss</p>
+</blockquote>
+<p>规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。</p>
+<blockquote>
+<p>-Xms</p>
+</blockquote>
+<p>表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量，JAVA堆将会自动扩容到-Xmx大小。</p>
+<blockquote>
+<p>-Xmx</p>
+</blockquote>
+<p>表示java堆可以扩展到的最大值，在很多情况下，通常将-Xms和-Xmx设置成一样的，因为当堆不够用而发生扩容时，会发生内存抖动影响程序运行时的稳定性。</p>
+<blockquote>
+<p>堆内存分配：</p>
+</blockquote>
+<p>JVM初始分配的内存由-Xms指定，默认是物理内存的1/64<br>JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4<br>默认空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到 -Xms的最小限制。<br>因此服务器一般设置-Xms、-Xmx相等以避免在每次GC 后调整堆的大小。对象的堆内存由称为垃圾回收器的自动内存管理系统回收。<br>非堆内存分配：<br>JVM使用-XX:PermSize设置非堆内存初始值，默认是物理内存的1/64；<br>由XX:MaxPermSize设置最大非堆内存的大小，默认是物理内存的1/4。<br>-Xmn2G：设置年轻代大小为2G。<br>-XX:SurvivorRatio，设置年轻代中Eden区与Survivor区的比值。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://blog.csdn.net/a1439775520/article/details/97787160">类似-Xms、-Xmn这些参数的含义：</a><br>2、<a href="https://baijiahao.baidu.com/s?id=1671253445384660292&wfr=spider&for=pc">JVM三大性能调优参数Xms，Xmx，Xss的含义，你又知道多少呢</a></p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Http状态码及含义</title>
     <url>/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/</url>
     <content><![CDATA[<blockquote>
@@ -83,37 +114,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM-Xms,Xmx和Xss</title>
-    <url>/wiki/JVM-Xms-Xmx%E5%92%8CXss/</url>
-    <content><![CDATA[<h1 id="性能调优参数Xms，Xmx，Xss的含义"><a href="#性能调优参数Xms，Xmx，Xss的含义" class="headerlink" title="性能调优参数Xms，Xmx，Xss的含义"></a>性能调优参数Xms，Xmx，Xss的含义</h1><blockquote>
-<p>-Xss</p>
-</blockquote>
-<p>规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。</p>
-<blockquote>
-<p>-Xms</p>
-</blockquote>
-<p>表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量，JAVA堆将会自动扩容到-Xmx大小。</p>
-<blockquote>
-<p>-Xmx</p>
-</blockquote>
-<p>表示java堆可以扩展到的最大值，在很多情况下，通常将-Xms和-Xmx设置成一样的，因为当堆不够用而发生扩容时，会发生内存抖动影响程序运行时的稳定性。</p>
-<blockquote>
-<p>堆内存分配：</p>
-</blockquote>
-<p>JVM初始分配的内存由-Xms指定，默认是物理内存的1/64<br>JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4<br>默认空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到 -Xms的最小限制。<br>因此服务器一般设置-Xms、-Xmx相等以避免在每次GC 后调整堆的大小。对象的堆内存由称为垃圾回收器的自动内存管理系统回收。<br>非堆内存分配：<br>JVM使用-XX:PermSize设置非堆内存初始值，默认是物理内存的1/64；<br>由XX:MaxPermSize设置最大非堆内存的大小，默认是物理内存的1/4。<br>-Xmn2G：设置年轻代大小为2G。<br>-XX:SurvivorRatio，设置年轻代中Eden区与Survivor区的比值。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://blog.csdn.net/a1439775520/article/details/97787160">类似-Xms、-Xmn这些参数的含义：</a><br>2、<a href="https://baijiahao.baidu.com/s?id=1671253445384660292&wfr=spider&for=pc">JVM三大性能调优参数Xms，Xmx，Xss的含义，你又知道多少呢</a></p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM-jstack</title>
     <url>/wiki/JVM-jstack/</url>
     <content><![CDATA[<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><h2 id="jstack-功能"><a href="#jstack-功能" class="headerlink" title="jstack 功能"></a>jstack 功能</h2><p>主要分为两个功能：</p>
@@ -185,43 +185,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM-strace</title>
-    <url>/wiki/JVM-strace/</url>
-    <content><![CDATA[<h1 id="strace-命令查看操作系统日志"><a href="#strace-命令查看操作系统日志" class="headerlink" title="strace 命令查看操作系统日志"></a>strace 命令查看操作系统日志</h1><p><code>strace -ff -o out java ***.class</code></p>
-<p>-ff : 跟踪进程下所有线程用到的系统命令<br>-o : 将跟踪的操作系统日志输出</p>
-<blockquote>
-<p>下面查看JDK1.8下，BIO模式都有哪些系统命令的执行</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ibli.javaBase.io.bio;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> gaolei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2021/4/3 2:55 下午</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SockerIo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9090</span>);</span><br><span class="line">        <span class="comment">// 阻塞</span></span><br><span class="line">        Socket client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">        InputStream inputStream = client.getInputStream();</span><br><span class="line"></span><br><span class="line">        BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(inputStream));</span><br><span class="line">        <span class="comment">// 读阻塞</span></span><br><span class="line">        System.err.println(bufferedReader.readLine());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>服务端</p>
-</blockquote>
-<p>1、<code>javac SockerIo.java</code> 得到SockerIo.class<br>然后，使用strace启动java程序👇：<br>2、<code>strace -ff -0 out java SockerIo</code><br>得到如下日志：<br><img src="https://oscimg.oschina.net/oscnet/up-924f13a6df8c2ce97e13019329008fb4a84.png"></p>
-<blockquote>
-<p>客户端使用nc连接9090端口，然后请求数据</p>
-</blockquote>
-<p><code>nc 127.0.0.1 9090</code>  发送如下数据</p>
-<img src="https://oscimg.oschina.net/oscnet/up-4b7b364f021786bd9bdf4f40135da3b4a8d.png">
-
-<blockquote>
-<p>strace查看日志</p>
-</blockquote>
-<p>查看主线程日志：<br><img src="https://oscimg.oschina.net/oscnet/up-291f9a1018a2d288b88a5c2e43666d5d47e.png"><br>如上图，👆文件最大的是主线程日志：</p>
-<img src="https://oscimg.oschina.net/oscnet/up-c306b9f94e3d0a3582b049d3c4769b4f5ec.png">
-
-<p>根据上面👆strace命令跟踪的日志可以看到，JDK1.8下的BIO的多路复用器是使用的「poll」</p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM-类加载机制</title>
     <url>/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="类加载机制具体流程"><a href="#类加载机制具体流程" class="headerlink" title="类加载机制具体流程"></a>类加载机制具体流程</h2><p>Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。</p>
@@ -272,6 +235,43 @@
 <p>双亲委派机制：<br><img src="https://oscimg.oschina.net/oscnet/up-5314cbdba627f795c147f27e03270d392c7.png" width=400 height=450></p>
 <h2 id="双亲委派如何破坏"><a href="#双亲委派如何破坏" class="headerlink" title="双亲委派如何破坏"></a>双亲委派如何破坏</h2><p>线程上下文加载器</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://blog.csdn.net/weixin_40236948/article/details/88072698">Java类加载机制</a><br>2、<a href="https://blog.csdn.net/codeyanbao/article/details/82875064">通俗易懂的双亲委派机制</a>  </p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM-strace</title>
+    <url>/wiki/JVM-strace/</url>
+    <content><![CDATA[<h1 id="strace-命令查看操作系统日志"><a href="#strace-命令查看操作系统日志" class="headerlink" title="strace 命令查看操作系统日志"></a>strace 命令查看操作系统日志</h1><p><code>strace -ff -o out java ***.class</code></p>
+<p>-ff : 跟踪进程下所有线程用到的系统命令<br>-o : 将跟踪的操作系统日志输出</p>
+<blockquote>
+<p>下面查看JDK1.8下，BIO模式都有哪些系统命令的执行</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ibli.javaBase.io.bio;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> gaolei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2021/4/3 2:55 下午</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SockerIo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9090</span>);</span><br><span class="line">        <span class="comment">// 阻塞</span></span><br><span class="line">        Socket client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">        InputStream inputStream = client.getInputStream();</span><br><span class="line"></span><br><span class="line">        BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(inputStream));</span><br><span class="line">        <span class="comment">// 读阻塞</span></span><br><span class="line">        System.err.println(bufferedReader.readLine());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>服务端</p>
+</blockquote>
+<p>1、<code>javac SockerIo.java</code> 得到SockerIo.class<br>然后，使用strace启动java程序👇：<br>2、<code>strace -ff -0 out java SockerIo</code><br>得到如下日志：<br><img src="https://oscimg.oschina.net/oscnet/up-924f13a6df8c2ce97e13019329008fb4a84.png"></p>
+<blockquote>
+<p>客户端使用nc连接9090端口，然后请求数据</p>
+</blockquote>
+<p><code>nc 127.0.0.1 9090</code>  发送如下数据</p>
+<img src="https://oscimg.oschina.net/oscnet/up-4b7b364f021786bd9bdf4f40135da3b4a8d.png">
+
+<blockquote>
+<p>strace查看日志</p>
+</blockquote>
+<p>查看主线程日志：<br><img src="https://oscimg.oschina.net/oscnet/up-291f9a1018a2d288b88a5c2e43666d5d47e.png"><br>如上图，👆文件最大的是主线程日志：</p>
+<img src="https://oscimg.oschina.net/oscnet/up-c306b9f94e3d0a3582b049d3c4769b4f5ec.png">
+
+<p>根据上面👆strace命令跟踪的日志可以看到，JDK1.8下的BIO的多路复用器是使用的「poll」</p>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -1132,63 +1132,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java并发编程-多线程的发展和意义</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/</url>
-    <content><![CDATA[<h1 id="线程基础概念"><a href="#线程基础概念" class="headerlink" title="线程基础概念"></a>线程基础概念</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己的独立内存，是线程不共享的。</p>
-<h2 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h2><ul>
-<li>并行<br> 同一时刻，横向有多少个线程可以运行</li>
-<li>并发<br> 系统和服务器同一时刻能够承受的并发线程</li>
-</ul>
-<h2 id="线程的特征"><a href="#线程的特征" class="headerlink" title="线程的特征"></a>线程的特征</h2><ul>
-<li>异步（不需要等待）<br> 比如说注册之后发送验证码，验证码的过程可以异步去做不需要客户去在注册接口等待这个时间；</li>
-<li>并行（CPU核数）   </li>
-</ul>
-<h2 id="Java中线程的使用"><a href="#Java中线程的使用" class="headerlink" title="Java中线程的使用"></a>Java中线程的使用</h2><ul>
-<li>继承Thread</li>
-<li>实现Runnalbe</li>
-<li>实现Callable/Future</li>
-</ul>
-<h2 id="线程原理"><a href="#线程原理" class="headerlink" title="线程原理"></a>线程原理</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> <span class="title">extend</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">      b = a + <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>执行start方法，其实是调用JVM相关的指令， thread.cpp</p>
-<blockquote>
-<p>java thread.start() -&gt; cpp thread.start() -&gt; os指令:create.thread    start.thread<br>操作系统层面会创建线程，线程创建之后，线程可以启动，（线程启动之后并不一定马上执行）这些线程统一有CPU调度算法来处理；决定那个线程分配给那个执行CPU；<br>CPU执行线程任务的时候，会调用run方法 -&gt; cpp run方法  -&gt; java  thread.run()</p>
-</blockquote>
-<img src='https://oscimg.oschina.net/oscnet/up-9147a0440e839bc9946fc87147e97b7c793.png' whith=600 height=380>
-
-<p>⚠️ CompletableFuture 异步回调通知，基于Future的优化 </p>
-<h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>线程创建，当线程中的指令执行完成之后，run（）结束 线程销毁<br>其他线程状态</p>
-<ul>
-<li>等待状态 （sleep join wait）</li>
-<li>锁阻塞状态 （blocked 竞争锁失败 park）</li>
-</ul>
-<img src="https://oscimg.oschina.net/oscnet/up-dc87c94066283689df31680050c67edd7b1.png" width=500 height=450>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadStatusDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;time waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (ThreadStatusDemo.class)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        ThreadStatusDemo.class.wait();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (BlockDemo.class)&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>查看线程状态</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jps -l</span><br><span class="line">jstack pid</span><br></pre></td></tr></table></figure>
-
-<h2 id="线程如何停止"><a href="#线程如何停止" class="headerlink" title="线程如何停止"></a>线程如何停止</h2><p>interrupt() 停止线程<br>主动停止方式 -&gt; run方法执行结束<br>被动停止方式</p>
-<p>一般中断线程是在无法控制线程的情况下，比如线程wait ， 线程sleep ， 线程while(true)<br><code>Thread.currnetThread().isInterrupted()</code></p>
-<blockquote>
-<p>stop方法停止线程 禁止使用 相当于kill线程 不友好</p>
-</blockquote>
-<p>interrupt 功能</p>
-<ul>
-<li>唤醒阻塞状态的线程</li>
-<li>修改中断标志，false -&gt; true</li>
-</ul>
-<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2>]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java对象头</title>
     <url>/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/</url>
     <content><![CDATA[<h1 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h1><h2 id="JOL查看对象头信息"><a href="#JOL查看对象头信息" class="headerlink" title="JOL查看对象头信息"></a>JOL查看对象头信息</h2><p>在项目中引入以下依赖</p>
@@ -1253,8 +1196,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Java并发编程之同步锁</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/</url>
+    <title>Java并发编程-Overview</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Overview/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -1266,8 +1209,65 @@
       </tags>
   </entry>
   <entry>
-    <title>Java并发编程-Overview</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-Overview/</url>
+    <title>Java并发编程-多线程的发展和意义</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/</url>
+    <content><![CDATA[<h1 id="线程基础概念"><a href="#线程基础概念" class="headerlink" title="线程基础概念"></a>线程基础概念</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己的独立内存，是线程不共享的。</p>
+<h2 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h2><ul>
+<li>并行<br> 同一时刻，横向有多少个线程可以运行</li>
+<li>并发<br> 系统和服务器同一时刻能够承受的并发线程</li>
+</ul>
+<h2 id="线程的特征"><a href="#线程的特征" class="headerlink" title="线程的特征"></a>线程的特征</h2><ul>
+<li>异步（不需要等待）<br> 比如说注册之后发送验证码，验证码的过程可以异步去做不需要客户去在注册接口等待这个时间；</li>
+<li>并行（CPU核数）   </li>
+</ul>
+<h2 id="Java中线程的使用"><a href="#Java中线程的使用" class="headerlink" title="Java中线程的使用"></a>Java中线程的使用</h2><ul>
+<li>继承Thread</li>
+<li>实现Runnalbe</li>
+<li>实现Callable/Future</li>
+</ul>
+<h2 id="线程原理"><a href="#线程原理" class="headerlink" title="线程原理"></a>线程原理</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> <span class="title">extend</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">      b = a + <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行start方法，其实是调用JVM相关的指令， thread.cpp</p>
+<blockquote>
+<p>java thread.start() -&gt; cpp thread.start() -&gt; os指令:create.thread    start.thread<br>操作系统层面会创建线程，线程创建之后，线程可以启动，（线程启动之后并不一定马上执行）这些线程统一有CPU调度算法来处理；决定那个线程分配给那个执行CPU；<br>CPU执行线程任务的时候，会调用run方法 -&gt; cpp run方法  -&gt; java  thread.run()</p>
+</blockquote>
+<img src='https://oscimg.oschina.net/oscnet/up-9147a0440e839bc9946fc87147e97b7c793.png' whith=600 height=380>
+
+<p>⚠️ CompletableFuture 异步回调通知，基于Future的优化 </p>
+<h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>线程创建，当线程中的指令执行完成之后，run（）结束 线程销毁<br>其他线程状态</p>
+<ul>
+<li>等待状态 （sleep join wait）</li>
+<li>锁阻塞状态 （blocked 竞争锁失败 park）</li>
+</ul>
+<img src="https://oscimg.oschina.net/oscnet/up-dc87c94066283689df31680050c67edd7b1.png" width=500 height=450>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadStatusDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;time waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (ThreadStatusDemo.class)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        ThreadStatusDemo.class.wait();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (BlockDemo.class)&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>查看线程状态</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jps -l</span><br><span class="line">jstack pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程如何停止"><a href="#线程如何停止" class="headerlink" title="线程如何停止"></a>线程如何停止</h2><p>interrupt() 停止线程<br>主动停止方式 -&gt; run方法执行结束<br>被动停止方式</p>
+<p>一般中断线程是在无法控制线程的情况下，比如线程wait ， 线程sleep ， 线程while(true)<br><code>Thread.currnetThread().isInterrupted()</code></p>
+<blockquote>
+<p>stop方法停止线程 禁止使用 相当于kill线程 不友好</p>
+</blockquote>
+<p>interrupt 功能</p>
+<ul>
+<li>唤醒阻塞状态的线程</li>
+<li>修改中断标志，false -&gt; true</li>
+</ul>
+<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2>]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java并发编程之同步锁</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -1446,6 +1446,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux常用命令</title>
+    <url>/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="用户相关"><a href="#用户相关" class="headerlink" title="用户相关"></a>用户相关</h2><h2 id="文件相关"><a href="#文件相关" class="headerlink" title="文件相关"></a>文件相关</h2><h2 id="日志相关"><a href="#日志相关" class="headerlink" title="日志相关"></a>日志相关</h2><ul>
+<li><p>linux 在文档中查找关键字个数<br><code>grep -o “关键字” 文档名 | wc -l </code><br><code>grep -o “关键字” 文档名 | sort | uniq -c</code></p>
+</li>
+<li><p>清除history记录<br><code>vim .bash_history</code><br>命令模式下（Esc之后输入:） 输入 set nu 每行数据前面显示行号<br><code>11,20d</code> 回车 11～20行的记录就被删除了<br>然后命令模式下 wq 保存退出就可以了<br>如果在此查看还是有记录，可以退出当前回话之后，再进去查看，就会不再显示删除的记录了</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux System</category>
+        <category>Common commands</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mysql-MVCC多版本并发控制</title>
     <url>/wiki/Mysql-MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</url>
     <content><![CDATA[<h1 id="MVCC多版本并发控制"><a href="#MVCC多版本并发控制" class="headerlink" title="MVCC多版本并发控制"></a>MVCC多版本并发控制</h1><p>MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
@@ -1502,24 +1520,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux常用命令</title>
-    <url>/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="用户相关"><a href="#用户相关" class="headerlink" title="用户相关"></a>用户相关</h2><h2 id="文件相关"><a href="#文件相关" class="headerlink" title="文件相关"></a>文件相关</h2><h2 id="日志相关"><a href="#日志相关" class="headerlink" title="日志相关"></a>日志相关</h2><ul>
-<li><p>linux 在文档中查找关键字个数<br><code>grep -o “关键字” 文档名 | wc -l </code><br><code>grep -o “关键字” 文档名 | sort | uniq -c</code></p>
-</li>
-<li><p>清除history记录<br><code>vim .bash_history</code><br>命令模式下（Esc之后输入:） 输入 set nu 每行数据前面显示行号<br><code>11,20d</code> 回车 11～20行的记录就被删除了<br>然后命令模式下 wq 保存退出就可以了<br>如果在此查看还是有记录，可以退出当前回话之后，再进去查看，就会不再显示删除的记录了</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux System</category>
-        <category>Common commands</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mysql-事务特性与实现原理</title>
     <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
@@ -1560,24 +1560,6 @@
       </categories>
       <tags>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Parameter index out of range (1 &gt; number of parameters, which is 0).</title>
-    <url>/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/</url>
-    <content><![CDATA[<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to import data to index: rd_member</span><br><span class="line">2021-07-06 12:39:31.186 [http-nio-8081-exec-2] ERROR com.alibaba.otter.canal.client.adapter.support.Util - sqlRs has error, sql: SELECT COUNT(1) FROM ( select t.redtom_id as id, t.username, t.nickname, t.avatar, t.status, t.mobile, t.mobile_region_no, t.email, t.gender, t.password,t.salt,t.birthday,t.introduce,t.country,t.region,t.level,t.is_vip,t.follows    ,t.fans,t.likes_num, t.collects_num, t.instagram_account, t.youtube_account, t.facebook_account, t.twitter_account,t.create_ip, t.create_time,t.update_time from rd_member r where t.create_time&gt;=&#x27;&#123;0&#125;&#x27;) _CNT</span><br><span class="line">2021-07-06 12:39:31.188 [http-nio-8081-exec-2] ERROR c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">java.lang.RuntimeException: java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.Util.sqlRS(Util.java:65) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.AbstractEtlService.importData(AbstractEtlService.java:62) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.etl.ESEtlService.importData(ESEtlService.java:56) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.ES7xAdapter.etl(ES7xAdapter.java:79) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:100) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:123) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_292]</span><br></pre></td></tr></table></figure>
-
-<h2 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h2><p>我执行的操作如下：👇<br><code>curl http://127.0.0.1:8081/etl/es7/customer.yml -X POST -d &quot;params=2019-08-31 00:00:00&quot;</code></p>
-<p>但是我的 es7/rd_member.yml的配置文件如下：</p>
-<p><code>etlCondition:&quot;where a.c_time&gt;=&#39;&#123;0&#125;&#39;&quot; # etl 的条件参数</code></p>
-<p>应该改成：<br><code>etlCondition:&quot;where a.c_time&gt;=&#123;&#125;&quot; # etl 的条件参数</code></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Other Question</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
       </tags>
   </entry>
   <entry>
@@ -1630,6 +1612,24 @@
         <category>DataBase</category>
         <category>MySQL</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Parameter index out of range (1 &gt; number of parameters, which is 0).</title>
+    <url>/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/</url>
+    <content><![CDATA[<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to import data to index: rd_member</span><br><span class="line">2021-07-06 12:39:31.186 [http-nio-8081-exec-2] ERROR com.alibaba.otter.canal.client.adapter.support.Util - sqlRs has error, sql: SELECT COUNT(1) FROM ( select t.redtom_id as id, t.username, t.nickname, t.avatar, t.status, t.mobile, t.mobile_region_no, t.email, t.gender, t.password,t.salt,t.birthday,t.introduce,t.country,t.region,t.level,t.is_vip,t.follows    ,t.fans,t.likes_num, t.collects_num, t.instagram_account, t.youtube_account, t.facebook_account, t.twitter_account,t.create_ip, t.create_time,t.update_time from rd_member r where t.create_time&gt;=&#x27;&#123;0&#125;&#x27;) _CNT</span><br><span class="line">2021-07-06 12:39:31.188 [http-nio-8081-exec-2] ERROR c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">java.lang.RuntimeException: java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.Util.sqlRS(Util.java:65) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.AbstractEtlService.importData(AbstractEtlService.java:62) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.etl.ESEtlService.importData(ESEtlService.java:56) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.ES7xAdapter.etl(ES7xAdapter.java:79) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:100) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:123) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_292]</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h2><p>我执行的操作如下：👇<br><code>curl http://127.0.0.1:8081/etl/es7/customer.yml -X POST -d &quot;params=2019-08-31 00:00:00&quot;</code></p>
+<p>但是我的 es7/rd_member.yml的配置文件如下：</p>
+<p><code>etlCondition:&quot;where a.c_time&gt;=&#39;&#123;0&#125;&#39;&quot; # etl 的条件参数</code></p>
+<p>应该改成：<br><code>etlCondition:&quot;where a.c_time&gt;=&#123;&#125;&quot; # etl 的条件参数</code></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Other Question</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
   </entry>
   <entry>
     <title>Redis-list底层实现</title>
@@ -1703,6 +1703,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis-overview</title>
+    <url>/wiki/Redis-overview/</url>
+    <content><![CDATA[<h1 id="Redis-（Remote-Dictionary-Server）"><a href="#Redis-（Remote-Dictionary-Server）" class="headerlink" title="Redis （Remote Dictionary Server）"></a>Redis （Remote Dictionary Server）</h1><h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><p>Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中<br>进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。<br>因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10 万次读写操作，是已知性能最快的 Key-Value DB。<br>Redis 的出色之处不仅仅是性能，Redis 最大的魅力是支持保存多种数据结构，此外单个 value 的最大限<br>制是 1GB，不像 memcached 只能保存 1MB 的数据，因此 Redis 可以用来实现很多有用的功能。<br>比方说用他的 List 来做 FIFO 双向链表，实现一个轻量级的高性 能消息队列服务，用他的 Set 可以做高<br>性能的 tag 系统等等。<br>另外 Redis 也可以对存入的 Key-Value 设置 expire 时间，因此也可以被当作一 个功能加强版的 memcached 来用。<br>Redis 的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因<br>此 Redis 适合的场景主要局限在较小数据量的高性能操作和运算上。</p>
+<h2 id="Redis-如何设置密码及验证密码？"><a href="#Redis-如何设置密码及验证密码？" class="headerlink" title="Redis 如何设置密码及验证密码？"></a>Redis 如何设置密码及验证密码？</h2><p>设置密码：config set requirepass 123456<br>授权密码：auth 123456  </p>
+<h2 id="Redis-有哪几种数据淘汰策略？"><a href="#Redis-有哪几种数据淘汰策略？" class="headerlink" title="Redis 有哪几种数据淘汰策略？"></a>Redis 有哪几种数据淘汰策略？</h2><p>noeviction:返回错误当内存限制达到并且客户端尝试执行会让更多内存被使用的命令（大部分的写入指令，但 DEL 和几个例外）<br>allkeys-lru: 尝试回收最少使用的键（LRU），使得新添加的数据有空间存放。<br>volatile-lru: 尝试回收最少使用的键（LRU），但仅限于在过期集合的键,使得新添加的数据有空间存放。<br>allkeys-random: 回收随机的键使得新添加的数据有空间存放。<br>volatile-random: 回收随机的键使得新添加的数据有空间存放，但仅限于在过期集合的键。<br>volatile-ttl: 回收在过期集合的键，并且优先回收存活时间（TTL）较短的键,使得新添加的数据有空间存放。  </p>
+<h2 id="Redis-有哪些适合的场景？"><a href="#Redis-有哪些适合的场景？" class="headerlink" title="Redis 有哪些适合的场景？"></a>Redis 有哪些适合的场景？</h2><h3 id="（1）会话缓存（Session-Cache）"><a href="#（1）会话缓存（Session-Cache）" class="headerlink" title="（1）会话缓存（Session Cache）"></a>（1）会话缓存（Session Cache）</h3><p>最常用的一种使用 Redis 的情景是会话缓存（session cache）。用 Redis 缓存会话比其他存储（如 Mem<br>cached）的优势在于：Redis 提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车<br>信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？ 幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用 Redis 来缓存会话的文档。甚至广为<br>人知的商业平台 Magento 也提供 Redis 的插件。</p>
+<h3 id="（2）全页缓存（FPC）"><a href="#（2）全页缓存（FPC）" class="headerlink" title="（2）全页缓存（FPC）"></a>（2）全页缓存（FPC）</h3><p>除基本的会话 token 之外，Redis 还提供很简便的 FPC 平台。回到一致性问题，即使重启了 Redis 实<br>例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似 PHP 本地 FPC。<br>再次以 Magento 为例，Magento 提供一个插件来使用 Redis 作为全页缓存后端。<br>此外，对 WordPress 的用户来说，Pantheon 有一个非常好的插件 wp-redis，这个插件能帮助你以最快<br>速度加载你曾浏览过的页面。  </p>
+<h3 id="（3）队列"><a href="#（3）队列" class="headerlink" title="（3）队列"></a>（3）队列</h3><p>Redis 在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队<br>列平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言（如 Python）对 list 的 push/pop<br>操作。<br>如果你快速的在 Google 中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是<br>利用 Redis 创建非常好的后端工具，以满足各种队列需求。例如，Celery 有一个后台就是使用 Redis 作<br>为 broker，你可以从这里去查看。</p>
+<h3 id="（4）排行榜-计数器"><a href="#（4）排行榜-计数器" class="headerlink" title="（4）排行榜/计数器"></a>（4）排行榜/计数器</h3><p>Redis 在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也<br>使得我们在执行这些操作的时候变的非常简单，Redis 只是正好提供了这两种数据结构。<br>所以，我们要从排序集合中获取到排名最靠前的 10 个用户–我们称之为“user_scores”，我们只需要像下<br>面一样执行即可：<br>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执<br>行：<br>ZRANGE user_scores 0 10 WITHSCORESAgora Games 就是一个很好的例子，用 Ruby 实现的，它的排行榜就是使用 Redis 来存储数据的，你可<br>以在这里看到。<br>###（5）发布/订阅<br>最后（但肯定不是最不重要的）是 Redis 的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见<br>人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用 Redis 的发布/订阅功能来建<br>立聊天系统！</p>
+<h3 id="Redis-常见的性能问题和解决方案"><a href="#Redis-常见的性能问题和解决方案" class="headerlink" title="Redis 常见的性能问题和解决方案"></a>Redis 常见的性能问题和解决方案</h3><p>1、master 最好不要做持久化工作，如 RDB 内存快照和 AOF 日志文件<br>2、如果数据比较重要，某个 slave 开启 AOF 备份，策略设置成每秒同步一次<br>3、为了主从复制的速度和连接的稳定性，master 和 Slave 最好在一个局域网内<br>4、尽量避免在压力大得主库上增加从库<br>5、主从复制不要采用网状结构，尽量是线性结构，Master&lt;–Slave1&lt;—-Slave2 ….  </p>
+]]></content>
+      <categories>
+        <category>DataBase</category>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Redis-哈希表实现</title>
     <url>/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h1 id="Redis之Hash表底层实现"><a href="#Redis之Hash表底层实现" class="headerlink" title="Redis之Hash表底层实现"></a>Redis之Hash表底层实现</h1><p><img src="https://oscimg.oschina.net/oscnet/up-c8da12582edb1a4320e17096efc9b9103a2.png">  </p>
@@ -1739,26 +1759,6 @@
 <li>在rehash的过程中，如果有删改查，则优先选择第一张表，如果第一张表没有查到数据，则查找第二章哈希表；</li>
 </ul>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://www.cnblogs.com/ysocean/p/9080942.html">Redis详解（四）—— redis的底层数据结构</a><br>2、<a href="https://www.cnblogs.com/reecelin/p/13362104.html">Redis底层数据结构之hash</a><br>3、<a href="https://blog.csdn.net/mccand1234/article/details/93411326">Redis Hash数据结构的底层实现</a><br>4、<a href="https://baijiahao.baidu.com/s?id=1651767862408344160&wfr=spider&for=pc">图解redis五种数据结构底层实现(动图哦)</a><br>5、<a href="https://www.jianshu.com/p/c63d8448a7b0">redis hash底层数据结构</a><br>6、<a href="https://www.cnblogs.com/reecelin/p/13362104.html">Redis底层数据结构之hash</a>  </p>
-]]></content>
-      <categories>
-        <category>DataBase</category>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis-overview</title>
-    <url>/wiki/Redis-overview/</url>
-    <content><![CDATA[<h1 id="Redis-（Remote-Dictionary-Server）"><a href="#Redis-（Remote-Dictionary-Server）" class="headerlink" title="Redis （Remote Dictionary Server）"></a>Redis （Remote Dictionary Server）</h1><h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><p>Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中<br>进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。<br>因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10 万次读写操作，是已知性能最快的 Key-Value DB。<br>Redis 的出色之处不仅仅是性能，Redis 最大的魅力是支持保存多种数据结构，此外单个 value 的最大限<br>制是 1GB，不像 memcached 只能保存 1MB 的数据，因此 Redis 可以用来实现很多有用的功能。<br>比方说用他的 List 来做 FIFO 双向链表，实现一个轻量级的高性 能消息队列服务，用他的 Set 可以做高<br>性能的 tag 系统等等。<br>另外 Redis 也可以对存入的 Key-Value 设置 expire 时间，因此也可以被当作一 个功能加强版的 memcached 来用。<br>Redis 的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因<br>此 Redis 适合的场景主要局限在较小数据量的高性能操作和运算上。</p>
-<h2 id="Redis-如何设置密码及验证密码？"><a href="#Redis-如何设置密码及验证密码？" class="headerlink" title="Redis 如何设置密码及验证密码？"></a>Redis 如何设置密码及验证密码？</h2><p>设置密码：config set requirepass 123456<br>授权密码：auth 123456  </p>
-<h2 id="Redis-有哪几种数据淘汰策略？"><a href="#Redis-有哪几种数据淘汰策略？" class="headerlink" title="Redis 有哪几种数据淘汰策略？"></a>Redis 有哪几种数据淘汰策略？</h2><p>noeviction:返回错误当内存限制达到并且客户端尝试执行会让更多内存被使用的命令（大部分的写入指令，但 DEL 和几个例外）<br>allkeys-lru: 尝试回收最少使用的键（LRU），使得新添加的数据有空间存放。<br>volatile-lru: 尝试回收最少使用的键（LRU），但仅限于在过期集合的键,使得新添加的数据有空间存放。<br>allkeys-random: 回收随机的键使得新添加的数据有空间存放。<br>volatile-random: 回收随机的键使得新添加的数据有空间存放，但仅限于在过期集合的键。<br>volatile-ttl: 回收在过期集合的键，并且优先回收存活时间（TTL）较短的键,使得新添加的数据有空间存放。  </p>
-<h2 id="Redis-有哪些适合的场景？"><a href="#Redis-有哪些适合的场景？" class="headerlink" title="Redis 有哪些适合的场景？"></a>Redis 有哪些适合的场景？</h2><h3 id="（1）会话缓存（Session-Cache）"><a href="#（1）会话缓存（Session-Cache）" class="headerlink" title="（1）会话缓存（Session Cache）"></a>（1）会话缓存（Session Cache）</h3><p>最常用的一种使用 Redis 的情景是会话缓存（session cache）。用 Redis 缓存会话比其他存储（如 Mem<br>cached）的优势在于：Redis 提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车<br>信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？ 幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用 Redis 来缓存会话的文档。甚至广为<br>人知的商业平台 Magento 也提供 Redis 的插件。</p>
-<h3 id="（2）全页缓存（FPC）"><a href="#（2）全页缓存（FPC）" class="headerlink" title="（2）全页缓存（FPC）"></a>（2）全页缓存（FPC）</h3><p>除基本的会话 token 之外，Redis 还提供很简便的 FPC 平台。回到一致性问题，即使重启了 Redis 实<br>例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似 PHP 本地 FPC。<br>再次以 Magento 为例，Magento 提供一个插件来使用 Redis 作为全页缓存后端。<br>此外，对 WordPress 的用户来说，Pantheon 有一个非常好的插件 wp-redis，这个插件能帮助你以最快<br>速度加载你曾浏览过的页面。  </p>
-<h3 id="（3）队列"><a href="#（3）队列" class="headerlink" title="（3）队列"></a>（3）队列</h3><p>Redis 在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队<br>列平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言（如 Python）对 list 的 push/pop<br>操作。<br>如果你快速的在 Google 中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是<br>利用 Redis 创建非常好的后端工具，以满足各种队列需求。例如，Celery 有一个后台就是使用 Redis 作<br>为 broker，你可以从这里去查看。</p>
-<h3 id="（4）排行榜-计数器"><a href="#（4）排行榜-计数器" class="headerlink" title="（4）排行榜/计数器"></a>（4）排行榜/计数器</h3><p>Redis 在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也<br>使得我们在执行这些操作的时候变的非常简单，Redis 只是正好提供了这两种数据结构。<br>所以，我们要从排序集合中获取到排名最靠前的 10 个用户–我们称之为“user_scores”，我们只需要像下<br>面一样执行即可：<br>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执<br>行：<br>ZRANGE user_scores 0 10 WITHSCORESAgora Games 就是一个很好的例子，用 Ruby 实现的，它的排行榜就是使用 Redis 来存储数据的，你可<br>以在这里看到。<br>###（5）发布/订阅<br>最后（但肯定不是最不重要的）是 Redis 的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见<br>人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用 Redis 的发布/订阅功能来建<br>立聊天系统！</p>
-<h3 id="Redis-常见的性能问题和解决方案"><a href="#Redis-常见的性能问题和解决方案" class="headerlink" title="Redis 常见的性能问题和解决方案"></a>Redis 常见的性能问题和解决方案</h3><p>1、master 最好不要做持久化工作，如 RDB 内存快照和 AOF 日志文件<br>2、如果数据比较重要，某个 slave 开启 AOF 备份，策略设置成每秒同步一次<br>3、为了主从复制的速度和连接的稳定性，master 和 Slave 最好在一个局域网内<br>4、尽量避免在压力大得主库上增加从库<br>5、主从复制不要采用网状结构，尽量是线性结构，Master&lt;–Slave1&lt;—-Slave2 ….  </p>
 ]]></content>
       <categories>
         <category>DataBase</category>
@@ -3943,6 +3943,25 @@
       </tags>
   </entry>
   <entry>
+    <title>https协议</title>
+    <url>/wiki/https%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/26690712">《 HTTPS 升级指南 》 深入理解 HTTPS 原理、过程与实践</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/62246556">HTTPS实现原理</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/26682342">深入理解HTTPS原理、过程与实践</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Computer Network</category>
+        <category>HTTP</category>
+      </categories>
+      <tags>
+        <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hutool导出excel</title>
     <url>/wiki/hutool%E5%AF%BC%E5%87%BAexcel/</url>
     <content><![CDATA[<blockquote>
@@ -3964,25 +3983,6 @@
       </categories>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>https协议</title>
-    <url>/wiki/https%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://zhuanlan.zhihu.com/p/26690712">《 HTTPS 升级指南 》 深入理解 HTTPS 原理、过程与实践</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/62246556">HTTPS实现原理</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/26682342">深入理解HTTPS原理、过程与实践</a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Computer Network</category>
-        <category>HTTP</category>
-      </categories>
-      <tags>
-        <tag>http</tag>
       </tags>
   </entry>
   <entry>
@@ -4150,6 +4150,44 @@
       </tags>
   </entry>
   <entry>
+    <title>multi_match 查询</title>
+    <url>/wiki/multi-match-%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<p>multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。</p>
+<p>📒 📒 📒</p>
+<blockquote>
+<p>multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：<code>best_fields</code> 、 <code>most_fields</code> 和 <code>cross_fields</code> （最佳字段、多数字段、跨字段）。</p>
+</blockquote>
+<p>默认情况下，查询的类型是 <code>best_fields</code> ，这表示它会为每个字段生成一个 <code>match</code> 查询，然后将它们组合到 <code>dis_max</code> 查询的内部，如下：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;queries&quot;</span>:  [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;title&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;body&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;tie_breaker&quot;</span>: <span class="number">0.3</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这个查询用 multi_match 重写成更简洁的形式：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:                <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>:                 <span class="string">&quot;best_fields&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>:               [ <span class="string">&quot;title&quot;</span>, <span class="string">&quot;body&quot;</span> ],</span><br><span class="line">        <span class="attr">&quot;tie_breaker&quot;</span>:          <span class="number">0.3</span>,</span><br><span class="line">        <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>⚠️ ⚠️ ⚠️</p>
+<ul>
+<li>best_fields 类型是默认值，可以不指定。</li>
+<li>如 minimum_should_match 或 operator 这样的参数会被传递到生成的 match 查询中。</li>
+</ul>
+<h2 id="查询字段名称的模糊匹配"><a href="#查询字段名称的模糊匹配" class="headerlink" title="查询字段名称的模糊匹配"></a>查询字段名称的模糊匹配</h2><p>字段名称可以用 <code>模糊匹配</code> 的方式给出：任何与模糊模式正则匹配的字段都会被包括在搜索条件中，例如可以使用以下方式同时匹配 <code>book_title</code> 、 <code>chapter_title</code> 和 <code>section_title</code> （书名、章名、节名）这三个字段：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: <span class="string">&quot;*_title&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="提升单个字段的权重"><a href="#提升单个字段的权重" class="headerlink" title="提升单个字段的权重"></a>提升单个字段的权重</h2><p>可以使用 ^ 字符语法为单个字段提升权重，在字段名称的末尾添加 ^boost ，其中 boost 是一个浮点数：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: [ <span class="string">&quot;*_title&quot;</span>, <span class="string">&quot;chapter_title^2&quot;</span> ] </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>chapter_title 这个字段的 boost 值为 2 ，而其他两个字段 book_title 和 section_title 字段的默认 boost 值为 1 。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-match-query.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » multi_match 查询</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/query-dsl-multi-match-query.html">Elasticsearch Guide [7.x] » Query DSL » Full text queries » Multi-match query</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Search in Depth</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mybatis-工作原理</title>
     <url>/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<h1 id="Mybatis工作原理"><a href="#Mybatis工作原理" class="headerlink" title="Mybatis工作原理"></a>Mybatis工作原理</h1><h2 id="Mybatis整体框架"><a href="#Mybatis整体框架" class="headerlink" title="Mybatis整体框架"></a>Mybatis整体框架</h2><p><img src="https://oscimg.oschina.net/oscnet/up-978b1c01a681073e4a020fdce7703887901.png">  </p>
@@ -4264,44 +4302,6 @@
       </categories>
       <tags>
         <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>multi_match 查询</title>
-    <url>/wiki/multi-match-%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<p>multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。</p>
-<p>📒 📒 📒</p>
-<blockquote>
-<p>multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：<code>best_fields</code> 、 <code>most_fields</code> 和 <code>cross_fields</code> （最佳字段、多数字段、跨字段）。</p>
-</blockquote>
-<p>默认情况下，查询的类型是 <code>best_fields</code> ，这表示它会为每个字段生成一个 <code>match</code> 查询，然后将它们组合到 <code>dis_max</code> 查询的内部，如下：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;queries&quot;</span>:  [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;title&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;body&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;tie_breaker&quot;</span>: <span class="number">0.3</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面这个查询用 multi_match 重写成更简洁的形式：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:                <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>:                 <span class="string">&quot;best_fields&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>:               [ <span class="string">&quot;title&quot;</span>, <span class="string">&quot;body&quot;</span> ],</span><br><span class="line">        <span class="attr">&quot;tie_breaker&quot;</span>:          <span class="number">0.3</span>,</span><br><span class="line">        <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>⚠️ ⚠️ ⚠️</p>
-<ul>
-<li>best_fields 类型是默认值，可以不指定。</li>
-<li>如 minimum_should_match 或 operator 这样的参数会被传递到生成的 match 查询中。</li>
-</ul>
-<h2 id="查询字段名称的模糊匹配"><a href="#查询字段名称的模糊匹配" class="headerlink" title="查询字段名称的模糊匹配"></a>查询字段名称的模糊匹配</h2><p>字段名称可以用 <code>模糊匹配</code> 的方式给出：任何与模糊模式正则匹配的字段都会被包括在搜索条件中，例如可以使用以下方式同时匹配 <code>book_title</code> 、 <code>chapter_title</code> 和 <code>section_title</code> （书名、章名、节名）这三个字段：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: <span class="string">&quot;*_title&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="提升单个字段的权重"><a href="#提升单个字段的权重" class="headerlink" title="提升单个字段的权重"></a>提升单个字段的权重</h2><p>可以使用 ^ 字符语法为单个字段提升权重，在字段名称的末尾添加 ^boost ，其中 boost 是一个浮点数：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: [ <span class="string">&quot;*_title&quot;</span>, <span class="string">&quot;chapter_title^2&quot;</span> ] </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>chapter_title 这个字段的 boost 值为 2 ，而其他两个字段 book_title 和 section_title 字段的默认 boost 值为 1 。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-match-query.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » multi_match 查询</a></li>
-<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/query-dsl-multi-match-query.html">Elasticsearch Guide [7.x] » Query DSL » Full text queries » Multi-match query</a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Search in Depth</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
       </tags>
   </entry>
   <entry>
@@ -4869,6 +4869,54 @@ print (tinydict.values()) # 输出所有值
       </tags>
   </entry>
   <entry>
+    <title>基于BIO实现简易tomcat</title>
+    <url>/wiki/%E5%9F%BA%E4%BA%8EBIO%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/</url>
+    <content><![CDATA[<h1 id="基于传统的BIO手写一个简易Tomcat"><a href="#基于传统的BIO手写一个简易Tomcat" class="headerlink" title="基于传统的BIO手写一个简易Tomcat"></a>基于传统的BIO手写一个简易Tomcat</h1><p>本文主要基于传统的BIO来实现一个简单的Http请求处理过程；<br>1、Servlet请求无非就是doGet/doPost，所以我们定义抽象Servlet记忆GET/POST方法；<br>2、基于Socket和ServerSocket实现CS通信；<br>3、模拟Spring加载配置文件，注册请求以及控制器；  </p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-b6fb1dfc1fbbb3ae4d616c0a9572b08b4ad.png">   </p>
+<h2 id="GlRequest-封装一个请求"><a href="#GlRequest-封装一个请求" class="headerlink" title="GlRequest 封装一个请求"></a>GlRequest 封装一个请求</h2><blockquote>
+<p>当然是一个很简单的请求，这里只处理请求的URL和请求方法；<br>获取请求，也就是输入流，解析数据Url和Method，并做相应的处理；  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlRequest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="keyword">private</span> String method;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GlRequest</span><span class="params">(InputStream is)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 解析http请求的具体内容；</span></span><br><span class="line">            String content = <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> ((len = is.read(buff)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                content = <span class="keyword">new</span> String(buff, <span class="number">0</span>, len);</span><br><span class="line">            &#125;</span><br><span class="line">            String line = content.split(<span class="string">&quot;\\n&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">            String [] arr = line.split(<span class="string">&quot;\\s&quot;</span>);</span><br><span class="line">            <span class="keyword">this</span>.method = arr[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">this</span>.url = arr[<span class="number">1</span>].split(<span class="string">&quot;\\?&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUrl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.url;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.method;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="GlResponse-定义返回值response"><a href="#GlResponse-定义返回值response" class="headerlink" title="GlResponse 定义返回值response"></a>GlResponse 定义返回值response</h2><blockquote>
+<p>处理请求返回值，将业务处理的结果通过输出流输出；<br>输出大致分为两部分，第一是返回的数据，第二是返回数据的Header;  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlResponse</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> OutputStream outputStream;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GlResponse</span><span class="params">(OutputStream os)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.outputStream = os;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String string)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        sb.append(<span class="string">&quot;HTTP/1.1 200 OK\n&quot;</span>)</span><br><span class="line">                .append(<span class="string">&quot;Content-Type: text/html;\n&quot;</span>)</span><br><span class="line">                .append(<span class="string">&quot;\r\n&quot;</span>)</span><br><span class="line">                .append(string);</span><br><span class="line">        outputStream.write(sb.toString().getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="GlServlet-定义抽象servlet，定义GET方法和POST方法"><a href="#GlServlet-定义抽象servlet，定义GET方法和POST方法" class="headerlink" title="GlServlet 定义抽象servlet，定义GET方法和POST方法"></a>GlServlet 定义抽象servlet，定义GET方法和POST方法</h2><blockquote>
+<p>定义抽象的Servlet和doGet方法和doPost方法，具体的业务去实现自己的方法和逻辑；  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">GlServlet</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String GET = <span class="string">&quot;GET&quot;</span>;</span><br><span class="line">   </span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (GET.equals(request.getMethod())) &#123;</span><br><span class="line">               doGet(request, response);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               doPost(request, response);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   </span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">   </span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FirstServlet-具体的业务Servlet实现抽象Servlet的方法"><a href="#FirstServlet-具体的业务Servlet实现抽象Servlet的方法" class="headerlink" title="FirstServlet 具体的业务Servlet实现抽象Servlet的方法"></a>FirstServlet 具体的业务Servlet实现抽象Servlet的方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FirstServlet</span> <span class="keyword">extends</span> <span class="title">GlServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 具体的逻辑</span></span><br><span class="line">        <span class="keyword">this</span>.doPost(request, response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        response.write(<span class="string">&quot;This is first servlet from BIO&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SecondServlet-具体的业务Servlet实现抽象Servlet方法"><a href="#SecondServlet-具体的业务Servlet实现抽象Servlet方法" class="headerlink" title="SecondServlet 具体的业务Servlet实现抽象Servlet方法"></a>SecondServlet 具体的业务Servlet实现抽象Servlet方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondServlet</span> <span class="keyword">extends</span> <span class="title">GlServlet</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        response.write(<span class="string">&quot;This second request form BIO&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="web-bio-properties-配置文件"><a href="#web-bio-properties-配置文件" class="headerlink" title="web-bio.properties 配置文件"></a>web-bio.properties 配置文件</h2><blockquote>
+<p>配置请求和处理器，Spring中是通过Controller下的@XXXMapping注解去扫描并加载到工厂的；  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">servlet.one.className=com.ibli.netty.tomcat.bio.servlet.FirstServlet</span><br><span class="line">servlet.one.url=/firstServlet.<span class="keyword">do</span></span><br><span class="line"></span><br><span class="line">servlet.two.className=com.ibli.netty.tomcat.bio.servlet.SecondServlet</span><br><span class="line">servlet.two.url=/secondServlet.<span class="keyword">do</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="GlTomcat测试类"><a href="#GlTomcat测试类" class="headerlink" title="GlTomcat测试类"></a>GlTomcat测试类</h2><blockquote>
+<p>启动服务端，在网页中访问本地8080端口，输入配置文件中定义的url进行测试：  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlTomcat</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ServerSocket server;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Integer PORT = <span class="number">8080</span>;</span><br><span class="line">    <span class="keyword">private</span> Properties webXml = <span class="keyword">new</span> Properties();</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, GlServlet&gt; servletMapping = <span class="keyword">new</span> HashMap&lt;String, GlServlet&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟项目main方法，启动加载配置</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args 启动参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> GlTomcat().start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Tomcat的启动入口</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1、加载web配置文件，解析配置</span></span><br><span class="line">        init();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2、启动服务器socket，等待用户请求</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            server = <span class="keyword">new</span> ServerSocket(<span class="keyword">this</span>.PORT);</span><br><span class="line">            System.err.println(<span class="string">&quot;Gl tomcat started in port &quot;</span> + <span class="keyword">this</span>.PORT);</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                Socket client = server.accept();</span><br><span class="line">                <span class="comment">// 3、获得请求信息，解析HTTP协议的内容</span></span><br><span class="line">                process(client);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加载配置文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String WEB_INF = <span class="keyword">this</span>.getClass().getResource(<span class="string">&quot;/&quot;</span>).getPath();</span><br><span class="line">            FileInputStream fis = <span class="keyword">new</span> FileInputStream(WEB_INF + <span class="string">&quot;web-bio.properties&quot;</span>);</span><br><span class="line">            webXml.load(fis);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Object k : webXml.keySet()) &#123;</span><br><span class="line">                String key = k.toString();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (key.endsWith(<span class="string">&quot;.url&quot;</span>)) &#123;</span><br><span class="line">                    <span class="comment">//servlet.two.url</span></span><br><span class="line">                    String servletName = key.replaceAll(<span class="string">&quot;\\.url&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">                    String url = webXml.getProperty(key);</span><br><span class="line">                    <span class="comment">//servlet.two.className</span></span><br><span class="line">                    String className = webXml.getProperty(servletName + <span class="string">&quot;.className&quot;</span>);</span><br><span class="line">                    <span class="comment">//反射创建servlet实例</span></span><br><span class="line">                    <span class="comment">// load-on-startup &gt;=1 :web启动的时候初始化  0：用户请求的时候才启动</span></span><br><span class="line">                    GlServlet obj = (GlServlet) Class.forName(className).newInstance();</span><br><span class="line">                    <span class="comment">// 将url和servlet建立映射关系</span></span><br><span class="line">                    servletMapping.put(url, obj);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解析客户端请求</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> client 客户端</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(Socket client)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        InputStream is = <span class="keyword">null</span>;</span><br><span class="line">        OutputStream os = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//请求</span></span><br><span class="line">            is = client.getInputStream();</span><br><span class="line">            <span class="comment">//封装返回值</span></span><br><span class="line">            os = client.getOutputStream();</span><br><span class="line">            GlRequest request = <span class="keyword">new</span> GlRequest(is);</span><br><span class="line">            GlResponse response = <span class="keyword">new</span> GlResponse(os);</span><br><span class="line"></span><br><span class="line">            String url = request.getUrl();</span><br><span class="line">            <span class="keyword">if</span> (servletMapping.containsKey(url)) &#123;</span><br><span class="line">                servletMapping.get(url).service(request, response);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                response.write(<span class="string">&quot;404 Not found!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (os != <span class="keyword">null</span>) &#123;</span><br><span class="line">                os.flush();</span><br><span class="line">                os.close();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (is != <span class="keyword">null</span>) &#123;</span><br><span class="line">                is.close();</span><br><span class="line">                client.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="打印请求信息"><a href="#打印请求信息" class="headerlink" title="打印请求信息"></a>打印请求信息</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Request content : GET /fitstServlet.<span class="keyword">do</span> HTTP/<span class="number">1.1</span></span><br><span class="line">Host: localhost:<span class="number">8080</span></span><br><span class="line">Connection: keep-alive</span><br><span class="line">Upgrade-Insecure-Requests: <span class="number">1</span></span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Macintosh; Intel Mac OS X <span class="number">10_14_5</span>) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">88.0</span><span class="number">.4324</span><span class="number">.150</span> Safari/<span class="number">537.36</span> OPR/<span class="number">74.0</span><span class="number">.3911</span><span class="number">.160</span></span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/avif,image/webp,image/apng,*<span class="comment">/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span></span><br><span class="line"><span class="comment">Sec-Fetch-Site: none</span></span><br><span class="line"><span class="comment">Sec-Fetch-Mode: navigate</span></span><br><span class="line"><span class="comment">Sec-Fetch-User: ?1</span></span><br><span class="line"><span class="comment">Sec-Fetch-Dest: document</span></span><br><span class="line"><span class="comment">Accept-Encoding: gzip, deflate, br</span></span><br><span class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.9</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="客户端发送请求及结果展示"><a href="#客户端发送请求及结果展示" class="headerlink" title="客户端发送请求及结果展示"></a>客户端发送请求及结果展示</h2><blockquote>
+<p>请求： <a href="http://localhost:8080/firstServlet.do">http://localhost:8080/firstServlet.do</a><br><img src="https://oscimg.oschina.net/oscnet/up-e4faf840776bb504c26ddd7266033651a09.png">  </p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>IO</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>IO</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基础面试题目</title>
     <url>/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
     <content><![CDATA[<h2 id="1-String不可变"><a href="#1-String不可变" class="headerlink" title="1.String不可变"></a>1.String不可变</h2><p>String 对象的不可变性</p>
@@ -4944,54 +4992,6 @@ https://juejin.cn/post/6885159254764814349
       </categories>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>基于BIO实现简易tomcat</title>
-    <url>/wiki/%E5%9F%BA%E4%BA%8EBIO%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/</url>
-    <content><![CDATA[<h1 id="基于传统的BIO手写一个简易Tomcat"><a href="#基于传统的BIO手写一个简易Tomcat" class="headerlink" title="基于传统的BIO手写一个简易Tomcat"></a>基于传统的BIO手写一个简易Tomcat</h1><p>本文主要基于传统的BIO来实现一个简单的Http请求处理过程；<br>1、Servlet请求无非就是doGet/doPost，所以我们定义抽象Servlet记忆GET/POST方法；<br>2、基于Socket和ServerSocket实现CS通信；<br>3、模拟Spring加载配置文件，注册请求以及控制器；  </p>
-<p><img src="https://oscimg.oschina.net/oscnet/up-b6fb1dfc1fbbb3ae4d616c0a9572b08b4ad.png">   </p>
-<h2 id="GlRequest-封装一个请求"><a href="#GlRequest-封装一个请求" class="headerlink" title="GlRequest 封装一个请求"></a>GlRequest 封装一个请求</h2><blockquote>
-<p>当然是一个很简单的请求，这里只处理请求的URL和请求方法；<br>获取请求，也就是输入流，解析数据Url和Method，并做相应的处理；  </p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlRequest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="keyword">private</span> String method;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GlRequest</span><span class="params">(InputStream is)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 解析http请求的具体内容；</span></span><br><span class="line">            String content = <span class="string">&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">byte</span>[] buff = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span> ((len = is.read(buff)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                content = <span class="keyword">new</span> String(buff, <span class="number">0</span>, len);</span><br><span class="line">            &#125;</span><br><span class="line">            String line = content.split(<span class="string">&quot;\\n&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">            String [] arr = line.split(<span class="string">&quot;\\s&quot;</span>);</span><br><span class="line">            <span class="keyword">this</span>.method = arr[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">this</span>.url = arr[<span class="number">1</span>].split(<span class="string">&quot;\\?&quot;</span>)[<span class="number">0</span>];</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUrl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.url;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.method;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="GlResponse-定义返回值response"><a href="#GlResponse-定义返回值response" class="headerlink" title="GlResponse 定义返回值response"></a>GlResponse 定义返回值response</h2><blockquote>
-<p>处理请求返回值，将业务处理的结果通过输出流输出；<br>输出大致分为两部分，第一是返回的数据，第二是返回数据的Header;  </p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlResponse</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> OutputStream outputStream;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">GlResponse</span><span class="params">(OutputStream os)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.outputStream = os;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String string)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        sb.append(<span class="string">&quot;HTTP/1.1 200 OK\n&quot;</span>)</span><br><span class="line">                .append(<span class="string">&quot;Content-Type: text/html;\n&quot;</span>)</span><br><span class="line">                .append(<span class="string">&quot;\r\n&quot;</span>)</span><br><span class="line">                .append(string);</span><br><span class="line">        outputStream.write(sb.toString().getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="GlServlet-定义抽象servlet，定义GET方法和POST方法"><a href="#GlServlet-定义抽象servlet，定义GET方法和POST方法" class="headerlink" title="GlServlet 定义抽象servlet，定义GET方法和POST方法"></a>GlServlet 定义抽象servlet，定义GET方法和POST方法</h2><blockquote>
-<p>定义抽象的Servlet和doGet方法和doPost方法，具体的业务去实现自己的方法和逻辑；  </p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">GlServlet</span> </span>&#123;</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String GET = <span class="string">&quot;GET&quot;</span>;</span><br><span class="line">   </span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">           <span class="keyword">if</span> (GET.equals(request.getMethod())) &#123;</span><br><span class="line">               doGet(request, response);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               doPost(request, response);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   </span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">   </span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="FirstServlet-具体的业务Servlet实现抽象Servlet的方法"><a href="#FirstServlet-具体的业务Servlet实现抽象Servlet的方法" class="headerlink" title="FirstServlet 具体的业务Servlet实现抽象Servlet的方法"></a>FirstServlet 具体的业务Servlet实现抽象Servlet的方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FirstServlet</span> <span class="keyword">extends</span> <span class="title">GlServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 具体的逻辑</span></span><br><span class="line">        <span class="keyword">this</span>.doPost(request, response);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        response.write(<span class="string">&quot;This is first servlet from BIO&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="SecondServlet-具体的业务Servlet实现抽象Servlet方法"><a href="#SecondServlet-具体的业务Servlet实现抽象Servlet方法" class="headerlink" title="SecondServlet 具体的业务Servlet实现抽象Servlet方法"></a>SecondServlet 具体的业务Servlet实现抽象Servlet方法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondServlet</span> <span class="keyword">extends</span> <span class="title">GlServlet</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        doPost(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(GlRequest request, GlResponse response)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        response.write(<span class="string">&quot;This second request form BIO&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="web-bio-properties-配置文件"><a href="#web-bio-properties-配置文件" class="headerlink" title="web-bio.properties 配置文件"></a>web-bio.properties 配置文件</h2><blockquote>
-<p>配置请求和处理器，Spring中是通过Controller下的@XXXMapping注解去扫描并加载到工厂的；  </p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">servlet.one.className=com.ibli.netty.tomcat.bio.servlet.FirstServlet</span><br><span class="line">servlet.one.url=/firstServlet.<span class="keyword">do</span></span><br><span class="line"></span><br><span class="line">servlet.two.className=com.ibli.netty.tomcat.bio.servlet.SecondServlet</span><br><span class="line">servlet.two.url=/secondServlet.<span class="keyword">do</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="GlTomcat测试类"><a href="#GlTomcat测试类" class="headerlink" title="GlTomcat测试类"></a>GlTomcat测试类</h2><blockquote>
-<p>启动服务端，在网页中访问本地8080端口，输入配置文件中定义的url进行测试：  </p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlTomcat</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ServerSocket server;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Integer PORT = <span class="number">8080</span>;</span><br><span class="line">    <span class="keyword">private</span> Properties webXml = <span class="keyword">new</span> Properties();</span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, GlServlet&gt; servletMapping = <span class="keyword">new</span> HashMap&lt;String, GlServlet&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟项目main方法，启动加载配置</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args 启动参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> GlTomcat().start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Tomcat的启动入口</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1、加载web配置文件，解析配置</span></span><br><span class="line">        init();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2、启动服务器socket，等待用户请求</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            server = <span class="keyword">new</span> ServerSocket(<span class="keyword">this</span>.PORT);</span><br><span class="line">            System.err.println(<span class="string">&quot;Gl tomcat started in port &quot;</span> + <span class="keyword">this</span>.PORT);</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                Socket client = server.accept();</span><br><span class="line">                <span class="comment">// 3、获得请求信息，解析HTTP协议的内容</span></span><br><span class="line">                process(client);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加载配置文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            String WEB_INF = <span class="keyword">this</span>.getClass().getResource(<span class="string">&quot;/&quot;</span>).getPath();</span><br><span class="line">            FileInputStream fis = <span class="keyword">new</span> FileInputStream(WEB_INF + <span class="string">&quot;web-bio.properties&quot;</span>);</span><br><span class="line">            webXml.load(fis);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Object k : webXml.keySet()) &#123;</span><br><span class="line">                String key = k.toString();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (key.endsWith(<span class="string">&quot;.url&quot;</span>)) &#123;</span><br><span class="line">                    <span class="comment">//servlet.two.url</span></span><br><span class="line">                    String servletName = key.replaceAll(<span class="string">&quot;\\.url&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">                    String url = webXml.getProperty(key);</span><br><span class="line">                    <span class="comment">//servlet.two.className</span></span><br><span class="line">                    String className = webXml.getProperty(servletName + <span class="string">&quot;.className&quot;</span>);</span><br><span class="line">                    <span class="comment">//反射创建servlet实例</span></span><br><span class="line">                    <span class="comment">// load-on-startup &gt;=1 :web启动的时候初始化  0：用户请求的时候才启动</span></span><br><span class="line">                    GlServlet obj = (GlServlet) Class.forName(className).newInstance();</span><br><span class="line">                    <span class="comment">// 将url和servlet建立映射关系</span></span><br><span class="line">                    servletMapping.put(url, obj);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 解析客户端请求</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> client 客户端</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(Socket client)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        InputStream is = <span class="keyword">null</span>;</span><br><span class="line">        OutputStream os = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//请求</span></span><br><span class="line">            is = client.getInputStream();</span><br><span class="line">            <span class="comment">//封装返回值</span></span><br><span class="line">            os = client.getOutputStream();</span><br><span class="line">            GlRequest request = <span class="keyword">new</span> GlRequest(is);</span><br><span class="line">            GlResponse response = <span class="keyword">new</span> GlResponse(os);</span><br><span class="line"></span><br><span class="line">            String url = request.getUrl();</span><br><span class="line">            <span class="keyword">if</span> (servletMapping.containsKey(url)) &#123;</span><br><span class="line">                servletMapping.get(url).service(request, response);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                response.write(<span class="string">&quot;404 Not found!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (os != <span class="keyword">null</span>) &#123;</span><br><span class="line">                os.flush();</span><br><span class="line">                os.close();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (is != <span class="keyword">null</span>) &#123;</span><br><span class="line">                is.close();</span><br><span class="line">                client.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="打印请求信息"><a href="#打印请求信息" class="headerlink" title="打印请求信息"></a>打印请求信息</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Request content : GET /fitstServlet.<span class="keyword">do</span> HTTP/<span class="number">1.1</span></span><br><span class="line">Host: localhost:<span class="number">8080</span></span><br><span class="line">Connection: keep-alive</span><br><span class="line">Upgrade-Insecure-Requests: <span class="number">1</span></span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Macintosh; Intel Mac OS X <span class="number">10_14_5</span>) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">88.0</span><span class="number">.4324</span><span class="number">.150</span> Safari/<span class="number">537.36</span> OPR/<span class="number">74.0</span><span class="number">.3911</span><span class="number">.160</span></span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/avif,image/webp,image/apng,*<span class="comment">/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span></span><br><span class="line"><span class="comment">Sec-Fetch-Site: none</span></span><br><span class="line"><span class="comment">Sec-Fetch-Mode: navigate</span></span><br><span class="line"><span class="comment">Sec-Fetch-User: ?1</span></span><br><span class="line"><span class="comment">Sec-Fetch-Dest: document</span></span><br><span class="line"><span class="comment">Accept-Encoding: gzip, deflate, br</span></span><br><span class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.9</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="客户端发送请求及结果展示"><a href="#客户端发送请求及结果展示" class="headerlink" title="客户端发送请求及结果展示"></a>客户端发送请求及结果展示</h2><blockquote>
-<p>请求： <a href="http://localhost:8080/firstServlet.do">http://localhost:8080/firstServlet.do</a><br><img src="https://oscimg.oschina.net/oscnet/up-e4faf840776bb504c26ddd7266033651a09.png">  </p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>IO</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>IO</tag>
       </tags>
   </entry>
   <entry>
@@ -5156,29 +5156,6 @@ https://juejin.cn/post/6885159254764814349
       </tags>
   </entry>
   <entry>
-    <title>拥塞避免</title>
-    <url>/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/</url>
-    <content><![CDATA[<h1 id="拥塞避免"><a href="#拥塞避免" class="headerlink" title="拥塞避免"></a>拥塞避免</h1><p>拥塞控制的慢启动是以指数方式快速的通过试探来扩大拥塞窗口的，但是一旦发生网络丢包，则肯定是很多报文段都会都是，因为窗口时称被增长的；为了解决这种问题，需要引入– 拥塞避免</p>
-<h2 id="什么是拥塞避免"><a href="#什么是拥塞避免" class="headerlink" title="什么是拥塞避免"></a>什么是拥塞避免</h2><p>拥塞避免为了解决慢启动下，当拥塞窗口超出网络带宽时发生的大量丢包问题，它提出一个「慢启动阈值」的概念，当拥塞窗口到达这个阈值之后，不在以指数方式增长，而选择涨幅比较缓慢的「线性增长」，计算方式：</p>
-<blockquote>
-<p>cwnd += SMSS*SMSS/cwnd</p>
-</blockquote>
-<img src="https://oscimg.oschina.net/oscnet/up-e56d8072b2a74fa9b18ff6ca2d605405d2f.png" width=760 height=360>
-
-<p>当拥塞窗口在线性增长时发生丢包，将慢启动阈值设置为当前窗口的一半，慢启动窗口恢复初始窗口（init wnd）；</p>
-<blockquote>
-<p>拥塞避免和慢启动是结合使用的，当发生网络丢包是，拥塞控制采用快速重传和快速启动来解决丢包问题！</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Computer Network</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>快速重传/快速恢复</title>
     <url>/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/</url>
     <content><![CDATA[<h1 id="快速重传和快速恢复"><a href="#快速重传和快速恢复" class="headerlink" title="快速重传和快速恢复"></a>快速重传和快速恢复</h1><h2 id="快速重传"><a href="#快速重传" class="headerlink" title="快速重传"></a>快速重传</h2><blockquote>
@@ -5242,39 +5219,26 @@ https://juejin.cn/post/6885159254764814349
       </tags>
   </entry>
   <entry>
-    <title>操作系统-死锁</title>
-    <url>/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://www.jianshu.com/p/44125bb12ebf">死锁是什么？如何避免死锁？</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98">哲学家就餐问题</a></li>
-</ul>
+    <title>拥塞避免</title>
+    <url>/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/</url>
+    <content><![CDATA[<h1 id="拥塞避免"><a href="#拥塞避免" class="headerlink" title="拥塞避免"></a>拥塞避免</h1><p>拥塞控制的慢启动是以指数方式快速的通过试探来扩大拥塞窗口的，但是一旦发生网络丢包，则肯定是很多报文段都会都是，因为窗口时称被增长的；为了解决这种问题，需要引入– 拥塞避免</p>
+<h2 id="什么是拥塞避免"><a href="#什么是拥塞避免" class="headerlink" title="什么是拥塞避免"></a>什么是拥塞避免</h2><p>拥塞避免为了解决慢启动下，当拥塞窗口超出网络带宽时发生的大量丢包问题，它提出一个「慢启动阈值」的概念，当拥塞窗口到达这个阈值之后，不在以指数方式增长，而选择涨幅比较缓慢的「线性增长」，计算方式：</p>
+<blockquote>
+<p>cwnd += SMSS*SMSS/cwnd</p>
+</blockquote>
+<img src="https://oscimg.oschina.net/oscnet/up-e56d8072b2a74fa9b18ff6ca2d605405d2f.png" width=760 height=360>
+
+<p>当拥塞窗口在线性增长时发生丢包，将慢启动阈值设置为当前窗口的一半，慢启动窗口恢复初始窗口（init wnd）；</p>
+<blockquote>
+<p>拥塞避免和慢启动是结合使用的，当发生网络丢包是，拥塞控制采用快速重传和快速启动来解决丢包问题！</p>
 </blockquote>
 ]]></content>
       <categories>
-        <category>Linux System</category>
-        <category>Process</category>
+        <category>Computer Network</category>
+        <category>TCP</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统进程调度策略</title>
-    <url>/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://blog.csdn.net/qq_35642036/article/details/82809812">操作系统中的进程调度策略有哪几种</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"></a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux System</category>
-        <category>Process</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
+        <tag>TCP</tag>
       </tags>
   </entry>
   <entry>
@@ -5308,6 +5272,42 @@ https://juejin.cn/post/6885159254764814349
       </categories>
       <tags>
         <tag>推荐系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统-死锁</title>
+    <url>/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.jianshu.com/p/44125bb12ebf">死锁是什么？如何避免死锁？</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98">哲学家就餐问题</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux System</category>
+        <category>Process</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统进程调度策略</title>
+    <url>/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://blog.csdn.net/qq_35642036/article/details/82809812">操作系统中的进程调度策略有哪几种</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"></a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux System</category>
+        <category>Process</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -5475,6 +5475,23 @@ https://juejin.cn/post/6885159254764814349
       </tags>
   </entry>
   <entry>
+    <title>进程间通信IPC</title>
+    <url>/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.jianshu.com/p/c1015f5ffa74">进程间通信IPC (InterProcess Communication)</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux System</category>
+        <category>Process</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面向对象特征</title>
     <url>/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/</url>
     <content><![CDATA[<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装是保证软件部件具有优良的模块性的基础，封装的目标就是实现软件内部的“高内聚、低耦合”。防止程序相互依赖而带来的变动影响。在面向对象的编程语言中，对象是封装的最基本单位，面向对象的封装比传统语言的封装更为清晰、也更为有力，面向对象的封装就是把描述一个对象的属性和行为的代码封装在一个“模块”中，或者说是一个类中，属性用变量定义，行为用方法定义，方法可以直接访问同一个对象中的属性。</p>
@@ -5494,23 +5511,6 @@ https://juejin.cn/post/6885159254764814349
       </categories>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>进程间通信IPC</title>
-    <url>/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://www.jianshu.com/p/c1015f5ffa74">进程间通信IPC (InterProcess Communication)</a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux System</category>
-        <category>Process</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
