@@ -114,31 +114,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM-jstack</title>
-    <url>/wiki/JVM-jstack/</url>
-    <content><![CDATA[<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><h2 id="jstack-功能"><a href="#jstack-功能" class="headerlink" title="jstack 功能"></a>jstack 功能</h2><p>主要分为两个功能：</p>
-<p>a．  针对活着的进程做本地的或远程的线程dump；</p>
-<p>b．  针对core文件做线程dump。</p>
-<p>jstack用于生成java虚拟机当前时刻的线程快照。线程快照是当前java虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等。 线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做什么事情，或者等待什么资源。 如果java程序崩溃生成core文件，jstack工具可以用来获得core文件的java stack和native stack的信息，从而可以轻松地知道java程序是如何崩溃和在程序何处发生问题。另外，jstack工具还可以附属到正在运行的java程序中，看到当时运行的java程序的java stack和native stack的信息, 如果现在运行的java程序呈现hung的状态，jstack是非常有用的。</p>
-<h2 id="jstack-操作方式"><a href="#jstack-操作方式" class="headerlink" title="jstack 操作方式"></a>jstack 操作方式</h2><blockquote>
-<p>jps -l | grep keyword -&gt; pid<br>jstack pid</p>
-</blockquote>
-<p>jstack结果如下；</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;lettuce-nioEventLoop-4-1&quot; #639 daemon prio=5 os_prio=0 tid=0x00007ff27025d800 nid=0x258f runnable [0x00007ff262af7000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)</span><br><span class="line">	at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)</span><br><span class="line">	- locked &lt;0x000000008988d6a8&gt; (a io.netty.channel.nio.SelectedSelectionKeySet)</span><br><span class="line">	- locked &lt;0x000000008988d770&gt; (a java.util.Collections$UnmodifiableSet)</span><br><span class="line">	- locked &lt;0x000000008988d600&gt; (a sun.nio.ch.EPollSelectorImpl)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:101)</span><br><span class="line">	at io.netty.channel.nio.SelectedSelectionKeySetSelector.select(SelectedSelectionKeySetSelector.java:68)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.select(NioEventLoop.java:803)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:457)</span><br><span class="line">	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)</span><br><span class="line">	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)</span><br><span class="line">	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>原文链接：<a href="https://blog.csdn.net/weixin_30013175/article/details/113901522">https://blog.csdn.net/weixin_30013175/article/details/113901522</a></p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM-jstat</title>
     <url>/wiki/JVM-jstat/</url>
     <content><![CDATA[<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><p>jstat是一个简单的实用工具，在JDK中存在，用于提供与JVM性能相关的统计信息，例如垃圾收集，编译活动。 jstat的主要优势在于，它可以在运行JVM且无需任何先决条件的情况下动态捕获这些指标。 这是什么意思？ 例如，如果要捕获与垃圾回收相关的统计信息，则需要在启动JVM之前传递以下参数：</p>
@@ -174,6 +149,31 @@
 <p>FGCT –到目前为止已花费的完整GC时间</p>
 <p>GCT –到目前为止所花费的GC时间总量（基本上是YGCT + FGCT）</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/dnc8371/article/details/107255359">jstat分析_jstat –分析</a> </p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM-jstack</title>
+    <url>/wiki/JVM-jstack/</url>
+    <content><![CDATA[<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><h2 id="jstack-功能"><a href="#jstack-功能" class="headerlink" title="jstack 功能"></a>jstack 功能</h2><p>主要分为两个功能：</p>
+<p>a．  针对活着的进程做本地的或远程的线程dump；</p>
+<p>b．  针对core文件做线程dump。</p>
+<p>jstack用于生成java虚拟机当前时刻的线程快照。线程快照是当前java虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等。 线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做什么事情，或者等待什么资源。 如果java程序崩溃生成core文件，jstack工具可以用来获得core文件的java stack和native stack的信息，从而可以轻松地知道java程序是如何崩溃和在程序何处发生问题。另外，jstack工具还可以附属到正在运行的java程序中，看到当时运行的java程序的java stack和native stack的信息, 如果现在运行的java程序呈现hung的状态，jstack是非常有用的。</p>
+<h2 id="jstack-操作方式"><a href="#jstack-操作方式" class="headerlink" title="jstack 操作方式"></a>jstack 操作方式</h2><blockquote>
+<p>jps -l | grep keyword -&gt; pid<br>jstack pid</p>
+</blockquote>
+<p>jstack结果如下；</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;lettuce-nioEventLoop-4-1&quot; #639 daemon prio=5 os_prio=0 tid=0x00007ff27025d800 nid=0x258f runnable [0x00007ff262af7000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)</span><br><span class="line">	at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)</span><br><span class="line">	- locked &lt;0x000000008988d6a8&gt; (a io.netty.channel.nio.SelectedSelectionKeySet)</span><br><span class="line">	- locked &lt;0x000000008988d770&gt; (a java.util.Collections$UnmodifiableSet)</span><br><span class="line">	- locked &lt;0x000000008988d600&gt; (a sun.nio.ch.EPollSelectorImpl)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:101)</span><br><span class="line">	at io.netty.channel.nio.SelectedSelectionKeySetSelector.select(SelectedSelectionKeySetSelector.java:68)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.select(NioEventLoop.java:803)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:457)</span><br><span class="line">	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)</span><br><span class="line">	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)</span><br><span class="line">	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>原文链接：<a href="https://blog.csdn.net/weixin_30013175/article/details/113901522">https://blog.csdn.net/weixin_30013175/article/details/113901522</a></p>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -647,6 +647,116 @@
       </tags>
   </entry>
   <entry>
+    <title>Java-synchronized关键字剖析</title>
+    <url>/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/</url>
+    <content><![CDATA[<p>之前写过一篇关于synchronized关键字的文章，是当时听马士兵老师的公开课时记录的一些关键笔记📒 <a href="https://geekibli.github.io/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">链接🔗</a></p>
+<p>下面我们还是要学习和总结一下synchronized</p>
+<h2 id="synchronized-特性"><a href="#synchronized-特性" class="headerlink" title="synchronized 特性"></a>synchronized 特性</h2><ul>
+<li>有序性<br><code>as-if-serial</code></li>
+</ul>
+<p>不管编译器和CPU如何重排序，必须保证在单线程情况下程序的结果是正确的，还有就是有数据依赖的也是不能重排序的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = a;</span><br></pre></td></tr></table></figure>
+<p>这两段是怎么都不能重排序的，b的值依赖a的值，a如果不先赋值，那就为空了。</p>
+<ul>
+<li>可见性<br>主要依靠Java内存模型实现</li>
+<li>原子性<br>通过汇编指令控制</li>
+<li>可重入<br>synchronized锁对象的时候有个计数器，他会记录下线程获取锁的次数，在执行完对应的代码块之后，计数器就会-1，直到计数器清零，就释放锁了</li>
+<li>不可中断<br>不可中断就是指，一个线程获取锁之后，另外一个线程处于阻塞或者等待状态，前一个不释放，后一个也一直会阻塞或者等待，不可以被中断。<br>值得一提的是，Lock的tryLock方法是可以被中断的。</li>
+</ul>
+<h2 id="了解对象头"><a href="#了解对象头" class="headerlink" title="了解对象头"></a>了解对象头</h2><p><strong>Mark Word</strong>：默认存储对象的HashCode，分代年龄和锁标志位信息。这些信息都是与对象自身定义无关的数据，所以Mark Word被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据。它会根据对象的状态复用自己的存储空间，也就是说在运行期间Mark Word里存储的数据会随着锁标志位的变化而变化。</p>
+<p><strong>在64位的虚拟机中：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729145750638.png" alt="image-20210729145750638"></p>
+<p><strong>32位虚拟机中：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729145831606.png" alt="image-20210729145831606"></p>
+<p><strong>可以参见之前的文章</strong>  👉  <a href="https://geekibli.github.io/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/">Java对象头</a></p>
+<h2 id="synchronized实现"><a href="#synchronized实现" class="headerlink" title="synchronized实现"></a>synchronized实现</h2><p>之前的文章已经在 <code>Java代码</code>、<code>字节码</code>、<code>JVM级别</code>和<code>汇编指令</code>四个级别介绍了synchronzied的实现。<br>JDK对synchronzied不断的优化，大家熟悉的锁升级过程，其实就是在源码里面，调用了不同的实现去获取获取锁，失败就调用更高级的实现，最后升级完成。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729144552761.png" alt="image-20210729144552761"></p>
+<p>升级方向：【 无锁 】 -&gt; 【 偏向锁 】-&gt; 【 轻量级锁 】-&gt; 【 重量级锁 】</p>
+<p>Tip：<font color=red>切记这个升级过程是不可逆的</font>；</p>
+<h3 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h3><p>无锁是指没有对资源进行锁定，所有的线程都能访问并修改同一个资源，但同时只有一个线程能修改成功。</p>
+<p>无锁的特点是修改操作会在循环内进行，线程会不断的尝试修改共享资源。如果没有冲突就修改成功并退出，否则就会继续循环尝试。如果有多个线程修改同一个值，必定会有一个线程能修改成功，而其他修改失败的线程会不断重试直到修改成功。</p>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>对象头是由 Mark Word 和 Class pointer 组成，锁争夺也就是对象头指向的Monitor对象的争夺，一旦有线程持有了这个对象，标志位修改为1，就进入偏向模式，同时会把这个线程的ID记录在对象的Mark Word中。</p>
+<p>这个过程是采用了<code>CAS</code>乐观锁操作的，每次同一线程进入，虚拟机就不进行任何同步的操作了，对标志位+1就好了，不同线程过来，CAS会失败，也就意味着获取锁失败。</p>
+<p>偏向锁在1.6之后是默认开启的，1.5中是关闭的，需要手动开启参数是xx:-UseBiasedLocking=false。</p>
+<p>初次执行到synchronized代码块的时候，锁对象变成偏向锁（通过CAS修改对象头里的锁标志位），字面意思是“偏向于第一个获得它的线程”的锁。执行完同步代码块后，线程并不会主动释放偏向锁。</p>
+<p>当第二次到达同步代码块时，线程会判断此时持有锁的线程是否就是自己（持有锁的线程ID也在对象头里），如果是则正常往下执行。由于之前没有释放锁，这里也就不需要重新加锁。<code>如果自始至终使用锁的线程只有一个，很明显偏向锁几乎没有额外开销，性能极高。</code></p>
+<p>偏向锁是指当一段同步代码<strong>一直被同一个线程所访问</strong>时，即不存在多个线程的竞争时，那么该线程在后续访问时便会自动获得锁，从而降低获取锁带来的消耗，即提高性能。</p>
+<p>当一个线程访问同步代码块并获取锁时，会在 Mark Word 里存储锁偏向的线程 ID。在线程进入和退出同步块时不再通过 CAS 操作来加锁和解锁，而是检测 Mark Word 里是否存储着指向当前线程的偏向锁。<code>轻量级锁的获取及释放依赖多次 CAS 原子指令</code>，而<code>偏向锁只需要在置换 ThreadID 的时候依赖一次 CAS 原子指令</code>即可。</p>
+<p>偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，<code>线程是不会主动释放偏向锁的。</code></p>
+<p>关于偏向锁的撤销，需要等待全局安全点，即在某个时间点上没有字节码正在执行时，它会先暂停拥有偏向锁的线程，然后判断锁对象是否处于被锁定状态。如果<code>线程不处于活动状态</code>，则将对象头设置成无锁状态，并撤销偏向锁，恢复到无锁（标志位为01）或轻量级锁（标志位为00）的状态。</p>
+<p><strong>偏向锁关闭，或者多个线程竞争偏向锁怎么办呢？</strong></p>
+<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p>还是跟Mark Work 相关，如果这个对象是无锁的，jvm就会在当前线程的栈帧中建立一个叫<code>锁记录（Lock Record）</code>的空间，用来存储锁对象的Mark Word 拷贝，然后把Lock Record中的owner指向当前对象。</p>
+<p>JVM接下来会利用CAS尝试把对象原本的Mark Word 更新会Lock Record的指针，成功就说明加锁成功，改变锁标志位，执行相关同步操作。</p>
+<p>如果失败了，就会判断当前对象的Mark Word是否指向了当前线程的栈帧，是则表示当前的线程已经持有了这个对象的锁，否则说明被其他线程持有了，继续锁升级，修改锁的状态，之后等待的线程也阻塞。</p>
+<p>轻量级锁是指当锁是偏向锁的时候，却被另外的线程所访问，此时偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，线程不会阻塞，从而提高性能。</p>
+<p>轻量级锁的获取主要由两种情况：<br>① 当关闭偏向锁功能时；<br>② 由于多个线程竞争偏向锁导致偏向锁升级为轻量级锁。</p>
+<p>一旦有第二个线程加入锁竞争，偏向锁就升级为轻量级锁（自旋锁）。这里要明确一下什么是锁竞争：</p>
+<blockquote>
+<p>如果多个线程轮流获取一个锁，但是每次获取锁的时候都很顺利，没有发生阻塞，那么就不存在锁竞争。只有当某线程尝试获取锁的时候，发现该锁已经被占用，只能等待其释放，这才发生了锁竞争。</p>
+</blockquote>
+<img src='https://img-blog.csdnimg.cn/20200606123648335.png' width=600 height=650>
+
+<p>在轻量级锁状态下继续锁竞争，没有抢到锁的线程将自旋，即不停地循环判断锁是否能够被成功获取。获取锁的操作，其实就是通过CAS修改对象头里的锁标志位。先比较当前锁标志位是否为“释放”，如果是则将其设置为“锁定”，比较并设置是原子性发生的。这就算抢到锁了，然后线程将当前锁的持有者信息修改为自己。</p>
+<p>长时间的自旋操作是非常消耗资源的，一个线程持有锁，其他线程就只能在原地空耗CPU，执行不了任何有效的任务，这种现象叫做忙等（busy-waiting）。如果多个线程用一个锁，但是没有发生锁竞争，或者发生了很轻微的锁竞争，那么synchronized就用轻量级锁，允许短时间的忙等现象。这是一种折衷的想法，短时间的忙等，换取线程在用户态和内核态之间切换的开销。</p>
+<h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>我不是在上面提到了Linux系统的用户态和内核态的切换很耗资源，其实就是线程的等待唤起过程，那怎么才能减少这种消耗呢？</p>
+<p>自旋，过来的现在就不断自旋，防止线程被挂起，一旦可以获取资源，就直接尝试成功，直到超出阈值，自旋锁的默认大小是10次，-XX：PreBlockSpin可以修改。</p>
+<p>自旋都失败了，那就升级为重量级的锁，像1.5的一样，等待唤起咯。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729151704773.png" alt="image-20210729151704773" style="zoom:33%;" />
+
+<h3 id="自适应自旋锁"><a href="#自适应自旋锁" class="headerlink" title="自适应自旋锁"></a>自适应自旋锁</h3><p>自适应意味着自旋的时间不再固定了，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定：</p>
+<ul>
+<li>如果在同一个锁对象上，自旋等待之前成功获得过的锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也很有可能再次成功，因此允许自旋等待持续相对更长的时间。</li>
+<li>相反的，如果对于某个锁，自旋很少成功获得过，那么以后要获取这个锁时将可能减少自旋时间甚至省略自旋过程，以避免浪费处理器资源。</li>
+</ul>
+<p><strong>自适应自旋解决的是“锁竞争时间不确定”的问题</strong>。JVM很难感知确切的锁竞争时间，而交给用户分析就违反了JVM的设计初衷。自适应自旋假定不同线程持有同一个锁对象的时间基本相当，竞争程度趋于稳定。因此，可以根据上一次自旋的时间与结果调整下一次自旋的时间。</p>
+<h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>如果锁竞争情况严重，某个达到最大自旋次数的线程，会将轻量级锁升级为重量级锁（依然是CAS修改锁标志位，但不修改持有锁的线程ID）。当后续线程尝试获取锁时，发现被占用的锁是重量级锁，则直接将自己挂起（而不是忙等），等待将来被唤醒。</p>
+<p>重量级锁是指当有一个线程获取锁之后，其余所有等待获取该锁的线程都会处于阻塞状态。</p>
+<p>简言之，就是所有的控制权都交给了操作系统，由操作系统来负责线程间的调度和线程的状态变更。而这样会出现频繁地对线程运行状态的切换，线程的挂起和唤醒，从而消耗大量的系统资</p>
+<p>大家在看ObjectMonitor源码的时候，会发现Atomic::cmpxchg_ptr，Atomic::inc_ptr等内核函数，对应的线程就是park()和upark()。<br>这个操作涉及用户态和内核态的转换了，这种切换是很耗资源的，所以知道为啥有自旋锁这样的操作了吧，按道理类似死循环的操作更费资源才是对吧？其实不是，大家了解一下就知道了。</p>
+<blockquote>
+<p>那用户态和内核态又是啥呢？</p>
+</blockquote>
+<img src='https://oscimg.oschina.net/oscnet/up-3d168748d90e18da228ce8f55a9cc4a6cc4.png' width=300 height=300>
+
+<p>Linux系统的体系结构分为用户空间（应用程序的活动空间）和内核。我们所有的程序都在用户空间运行，进入用户运行状态也就是（用户态），但是很多操作可能涉及内核运行，比如涉及到I/O，我们就会进入内核运行状态（内核态）。</p>
+<p>这个过程是很复杂的，也涉及很多值的传递，我简单概括下流程：</p>
+<ul>
+<li>用户态把一些数据放到寄存器，或者创建对应的堆栈，表明需要操作系统提供的服务。</li>
+<li>用户态执行系统调用（系统调用是操作系统的最小功能单位）。</li>
+<li>CPU切换到内核态，跳到对应的内存指定的位置执行指令。</li>
+<li>系统调用处理器去读取我们先前放到内存的数据参数，执行程序的请求。</li>
+<li>调用完成，操作系统重置CPU为用户态返回结果，并执行下个指令。</li>
+</ul>
+<p>所以大家一直说，1.6之前是重量级锁，没错，但是他重量的本质，是ObjectMonitor调用的过程，以及Linux内核的复杂运行机制决定的，大量的系统资源消耗，所以效率才低。<br>还有两种情况也会发生内核态和用户态的切换：异常事件和外围设备的中断 大家也可以了解下。</p>
+<blockquote>
+<p>普通的IO读写也会涉及到用户态和内核的切换，但是为了提升IO 的性能，操作系统可以通过 <code>零拷贝</code> 来实现，Redis和Kafka,还有netty的底层IO模型都存在零拷贝。</p>
+</blockquote>
+<h3 id="锁对比"><a href="#锁对比" class="headerlink" title="锁对比"></a>锁对比</h3><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729150936860.png" alt="image-20210729150936860"></p>
+<h2 id="synchronized和Lock对比"><a href="#synchronized和Lock对比" class="headerlink" title="synchronized和Lock对比"></a>synchronized和Lock对比</h2><p>我们先看看他们的区别：</p>
+<ul>
+<li>synchronized是关键字，是JVM层面的底层啥都帮我们做了，而Lock是一个接口，是JDK层面的有丰富的API。</li>
+<li>synchronized会自动释放锁，而Lock必须手动释放锁。</li>
+<li>synchronized是不可中断的，Lock可以中断也可以不中断。</li>
+<li>通过Lock可以知道线程有没有拿到锁，而synchronized不能。</li>
+<li>synchronized能锁住方法和代码块，而Lock只能锁住代码块。</li>
+<li>Lock可以使用读锁提高多线程读效率。</li>
+<li>synchronized是非公平锁，ReentrantLock可以控制是否是公平锁。</li>
+</ul>
+<p>两者一个是JDK层面的一个是JVM层面的，我觉得最大的区别其实在，我们是否需要丰富的api，还有一个我们的场景。</p>
+<blockquote>
+<p><strong>比如我现在是滴滴，我早上有打车高峰，我代码使用了大量的synchronized，有什么问题？锁升级过程是不可逆的，过了高峰我们还是重量级的锁，那效率是不是大打折扣了？这个时候你用Lock是不是很好？</strong></p>
+</blockquote>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://www.cnblogs.com/bakari/p/5520860.html">Linux探秘之用户态与内核态</a></p>
+<p><a href="https://mp.weixin.qq.com/s/FgBCop2zFfcX5ZszE0NoCQ">傻瓜三歪让我教他「零拷贝」</a></p>
+<p><a href="https://www.jianshu.com/p/8c255b942535">偏向锁、轻量级锁、重量级锁、自旋锁、自适应自旋锁</a></p>
+<p><a href="https://www.cnblogs.com/mingyueyy/p/13054296.html">关于 锁的四种状态与锁升级过程 图文详解</a></p>
+<p><a href="https://mp.weixin.qq.com/s/2ka1cDTRyjsAGk_-ii4ngw">死磕Synchronized底层实现</a></p>
+]]></content>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java-synchronzied底层原理</title>
     <url>/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<h1 id="synchronzied底层原理"><a href="#synchronzied底层原理" class="headerlink" title="synchronzied底层原理"></a>synchronzied底层原理</h1><h2 id="synchronzied四个层级实现"><a href="#synchronzied四个层级实现" class="headerlink" title="synchronzied四个层级实现"></a>synchronzied四个层级实现</h2><ul>
@@ -815,26 +925,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java-锁消除和锁膨胀</title>
-    <url>/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/</url>
-    <content><![CDATA[<h1 id="锁消除和锁粗化"><a href="#锁消除和锁粗化" class="headerlink" title="锁消除和锁粗化"></a>锁消除和锁粗化</h1><h2 id="锁消除-（lock-eliminate）"><a href="#锁消除-（lock-eliminate）" class="headerlink" title="锁消除 （lock eliminate）"></a>锁消除 （lock eliminate）</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String str1,String str2)</span></span>&#123;</span><br><span class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    sb.append(str1).append(str2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们都知道 StringBuffer 是线程安全的，因为它的关键方法都是被 synchronized 修饰过的，但我们看上面这段代码，我们会发现，sb 这个引用只会在 add 方法中使用，不可能被其它线程引用（因为是局部变量，栈私有），因此 sb 是不可能共享的资源，JVM 会自动消除 StringBuffer 对象内部的锁。</p>
-<h2 id="锁粗化-（lock-coarsening）"><a href="#锁粗化-（lock-coarsening）" class="headerlink" title="锁粗化 （lock coarsening）"></a>锁粗化 （lock coarsening）</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">       <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">       StringBuffer sb = <span class="keyword">new</span> StringBuffer():</span><br><span class="line">       <span class="keyword">while</span>(i &lt; <span class="number">100</span>)&#123;</span><br><span class="line">           sb.append(str);</span><br><span class="line">           i++;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> sb.toString():</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>JVM 会检测到这样一连串的操作都对同一个对象加锁（while 循环内 100 次执行 append，没有锁粗化的就要进行 100  次加锁/解锁），此时 JVM 就会将加锁的范围粗化到这一连串的操作的外部（比如 while 虚幻体外），使得这一连串操作只需要加一次锁即可。</p>
-<h2 id="锁降级"><a href="#锁降级" class="headerlink" title="锁降级"></a>锁降级</h2><p><a href="https://www.zhihu.com/question/63859501">https://www.zhihu.com/question/63859501</a></p>
-<p>其实，只被VMThread访问，降级也就没啥意义了。所以可以简单认为锁降级不存在！</p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java-锁升级过程</title>
     <url>/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/</url>
     <content><![CDATA[<h1 id="锁升级"><a href="#锁升级" class="headerlink" title="锁升级"></a>锁升级</h1><h2 id="使用JOL查看加锁之后的对象信息"><a href="#使用JOL查看加锁之后的对象信息" class="headerlink" title="使用JOL查看加锁之后的对象信息"></a>使用JOL查看加锁之后的对象信息</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Object object = <span class="keyword">new</span> Object();</span><br><span class="line">        System.out.println(ClassLayout.parseInstance(object).toPrintable());</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">synchronized</span> (object)&#123;</span><br><span class="line">            System.out.println(ClassLayout.parseInstance(object).toPrintable());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -911,6 +1001,26 @@
       </tags>
   </entry>
   <entry>
+    <title>Java-锁消除和锁膨胀</title>
+    <url>/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/</url>
+    <content><![CDATA[<h1 id="锁消除和锁粗化"><a href="#锁消除和锁粗化" class="headerlink" title="锁消除和锁粗化"></a>锁消除和锁粗化</h1><h2 id="锁消除-（lock-eliminate）"><a href="#锁消除-（lock-eliminate）" class="headerlink" title="锁消除 （lock eliminate）"></a>锁消除 （lock eliminate）</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String str1,String str2)</span></span>&#123;</span><br><span class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    sb.append(str1).append(str2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们都知道 StringBuffer 是线程安全的，因为它的关键方法都是被 synchronized 修饰过的，但我们看上面这段代码，我们会发现，sb 这个引用只会在 add 方法中使用，不可能被其它线程引用（因为是局部变量，栈私有），因此 sb 是不可能共享的资源，JVM 会自动消除 StringBuffer 对象内部的锁。</p>
+<h2 id="锁粗化-（lock-coarsening）"><a href="#锁粗化-（lock-coarsening）" class="headerlink" title="锁粗化 （lock coarsening）"></a>锁粗化 （lock coarsening）</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">       <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">       StringBuffer sb = <span class="keyword">new</span> StringBuffer():</span><br><span class="line">       <span class="keyword">while</span>(i &lt; <span class="number">100</span>)&#123;</span><br><span class="line">           sb.append(str);</span><br><span class="line">           i++;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> sb.toString():</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JVM 会检测到这样一连串的操作都对同一个对象加锁（while 循环内 100 次执行 append，没有锁粗化的就要进行 100  次加锁/解锁），此时 JVM 就会将加锁的范围粗化到这一连串的操作的外部（比如 while 虚幻体外），使得这一连串操作只需要加一次锁即可。</p>
+<h2 id="锁降级"><a href="#锁降级" class="headerlink" title="锁降级"></a>锁降级</h2><p><a href="https://www.zhihu.com/question/63859501">https://www.zhihu.com/question/63859501</a></p>
+<p>其实，只被VMThread访问，降级也就没啥意义了。所以可以简单认为锁降级不存在！</p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java内存模型</title>
     <url>/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
     <content><![CDATA[<h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><h2 id="首先需要思考什么是JMM，以及为什么会有JMM。"><a href="#首先需要思考什么是JMM，以及为什么会有JMM。" class="headerlink" title="首先需要思考什么是JMM，以及为什么会有JMM。"></a>首先需要思考什么是JMM，以及为什么会有JMM。</h2><blockquote>
@@ -972,6 +1082,95 @@
 <p>虽然指令重排提高了并发的性能，但是Java虚拟机会对指令重排做出一些规则限制，并不能让所有的指令都随意的改变执行位置，主要有以下几点：    </p>
 </blockquote>
 <p>1、单线程每个操作，happen-before于该线程中任意后续操作；<br>2、volatile写happen-before与后续对这个变量的读；<br>3、synchronized解锁happen-before后续对这个锁的加锁；<br>4、final变量的写happen-before于final域对象的读，happen-before后续对final变量的读；<br>5、传递性规则，A先于B，B先于C，那么A一定先于C发生；  </p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java多线程之ThreadLocal</title>
+    <url>/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/</url>
+    <content><![CDATA[<h2 id="ThreadLocalMap结构"><a href="#ThreadLocalMap结构" class="headerlink" title="ThreadLocalMap结构"></a>ThreadLocalMap结构</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b45487065b90?imageView2/0/w/1280/h/960/ignore-error/1'>
+
+
+
+
+<h2 id="ThreadLocal-set流程"><a href="#ThreadLocal-set流程" class="headerlink" title="ThreadLocal set流程"></a>ThreadLocal set流程</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b454879fe57d?imageView2/0/w/1280/h/960/ignore-error/1'>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://juejin.cn/post/6854573219916021767">Java面试必问：ThreadLocal终极篇 </a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java对象头</title>
+    <url>/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/</url>
+    <content><![CDATA[<h1 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h1><h2 id="JOL查看对象头信息"><a href="#JOL查看对象头信息" class="headerlink" title="JOL查看对象头信息"></a>JOL查看对象头信息</h2><p>在项目中引入以下依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.openjdk.jol&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jol-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.9&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>写一个main方法，创建一个Object，然后打印对象信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">        Object object = new Object();</span><br><span class="line">        System.out.println(ClassLayout.parseInstance(object).toPrintable());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java.lang.Object object internals:</span><br><span class="line"> OFFSET  SIZE   TYPE DESCRIPTION                               VALUE</span><br><span class="line">      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)</span><br><span class="line">      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0)</span><br><span class="line">      8     4        (object header)                           e5 01 00 f8 (11100101 00000001 00000000 11111000) (-134217243)</span><br><span class="line">     12     4        (loss due to the next object alignment)</span><br><span class="line">Instance size: 16 bytes</span><br><span class="line">Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</span><br></pre></td></tr></table></figure>
+<p>由此可知，new Object()在内存中占16个字节，组成部分8字节的markword+4字节的class point+4字节的对齐；</p>
+<h2 id="Java对象在内存中的布局"><a href="#Java对象在内存中的布局" class="headerlink" title="Java对象在内存中的布局"></a>Java对象在内存中的布局</h2><image src="https://oscimg.oschina.net/oscnet/up-056ef14e62f5dfde1a5af579dabeb6e4c2a.png" width=250 height=420>
+
+<ul>
+<li>markword<blockquote>
+<p>存储sync锁标志，分代年龄等一些关键信息 8字节</p>
+</blockquote>
+</li>
+<li>class pointer<blockquote>
+<p>指向当前对象所属类类型 4字节</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>查看java命令默认带的参数命令：</strong> java -XX:+PrintCommandLineFlags -version </p>
+<blockquote>
+<p>-XX:InitialHeapSize=134217728<br>-XX:MaxHeapSize=2147483648<br>-XX:+PrintCommandLineFlags<br>-XX:+UseCompressedClassPointers 压缩类指针 4字节<br>-XX:+UseCompressedOops 普通对象指针压缩 4字节<br>-XX:+UseParallelGC</p>
+</blockquote>
+<ul>
+<li>instance data<blockquote>
+<p>寸尺当前对象的实例数据</p>
+</blockquote>
+</li>
+<li>padding<blockquote>
+<p>对齐填充，当对象所占字节数不能被8整除之后，进行填充对齐。 目前的操作系统基本上都是64位的；</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="顺丰面试题，new-Object-在内存中占多少个字节"><a href="#顺丰面试题，new-Object-在内存中占多少个字节" class="headerlink" title="顺丰面试题，new Object()在内存中占多少个字节"></a>顺丰面试题，new Object()在内存中占多少个字节</h2><p>1、如果创建的是空对象，没有实例数据</p>
+<ul>
+<li>默认开启了class pointer指针压缩<blockquote>
+<p>8字节markword + 4字节class pointer + 4字节 padding</p>
+</blockquote>
+</li>
+<li>如果关闭了类指针压缩<blockquote>
+<p>8字节markword + 8字节class pointer</p>
+</blockquote>
+</li>
+</ul>
+<p>2、如果创建的对象有实力数据，如下对象：<br> <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Person（int age , String name）</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>默认开启了class pointer指针压缩<blockquote>
+<p>8字节markword + 4字节class pointer + 4字节int + 4字节String + 4字节padding对齐</p>
+</blockquote>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -1104,95 +1303,6 @@
       </categories>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java多线程之ThreadLocal</title>
-    <url>/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/</url>
-    <content><![CDATA[<h2 id="ThreadLocalMap结构"><a href="#ThreadLocalMap结构" class="headerlink" title="ThreadLocalMap结构"></a>ThreadLocalMap结构</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b45487065b90?imageView2/0/w/1280/h/960/ignore-error/1'>
-
-
-
-
-<h2 id="ThreadLocal-set流程"><a href="#ThreadLocal-set流程" class="headerlink" title="ThreadLocal set流程"></a>ThreadLocal set流程</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b454879fe57d?imageView2/0/w/1280/h/960/ignore-error/1'>
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://juejin.cn/post/6854573219916021767">Java面试必问：ThreadLocal终极篇 </a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java对象头</title>
-    <url>/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/</url>
-    <content><![CDATA[<h1 id="Java对象头"><a href="#Java对象头" class="headerlink" title="Java对象头"></a>Java对象头</h1><h2 id="JOL查看对象头信息"><a href="#JOL查看对象头信息" class="headerlink" title="JOL查看对象头信息"></a>JOL查看对象头信息</h2><p>在项目中引入以下依赖</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.openjdk.jol&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jol-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.9&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>写一个main方法，创建一个Object，然后打印对象信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line">        Object object = new Object();</span><br><span class="line">        System.out.println(ClassLayout.parseInstance(object).toPrintable());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>打印结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">java.lang.Object object internals:</span><br><span class="line"> OFFSET  SIZE   TYPE DESCRIPTION                               VALUE</span><br><span class="line">      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)</span><br><span class="line">      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0)</span><br><span class="line">      8     4        (object header)                           e5 01 00 f8 (11100101 00000001 00000000 11111000) (-134217243)</span><br><span class="line">     12     4        (loss due to the next object alignment)</span><br><span class="line">Instance size: 16 bytes</span><br><span class="line">Space losses: 0 bytes internal + 4 bytes external = 4 bytes total</span><br></pre></td></tr></table></figure>
-<p>由此可知，new Object()在内存中占16个字节，组成部分8字节的markword+4字节的class point+4字节的对齐；</p>
-<h2 id="Java对象在内存中的布局"><a href="#Java对象在内存中的布局" class="headerlink" title="Java对象在内存中的布局"></a>Java对象在内存中的布局</h2><image src="https://oscimg.oschina.net/oscnet/up-056ef14e62f5dfde1a5af579dabeb6e4c2a.png" width=250 height=420>
-
-<ul>
-<li>markword<blockquote>
-<p>存储sync锁标志，分代年龄等一些关键信息 8字节</p>
-</blockquote>
-</li>
-<li>class pointer<blockquote>
-<p>指向当前对象所属类类型 4字节</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>查看java命令默认带的参数命令：</strong> java -XX:+PrintCommandLineFlags -version </p>
-<blockquote>
-<p>-XX:InitialHeapSize=134217728<br>-XX:MaxHeapSize=2147483648<br>-XX:+PrintCommandLineFlags<br>-XX:+UseCompressedClassPointers 压缩类指针 4字节<br>-XX:+UseCompressedOops 普通对象指针压缩 4字节<br>-XX:+UseParallelGC</p>
-</blockquote>
-<ul>
-<li>instance data<blockquote>
-<p>寸尺当前对象的实例数据</p>
-</blockquote>
-</li>
-<li>padding<blockquote>
-<p>对齐填充，当对象所占字节数不能被8整除之后，进行填充对齐。 目前的操作系统基本上都是64位的；</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="顺丰面试题，new-Object-在内存中占多少个字节"><a href="#顺丰面试题，new-Object-在内存中占多少个字节" class="headerlink" title="顺丰面试题，new Object()在内存中占多少个字节"></a>顺丰面试题，new Object()在内存中占多少个字节</h2><p>1、如果创建的是空对象，没有实例数据</p>
-<ul>
-<li>默认开启了class pointer指针压缩<blockquote>
-<p>8字节markword + 4字节class pointer + 4字节 padding</p>
-</blockquote>
-</li>
-<li>如果关闭了类指针压缩<blockquote>
-<p>8字节markword + 8字节class pointer</p>
-</blockquote>
-</li>
-</ul>
-<p>2、如果创建的对象有实力数据，如下对象：<br> <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Person（int age , String name）</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>默认开启了class pointer指针压缩<blockquote>
-<p>8字节markword + 4字节class pointer + 4字节int + 4字节String + 4字节padding对齐</p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -1814,6 +1924,38 @@
       </tags>
   </entry>
   <entry>
+    <title>Redis-缓存穿透、击穿和雪崩</title>
+    <url>/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/</url>
+    <content><![CDATA[<h1 id="缓存击穿，穿透和雪崩"><a href="#缓存击穿，穿透和雪崩" class="headerlink" title="缓存击穿，穿透和雪崩"></a>缓存击穿，穿透和雪崩</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>首先说一下为什么会写这片文章，因为这个对我来说是印象非常深刻的，那是还在实习的时候，当时接了一个任务（其实就是练手的），大致需求是写一个白名单，然后有一个功能对白名单开放。因为是新功能，需要在部分地区试点，如果没有问题才会放开到全国城市运行。就是这么一个小的功能，让当时的我，呵呵。我记得那是第一次使用Redis,根本不知道什么是缓存雪崩啊，缓存击穿啊，穿透呀这些，还有更可怕的缓存一致性问题（TODO 下期再说）。          当时团队十几位大佬review我的代码，哼。这就是为什么印象会深刻一些吧，关键那是我第一个review代码，还是第一次使用redis，整个review就像是十几个大佬在面试我。真是怀疑人生了。。我是废物，别笑。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 大致伪代码</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPermit</span><span class="params">(String cityCode)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 先查询缓存中是否存在</span></span><br><span class="line">    String tmpCity = getCache(cityCode);</span><br><span class="line">    <span class="keyword">if</span>(StringUtil.isNotBlank(tmpCity))&#123;</span><br><span class="line">        reture Boolean.TRUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 缓存中没有在去查数据库</span></span><br><span class="line">    <span class="function">reture <span class="title">judgeForDb</span><span class="params">(cityCode)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我上面的例子其实就是典型的缓存穿透的问题。因为仅仅是开放了十几个城市来试点功能，所以大部分的查询都是缓存不命中的。</p>
+<p>下面引出今天我们的三个关键词：</p>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><blockquote>
+<p>要查询的数据，缓存中基本上没有，所以大概率情况下缓存是不命中的，而是去数据库中去查询数据，导致缓存相当于是一个摆设。如果Key不是热点访问还可以，如果是热点Key，而且并发量也会很大的情况下，绝大多数的请求都会打到数据库上，很容易造成数据库宕机。</p>
+</blockquote>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、布隆过滤器进行校验，bloom filter典型应用场景（用户名是否存在，黑名单机制，单词错误检测）<br>2、缓存空值方法，这个网上也是说的比较多的，这种方式也是可以的  </p>
+<h5 id="在此我说一下我的解决方案："><a href="#在此我说一下我的解决方案：" class="headerlink" title="在此我说一下我的解决方案："></a>在此我说一下我的解决方案：</h5><p>1、校验一个城市是否是城市白名单的城市时，直接查询缓存，存储的数据结构是使用的hash；<br>2、如果没有查到这个城市，则认为这个城市不在白名单中，因为我是先查的hash，然后在查询hash中的具体城市。如果hash的值都没有查到，那说明缓存失效了；<br>3、针对缓存失效的情况，可以再查DB来更新缓存，这个时候有人要较真了，会不会出线缓存击穿的情况呀，这个看具体场景，因为我的业务是不需要的，所以这里就直接查库更新缓存了，如果需要的话，那可以上缓存击穿的解决方案，或者看看上面两种解决方案有没有合适的，哈哈哈；<br>4、因为城市是在后台进行配置的，所以我是在增删改的操作时，保证了缓存数据的一致性的前提下，才选择相信缓存的。这是我当时的解决方案。</p>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><blockquote>
+<p>某个热点Key在一段时间内失效了，此时有大量请求瞬时抵达，会严重增加数据库的压力。因为我们的缓存数据一般都是要设置过期时间的，当缓存失效时，会去查询数据库同时更新缓存数据。</p>
+</blockquote>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、可以加锁，来保证只有第一个请求进来时达到数据库上，然后更新缓存，第二个请求进来是就会命中缓存，当然如果是分布式服务，那就需要使用分布式锁了。<br>2、合理设置缓存时间，可以将热点Key时间设置长一些，或者根据业务将失效时间设置在业务量比较小的波段，都是可以的。有的解决方案会不设置Key的过期时间，这个，看情况吧，不建议这样。 如果大量的key不设置过期时间，则长期占用内存也是不好的。</p>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><blockquote>
+<p>缓存雪崩顾名思义，就是大量Key在一段时间或者瞬时失效，或者Redis服务重启（所有Key失效，因为是存在内存中），从而导致大量请求打到数据库上，增加数据库压力</p>
+</blockquote>
+<h3 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、将热点key设置不同波段的过期时间，把过期时间散列开。<br>2、也可以使用分布式锁来限制高并发的请求，和缓存击穿的解决方案同理。<br>3、对于Redis重启或宕机的问题，可以考虑集群部署，并保证数据的同步和一致性；</p>
+<blockquote>
+ <p align="middle" > 生活远不止眼前的苟且 </p></blockquote>
+]]></content>
+      <categories>
+        <category>DataBase</category>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>/wiki/Spring-Overview/</url>
     <content><![CDATA[<hr>
@@ -1924,38 +2066,6 @@
       </categories>
       <tags>
         <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Redis-缓存穿透、击穿和雪崩</title>
-    <url>/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/</url>
-    <content><![CDATA[<h1 id="缓存击穿，穿透和雪崩"><a href="#缓存击穿，穿透和雪崩" class="headerlink" title="缓存击穿，穿透和雪崩"></a>缓存击穿，穿透和雪崩</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>首先说一下为什么会写这片文章，因为这个对我来说是印象非常深刻的，那是还在实习的时候，当时接了一个任务（其实就是练手的），大致需求是写一个白名单，然后有一个功能对白名单开放。因为是新功能，需要在部分地区试点，如果没有问题才会放开到全国城市运行。就是这么一个小的功能，让当时的我，呵呵。我记得那是第一次使用Redis,根本不知道什么是缓存雪崩啊，缓存击穿啊，穿透呀这些，还有更可怕的缓存一致性问题（TODO 下期再说）。          当时团队十几位大佬review我的代码，哼。这就是为什么印象会深刻一些吧，关键那是我第一个review代码，还是第一次使用redis，整个review就像是十几个大佬在面试我。真是怀疑人生了。。我是废物，别笑。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 大致伪代码</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPermit</span><span class="params">(String cityCode)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 先查询缓存中是否存在</span></span><br><span class="line">    String tmpCity = getCache(cityCode);</span><br><span class="line">    <span class="keyword">if</span>(StringUtil.isNotBlank(tmpCity))&#123;</span><br><span class="line">        reture Boolean.TRUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 缓存中没有在去查数据库</span></span><br><span class="line">    <span class="function">reture <span class="title">judgeForDb</span><span class="params">(cityCode)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我上面的例子其实就是典型的缓存穿透的问题。因为仅仅是开放了十几个城市来试点功能，所以大部分的查询都是缓存不命中的。</p>
-<p>下面引出今天我们的三个关键词：</p>
-<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><blockquote>
-<p>要查询的数据，缓存中基本上没有，所以大概率情况下缓存是不命中的，而是去数据库中去查询数据，导致缓存相当于是一个摆设。如果Key不是热点访问还可以，如果是热点Key，而且并发量也会很大的情况下，绝大多数的请求都会打到数据库上，很容易造成数据库宕机。</p>
-</blockquote>
-<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、布隆过滤器进行校验，bloom filter典型应用场景（用户名是否存在，黑名单机制，单词错误检测）<br>2、缓存空值方法，这个网上也是说的比较多的，这种方式也是可以的  </p>
-<h5 id="在此我说一下我的解决方案："><a href="#在此我说一下我的解决方案：" class="headerlink" title="在此我说一下我的解决方案："></a>在此我说一下我的解决方案：</h5><p>1、校验一个城市是否是城市白名单的城市时，直接查询缓存，存储的数据结构是使用的hash；<br>2、如果没有查到这个城市，则认为这个城市不在白名单中，因为我是先查的hash，然后在查询hash中的具体城市。如果hash的值都没有查到，那说明缓存失效了；<br>3、针对缓存失效的情况，可以再查DB来更新缓存，这个时候有人要较真了，会不会出线缓存击穿的情况呀，这个看具体场景，因为我的业务是不需要的，所以这里就直接查库更新缓存了，如果需要的话，那可以上缓存击穿的解决方案，或者看看上面两种解决方案有没有合适的，哈哈哈；<br>4、因为城市是在后台进行配置的，所以我是在增删改的操作时，保证了缓存数据的一致性的前提下，才选择相信缓存的。这是我当时的解决方案。</p>
-<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><blockquote>
-<p>某个热点Key在一段时间内失效了，此时有大量请求瞬时抵达，会严重增加数据库的压力。因为我们的缓存数据一般都是要设置过期时间的，当缓存失效时，会去查询数据库同时更新缓存数据。</p>
-</blockquote>
-<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、可以加锁，来保证只有第一个请求进来时达到数据库上，然后更新缓存，第二个请求进来是就会命中缓存，当然如果是分布式服务，那就需要使用分布式锁了。<br>2、合理设置缓存时间，可以将热点Key时间设置长一些，或者根据业务将失效时间设置在业务量比较小的波段，都是可以的。有的解决方案会不设置Key的过期时间，这个，看情况吧，不建议这样。 如果大量的key不设置过期时间，则长期占用内存也是不好的。</p>
-<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><blockquote>
-<p>缓存雪崩顾名思义，就是大量Key在一段时间或者瞬时失效，或者Redis服务重启（所有Key失效，因为是存在内存中），从而导致大量请求打到数据库上，增加数据库压力</p>
-</blockquote>
-<h3 id="解决方案-2"><a href="#解决方案-2" class="headerlink" title="解决方案"></a>解决方案</h3><p>1、将热点key设置不同波段的过期时间，把过期时间散列开。<br>2、也可以使用分布式锁来限制高并发的请求，和缓存击穿的解决方案同理。<br>3、对于Redis重启或宕机的问题，可以考虑集群部署，并保证数据的同步和一致性；</p>
-<blockquote>
- <p align="middle" > 生活远不止眼前的苟且 </p></blockquote>
-]]></content>
-      <categories>
-        <category>DataBase</category>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
@@ -2564,36 +2674,6 @@
       </tags>
   </entry>
   <entry>
-    <title>TCP协议</title>
-    <url>/wiki/TCP%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<h2 id="TCP协议学习笔记📒"><a href="#TCP协议学习笔记📒" class="headerlink" title="TCP协议学习笔记📒"></a>TCP协议学习笔记📒</h2><blockquote>
-<p>下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！<br>可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！</p>
-</blockquote>
-<blockquote>
-<p><a href="doc:RGuKLdsI">1、TCP报文头部</a><br><a href="doc:OMRc4svF">2、TCP三次握手</a><br><a href="doc:MpizaHTg">3、TCP最大报文段（MSS）</a><br><a href="doc:ELxUb4mv">4、TCP超时与重传</a><br><a href="doc:wqRVLcNo">5、RTO重传计时器的计算</a><br><a href="doc:IhqiYamL">6、滑动窗口</a><br><a href="doc:HoE3w3UG">7、提升网络效率</a><br><a href="doc:N7riiaCk">8、TCP拥塞控制之慢启动</a><br><a href="doc:GQoRKrER">9、TCP拥塞控制之拥塞避免</a><br><a href="doc:y4aESoPN">10、快速重传与快速恢复</a><br><a href="doc:g1Onj7OR">11、四次挥手</a></p>
-</blockquote>
-<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><blockquote>
-<p>敖丙Github整理的笔记 </p>
-</blockquote>
-<p>有大概10篇左右的文章，都是高质量的，原地址请点击着👉 <a href="https://github.com/AobingJava/JavaFamily">【Github】</a></p>
-<blockquote>
-<p>极客时间《Web协议详解与抓包实战》– 陶辉老师</p>
-</blockquote>
-<p>这门课程专门讲解网络协议的，包括Http/Https,TLS协议，TCP协议，IP协议等；</p>
-<blockquote>
-<p>《计算机网络 自顶向下方法》第7版</p>
-</blockquote>
-<p>很多名校计算机网络课程在使用的教材，非常权威！</p>
-]]></content>
-      <categories>
-        <category>Computer Network</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>TCP三次握手</title>
     <url>/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
     <content><![CDATA[<h2 id="握手🤝的目的"><a href="#握手🤝的目的" class="headerlink" title="握手🤝的目的"></a>握手🤝的目的</h2><ul>
@@ -2712,6 +2792,36 @@
       </tags>
   </entry>
   <entry>
+    <title>TCP协议</title>
+    <url>/wiki/TCP%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h2 id="TCP协议学习笔记📒"><a href="#TCP协议学习笔记📒" class="headerlink" title="TCP协议学习笔记📒"></a>TCP协议学习笔记📒</h2><blockquote>
+<p>下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！<br>可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！</p>
+</blockquote>
+<blockquote>
+<p><a href="doc:RGuKLdsI">1、TCP报文头部</a><br><a href="doc:OMRc4svF">2、TCP三次握手</a><br><a href="doc:MpizaHTg">3、TCP最大报文段（MSS）</a><br><a href="doc:ELxUb4mv">4、TCP超时与重传</a><br><a href="doc:wqRVLcNo">5、RTO重传计时器的计算</a><br><a href="doc:IhqiYamL">6、滑动窗口</a><br><a href="doc:HoE3w3UG">7、提升网络效率</a><br><a href="doc:N7riiaCk">8、TCP拥塞控制之慢启动</a><br><a href="doc:GQoRKrER">9、TCP拥塞控制之拥塞避免</a><br><a href="doc:y4aESoPN">10、快速重传与快速恢复</a><br><a href="doc:g1Onj7OR">11、四次挥手</a></p>
+</blockquote>
+<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><blockquote>
+<p>敖丙Github整理的笔记 </p>
+</blockquote>
+<p>有大概10篇左右的文章，都是高质量的，原地址请点击着👉 <a href="https://github.com/AobingJava/JavaFamily">【Github】</a></p>
+<blockquote>
+<p>极客时间《Web协议详解与抓包实战》– 陶辉老师</p>
+</blockquote>
+<p>这门课程专门讲解网络协议的，包括Http/Https,TLS协议，TCP协议，IP协议等；</p>
+<blockquote>
+<p>《计算机网络 自顶向下方法》第7版</p>
+</blockquote>
+<p>很多名校计算机网络课程在使用的教材，非常权威！</p>
+]]></content>
+      <categories>
+        <category>Computer Network</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TCP头部</title>
     <url>/wiki/TCP%E5%A4%B4%E9%83%A8/</url>
     <content><![CDATA[<h2 id="带着问题学习"><a href="#带着问题学习" class="headerlink" title="带着问题学习"></a>带着问题学习</h2><ul>
@@ -2789,6 +2899,52 @@
       </tags>
   </entry>
   <entry>
+    <title>TCP最大报文段（MSS）</title>
+    <url>/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="MSS产生的背景"><a href="#MSS产生的背景" class="headerlink" title="MSS产生的背景"></a>MSS产生的背景</h2><p>我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；<br>它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 <strong>TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。</strong></p>
+<image src="https://oscimg.oschina.net/oscnet/up-004bb74a9d5648d949d9549219c677f568f.png" width=450 height=300>
+
+
+<h2 id="什么是MSS"><a href="#什么是MSS" class="headerlink" title="什么是MSS"></a>什么是MSS</h2><p>MSS（Max Segment Size）：仅指 TCP 承载数据，不包含 TCP 头部的大小，参见 RFC879</p>
+<h2 id="MSS-选择目的"><a href="#MSS-选择目的" class="headerlink" title="MSS 选择目的"></a>MSS 选择目的</h2><ul>
+<li>尽量每个 Segment 报文段携带更多的数据，以减少头部空间占用比率 </li>
+<li>防止 Segment 被某个设备的 IP 层基于 MTU 拆分<blockquote>
+<p>IP层基于MTU的数据拆分是效率极差的，一个报文段丢失，所有的报文段都要重传</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="MSS默认大小"><a href="#MSS默认大小" class="headerlink" title="MSS默认大小"></a>MSS默认大小</h2><blockquote>
+<p>默认 MSS:536 字节(默认 MTU576 字节，20 字节 IP 头部，20 字节 TCP 头部)</p>
+</blockquote>
+<h2 id="MSS在什么时候使用"><a href="#MSS在什么时候使用" class="headerlink" title="MSS在什么时候使用"></a>MSS在什么时候使用</h2><blockquote>
+<p>握手阶段协商 MSS 这个在TCP三次握手的文章中已经提及过了！</p>
+</blockquote>
+<h2 id="MSS-分类"><a href="#MSS-分类" class="headerlink" title="MSS 分类"></a>MSS 分类</h2><ul>
+<li><strong>发送方最大报文段:</strong> <blockquote>
+<p>SMSS:SENDER MAXIMUM SEGMENT SIZE</p>
+</blockquote>
+</li>
+<li><strong>接收方最大报文段:</strong> <blockquote>
+<p>RMSS:RECEIVER MAXIMUM SEGMENT SIZE</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="在TCP常用选项中可以看到【MSS】的选项"><a href="#在TCP常用选项中可以看到【MSS】的选项" class="headerlink" title="在TCP常用选项中可以看到【MSS】的选项"></a>在TCP常用选项中可以看到【MSS】的选项</h2><image src="https://oscimg.oschina.net/oscnet/up-c1229634eb30eaa7391516cbee75258c9e1.png" width=750 height=420>
+
+
+<h2 id="TCP流与报文段在数据传输中的状态"><a href="#TCP流与报文段在数据传输中的状态" class="headerlink" title="TCP流与报文段在数据传输中的状态"></a>TCP流与报文段在数据传输中的状态</h2><image src="https://oscimg.oschina.net/oscnet/up-1a0015bf7b4d8481a4e624b0920bbb43917.png" width=450 height=620>
+
+<p>从上图可以看到，左边客户端在发送字节流数据给到右边客户端，客户端发送一个连续的字节流，会在TCP层按照MSS大小规定进行拆分成多个小的报文段，分别传送到另一个客户端或者其他的接收端；</p>
+]]></content>
+      <categories>
+        <category>Computer Network</category>
+        <category>TCP</category>
+      </categories>
+      <tags>
+        <tag>TCP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TCP超时与重传</title>
     <url>/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><image src="https://oscimg.oschina.net/oscnet/up-4f1230ee04f4c197dd5c6de167991878366.png" width=680 height=300>
@@ -2842,52 +2998,6 @@
 <li>其实TCP解决这个问题很简单，就是在每个报文段上添加Tcp Timestamp时间戳，类似于版本号的理念；</li>
 <li>接收端收到相同Seq序列号的报文段是可以根据时间戳来进行区分；</li>
 </ul>
-]]></content>
-      <categories>
-        <category>Computer Network</category>
-        <category>TCP</category>
-      </categories>
-      <tags>
-        <tag>TCP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>TCP最大报文段（MSS）</title>
-    <url>/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="MSS产生的背景"><a href="#MSS产生的背景" class="headerlink" title="MSS产生的背景"></a>MSS产生的背景</h2><p>我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；<br>它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 <strong>TCP协议要完成的工作是将从应用层接受到的任意长度数据，切割成多个报文段，MSS就是如何切割报文段的依据。</strong></p>
-<image src="https://oscimg.oschina.net/oscnet/up-004bb74a9d5648d949d9549219c677f568f.png" width=450 height=300>
-
-
-<h2 id="什么是MSS"><a href="#什么是MSS" class="headerlink" title="什么是MSS"></a>什么是MSS</h2><p>MSS（Max Segment Size）：仅指 TCP 承载数据，不包含 TCP 头部的大小，参见 RFC879</p>
-<h2 id="MSS-选择目的"><a href="#MSS-选择目的" class="headerlink" title="MSS 选择目的"></a>MSS 选择目的</h2><ul>
-<li>尽量每个 Segment 报文段携带更多的数据，以减少头部空间占用比率 </li>
-<li>防止 Segment 被某个设备的 IP 层基于 MTU 拆分<blockquote>
-<p>IP层基于MTU的数据拆分是效率极差的，一个报文段丢失，所有的报文段都要重传</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="MSS默认大小"><a href="#MSS默认大小" class="headerlink" title="MSS默认大小"></a>MSS默认大小</h2><blockquote>
-<p>默认 MSS:536 字节(默认 MTU576 字节，20 字节 IP 头部，20 字节 TCP 头部)</p>
-</blockquote>
-<h2 id="MSS在什么时候使用"><a href="#MSS在什么时候使用" class="headerlink" title="MSS在什么时候使用"></a>MSS在什么时候使用</h2><blockquote>
-<p>握手阶段协商 MSS 这个在TCP三次握手的文章中已经提及过了！</p>
-</blockquote>
-<h2 id="MSS-分类"><a href="#MSS-分类" class="headerlink" title="MSS 分类"></a>MSS 分类</h2><ul>
-<li><strong>发送方最大报文段:</strong> <blockquote>
-<p>SMSS:SENDER MAXIMUM SEGMENT SIZE</p>
-</blockquote>
-</li>
-<li><strong>接收方最大报文段:</strong> <blockquote>
-<p>RMSS:RECEIVER MAXIMUM SEGMENT SIZE</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="在TCP常用选项中可以看到【MSS】的选项"><a href="#在TCP常用选项中可以看到【MSS】的选项" class="headerlink" title="在TCP常用选项中可以看到【MSS】的选项"></a>在TCP常用选项中可以看到【MSS】的选项</h2><image src="https://oscimg.oschina.net/oscnet/up-c1229634eb30eaa7391516cbee75258c9e1.png" width=750 height=420>
-
-
-<h2 id="TCP流与报文段在数据传输中的状态"><a href="#TCP流与报文段在数据传输中的状态" class="headerlink" title="TCP流与报文段在数据传输中的状态"></a>TCP流与报文段在数据传输中的状态</h2><image src="https://oscimg.oschina.net/oscnet/up-1a0015bf7b4d8481a4e624b0920bbb43917.png" width=450 height=620>
-
-<p>从上图可以看到，左边客户端在发送字节流数据给到右边客户端，客户端发送一个连续的字节流，会在TCP层按照MSS大小规定进行拆分成多个小的报文段，分别传送到另一个客户端或者其他的接收端；</p>
 ]]></content>
       <categories>
         <category>Computer Network</category>
@@ -3040,6 +3150,69 @@
       </tags>
   </entry>
   <entry>
+    <title>cross-fields跨字段查询</title>
+    <url>/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_cross_fields_queries.html#_cross_fields_queries">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » cross-fields 跨字段查询</a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Search in Depth</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dis_max查询</title>
+    <url>/wiki/dis-max%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<p>假设有个网站允许用户搜索博客的内容，以下面两篇博客内容文档为例：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT /my_index/my_type/<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Quick brown rabbits&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;Brown rabbits are commonly seen.&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT /my_index/my_type/<span class="number">2</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Keeping pets healthy&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;My quick brown fox eats rabbits on a regular basis.&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用户输入词组 <code>Brown fox</code> 然后点击搜索按钮。事先，我们并不知道用户的搜索项是会在 title 还是在 body 字段中被找到，但是，用户很有可能是想搜索相关的词组。用肉眼判断，文档 2 的匹配度更高，因为它同时包括要查找的两个词：</p>
+<p>现在运行以下 bool 查询：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;bool&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;should&quot;</span>: [</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;,</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们发现查询的结果是文档 1 的评分更高：</p>
+<img src="https://oscimg.oschina.net/oscnet/up-fa805607436bd64629e31ea8ea574c330cf.png" width=920 height=450>  
+
+<p>为了理解导致这样的原因，需要回想一下 bool 是如何计算评分的：</p>
+<p>它会执行 should 语句中的两个查询。<br>加和两个查询的评分。<br>乘以匹配语句的总数。<br>除以所有语句总数（这里为：2）。</p>
+<p>文档 1 的两个字段都包含 <code>brown</code> 这个词，所以两个 <code>match</code> 语句都能成功匹配并且有一个评分。文档 2 的 body 字段同时包含 <code>brown</code> 和 <code>fox</code> 这两个词，但 title 字段没有包含任何词。这样， body 查询结果中的高分，加上 title 查询中的 0 分，然后乘以二分之一，就得到比文档 1 更低的整体评分。</p>
+<p>在本例中， title 和 body 字段是相互竞争的关系，所以就需要找到单个 最佳匹配 的字段。</p>
+<p>如果不是简单将每个字段的评分结果加在一起，而是将 <code>最佳匹配</code> 字段的评分作为查询的整体评分，结果会怎样？这样返回的结果可能是： 同时 包含 <code>brown</code> 和 <code>fox</code> 的单个字段比反复出现相同词语的多个不同字段有更高的相关度。</p>
+<h2 id="dis-max-查询"><a href="#dis-max-查询" class="headerlink" title="dis_max 查询"></a>dis_max 查询</h2><p>不使用 <code>bool</code> 查询，可以使用 <code>dis_max</code> 即分离 最大化查询 <code>（Disjunction Max Query）</code> 。分离（Disjunction）的意思是 或（or） ，这与可以把结合（conjunction）理解成 与（and） 相对应。分离最大化查询（Disjunction Max Query）指的是： 将任何与任一查询匹配的文档作为结果返回，但只将最佳匹配的评分作为查询的评分结果返回 ：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;queries&quot;</span>: [</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;,</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>得到我们想要的结果为：<br><img src="https://oscimg.oschina.net/oscnet/up-f4e15cd66644b0031abe4757efdcfdd2886.png" width=900 height=450>  </p>
+<h2 id="Top-level-parameters-for-dis-maxedit"><a href="#Top-level-parameters-for-dis-maxedit" class="headerlink" title="Top-level parameters for dis_maxedit"></a>Top-level parameters for dis_maxedit</h2><ul>
+<li><code>queries</code><br>(Required, array of query objects) Contains one or more query clauses. Returned documents must match one or more of these queries. If a document matches multiple queries, Elasticsearch uses the highest relevance score.</li>
+<li><code>tie_breaker</code><br>(Optional, float) Floating point number between 0 and 1.0 used to increase the relevance scores of documents matching multiple query clauses. Defaults to 0.0.</li>
+</ul>
+<p>You can use the tie_breaker value to assign higher relevance scores to documents that contain the same term in multiple fields than documents that contain this term in only the best of those multiple fields, without confusing this with the better case of two different terms in the multiple fields.</p>
+<p>If a document matches multiple clauses, the dis_max query calculates the relevance score for the document as follows:</p>
+<p>Take the relevance score from a matching clause with the highest score.<br>Multiply the score from any other matching clauses by the tie_breaker value.<br>Add the highest score to the multiplied scores.<br>If the tie_breaker value is greater than 0.0, all matching clauses count, but the clause with the highest score counts most.</p>
+<p><code>dis_max</code>，只是取分数最高的那个query的分数而已，完全不考虑其他query的分数，这种一刀切的做法，可能导致在有其他query的影响下，score不准确的情况，这时为了使用结果更准确，最好还是要考虑到其他query的影响;<br>使用 <code>tie_breaker</code> 将其他query的分数也考虑进去, <code>tie_breaker</code> 参数的意义，将其他query的分数乘以<code>tie_breaker</code>，然后综合考虑后与最高分数的那个query的分数综合在一起进行计算，这样做除了取最高分以外，还会考虑其他的query的分数。<code>tie_breaker</code>的值，设置在在0~1之间，是个小数就行，没有固定的值</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_best_fields.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 最佳字段</a></li>
+<li><a href="https://learnku.com/docs/elasticsearch73/7.3">Elasticsearch中文文档</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/query-dsl-dis-max-query.html">Elasticsearch Guide [7.x] » Query DSL » Compound queries » Disjunction max query</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Search in Depth</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker-compost安装mongodb</title>
     <url>/wiki/docker-compost%E5%AE%89%E8%A3%85mongodb/</url>
     <content><![CDATA[<blockquote>
@@ -3092,85 +3265,6 @@
       </tags>
   </entry>
   <entry>
-    <title>dis_max查询</title>
-    <url>/wiki/dis-max%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<p>假设有个网站允许用户搜索博客的内容，以下面两篇博客内容文档为例：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT /my_index/my_type/<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Quick brown rabbits&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;Brown rabbits are commonly seen.&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT /my_index/my_type/<span class="number">2</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Keeping pets healthy&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;My quick brown fox eats rabbits on a regular basis.&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>用户输入词组 <code>Brown fox</code> 然后点击搜索按钮。事先，我们并不知道用户的搜索项是会在 title 还是在 body 字段中被找到，但是，用户很有可能是想搜索相关的词组。用肉眼判断，文档 2 的匹配度更高，因为它同时包括要查找的两个词：</p>
-<p>现在运行以下 bool 查询：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;bool&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;should&quot;</span>: [</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;,</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是我们发现查询的结果是文档 1 的评分更高：</p>
-<img src="https://oscimg.oschina.net/oscnet/up-fa805607436bd64629e31ea8ea574c330cf.png" width=920 height=450>  
-
-<p>为了理解导致这样的原因，需要回想一下 bool 是如何计算评分的：</p>
-<p>它会执行 should 语句中的两个查询。<br>加和两个查询的评分。<br>乘以匹配语句的总数。<br>除以所有语句总数（这里为：2）。</p>
-<p>文档 1 的两个字段都包含 <code>brown</code> 这个词，所以两个 <code>match</code> 语句都能成功匹配并且有一个评分。文档 2 的 body 字段同时包含 <code>brown</code> 和 <code>fox</code> 这两个词，但 title 字段没有包含任何词。这样， body 查询结果中的高分，加上 title 查询中的 0 分，然后乘以二分之一，就得到比文档 1 更低的整体评分。</p>
-<p>在本例中， title 和 body 字段是相互竞争的关系，所以就需要找到单个 最佳匹配 的字段。</p>
-<p>如果不是简单将每个字段的评分结果加在一起，而是将 <code>最佳匹配</code> 字段的评分作为查询的整体评分，结果会怎样？这样返回的结果可能是： 同时 包含 <code>brown</code> 和 <code>fox</code> 的单个字段比反复出现相同词语的多个不同字段有更高的相关度。</p>
-<h2 id="dis-max-查询"><a href="#dis-max-查询" class="headerlink" title="dis_max 查询"></a>dis_max 查询</h2><p>不使用 <code>bool</code> 查询，可以使用 <code>dis_max</code> 即分离 最大化查询 <code>（Disjunction Max Query）</code> 。分离（Disjunction）的意思是 或（or） ，这与可以把结合（conjunction）理解成 与（and） 相对应。分离最大化查询（Disjunction Max Query）指的是： 将任何与任一查询匹配的文档作为结果返回，但只将最佳匹配的评分作为查询的评分结果返回 ：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;queries&quot;</span>: [</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;,</span><br><span class="line">                &#123; <span class="attr">&quot;match&quot;</span>: &#123; <span class="attr">&quot;body&quot;</span>:  <span class="string">&quot;Brown fox&quot;</span> &#125;&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>得到我们想要的结果为：<br><img src="https://oscimg.oschina.net/oscnet/up-f4e15cd66644b0031abe4757efdcfdd2886.png" width=900 height=450>  </p>
-<h2 id="Top-level-parameters-for-dis-maxedit"><a href="#Top-level-parameters-for-dis-maxedit" class="headerlink" title="Top-level parameters for dis_maxedit"></a>Top-level parameters for dis_maxedit</h2><ul>
-<li><code>queries</code><br>(Required, array of query objects) Contains one or more query clauses. Returned documents must match one or more of these queries. If a document matches multiple queries, Elasticsearch uses the highest relevance score.</li>
-<li><code>tie_breaker</code><br>(Optional, float) Floating point number between 0 and 1.0 used to increase the relevance scores of documents matching multiple query clauses. Defaults to 0.0.</li>
-</ul>
-<p>You can use the tie_breaker value to assign higher relevance scores to documents that contain the same term in multiple fields than documents that contain this term in only the best of those multiple fields, without confusing this with the better case of two different terms in the multiple fields.</p>
-<p>If a document matches multiple clauses, the dis_max query calculates the relevance score for the document as follows:</p>
-<p>Take the relevance score from a matching clause with the highest score.<br>Multiply the score from any other matching clauses by the tie_breaker value.<br>Add the highest score to the multiplied scores.<br>If the tie_breaker value is greater than 0.0, all matching clauses count, but the clause with the highest score counts most.</p>
-<p><code>dis_max</code>，只是取分数最高的那个query的分数而已，完全不考虑其他query的分数，这种一刀切的做法，可能导致在有其他query的影响下，score不准确的情况，这时为了使用结果更准确，最好还是要考虑到其他query的影响;<br>使用 <code>tie_breaker</code> 将其他query的分数也考虑进去, <code>tie_breaker</code> 参数的意义，将其他query的分数乘以<code>tie_breaker</code>，然后综合考虑后与最高分数的那个query的分数综合在一起进行计算，这样做除了取最高分以外，还会考虑其他的query的分数。<code>tie_breaker</code>的值，设置在在0~1之间，是个小数就行，没有固定的值</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_best_fields.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 最佳字段</a></li>
-<li><a href="https://learnku.com/docs/elasticsearch73/7.3">Elasticsearch中文文档</a></li>
-<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/query-dsl-dis-max-query.html">Elasticsearch Guide [7.x] » Query DSL » Compound queries » Disjunction max query</a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Search in Depth</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cross-fields跨字段查询</title>
-    <url>/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_cross_fields_queries.html#_cross_fields_queries">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » cross-fields 跨字段查询</a></li>
-<li><a href=""></a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Search in Depth</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker整体架构图</title>
-    <url>/wiki/docker%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE/</url>
-    <content><![CDATA[<h1 id="Docker的总架构图"><a href="#Docker的总架构图" class="headerlink" title="Docker的总架构图"></a>Docker的总架构图</h1><img src='https://cdn.zsite.com/data/upload/d/docker/202104/f_e2031050ce83ec39ca6574875e047811.png' width=500 height=600>
-
-<p>docker是一个C/S模式的架构，后端是一个松耦合架构，模块各司其职。</p>
-<p>1、用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。<br>2、Docker Daemon作为Docker架构中的主体部分，首先提供Server的功能使其可以接受Docker Client的请求；<br>3、Engine执行Docker内部的一系列工作，每一项工作都是以一个Job的形式的存在。<br>4、Job的运行过程中，当需要容器镜像时，则从Docker Registry中下载镜像，并通过镜像管理驱动graphdriver将下载镜像以Graph的形式存储；<br>5、当需要为Docker创建网络环境时，通过网络管理驱动networkdriver创建并配置Docker容器网络环境；<br>6、当需要限制Docker容器运行资源或执行用户指令等操作时，则通过execdriver来完成。<br>7、libcontainer是一项独立的容器管理包，networkdriver以及execdriver都是通过libcontainer来实现具体对容器进行的操作。</p>
-]]></content>
-      <categories>
-        <category>Develop Tools</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker常用手册</title>
     <url>/wiki/docker%E5%B8%B8%E7%94%A8%E6%89%8B%E5%86%8C/</url>
     <content><![CDATA[<blockquote>
@@ -3182,6 +3276,22 @@
 <h3 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h3><p><code>docker pull</code></p>
 <h3 id="在容器中安装新的程序"><a href="#在容器中安装新的程序" class="headerlink" title="在容器中安装新的程序"></a>在容器中安装新的程序</h3><p><code>apt-get update</code><br><code>apt-get install vim</code></p>
 <h3 id="保存对容器的修改"><a href="#保存对容器的修改" class="headerlink" title="保存对容器的修改"></a>保存对容器的修改</h3><p><code>docker commit pid</code></p>
+]]></content>
+      <categories>
+        <category>Develop Tools</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker整体架构图</title>
+    <url>/wiki/docker%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE/</url>
+    <content><![CDATA[<h1 id="Docker的总架构图"><a href="#Docker的总架构图" class="headerlink" title="Docker的总架构图"></a>Docker的总架构图</h1><img src='https://cdn.zsite.com/data/upload/d/docker/202104/f_e2031050ce83ec39ca6574875e047811.png' width=500 height=600>
+
+<p>docker是一个C/S模式的架构，后端是一个松耦合架构，模块各司其职。</p>
+<p>1、用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。<br>2、Docker Daemon作为Docker架构中的主体部分，首先提供Server的功能使其可以接受Docker Client的请求；<br>3、Engine执行Docker内部的一系列工作，每一项工作都是以一个Job的形式的存在。<br>4、Job的运行过程中，当需要容器镜像时，则从Docker Registry中下载镜像，并通过镜像管理驱动graphdriver将下载镜像以Graph的形式存储；<br>5、当需要为Docker创建网络环境时，通过网络管理驱动networkdriver创建并配置Docker容器网络环境；<br>6、当需要限制Docker容器运行资源或执行用户指令等操作时，则通过execdriver来完成。<br>7、libcontainer是一项独立的容器管理包，networkdriver以及execdriver都是通过libcontainer来实现具体对容器进行的操作。</p>
 ]]></content>
       <categories>
         <category>Develop Tools</category>
@@ -3373,6 +3483,43 @@
       </tags>
   </entry>
   <entry>
+    <title>elasticsearch操作索引</title>
+    <url>/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/</url>
+    <content><![CDATA[<h2 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PUT customer</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;:&#123;</span><br><span class="line">      &quot;properties&quot;:&#123;</span><br><span class="line">        &quot;id&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;long&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;name&quot;: &#123;</span><br><span class="line">         &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;email&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;order_id&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;long&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;order_serial&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;order_time&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;date&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;customer_order&quot;:&#123;</span><br><span class="line">          &quot;type&quot;:&quot;join&quot;,</span><br><span class="line">          &quot;relations&quot;:&#123;</span><br><span class="line">            &quot;customer&quot;:&quot;order&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看索引的mapping"><a href="#查看索引的mapping" class="headerlink" title="查看索引的mapping"></a>查看索引的mapping</h2><p><code>GET yj_visit_data/_mapping</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;yj_visit_data&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;properties&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;_class&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;article&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询所有"><a href="#查询所有" class="headerlink" title="查询所有"></a>查询所有</h2><p><code>GET yj_visit_data/_search</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match_all&quot;</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="删除所有"><a href="#删除所有" class="headerlink" title="删除所有"></a>删除所有</h2><p><code>POST yj_visit_data/_delete_by_query</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123; </span><br><span class="line">    <span class="attr">&quot;match_all&quot;</span>: &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="通过文章删除"><a href="#通过文章删除" class="headerlink" title="通过文章删除"></a>通过文章删除</h2><p><code>POST yj_visit_data/_delete_by_query</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;article.keyword&quot;</span>: <span class="string">&quot;2019/01/3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="根据文章查询"><a href="#根据文章查询" class="headerlink" title="根据文章查询"></a>根据文章查询</h2><p><code>GET yj_visit_data/_search</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;article.keyword&quot;</span>: <span class="string">&quot;2019/01/3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="修改索引"><a href="#修改索引" class="headerlink" title="修改索引"></a>修改索引</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST customer/_doc/<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;2&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Getting Started</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>elasticsearch映射</title>
     <url>/wiki/elasticsearch%E6%98%A0%E5%B0%84/</url>
     <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>Elasticsearch 支持如下简单域类型：</p>
@@ -3435,43 +3582,6 @@
       </tags>
   </entry>
   <entry>
-    <title>elasticsearch操作索引</title>
-    <url>/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/</url>
-    <content><![CDATA[<h2 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PUT customer</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;:&#123;</span><br><span class="line">      &quot;properties&quot;:&#123;</span><br><span class="line">        &quot;id&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;long&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;name&quot;: &#123;</span><br><span class="line">         &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;email&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;order_id&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;long&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;order_serial&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;text&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;order_time&quot;: &#123;</span><br><span class="line">          &quot;type&quot;: &quot;date&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;customer_order&quot;:&#123;</span><br><span class="line">          &quot;type&quot;:&quot;join&quot;,</span><br><span class="line">          &quot;relations&quot;:&#123;</span><br><span class="line">            &quot;customer&quot;:&quot;order&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看索引的mapping"><a href="#查看索引的mapping" class="headerlink" title="查看索引的mapping"></a>查看索引的mapping</h2><p><code>GET yj_visit_data/_mapping</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;yj_visit_data&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;properties&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;_class&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;article&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="查询所有"><a href="#查询所有" class="headerlink" title="查询所有"></a>查询所有</h2><p><code>GET yj_visit_data/_search</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match_all&quot;</span>: &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="删除所有"><a href="#删除所有" class="headerlink" title="删除所有"></a>删除所有</h2><p><code>POST yj_visit_data/_delete_by_query</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123; </span><br><span class="line">    <span class="attr">&quot;match_all&quot;</span>: &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="通过文章删除"><a href="#通过文章删除" class="headerlink" title="通过文章删除"></a>通过文章删除</h2><p><code>POST yj_visit_data/_delete_by_query</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;article.keyword&quot;</span>: <span class="string">&quot;2019/01/3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="根据文章查询"><a href="#根据文章查询" class="headerlink" title="根据文章查询"></a>根据文章查询</h2><p><code>GET yj_visit_data/_search</code></p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;article.keyword&quot;</span>: <span class="string">&quot;2019/01/3&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="修改索引"><a href="#修改索引" class="headerlink" title="修改索引"></a>修改索引</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">POST customer/_doc/<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>:<span class="string">&quot;2&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Getting Started</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>elasticsearch稳定性调优</title>
     <url>/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/</url>
     <content><![CDATA[<blockquote>
@@ -3514,6 +3624,31 @@
       </tags>
   </entry>
   <entry>
+    <title>elasticsearch统计每年每小时访问量</title>
+    <url>/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/</url>
+    <content><![CDATA[<blockquote>
+<p>需求背景，要统计文章在一年的时间内，每个小时的访问情况，按照0点举例子，每个文章，一年内每一天0点的访问次数累加起来；</p>
+</blockquote>
+<h2 id="Elasticsearch索引如下"><a href="#Elasticsearch索引如下" class="headerlink" title="Elasticsearch索引如下"></a>Elasticsearch索引如下</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;yj_visit_data&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;properties&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;_class&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;article&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;c&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;ip&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;p&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;ua&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;visitTime&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;date&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Java-RestHighLevelClient写法"><a href="#Java-RestHighLevelClient写法" class="headerlink" title="Java RestHighLevelClient写法"></a>Java RestHighLevelClient写法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDateDist</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        SearchRequest searchRequest = <span class="keyword">new</span> SearchRequest();</span><br><span class="line">        searchRequest.indices(<span class="string">&quot;yj_visit_data2&quot;</span>);</span><br><span class="line">        TermsAggregationBuilder termsAggregation = AggregationBuilders.terms(<span class="string">&quot;article&quot;</span>)</span><br><span class="line">                .field(<span class="string">&quot;article.keyword&quot;</span>).size(<span class="number">2200</span>)</span><br><span class="line">                .subAggregation(AggregationBuilders.dateHistogram(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                        .field(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                        .calendarInterval(DateHistogramInterval.HOUR));</span><br><span class="line"></span><br><span class="line">        SearchSourceBuilder sourceBuilder = <span class="keyword">new</span> SearchSourceBuilder();</span><br><span class="line">        sourceBuilder.aggregation(termsAggregation);</span><br><span class="line">        sourceBuilder.query(QueryBuilders.rangeQuery(<span class="string">&quot;visitTime&quot;</span>).gt(<span class="string">&quot;1609430400000&quot;</span>).lte(<span class="string">&quot;1625068799000&quot;</span>));</span><br><span class="line">        sourceBuilder.timeout(<span class="keyword">new</span> TimeValue(<span class="number">900000</span>));</span><br><span class="line">        SearchRequest request = <span class="keyword">new</span> SearchRequest();</span><br><span class="line">        request.source(sourceBuilder);</span><br><span class="line">        SearchResponse search = restHighLevelClient.search(request, RequestOptions.DEFAULT);</span><br><span class="line">        Aggregations aggregations = search.getAggregations();</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">&quot;agg -&gt; &#123;&#125;&quot;</span>, aggregations.asList().size());</span><br><span class="line">        List&lt;? extends Terms.Bucket&gt; buckets = ((ParsedStringTerms) aggregations.asList().get(<span class="number">0</span>)).getBuckets();</span><br><span class="line">        List&lt;ArticleHourData&gt; hourDataList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Terms.Bucket bucket : buckets) &#123;</span><br><span class="line">            List&lt;? extends Histogram.Bucket&gt; innerBuckets = ((ParsedDateHistogram) bucket.getAggregations().asList().get(<span class="number">0</span>)).getBuckets();</span><br><span class="line">            hourDataList.add(calcBucket(innerBuckets, bucket.getKeyAsString()));</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;result ----&gt; &#123;&#125;&quot;</span>, JSONObject.toJSONString(hourDataList));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="聚合分析"><a href="#聚合分析" class="headerlink" title="聚合分析"></a>聚合分析</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ArticleHourData <span class="title">calcBucket</span><span class="params">(List&lt;? extends Histogram.Bucket&gt; innerBuckets, String article)</span> </span>&#123;</span><br><span class="line">       log.info(<span class="string">&quot;innerBuckets get(0) ---&gt; &#123;&#125;&quot;</span>, JSON.toJSONString(innerBuckets.get(<span class="number">0</span>)));</span><br><span class="line">       Map&lt;String, ? extends List&lt;? extends Histogram.Bucket&gt;&gt; hourMap = innerBuckets.stream()</span><br><span class="line">               .collect(Collectors.groupingBy(bucket -&gt; getHour(bucket.getKeyAsString())));</span><br><span class="line">       log.info(<span class="string">&quot;collect  ======&gt; &#123;&#125; &quot;</span>, JSONObject.toJSONString(hourMap.keySet()));</span><br><span class="line"></span><br><span class="line">       ArticleHourData hourData = ArticleHourData.builder().article(article).build();</span><br><span class="line">       <span class="keyword">if</span> (hourMap.isEmpty()) &#123;</span><br><span class="line">           <span class="keyword">return</span> hourData;</span><br><span class="line">       &#125;</span><br><span class="line">       HashMap&lt;String, Long&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">       <span class="keyword">for</span> (String hour : hourMap.keySet()) &#123;</span><br><span class="line">           List&lt;? extends Histogram.Bucket&gt; list = hourMap.get(hour);</span><br><span class="line">           <span class="keyword">if</span> (CollectionUtils.isEmpty(list)) &#123;</span><br><span class="line">               <span class="keyword">continue</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           hashMap.put(hour, list.stream().mapToLong(Histogram.Bucket::getDocCount).sum());</span><br><span class="line">       &#125;</span><br><span class="line">       hourData.setCountMap(hashMap);</span><br><span class="line">       <span class="keyword">return</span> hourData;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="获取时间的小时"><a href="#获取时间的小时" class="headerlink" title="获取时间的小时"></a>获取时间的小时</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getHour</span><span class="params">(String date)</span> </span>&#123;</span><br><span class="line">      date = date.replace(<span class="string">&quot;Z&quot;</span>, <span class="string">&quot; UTC&quot;</span>);</span><br><span class="line">      SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&#x27;T&#x27;HH:mm:ss.SSS Z&quot;</span>);</span><br><span class="line">      Date d = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          d = format.parse(date);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> String.valueOf(DateUtil.asLocalDateTime(d).getHour());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Python写法"><a href="#Python写法" class="headerlink" title="Python写法"></a>Python写法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> json.decoder <span class="keyword">import</span> JSONDecoder</span><br><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="keyword">import</span> logging,json</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;39.107.117.232&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;elastic&#x27;</span>), timeout = <span class="number">90000</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sqs = &#123;</span><br><span class="line">   <span class="string">&quot;size&quot;</span> : <span class="number">0</span>,</span><br><span class="line">   <span class="string">&quot;aggs&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;art&quot;</span>: &#123;</span><br><span class="line">         <span class="string">&quot;terms&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;field&quot;</span>: <span class="string">&quot;article.keyword&quot;</span>,</span><br><span class="line">            <span class="string">&quot;size&quot;</span>: <span class="number">5</span></span><br><span class="line">         &#125;,</span><br><span class="line">         <span class="string">&quot;aggs&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;art_total&quot;</span>: &#123; </span><br><span class="line">               <span class="string">&quot;value_count&quot;</span>: &#123;</span><br><span class="line">                  <span class="string">&quot;field&quot;</span>: <span class="string">&quot;article.keyword&quot;</span></span><br><span class="line">               &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">&quot;_time&quot;</span>: &#123; </span><br><span class="line">                <span class="string">&quot;date_histogram&quot;</span>: &#123;</span><br><span class="line">                    <span class="string">&quot;field&quot;</span>: <span class="string">&quot;visitTime&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;calendar_interval&quot;</span>: <span class="string">&quot;hour&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_search_result = es.search(index=<span class="string">&quot;yj_visit_data2&quot;</span> , body=sqs)</span><br><span class="line">_result_json = json.dumps(_search_result,sort_keys=<span class="literal">True</span>, indent=<span class="number">4</span>, separators=(<span class="string">&#x27;, &#x27;</span>, <span class="string">&#x27;: &#x27;</span>), ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">aggregations = _search_result[<span class="string">&#x27;aggregations&#x27;</span>]</span><br><span class="line">art = aggregations[<span class="string">&#x27;art&#x27;</span>]</span><br><span class="line">buckets = art[<span class="string">&#x27;buckets&#x27;</span>]</span><br><span class="line"><span class="comment">#print(type(buckets)) ; print(buckets)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHour</span>(<span class="params">time</span>):</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">int</span>)(time[<span class="number">11</span>:<span class="number">13</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每个小时的点击数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countByMonth</span>(<span class="params">dataList , hourTar</span>):</span></span><br><span class="line">    _count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> dataList:</span><br><span class="line">        timestamp = data[<span class="string">&#x27;key_as_string&#x27;</span>]</span><br><span class="line">        hour = getHour(timestamp)</span><br><span class="line">        <span class="keyword">if</span> hour == hourTar: </span><br><span class="line">            _count = (<span class="built_in">int</span>)(data[<span class="string">&#x27;doc_count&#x27;</span>]) + _count   </span><br><span class="line">    <span class="keyword">return</span> _count        </span><br><span class="line">            </span><br><span class="line">   </span><br><span class="line">final_list = []</span><br><span class="line"><span class="comment"># 循环计算每一个文章</span></span><br><span class="line"><span class="keyword">for</span> outBucket <span class="keyword">in</span> buckets: </span><br><span class="line">   simple_result = &#123;&#125;</span><br><span class="line">   _time = outBucket[<span class="string">&#x27;_time&#x27;</span>]</span><br><span class="line">   innerBuckets = _time[<span class="string">&#x27;buckets&#x27;</span>]</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;time inner bucker size&quot;</span> , <span class="built_in">len</span>(innerBuckets))</span><br><span class="line">   simple_list = []</span><br><span class="line">   <span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">24</span>):</span><br><span class="line">      simple_list.append(countByMonth(innerBuckets,num))</span><br><span class="line">   simple_result[<span class="number">0</span>] = outBucket[<span class="string">&#x27;key&#x27;</span>]</span><br><span class="line">   simple_result[<span class="number">1</span>] = simple_list</span><br><span class="line">   final_list.append(simple_result)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;final result ----&gt; &quot;</span>,final_list)   </span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Administration and Deployment</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>elasticsearch被破坏的相似度</title>
     <url>/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/</url>
     <content><![CDATA[<p>在讨论更复杂的 多字段搜索 之前，让我们先快速解释一下为什么只在主分片上 创建测试索引 。</p>
@@ -3536,31 +3671,6 @@
       <categories>
         <category>Elasticsearch</category>
         <category>Search in Depth</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>elasticsearch统计每年每小时访问量</title>
-    <url>/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/</url>
-    <content><![CDATA[<blockquote>
-<p>需求背景，要统计文章在一年的时间内，每个小时的访问情况，按照0点举例子，每个文章，一年内每一天0点的访问次数累加起来；</p>
-</blockquote>
-<h2 id="Elasticsearch索引如下"><a href="#Elasticsearch索引如下" class="headerlink" title="Elasticsearch索引如下"></a>Elasticsearch索引如下</h2><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;yj_visit_data&quot;</span> : &#123;</span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span> : &#123;</span><br><span class="line">      <span class="attr">&quot;properties&quot;</span> : &#123;</span><br><span class="line">        <span class="attr">&quot;_class&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;article&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;c&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;ip&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;p&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;ua&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;text&quot;</span>,</span><br><span class="line">          <span class="attr">&quot;fields&quot;</span> : &#123;</span><br><span class="line">            <span class="attr">&quot;keyword&quot;</span> : &#123;</span><br><span class="line">              <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line">              <span class="attr">&quot;ignore_above&quot;</span> : <span class="number">256</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">&quot;visitTime&quot;</span> : &#123;</span><br><span class="line">          <span class="attr">&quot;type&quot;</span> : <span class="string">&quot;date&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-
-<h2 id="Java-RestHighLevelClient写法"><a href="#Java-RestHighLevelClient写法" class="headerlink" title="Java RestHighLevelClient写法"></a>Java RestHighLevelClient写法</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getDateDist</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        SearchRequest searchRequest = <span class="keyword">new</span> SearchRequest();</span><br><span class="line">        searchRequest.indices(<span class="string">&quot;yj_visit_data2&quot;</span>);</span><br><span class="line">        TermsAggregationBuilder termsAggregation = AggregationBuilders.terms(<span class="string">&quot;article&quot;</span>)</span><br><span class="line">                .field(<span class="string">&quot;article.keyword&quot;</span>).size(<span class="number">2200</span>)</span><br><span class="line">                .subAggregation(AggregationBuilders.dateHistogram(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                        .field(<span class="string">&quot;visitTime&quot;</span>)</span><br><span class="line">                        .calendarInterval(DateHistogramInterval.HOUR));</span><br><span class="line"></span><br><span class="line">        SearchSourceBuilder sourceBuilder = <span class="keyword">new</span> SearchSourceBuilder();</span><br><span class="line">        sourceBuilder.aggregation(termsAggregation);</span><br><span class="line">        sourceBuilder.query(QueryBuilders.rangeQuery(<span class="string">&quot;visitTime&quot;</span>).gt(<span class="string">&quot;1609430400000&quot;</span>).lte(<span class="string">&quot;1625068799000&quot;</span>));</span><br><span class="line">        sourceBuilder.timeout(<span class="keyword">new</span> TimeValue(<span class="number">900000</span>));</span><br><span class="line">        SearchRequest request = <span class="keyword">new</span> SearchRequest();</span><br><span class="line">        request.source(sourceBuilder);</span><br><span class="line">        SearchResponse search = restHighLevelClient.search(request, RequestOptions.DEFAULT);</span><br><span class="line">        Aggregations aggregations = search.getAggregations();</span><br><span class="line"></span><br><span class="line">        log.info(<span class="string">&quot;agg -&gt; &#123;&#125;&quot;</span>, aggregations.asList().size());</span><br><span class="line">        List&lt;? extends Terms.Bucket&gt; buckets = ((ParsedStringTerms) aggregations.asList().get(<span class="number">0</span>)).getBuckets();</span><br><span class="line">        List&lt;ArticleHourData&gt; hourDataList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Terms.Bucket bucket : buckets) &#123;</span><br><span class="line">            List&lt;? extends Histogram.Bucket&gt; innerBuckets = ((ParsedDateHistogram) bucket.getAggregations().asList().get(<span class="number">0</span>)).getBuckets();</span><br><span class="line">            hourDataList.add(calcBucket(innerBuckets, bucket.getKeyAsString()));</span><br><span class="line">        &#125;</span><br><span class="line">        log.info(<span class="string">&quot;result ----&gt; &#123;&#125;&quot;</span>, JSONObject.toJSONString(hourDataList));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="聚合分析"><a href="#聚合分析" class="headerlink" title="聚合分析"></a>聚合分析</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ArticleHourData <span class="title">calcBucket</span><span class="params">(List&lt;? extends Histogram.Bucket&gt; innerBuckets, String article)</span> </span>&#123;</span><br><span class="line">       log.info(<span class="string">&quot;innerBuckets get(0) ---&gt; &#123;&#125;&quot;</span>, JSON.toJSONString(innerBuckets.get(<span class="number">0</span>)));</span><br><span class="line">       Map&lt;String, ? extends List&lt;? extends Histogram.Bucket&gt;&gt; hourMap = innerBuckets.stream()</span><br><span class="line">               .collect(Collectors.groupingBy(bucket -&gt; getHour(bucket.getKeyAsString())));</span><br><span class="line">       log.info(<span class="string">&quot;collect  ======&gt; &#123;&#125; &quot;</span>, JSONObject.toJSONString(hourMap.keySet()));</span><br><span class="line"></span><br><span class="line">       ArticleHourData hourData = ArticleHourData.builder().article(article).build();</span><br><span class="line">       <span class="keyword">if</span> (hourMap.isEmpty()) &#123;</span><br><span class="line">           <span class="keyword">return</span> hourData;</span><br><span class="line">       &#125;</span><br><span class="line">       HashMap&lt;String, Long&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">       <span class="keyword">for</span> (String hour : hourMap.keySet()) &#123;</span><br><span class="line">           List&lt;? extends Histogram.Bucket&gt; list = hourMap.get(hour);</span><br><span class="line">           <span class="keyword">if</span> (CollectionUtils.isEmpty(list)) &#123;</span><br><span class="line">               <span class="keyword">continue</span>;</span><br><span class="line">           &#125;</span><br><span class="line">           hashMap.put(hour, list.stream().mapToLong(Histogram.Bucket::getDocCount).sum());</span><br><span class="line">       &#125;</span><br><span class="line">       hourData.setCountMap(hashMap);</span><br><span class="line">       <span class="keyword">return</span> hourData;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="获取时间的小时"><a href="#获取时间的小时" class="headerlink" title="获取时间的小时"></a>获取时间的小时</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">getHour</span><span class="params">(String date)</span> </span>&#123;</span><br><span class="line">      date = date.replace(<span class="string">&quot;Z&quot;</span>, <span class="string">&quot; UTC&quot;</span>);</span><br><span class="line">      SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">&quot;yyyy-MM-dd&#x27;T&#x27;HH:mm:ss.SSS Z&quot;</span>);</span><br><span class="line">      Date d = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          d = format.parse(date);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> String.valueOf(DateUtil.asLocalDateTime(d).getHour());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="Python写法"><a href="#Python写法" class="headerlink" title="Python写法"></a>Python写法</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> json.decoder <span class="keyword">import</span> JSONDecoder</span><br><span class="line"><span class="keyword">from</span> elasticsearch <span class="keyword">import</span> Elasticsearch</span><br><span class="line"><span class="keyword">import</span> logging,json</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">es = Elasticsearch([&#123;<span class="string">&#x27;host&#x27;</span>:<span class="string">&#x27;39.107.117.232&#x27;</span>,<span class="string">&#x27;port&#x27;</span>:<span class="number">9200</span>&#125;], http_auth=(<span class="string">&#x27;elastic&#x27;</span>, <span class="string">&#x27;elastic&#x27;</span>), timeout = <span class="number">90000</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sqs = &#123;</span><br><span class="line">   <span class="string">&quot;size&quot;</span> : <span class="number">0</span>,</span><br><span class="line">   <span class="string">&quot;aggs&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;art&quot;</span>: &#123;</span><br><span class="line">         <span class="string">&quot;terms&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;field&quot;</span>: <span class="string">&quot;article.keyword&quot;</span>,</span><br><span class="line">            <span class="string">&quot;size&quot;</span>: <span class="number">5</span></span><br><span class="line">         &#125;,</span><br><span class="line">         <span class="string">&quot;aggs&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;art_total&quot;</span>: &#123; </span><br><span class="line">               <span class="string">&quot;value_count&quot;</span>: &#123;</span><br><span class="line">                  <span class="string">&quot;field&quot;</span>: <span class="string">&quot;article.keyword&quot;</span></span><br><span class="line">               &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">&quot;_time&quot;</span>: &#123; </span><br><span class="line">                <span class="string">&quot;date_histogram&quot;</span>: &#123;</span><br><span class="line">                    <span class="string">&quot;field&quot;</span>: <span class="string">&quot;visitTime&quot;</span>,</span><br><span class="line">                    <span class="string">&quot;calendar_interval&quot;</span>: <span class="string">&quot;hour&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_search_result = es.search(index=<span class="string">&quot;yj_visit_data2&quot;</span> , body=sqs)</span><br><span class="line">_result_json = json.dumps(_search_result,sort_keys=<span class="literal">True</span>, indent=<span class="number">4</span>, separators=(<span class="string">&#x27;, &#x27;</span>, <span class="string">&#x27;: &#x27;</span>), ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">aggregations = _search_result[<span class="string">&#x27;aggregations&#x27;</span>]</span><br><span class="line">art = aggregations[<span class="string">&#x27;art&#x27;</span>]</span><br><span class="line">buckets = art[<span class="string">&#x27;buckets&#x27;</span>]</span><br><span class="line"><span class="comment">#print(type(buckets)) ; print(buckets)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHour</span>(<span class="params">time</span>):</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">int</span>)(time[<span class="number">11</span>:<span class="number">13</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每个小时的点击数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countByMonth</span>(<span class="params">dataList , hourTar</span>):</span></span><br><span class="line">    _count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> dataList:</span><br><span class="line">        timestamp = data[<span class="string">&#x27;key_as_string&#x27;</span>]</span><br><span class="line">        hour = getHour(timestamp)</span><br><span class="line">        <span class="keyword">if</span> hour == hourTar: </span><br><span class="line">            _count = (<span class="built_in">int</span>)(data[<span class="string">&#x27;doc_count&#x27;</span>]) + _count   </span><br><span class="line">    <span class="keyword">return</span> _count        </span><br><span class="line">            </span><br><span class="line">   </span><br><span class="line">final_list = []</span><br><span class="line"><span class="comment"># 循环计算每一个文章</span></span><br><span class="line"><span class="keyword">for</span> outBucket <span class="keyword">in</span> buckets: </span><br><span class="line">   simple_result = &#123;&#125;</span><br><span class="line">   _time = outBucket[<span class="string">&#x27;_time&#x27;</span>]</span><br><span class="line">   innerBuckets = _time[<span class="string">&#x27;buckets&#x27;</span>]</span><br><span class="line">   <span class="built_in">print</span>(<span class="string">&quot;time inner bucker size&quot;</span> , <span class="built_in">len</span>(innerBuckets))</span><br><span class="line">   simple_list = []</span><br><span class="line">   <span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">24</span>):</span><br><span class="line">      simple_list.append(countByMonth(innerBuckets,num))</span><br><span class="line">   simple_result[<span class="number">0</span>] = outBucket[<span class="string">&#x27;key&#x27;</span>]</span><br><span class="line">   simple_result[<span class="number">1</span>] = simple_list</span><br><span class="line">   final_list.append(simple_result)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;final result ----&gt; &quot;</span>,final_list)   </span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Administration and Deployment</category>
       </categories>
       <tags>
         <tag>elasticsearch</tag>
@@ -3989,7 +4099,7 @@
     <title>Welcome to GeekIBLi</title>
     <url>/wiki/index/</url>
     <content><![CDATA[<h2 id="道阻-且长"><a href="#道阻-且长" class="headerlink" title="道阻 且长"></a>道阻 且长</h2><h2 id="不错的学习网站推荐"><a href="#不错的学习网站推荐" class="headerlink" title="不错的学习网站推荐"></a>不错的学习网站推荐</h2><blockquote>
-<p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://www.slidestalk.com/">示说</a> 「 提供了很多优质的PPT 还有很多大厂的沙龙视屏以及材料」<br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a></p>
+<p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://www.slidestalk.com/">示说</a> 「 提供了很多优质的PPT 还有很多大厂的沙龙视屏以及材料」<br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a><br><a href="https://www.pdai.tech/">Java 全栈知识体系</a></p>
 </blockquote>
 <h2 id="技术团队推荐"><a href="#技术团队推荐" class="headerlink" title="技术团队推荐"></a>技术团队推荐</h2><blockquote>
 <p><a href="https://xiaomi-info.github.io/">小米信息部技术团队</a><br><a href="https://tech.youzan.com/">有赞技术团队</a><br><a href="https://tech.meituan.com/">美团技术团队</a></p>
@@ -4810,6 +4920,30 @@ print (tinydict.values()) # 输出所有值
         <category>Distributed Dir</category>
         <category>theory</category>
       </categories>
+      <tags>
+        <tag>分布式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分布式-秒杀系统设计</title>
+    <url>/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/</url>
+    <content><![CDATA[<h1 id="秒杀系统的挑战"><a href="#秒杀系统的挑战" class="headerlink" title="秒杀系统的挑战"></a>秒杀系统的挑战</h1><h2 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h2><p>秒杀活动的特点就是短时间内聚集大量请求瞬时到达服务端，此时数据库已经无法支撑如此大数据量的请求了。单个的数据库QPS仅有几百，你可能会想，那我是不是可以部署一个数据库集群呢，在数据库集群前使用Nginx分发，将负载平均分摊到每一个数据库不就可以了吗。<br>这种方式一定程度上是可以的，但是国内真正的互联网大厂肯定不是这样做的，在高并发的情况下完全可以使用内存操作来代替访问数据库，比如Redis集群。在网络带宽允许的情况下，Redis的集群的系统吞吐量肯定和数据库集群不是一个量级的，这里要查几十倍几百倍。</p>
+<h2 id="超卖"><a href="#超卖" class="headerlink" title="超卖"></a>超卖</h2><p>超卖最直接的后果就是可能会对公司造成直接的经济损失。防止超卖是秒杀系统必须要保证的一点。超卖的解决办法就是加锁，保证在高并发的情况下库存可以正常的正确的扣减。</p>
+<h2 id="恶意请求"><a href="#恶意请求" class="headerlink" title="恶意请求"></a>恶意请求</h2><h3 id="产品层策略"><a href="#产品层策略" class="headerlink" title="产品层策略"></a>产品层策略</h3><p>秒杀器一般下单和购买及其迅速，根据购买记录可以甄别出一部分。可以通过校验码达到一定的方法，这就要求校验码足够安全，不被破解，采用的方式有：秒杀专用验证码，电视公布验证码，秒杀答题。</p>
+<h3 id="前端控制"><a href="#前端控制" class="headerlink" title="前端控制"></a>前端控制</h3><p>除此之外前段可以添加点击次数限制，点击一定次数之后，将按钮置灰色，或者在js层级进行控制，用户看到的是每次都点击成功了，但是仅仅发起一次服务端请求；</p>
+<h3 id="后端控制"><a href="#后端控制" class="headerlink" title="后端控制"></a>后端控制</h3><ul>
+<li>添加消息队列，消息执行一定数量时，队列后续的消息不在执行</li>
+<li>后端架构按照模块拆分，用户不同的请求分散转发到各个模块的服务器，负载均衡</li>
+<li>数据库分库分表（分片策略）和redis集群</li>
+<li>升级服务器带宽，压力测试，保证系统吞吐量</li>
+<li>过载保护，限流，请求拒绝和服务降级</li>
+</ul>
+<h2 id="链接加盐"><a href="#链接加盐" class="headerlink" title="链接加盐"></a>链接加盐</h2><p>链接加盐一定程度上可以保护恶意攻击，比如下单接口，如果暴露之后，就会存在恶意攻击，一个用户下了几百个单的情况或者一个IP下了很多单子，类似与黄牛抢票之后再去售卖。</p>
+<h1 id="秒杀系统架构图（参考）"><a href="#秒杀系统架构图（参考）" class="headerlink" title="秒杀系统架构图（参考）"></a>秒杀系统架构图（参考）</h1><img src='https://oscimg.oschina.net/oscnet/up-a6fa908f7ee0f098a7a7eb4965dd282124b.png'>
+
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/s/KWb3POodisbOEsQVblsoGw"> 敖丙带你设计【秒杀系统】</a><br><a href="https://mp.weixin.qq.com/s/z2S1EjWQDwKm5Ud36IenNw">《吊打面试官》系列-秒杀系统设计</a><br><a href="https://cloud.tencent.com/developer/article/1520361">这是我读过写得最好的【秒杀系统架构】分析与实战！</a><br><a href="https://www.infoq.cn/article/ypqschsrdsk8bv5nhny4">这一次，彻底弄懂“秒杀系统”</a></p>
+]]></content>
       <tags>
         <tag>分布式</tag>
       </tags>

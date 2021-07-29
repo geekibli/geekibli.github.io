@@ -168,6 +168,49 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Java-CAS%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Java-CAS原理和底层实现</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          CAS原理和底层实现
+
+什么是CASCAS是（compare and swap） 的缩写，它能在不加锁的情况下，在多线程的环境下，保证多线程一致性的改动某一值；
+ABA问题ABA问题是一个线程在CAS比较值和原来是否相等的过程中，别的线程修改过这个值，但是又改回去了，倒置当前线程比较的时候， ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-CAS%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">Java-FutureTask原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          FutureTaskFuture方法介绍123456789101112131415161718public interface Future&lt;V&gt; &#123;        // 取消任务 可中断的方式取消    boolean cancel(boolean mayInterr ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Java-join方法原理解析</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -346,61 +389,6 @@ JVM层级：锁升级过程
         
       </div>
       <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Java-NIO核心组件--buffer</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Buffer 读写NIO之BufferBuffer作为NIO三大核心组件之一，本质上是一块可以写入数据，以及从中读取数据的内存，实际上也是一个byte[]数据,只是在NIO中被封装成了NIO Buffer对象并提供了一组方法来访问这个内存块。
-下面是一个简单的Demo123456789101 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-NIO/">Java-NIO</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java NIO
-Java NIO 对于Java BIO的优化
-
-Java 非阻塞IO
-及时不使用线程池，也可以处理多个客户端请求
-
-12345678910111213141516171819202122232425262728293031323334353637383940public s ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-NIO/">Read more</a>
     </article>
   
 
