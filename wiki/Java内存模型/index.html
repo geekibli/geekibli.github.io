@@ -231,12 +231,19 @@
 <p>虽然指令重排提高了并发的性能，但是Java虚拟机会对指令重排做出一些规则限制，并不能让所有的指令都随意的改变执行位置，主要有以下几点：    </p>
 </blockquote>
 <p>1、单线程每个操作，happen-before于该线程中任意后续操作；<br>2、volatile写happen-before与后续对这个变量的读；<br>3、synchronized解锁happen-before后续对这个锁的加锁；<br>4、final变量的写happen-before于final域对象的读，happen-before后续对final变量的读；<br>5、传递性规则，A先于B，B先于C，那么A一定先于C发生；  </p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1">https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1</a></p>
+</blockquote>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
   <a href="/tags#多线程" >
     <span class="tag-code">多线程</span>
   </a>

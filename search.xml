@@ -66,22 +66,12 @@
   <entry>
     <title>JVM-Xms,Xmx和Xss</title>
     <url>/wiki/JVM-Xms-Xmx%E5%92%8CXss/</url>
-    <content><![CDATA[<h1 id="性能调优参数Xms，Xmx，Xss的含义"><a href="#性能调优参数Xms，Xmx，Xss的含义" class="headerlink" title="性能调优参数Xms，Xmx，Xss的含义"></a>性能调优参数Xms，Xmx，Xss的含义</h1><blockquote>
-<p>-Xss</p>
-</blockquote>
-<p>规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。</p>
-<blockquote>
-<p>-Xms</p>
-</blockquote>
-<p>表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量，JAVA堆将会自动扩容到-Xmx大小。</p>
-<blockquote>
-<p>-Xmx</p>
-</blockquote>
-<p>表示java堆可以扩展到的最大值，在很多情况下，通常将-Xms和-Xmx设置成一样的，因为当堆不够用而发生扩容时，会发生内存抖动影响程序运行时的稳定性。</p>
-<blockquote>
-<p>堆内存分配：</p>
-</blockquote>
-<p>JVM初始分配的内存由-Xms指定，默认是物理内存的1/64<br>JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4<br>默认空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到 -Xms的最小限制。<br>因此服务器一般设置-Xms、-Xmx相等以避免在每次GC 后调整堆的大小。对象的堆内存由称为垃圾回收器的自动内存管理系统回收。<br>非堆内存分配：<br>JVM使用-XX:PermSize设置非堆内存初始值，默认是物理内存的1/64；<br>由XX:MaxPermSize设置最大非堆内存的大小，默认是物理内存的1/4。<br>-Xmn2G：设置年轻代大小为2G。<br>-XX:SurvivorRatio，设置年轻代中Eden区与Survivor区的比值。</p>
+    <content><![CDATA[<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730163232526.png" alt="image-20210730163232526" style="zoom:47%;" />
+
+<h1 id="性能调优参数Xms，Xmx，Xss的含义"><a href="#性能调优参数Xms，Xmx，Xss的含义" class="headerlink" title="性能调优参数Xms，Xmx，Xss的含义"></a>性能调优参数Xms，Xmx，Xss的含义</h1><h2 id="Xss"><a href="#Xss" class="headerlink" title="-Xss"></a>-Xss</h2><p>规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。</p>
+<h3 id="Xms"><a href="#Xms" class="headerlink" title="-Xms"></a>-Xms</h3><p>表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量，JAVA堆将会自动扩容到-Xmx大小。</p>
+<h3 id="Xmx"><a href="#Xmx" class="headerlink" title="-Xmx"></a>-Xmx</h3><p>表示java堆可以扩展到的最大值，在很多情况下，通常将-Xms和-Xmx设置成一样的，因为当堆不够用而发生扩容时，会发生内存抖动影响程序运行时的稳定性。</p>
+<h3 id="堆内存分配："><a href="#堆内存分配：" class="headerlink" title="堆内存分配："></a>堆内存分配：</h3><p>JVM初始分配的内存由-Xms指定，默认是物理内存的1/64<br>JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4<br>默认空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到 -Xms的最小限制。<br>因此服务器一般设置-Xms、-Xmx相等以避免在每次GC 后调整堆的大小。对象的堆内存由称为垃圾回收器的自动内存管理系统回收。<br>非堆内存分配：<br>JVM使用-XX:PermSize设置非堆内存初始值，默认是物理内存的1/64；<br>由XX:MaxPermSize设置最大非堆内存的大小，默认是物理内存的1/4。<br>-Xmn2G：设置年轻代大小为2G。<br>-XX:SurvivorRatio，设置年轻代中Eden区与Survivor区的比值。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://blog.csdn.net/a1439775520/article/details/97787160">类似-Xms、-Xmn这些参数的含义：</a><br>2、<a href="https://baijiahao.baidu.com/s?id=1671253445384660292&wfr=spider&for=pc">JVM三大性能调优参数Xms，Xmx，Xss的含义，你又知道多少呢</a></p>
 ]]></content>
       <categories>
@@ -139,6 +129,43 @@
       </tags>
   </entry>
   <entry>
+    <title>JVM-strace</title>
+    <url>/wiki/JVM-strace/</url>
+    <content><![CDATA[<h1 id="strace-命令查看操作系统日志"><a href="#strace-命令查看操作系统日志" class="headerlink" title="strace 命令查看操作系统日志"></a>strace 命令查看操作系统日志</h1><p><code>strace -ff -o out java ***.class</code></p>
+<p>-ff : 跟踪进程下所有线程用到的系统命令<br>-o : 将跟踪的操作系统日志输出</p>
+<blockquote>
+<p>下面查看JDK1.8下，BIO模式都有哪些系统命令的执行</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ibli.javaBase.io.bio;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> gaolei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2021/4/3 2:55 下午</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SockerIo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9090</span>);</span><br><span class="line">        <span class="comment">// 阻塞</span></span><br><span class="line">        Socket client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">        InputStream inputStream = client.getInputStream();</span><br><span class="line"></span><br><span class="line">        BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(inputStream));</span><br><span class="line">        <span class="comment">// 读阻塞</span></span><br><span class="line">        System.err.println(bufferedReader.readLine());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>服务端</p>
+</blockquote>
+<p>1、<code>javac SockerIo.java</code> 得到SockerIo.class<br>然后，使用strace启动java程序👇：<br>2、<code>strace -ff -0 out java SockerIo</code><br>得到如下日志：<br><img src="https://oscimg.oschina.net/oscnet/up-924f13a6df8c2ce97e13019329008fb4a84.png"></p>
+<blockquote>
+<p>客户端使用nc连接9090端口，然后请求数据</p>
+</blockquote>
+<p><code>nc 127.0.0.1 9090</code>  发送如下数据</p>
+<img src="https://oscimg.oschina.net/oscnet/up-4b7b364f021786bd9bdf4f40135da3b4a8d.png">
+
+<blockquote>
+<p>strace查看日志</p>
+</blockquote>
+<p>查看主线程日志：<br><img src="https://oscimg.oschina.net/oscnet/up-291f9a1018a2d288b88a5c2e43666d5d47e.png"><br>如上图，👆文件最大的是主线程日志：</p>
+<img src="https://oscimg.oschina.net/oscnet/up-c306b9f94e3d0a3582b049d3c4769b4f5ec.png">
+
+<p>根据上面👆strace命令跟踪的日志可以看到，JDK1.8下的BIO的多路复用器是使用的「poll」</p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JVM-jstat</title>
     <url>/wiki/JVM-jstat/</url>
     <content><![CDATA[<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><p>jstat是一个简单的实用工具，在JDK中存在，用于提供与JVM性能相关的统计信息，例如垃圾收集，编译活动。 jstat的主要优势在于，它可以在运行JVM且无需任何先决条件的情况下动态捕获这些指标。 这是什么意思？ 例如，如果要捕获与垃圾回收相关的统计信息，则需要在启动JVM之前传递以下参数：</p>
@@ -174,43 +201,6 @@
 <p>FGCT –到目前为止已花费的完整GC时间</p>
 <p>GCT –到目前为止所花费的GC时间总量（基本上是YGCT + FGCT）</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/dnc8371/article/details/107255359">jstat分析_jstat –分析</a> </p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM-strace</title>
-    <url>/wiki/JVM-strace/</url>
-    <content><![CDATA[<h1 id="strace-命令查看操作系统日志"><a href="#strace-命令查看操作系统日志" class="headerlink" title="strace 命令查看操作系统日志"></a>strace 命令查看操作系统日志</h1><p><code>strace -ff -o out java ***.class</code></p>
-<p>-ff : 跟踪进程下所有线程用到的系统命令<br>-o : 将跟踪的操作系统日志输出</p>
-<blockquote>
-<p>下面查看JDK1.8下，BIO模式都有哪些系统命令的执行</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.ibli.javaBase.io.bio;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> gaolei</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2021/4/3 2:55 下午</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SockerIo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9090</span>);</span><br><span class="line">        <span class="comment">// 阻塞</span></span><br><span class="line">        Socket client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">        InputStream inputStream = client.getInputStream();</span><br><span class="line"></span><br><span class="line">        BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(inputStream));</span><br><span class="line">        <span class="comment">// 读阻塞</span></span><br><span class="line">        System.err.println(bufferedReader.readLine());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>服务端</p>
-</blockquote>
-<p>1、<code>javac SockerIo.java</code> 得到SockerIo.class<br>然后，使用strace启动java程序👇：<br>2、<code>strace -ff -0 out java SockerIo</code><br>得到如下日志：<br><img src="https://oscimg.oschina.net/oscnet/up-924f13a6df8c2ce97e13019329008fb4a84.png"></p>
-<blockquote>
-<p>客户端使用nc连接9090端口，然后请求数据</p>
-</blockquote>
-<p><code>nc 127.0.0.1 9090</code>  发送如下数据</p>
-<img src="https://oscimg.oschina.net/oscnet/up-4b7b364f021786bd9bdf4f40135da3b4a8d.png">
-
-<blockquote>
-<p>strace查看日志</p>
-</blockquote>
-<p>查看主线程日志：<br><img src="https://oscimg.oschina.net/oscnet/up-291f9a1018a2d288b88a5c2e43666d5d47e.png"><br>如上图，👆文件最大的是主线程日志：</p>
-<img src="https://oscimg.oschina.net/oscnet/up-c306b9f94e3d0a3582b049d3c4769b4f5ec.png">
-
-<p>根据上面👆strace命令跟踪的日志可以看到，JDK1.8下的BIO的多路复用器是使用的「poll」</p>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -399,25 +389,15 @@
 <img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730161006154.png" alt="image-20210730161006154" style="zoom:50%;" />
 
 <p>这两种对象访问⽅式各有优势。使⽤句柄来访问的最⼤好处是 reference 中存储的是稳定的句柄地址，在对象被移动时只会改变句柄中的实例数据指针，⽽ reference 本身不需要修改。使⽤直接指针访问⽅式最⼤的好处就是速度快，它节省了⼀次指针定位的时间开销。</p>
-]]></content>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JVM-深入理解Java虚拟机</title>
-    <url>/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
-    <content><![CDATA[<h2 id="JVM结构图"><a href="#JVM结构图" class="headerlink" title="JVM结构图"></a>JVM结构图</h2><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730150029336.png" alt="image-20210730150029336"></p>
-<h2 id="知识清单"><a href="#知识清单" class="headerlink" title="知识清单"></a>知识清单</h2><ul>
-<li>Java内存结构 </li>
-<li>Java对象创建</li>
-<li>Java内存模型</li>
-<li>类加载机制</li>
-<li>垃圾回收机制</li>
-<li>垃圾收集器</li>
-<li>虚拟机调优</li>
-</ul>
-<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p><a href="https://blog.csdn.net/qq_21122519/article/details/94408118">JAVA虚拟机概述</a><br><a href="http://c.biancheng.net/view/3677.html">Java虚拟机（JVM）工作原理</a><br><a href="https://juejin.cn/post/6844903892774289421">推荐收藏系列：一文理解JVM虚拟机（内存、垃圾回收、性能优化）解决面试中遇到问题</a><br><a href="https://juejin.cn/post/6981790758290358302">Java虚拟机内存管理和性能调优</a><br><a href="https://juejin.cn/post/6844903494063751175">重读 JVM</a><br><a href="https://juejin.cn/post/6986594521752535053">【2021最新版】JVM面试题总结（87道题含答案解析）</a><br><a href="https://www.pdai.tech/md/java/jvm/java-jvm-classload.html">JVM 基础 - Java 类加载机制</a><br><a href="https://juejin.cn/post/6981643053396131853">JVM知识点整理</a></p>
+<h2 id="5、对象内存分配"><a href="#5、对象内存分配" class="headerlink" title="5、对象内存分配"></a>5、对象内存分配</h2><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730164126810.png" alt="image-20210730164126810" style="zoom:50%;" />
+
+<p>Java内存体系中所提倡的自动内存管理最终可以归结为自动化地解决两个问题：<strong>给对象分配内存</strong>和<strong>回收分配给对象的内存</strong>。</p>
+<p>对象的内存分配，往大方向讲，就是在堆上分配，对象主要分配在新生代的Eden区域，如果启动了本地线程分配缓冲，将按线程优先分配在TLAB上。<code>少数情况下也可能直接分配在老年代中</code>。具体的分配规则取决于垃圾收集器的类型以及虚拟机中参数的配置。但是有几条最普遍的内存分配规则如下：</p>
+<h3 id="5-1-对象优先在Eden分配"><a href="#5-1-对象优先在Eden分配" class="headerlink" title="5.1 对象优先在Eden分配"></a>5.1 对象优先在Eden分配</h3><p>大多数情况下，对象在新生代Eden区进行分配。当Eden区没有足够内存进行分配时，虚拟机将会发起一次Minor GC。</p>
+<h3 id="5-2-大对象直接进入老年代"><a href="#5-2-大对象直接进入老年代" class="headerlink" title="5.2 大对象直接进入老年代"></a>5.2 大对象直接进入老年代</h3><p>所谓大对象，是指需要大量连续存储空间的Java对象，最典型的大对象就是那种很长的字符串或者数组。大对象对虚拟机分配来说是一个坏消息，经常出现大对象会导致虚拟机需要经常调用GC来为这些大对象整理出足够的连续空间。</p>
+<h3 id="5-3长期存活的对象将进入老年代"><a href="#5-3长期存活的对象将进入老年代" class="headerlink" title="5.3长期存活的对象将进入老年代"></a>5.3长期存活的对象将进入老年代</h3><p>既然虚拟机采用了分代收集的思想来管理内存，那么内存回收时就必须能识别哪些对象应该放在新生代，哪些对象应该放在老年代。为了做到这一点，虚拟机给每一个对象定义了一个对象年龄计数器。如果对象在Eden出生并且经过了第一次Minor GC后仍然存活，并且能够被Survivor容纳的话，将被移动到Survivor空间中，并且对象年龄设置为1。对象在Survivor区域中每熬过一次Minor GC，年龄就增加1岁，当它的年龄增加到一定程度（默认为15岁）对象将会被晋身到老年代中。</p>
+<h3 id="5-4-动态对象年龄判定"><a href="#5-4-动态对象年龄判定" class="headerlink" title="5.4 动态对象年龄判定"></a>5.4 动态对象年龄判定</h3><p>为了能够更好的适应不同程序的内存状况，虚拟机并不是每次都要等到对象的年龄到达阈值才将对象移动到老年代。如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无需等待年龄增长。</p>
+<h3 id="5-6-空间分配担保"><a href="#5-6-空间分配担保" class="headerlink" title="5.6 空间分配担保"></a>5.6 空间分配担保</h3><p>在发生Minor GC之前，虚拟机会先检查老年代中最大可用的连续空间是否大于新生代所有对象空间综合，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次GC是有风险的；如果小于，或者设置不允许，那这时将改为进行一次Full GC。</p>
 ]]></content>
       <tags>
         <tag>JVM</tag>
@@ -426,54 +406,98 @@
   <entry>
     <title>JVM-类加载机制</title>
     <url>/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="类加载机制具体流程"><a href="#类加载机制具体流程" class="headerlink" title="类加载机制具体流程"></a>类加载机制具体流程</h2><p>Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。</p>
-<p>1）Loading（载入）</p>
-<p>JVM 在该阶段的主要目的是将字节码从不同的数据源（可能是 class 文件、也可能是 jar 包，甚至网络）转化为二进制字节流加载到内存中，并生成一个代表该类的 java.lang.Class 对象。</p>
-<p>2）Verification（验证）</p>
-<p>JVM 会在该阶段对二进制字节流进行校验，只有符合 JVM 字节码规范的才能被 JVM 正确执行。该阶段是保证 JVM 安全的重要屏障，下面是一些主要的检查。</p>
-<p>确保二进制字节流格式符合预期（比如说是否以 cafe bene 开头）。<br>是否所有方法都遵守访问控制关键字的限定。<br>方法调用的参数个数和类型是否正确。<br>确保变量在使用之前被正确初始化了。<br>检查变量是否被赋予恰当类型的值。<br>3）Preparation（准备）</p>
-<p>JVM 会在该阶段对类变量（也称为静态变量，static 关键字修饰的）分配内存并初始化（对应数据类型的默认初始值，如 0、0L、null、false 等）。</p>
+    <content><![CDATA[<h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="1-类加载机制具体流程"><a href="#1-类加载机制具体流程" class="headerlink" title="1. 类加载机制具体流程"></a>1. 类加载机制具体流程</h2><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730171153387.png" alt="image-20210730171153387" style="zoom:67%;" />
+
+<p>Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。</p>
+<h3 id="1-1-Loading（载入）"><a href="#1-1-Loading（载入）" class="headerlink" title="1.1 Loading（载入）"></a>1.1 Loading（载入）</h3><blockquote>
+<p> JVM 在该阶段的主要目的是将字节码从不同的数据源（可能是 class 文件、也可能是 jar 包，甚至网络）转化为二进制字节流加载到内存中，并生成一个代表该类的 java.lang.Class 对象。</p>
+</blockquote>
+<ol>
+<li>通过一个类的全限定名来获取定义次类的二进制流(ZIP 包、网络、运算生成、JSP 生成、数据库读取)。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在内存中生成一个代表这个类的 java.lang.Class 对象，作为方法去这个类的各种数据的访问入口。</li>
+</ol>
+<p><strong>数组类的特殊性</strong>：<code>数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的</code>。但数组类与类加载器仍然有很密切的关系，因为数组类的元素类型最终是要靠类加载器去创建的，数组创建过程如下：</p>
+<ol>
+<li>如果数组的组件类型是引用类型，那就递归采用类加载加载。</li>
+<li>如果数组的组件类型不是引用类型，Java 虚拟机会把数组标记为引导类加载器关联。</li>
+<li>数组类的可见性与他的组件类型的可见性一致，如果组件类型不是引用类型，那数组类的可见性将默认为 public。</li>
+</ol>
+<p>内存中实例的 java.lang.Class 对象存在方法区中。作为程序访问方法区中这些类型数据的外部接口。<br>加载阶段与连接阶段的部分内容是交叉进行的，但是开始时间保持先后顺序。</p>
+<h3 id="1-2-Verification（验证）"><a href="#1-2-Verification（验证）" class="headerlink" title="1.2 Verification（验证）"></a>1.2 Verification（验证）</h3><p>JVM 会在该阶段对二进制字节流进行校验，只有符合 JVM 字节码规范的才能被 JVM 正确执行。该阶段是保证 JVM 安全的重要屏障，下面是一些主要的检查。</p>
+<h5 id="1-2-1-文件格式验证"><a href="#1-2-1-文件格式验证" class="headerlink" title="1.2.1 文件格式验证"></a>1.2.1 文件格式验证</h5><ol>
+<li>是否以魔数 0xCAFEBABE 开头</li>
+<li>主、次版本号是否在当前虚拟机处理范围之内</li>
+<li>常量池的常量是否有不被支持常量的类型（检查常量 tag 标志）</li>
+<li>指向常量的各种索引值中是否有指向不存在的常量或不符合类型的常量</li>
+<li>CONSTANT_Utf8_info 型的常量中是否有不符合 UTF8 编码的数据</li>
+<li>Class 文件中各个部分集文件本身是否有被删除的附加的其他信息</li>
+<li>……</li>
+</ol>
+<p>只有通过这个阶段的验证后，字节流才会进入内存的方法区进行存储，所以后面 3 个验证阶段全部是基于方法区的存储结构进行的，不再直接操作字节流。</p>
+<h5 id="1-2-2-元数据验证"><a href="#1-2-2-元数据验证" class="headerlink" title="1.2.2 元数据验证"></a>1.2.2 元数据验证</h5><ol>
+<li>这个类是否有父类（除 java.lang.Object 之外）</li>
+<li>这个类的父类是否继承了不允许被继承的类（final 修饰的类）</li>
+<li>如果这个类不是抽象类，是否实现了其父类或接口之中要求实现的所有方法</li>
+<li>类中的字段、方法是否与父类产生矛盾（覆盖父类 final 字段、出现不符合规范的重载）</li>
+</ol>
+<p>这一阶段主要是对类的元数据信息进行语义校验，保证不存在不符合 Java 语言规范的元数据信息。</p>
+<h5 id="1-2-3-字节码验证"><a href="#1-2-3-字节码验证" class="headerlink" title="1.2.3 字节码验证"></a>1.2.3 字节码验证</h5><ol>
+<li>保证任意时刻操作数栈的数据类型与指令代码序列都鞥配合工作（不会出现按照 long 类型读一个 int 型数据）</li>
+<li>保证跳转指令不会跳转到方法体以外的字节码指令上</li>
+<li>保证方法体中的类型转换是有效的（子类对象赋值给父类数据类型是安全的，反过来不合法的）</li>
+<li>……</li>
+</ol>
+<p>这是整个验证过程中最复杂的一个阶段，主要目的是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。这个阶段对类的方法体进行校验分析，保证校验类的方法在运行时不会做出危害虚拟机安全的事件。</p>
+<h5 id="1-2-4-符号引用验证"><a href="#1-2-4-符号引用验证" class="headerlink" title="1.2.4 符号引用验证"></a>1.2.4 符号引用验证</h5><ol>
+<li>符号引用中通过字符创描述的全限定名是否能找到对应的类</li>
+<li>在指定类中是否存在符方法的字段描述符以及简单名称所描述的方法和字段</li>
+<li>符号引用中的类、字段、方法的访问性（private、protected、public、default）是否可被当前类访问</li>
+<li>……</li>
+</ol>
+<p>最后一个阶段的校验发生在迅疾将符号引用转化为直接引用的时候，这个转化动作将在连接的第三阶段——解析阶段中发生。符号引用验证可以看做是对类自身以外（常量池中的各种符号引用）的信息进行匹配性校验，还有以上提及的内容。<br>符号引用的目的是确保解析动作能正常执行，如果无法通过符号引用验证将抛出一个 java.lang.IncompatibleClass.ChangeError 异常的子类。如 java.lang.IllegalAccessError、java.lang.NoSuchFieldError、java.lang.NoSuchMethodError 等。</p>
+<h3 id="1-3-Preparation（准备）"><a href="#1-3-Preparation（准备）" class="headerlink" title="1.3 Preparation（准备）"></a>1.3 Preparation（准备）</h3><h5 id="1-3-1-设置默认值"><a href="#1-3-1-设置默认值" class="headerlink" title="1.3.1 设置默认值"></a>1.3.1 设置默认值</h5><p>JVM 会在该阶段对类变量（也称为静态变量，static 关键字修饰的）分配内存并初始化（对应数据类型的默认初始值，如 0、0L、null、false 等）。</p>
 <p>也就是说，假如有这样一段代码：</p>
-<p>public String chenmo = “沉默”;<br>public static String wanger = “王二”;<br>public static final String cmower = “沉默王二”;<br>chenmo 不会被分配内存，而 wanger 会；但 wanger 的初始值不是“王二”而是 null。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String chenmo = <span class="string">&quot;沉默&quot;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String wanger = <span class="string">&quot;王二&quot;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String cmower = <span class="string">&quot;沉默王二&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>chenmo 不会被分配内存，而 wanger 会；但 wanger 的初始值不是“王二”而是 null。</p>
 <p>需要注意的是，static final 修饰的变量被称作为常量，和类变量不同。常量一旦赋值就不会改变了，所以 cmower 在准备阶段的值为“沉默王二”而不是 null。</p>
-<p>4）Resolution（解析）</p>
-<p>该阶段将常量池中的符号引用转化为直接引用。</p>
-<p>what？符号引用，直接引用？</p>
-<p>符号引用以一组符号（任何形式的字面量，只要在使用时能够无歧义的定位到目标即可）来描述所引用的目标。</p>
+<h5 id="1-3-2-各种类型默认值"><a href="#1-3-2-各种类型默认值" class="headerlink" title="1.3.2 各种类型默认值"></a>1.3.2 各种类型默认值</h5><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730170747559.png" alt="image-20210730170747559" style="zoom:33%;" />
+
+<h3 id="1-4-Resolution（解析）"><a href="#1-4-Resolution（解析）" class="headerlink" title="1.4 Resolution（解析）"></a>1.4 Resolution（解析）</h3><p>该阶段将常量池中的符号引用转化为直接引用。</p>
+<p><code>**符号引用**</code> : 以一组符号（任何形式的字面量，只要在使用时能够无歧义的定位到目标即可）来描述所引用的目标。</p>
+<p><code>**直接引用**</code> : 直接引用可以使直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。直接引用和迅疾的内存布局实现有关</p>
 <p>在编译时，Java 类并不知道所引用的类的实际地址，因此只能使用符号引用来代替。比如 com.Wanger 类引用了 com.Chenmo 类，编译时 Wanger 类并不知道 Chenmo 类的实际内存地址，因此只能使用符号 com.Chenmo。</p>
 <p>直接引用通过对符号引用进行解析，找到引用的实际内存地址。</p>
-<p>5）Initialization（初始化）</p>
-<p>该阶段是类加载过程的最后一步。在准备阶段，类变量已经被赋过默认初始值，而在初始化阶段，类变量将被赋值为代码期望赋的值。换句话说，初始化阶段是执行类构造器方法的过程。</p>
+<h3 id="1-5-Initialization（初始化）"><a href="#1-5-Initialization（初始化）" class="headerlink" title="1.5 Initialization（初始化）"></a>1.5 Initialization（初始化）</h3><p>该阶段是类加载过程的最后一步。在准备阶段，类变量已经被赋过默认初始值，而在初始化阶段，类变量将被赋值为代码期望赋的值。换句话说，初始化阶段是执行类构造器方法的过程。</p>
 <p>oh，no，上面这段话说得很抽象，不好理解，对不对，我来举个例子。</p>
-<p>String cmower = new String(“沉默王二”);<br>上面这段代码使用了 new 关键字来实例化一个字符串对象，那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。</p>
-<h2 id="什么是双亲委派"><a href="#什么是双亲委派" class="headerlink" title="什么是双亲委派"></a>什么是双亲委派</h2><p>聊完类加载过程，就不得不聊聊类加载器。</p>
+<p><code>String cmower = new String(&quot;沉默王二&quot;);</code><br>上面这段代码使用了 new 关键字来实例化一个字符串对象，那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。</p>
+<h2 id="2-双亲委派机制"><a href="#2-双亲委派机制" class="headerlink" title="2. 双亲委派机制"></a>2. 双亲委派机制</h2><p>聊完类加载过程，就不得不聊聊类加载器。</p>
+<h3 id="2-1-什么是类加载"><a href="#2-1-什么是类加载" class="headerlink" title="2.1 什么是类加载"></a>2.1 什么是类加载</h3><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730171408574.png" alt="image-20210730171408574" style="zoom:50%;" />
+
 <p>一般来说，Java 程序员并不需要直接同类加载器进行交互。JVM 默认的行为就已经足够满足大多数情况的需求了。不过，如果遇到了需要和类加载器进行交互的情况，而对类加载器的机制又不是很了解的话，就不得不花大量的时间去调试<br>ClassNotFoundException 和 NoClassDefFoundError 等异常。</p>
-<p>对于任意一个类，都需要由它的类加载器和这个类本身一同确定其在 JVM 中的唯一性。也就是说，如果两个类的加载器不同，即使两个类来源于同一个字节码文件，那这两个类就必定不相等（比如两个类的 Class 对象不 equals）。</p>
+<p><em><strong>对于任意一个类，都需要由它的类加载器和这个类本身一同确定其在 JVM 中的唯一性。也就是说，如果两个类的加载器不同，即使两个类来源于同一个字节码文件，那这两个类就必定不相等（比如两个类的 Class 对象不 equals）。</strong></em></p>
 <p>站在程序员的角度来看，Java 类加载器可以分为三种。</p>
-<p>1）启动类加载器（Bootstrap Class-Loader），加载 jre/lib 包下面的 jar 文件，比如说常见的 rt.jar。</p>
-<p>2）扩展类加载器（Extension or Ext Class-Loader），加载 jre/lib/ext 包下面的 jar 文件。</p>
-<p>3）应用类加载器（Application or App Clas-Loader），根据程序的类路径（classpath）来加载 Java 类。</p>
+<p>1）<strong>启动类加载器</strong>（Bootstrap Class-Loader），加载 jre/lib 包下面的 jar 文件，比如说常见的 rt.jar。</p>
+<p>2）<strong>扩展类加载器</strong>（Extension or Ext Class-Loader），加载 jre/lib/ext 包下面的 jar 文件。</p>
+<p>3）<strong>应用类加载器</strong>（Application or App Clas-Loader），根据程序的类路径（classpath）来加载 Java 类。</p>
 <p>来来来，通过一段简单的代码了解下。</p>
-<pre><code class="java">public class Test &#123;
-
-    public static void main(String[] args) &#123;
-        ClassLoader loader = Test.class.getClassLoader();
-        while (loader != null) &#123;
-            System.out.println(loader.toString());
-            loader = loader.getParent();
-        &#125;
-    &#125;
-
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassLoader loader = Test.class.getClassLoader();</span><br><span class="line">        <span class="keyword">while</span> (loader != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(loader.toString());</span><br><span class="line">            loader = loader.getParent();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 类名.class.getClassLoader() 可以获取到此引用；然后通过 loader.getParent() 可以获取类加载器的上层类加载器。</p>
 <p>这段代码的输出结果如下：</p>
 <p>sun.misc.Launcher$AppClassLoader@73d16e93<br>sun.misc.Launcher$ExtClassLoader@15db9742<br>第一行输出为 Test 的类加载器，即应用类加载器，它是 sun.misc.Launcher$AppClassLoader 类的实例；第二行输出为扩展类加载器，是 sun.misc.Launcher$ExtClassLoader 类的实例。那启动类加载器呢？</p>
 <p>按理说，扩展类加载器的上层类加载器是启动类加载器，但在我这个版本的 JDK 中， 扩展类加载器的 getParent() 返回 null。所以没有输出。</p>
-<hr>
-<p>双亲委派机制：<br><img src="https://oscimg.oschina.net/oscnet/up-5314cbdba627f795c147f27e03270d392c7.png" width=400 height=450></p>
-<h2 id="双亲委派如何破坏"><a href="#双亲委派如何破坏" class="headerlink" title="双亲委派如何破坏"></a>双亲委派如何破坏</h2><p>线程上下文加载器</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://blog.csdn.net/weixin_40236948/article/details/88072698">Java类加载机制</a><br>2、<a href="https://blog.csdn.net/codeyanbao/article/details/82875064">通俗易懂的双亲委派机制</a>  </p>
+<h3 id="2-2-双亲委派的意义"><a href="#2-2-双亲委派的意义" class="headerlink" title="2.2 双亲委派的意义"></a>2.2 双亲委派的意义</h3><p>使用双亲委派模型，Java类随着它的加载器一起具备了一种带有优先级的层次关系，通过这种层次模型，可以避免类的重复加载，也可以避免核心类被不同的类加载器加载到内存中造成冲突和混乱，从而保证了Java核心库的安全。</p>
+<h2 id="3-类加载的应用"><a href="#3-类加载的应用" class="headerlink" title="3. 类加载的应用"></a>3. 类加载的应用</h2><p><a href="https://juejin.cn/post/6931972267609948167">https://juejin.cn/post/6931972267609948167</a></p>
+<ul>
+<li>类加载</li>
+<li>热部署</li>
+<li>加密保护</li>
+<li>依赖冲突</li>
+</ul>
+<h2 id="4-双亲委派如何破坏"><a href="#4-双亲委派如何破坏" class="headerlink" title="4. 双亲委派如何破坏"></a>4. 双亲委派如何破坏</h2><p>线程上下文加载器</p>
+<p><a href="https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</a></p>
+<p><a href="https://www.cnblogs.com/joemsu/p/9310226.html#_caption_2">https://www.cnblogs.com/joemsu/p/9310226.html#_caption_2</a></p>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -1298,6 +1322,9 @@
 <p>虽然指令重排提高了并发的性能，但是Java虚拟机会对指令重排做出一些规则限制，并不能让所有的指令都随意的改变执行位置，主要有以下几点：    </p>
 </blockquote>
 <p>1、单线程每个操作，happen-before于该线程中任意后续操作；<br>2、volatile写happen-before与后续对这个变量的读；<br>3、synchronized解锁happen-before后续对这个锁的加锁；<br>4、final变量的写happen-before于final域对象的读，happen-before后续对final变量的读；<br>5、传递性规则，A先于B，B先于C，那么A一定先于C发生；  </p>
+<blockquote>
+<p><a href="https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1">https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -1305,6 +1332,7 @@
         <category>多线程与并发</category>
       </categories>
       <tags>
+        <tag>JVM</tag>
         <tag>多线程</tag>
       </tags>
   </entry>
@@ -1535,182 +1563,22 @@
       </tags>
   </entry>
   <entry>
-    <title>Java并发编程-多线程的发展和意义</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/</url>
-    <content><![CDATA[<h1 id="线程基础概念"><a href="#线程基础概念" class="headerlink" title="线程基础概念"></a>线程基础概念</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己的独立内存，是线程不共享的。</p>
-<h2 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h2><ul>
-<li>并行<br> 同一时刻，横向有多少个线程可以运行</li>
-<li>并发<br> 系统和服务器同一时刻能够承受的并发线程</li>
+    <title>JVM-深入理解Java虚拟机</title>
+    <url>/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="JVM结构图"><a href="#JVM结构图" class="headerlink" title="JVM结构图"></a>JVM结构图</h2><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730150029336.png" alt="image-20210730150029336"></p>
+<h2 id="知识清单"><a href="#知识清单" class="headerlink" title="知识清单"></a>知识清单</h2><ul>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">Java内存结构</a> </li>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/">Java对象创建</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></li>
+<li>类加载机制</li>
+<li>垃圾回收机制</li>
+<li>垃圾收集器</li>
+<li>虚拟机调优</li>
 </ul>
-<h2 id="线程的特征"><a href="#线程的特征" class="headerlink" title="线程的特征"></a>线程的特征</h2><ul>
-<li>异步（不需要等待）<br> 比如说注册之后发送验证码，验证码的过程可以异步去做不需要客户去在注册接口等待这个时间；</li>
-<li>并行（CPU核数）   </li>
-</ul>
-<h2 id="Java中线程的使用"><a href="#Java中线程的使用" class="headerlink" title="Java中线程的使用"></a>Java中线程的使用</h2><ul>
-<li>继承Thread</li>
-<li>实现Runnalbe</li>
-<li>实现Callable/Future</li>
-</ul>
-<h2 id="线程原理"><a href="#线程原理" class="headerlink" title="线程原理"></a>线程原理</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> <span class="title">extend</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">      b = a + <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>执行start方法，其实是调用JVM相关的指令， thread.cpp</p>
-<blockquote>
-<p>java thread.start() -&gt; cpp thread.start() -&gt; os指令:create.thread    start.thread<br>操作系统层面会创建线程，线程创建之后，线程可以启动，（线程启动之后并不一定马上执行）这些线程统一有CPU调度算法来处理；决定那个线程分配给那个执行CPU；<br>CPU执行线程任务的时候，会调用run方法 -&gt; cpp run方法  -&gt; java  thread.run()</p>
-</blockquote>
-<img src='https://oscimg.oschina.net/oscnet/up-9147a0440e839bc9946fc87147e97b7c793.png' whith=600 height=380>
-
-<p>⚠️ CompletableFuture 异步回调通知，基于Future的优化 </p>
-<h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>线程创建，当线程中的指令执行完成之后，run（）结束 线程销毁<br>其他线程状态</p>
-<ul>
-<li>等待状态 （sleep join wait）</li>
-<li>锁阻塞状态 （blocked 竞争锁失败 park）</li>
-</ul>
-<img src="https://oscimg.oschina.net/oscnet/up-dc87c94066283689df31680050c67edd7b1.png" width=500 height=450>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadStatusDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;time waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (ThreadStatusDemo.class)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        ThreadStatusDemo.class.wait();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (BlockDemo.class)&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>查看线程状态</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jps -l</span><br><span class="line">jstack pid</span><br></pre></td></tr></table></figure>
-
-<h2 id="线程如何停止"><a href="#线程如何停止" class="headerlink" title="线程如何停止"></a>线程如何停止</h2><p>interrupt() 停止线程<br>主动停止方式 -&gt; run方法执行结束<br>被动停止方式</p>
-<p>一般中断线程是在无法控制线程的情况下，比如线程wait ， 线程sleep ， 线程while(true)<br><code>Thread.currnetThread().isInterrupted()</code></p>
-<blockquote>
-<p>stop方法停止线程 禁止使用 相当于kill线程 不友好</p>
-</blockquote>
-<p>interrupt 功能</p>
-<ul>
-<li>唤醒阻塞状态的线程</li>
-<li>修改中断标志，false -&gt; true</li>
-</ul>
-<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2>]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java并发编程-深入理解volatile</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/</url>
-    <content><![CDATA[<h1 id="volatile特性"><a href="#volatile特性" class="headerlink" title="volatile特性"></a>volatile特性</h1><p>正确理解volatile</p>
-<blockquote>
-<p>多级cache结构 -&gt; 缓存一致性协议（MESI）-&gt; store buffer和invalidate queue -&gt; 内存屏障</p>
-</blockquote>
-<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><p>volatile的可见性依赖于Java内存模型。 可以参见之前的文章  👉 <a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></p>
-<p><code>Java内存模型(JavaMemoryModel)</code>描述了Java程序中各种变量(线程共享变量)的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
-<p>所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，因此不存在竞争问题。</p>
-<p>每一个线程还存在自己的工作内存，线程的工作内存，保留了被线程使用的变量的工作副本。</p>
-<p><code>线程对变量的所有的操作(读，取)都必须在工作内存中完成，而不能直接读写主内存中的变量</code>。</p>
-<p>不同线程之间也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
-<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729170756502.png" alt="image-20210729170756502" style="zoom:35%;" />
-
-<p>volatile实现可见性</p>
-<p>每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写会了，他其他已经读取的线程的变量副本就会失效了，需要都数据进行操作又要再次去主内存中读取了。</p>
-<p>volatile保证不同线程对共享变量操作的可见性，也就是说一个线程修改了volatile修饰的变量，当修改写回主内存时，另外一个线程立即看到最新的值。</p>
-<p>至于其他线程是如何更新缓存行中的数据以及其他线程的缓存行是如何失效的，可以参见之前的文章。 <a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></p>
-<h3 id="嗅探机制"><a href="#嗅探机制" class="headerlink" title="嗅探机制"></a>嗅探机制</h3><p>在现代计算机中，CPU 的速度是极高的，如果 CPU 需要存取数据时都直接与内存打交道，在存取过程中，CPU 将一直空闲，这是一种极大的浪费，所以，为了提高处理速度，CPU 不直接和内存进行通信，而是在 CPU 与内存之间加入很多寄存器，多级缓存，它们比内存的存取速度高得多，这样就解决了 CPU 运算速度和内存读取速度不一致问题。</p>
-<p>由于 CPU 与内存之间加入了缓存，在进行数据操作时，先将数据从内存拷贝到缓存中，CPU 直接操作的是缓存中的数据。但在多处理器下，将可能导致各自的缓存数据不一致（这也是可见性问题的由来），为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，而<strong>嗅探是实现缓存一致性的常见机制</strong>。</p>
-<p><strong>嗅探机制工作原理</strong>：每个处理器通过监听在总线上传播的数据来检查自己的缓存值是不是过期了，如果处理器发现自己缓存行对应的内存地址修改，就会将当前处理器的缓存行设置无效状态，当处理器对这个数据进行修改操作的时候，会重新从主内存中把数据读到处理器缓存中。</p>
-<p>注意：</p>
-<blockquote>
-<p>基于 CPU 缓存一致性协议，JVM 实现了 volatile 的可见性，但由于总线嗅探机制，会不断的监听总线，如果大量使用 volatile 会引起总线风暴。所以，volatile 的使用要适合具体场景。</p>
-</blockquote>
-<h2 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h2><p><strong>什么是指令重排序</strong>?</p>
-<p>为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
-<p>【源代码】 -&gt; 【编译器优化重排序】-&gt; 【指令集并行重排序】-&gt; 【内存系统重排序】-&gt; 【最终执行指令序列】</p>
-<p>一般重排序可以分为如下三种：</p>
-<ul>
-<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序;</li>
-<li>指令级并行的重排序。现代处理器采用了指令级并行技术来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序;</li>
-<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行的。</li>
-</ul>
-<h3 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h3><p>不管怎么重排序，单线程下的执行结果不能被改变。编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
-<p>java编译器会在生成指令系列时在适当的位置会插入<code>内存屏障</code>指令来禁止特定类型的处理器重排序。</p>
-<p>为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
-<table>
-<thead>
-<tr>
-<th align="center"><strong>内存屏障</strong></th>
-<th align="left"><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">StoreStore 屏障</td>
-<td align="left">禁止上面的普通写和下面的 volatile 写重排序。</td>
-</tr>
-<tr>
-<td align="center">StoreLoad 屏障</td>
-<td align="left">防止上面的 volatile 写与下面可能有的 volatile 读/写重排序。</td>
-</tr>
-<tr>
-<td align="center">LoadLoad 屏障</td>
-<td align="left">禁止下面所有的普通读操作和上面的 volatile 读重排序。</td>
-</tr>
-<tr>
-<td align="center">LoadStore 屏障</td>
-<td align="left">禁止下面所有的普通写操作和上面的 volatile 读重排序。</td>
-</tr>
-</tbody></table>
-<h3 id="happens-before规则"><a href="#happens-before规则" class="headerlink" title="happens-before规则"></a>happens-before规则</h3><p>如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。</p>
-<p><strong>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</strong></p>
-<h3 id="volatile在DCL的应用"><a href="#volatile在DCL的应用" class="headerlink" title="volatile在DCL的应用"></a>volatile在DCL的应用</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton singleton;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构造函数私有，禁止外部实例化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>现在我们分析一下为什么要在变量singleton之间加上volatile关键字。要理解这个问题，先要了解对象的构造过程，实例化一个对象其实可以分为三个步骤：</p>
-<ul>
-<li>分配内存空间。</li>
-<li>初始化对象。</li>
-<li>将内存空间的地址赋值给对应的引用。</li>
-</ul>
-<p>但是由于操作系统可以<code>对指令进行重排序</code>，所以上面的过程也可能会变成如下过程：</p>
-<ul>
-<li>分配内存空间。</li>
-<li>将内存空间的地址赋值给对应的引用。</li>
-<li>初始化对象</li>
-</ul>
-<p>如果是这个流程，多线程环境下就可能将一个未初始化的对象引用暴露出来，从而导致不可预料的结果。因此，为了防止这个过程的重排序，我们需要将变量设置为volatile类型的变量。</p>
-<h3 id="一次性安全发布"><a href="#一次性安全发布" class="headerlink" title="一次性安全发布"></a>一次性安全发布</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BackgroundFloobleLoader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> Flooble theFlooble;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initInBackground</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do lots of stuff</span></span><br><span class="line">        theFlooble = <span class="keyword">new</span> Flooble();  <span class="comment">// this is the only write to theFlooble</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeOtherClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123; </span><br><span class="line">            <span class="comment">// do some stuff...</span></span><br><span class="line">            <span class="comment">// use the Flooble, but only if it is ready</span></span><br><span class="line">            <span class="keyword">if</span> (floobleLoader.theFlooble != <span class="keyword">null</span>) </span><br><span class="line">                doSomething(floobleLoader.theFlooble);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果 <code>theFlooble</code> 引用不是 volatile 类型，<code>doWork()</code> 中的代码在解除对 <code>theFlooble</code> 的引用时，将会得到一个不完全构造的 <code>Flooble</code>。</p>
-<p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象（有效不可变意味着对象的状态在发布之后永远不会被修改）。volatile 类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
-<h2 id="无法保证原子性"><a href="#无法保证原子性" class="headerlink" title="无法保证原子性"></a>无法保证原子性</h2><p>所谓的原子性是指在一次操作或者多次操作中，要么所有的操作全部都得到了执行并且不会受到任何因素的干扰而中断，要么所有的操作都不执行。</p>
-<p>在多线程环境下，volatile 关键字可以保证共享数据的可见性，但是并不能保证对数据操作的原子性。也就是说，多线程环境下，使用 volatile 修饰的变量是<strong>线程不安全的</strong>。</p>
-<p>要解决这个问题，我们可以使用锁机制，或者使用原子类（如 AtomicInteger）。</p>
-<p>这里特别说一下，对任意单个使用 volatile 修饰的变量的读 / 写是具有原子性，但类似于 <code>flag = !flag</code> 这种复合操作不具有原子性。简单地说就是，<strong>单纯的赋值操作是原子性的</strong>。</p>
-<h1 id="volatile-和-synchronized"><a href="#volatile-和-synchronized" class="headerlink" title="volatile 和 synchronized"></a>volatile 和 synchronized</h1><p>volatile只能修饰实例变量和类变量，而synchronized可以修饰方法，以及代码块。</p>
-<p>volatile保证数据的可见性，但是不保证原子性(多线程进行写操作，不保证线程安全);而synchronized是一种排他(互斥)的机制。</p>
-<p>volatile用于禁止指令重排序：可以解决单例双重检查对象初始化代码执行乱序问题。</p>
-<p>volatile可以看做是轻量版的synchronized，volatile不保证原子性，但是如果是对一个共享变量进行多个线程的赋值，而没有其他的操作，那么就可以用volatile来代替synchronized，因为赋值本身是有原子性的，而volatile又保证了可见性，所以就可以保证线程安全了。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>1、volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如booleanflag;或者作为触发器，实现轻量级同步。</p>
-<p>2、volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供<strong>原子性和互斥性</strong>。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</p>
-<p>3、volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</p>
-<p>4、volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主 存中读取。</p>
-<p>5、volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</p>
-<p>6、volatile可以使得long和double的赋值是原子的。</p>
-<p>7、volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</p>
-<hr>
-<p><strong>参考资料</strong></p>
-<p><a href="https://mp.weixin.qq.com/s/Oa3tcfAFO9IgsbE22C5TEg">面试官想到，一个Volatile，敖丙都能吹半小时</a></p>
-<p><a href="https://juejin.cn/post/6844903520760496141">面试官最爱的volatile关键字</a></p>
-<p><a href="https://juejin.cn/post/6844903959107207175">一文吃透Volatile，征服面试官</a></p>
-<p><a href="https://www.cnblogs.com/lidl/archive/2012/06/25/2561431.html">java语言的线程安全volatile用法</a></p>
+<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p><a href="https://blog.csdn.net/qq_21122519/article/details/94408118">JAVA虚拟机概述</a><br><a href="http://c.biancheng.net/view/3677.html">Java虚拟机（JVM）工作原理</a><br><a href="https://juejin.cn/post/6844903892774289421">推荐收藏系列：一文理解JVM虚拟机（内存、垃圾回收、性能优化）解决面试中遇到问题</a><br><a href="https://juejin.cn/post/6981790758290358302">Java虚拟机内存管理和性能调优</a><br><a href="https://juejin.cn/post/6844903494063751175">重读 JVM</a><br><a href="https://juejin.cn/post/6986594521752535053">【2021最新版】JVM面试题总结（87道题含答案解析）</a><br><a href="https://www.pdai.tech/md/java/jvm/java-jvm-classload.html">JVM 基础 - Java 类加载机制</a><br><a href="https://juejin.cn/post/6981643053396131853">JVM知识点整理</a><br><a href="https://www.processon.com/view/5ec5d7c60791290fe0768668?fromnew=1">https://www.processon.com/view/5ec5d7c60791290fe0768668?fromnew=1</a></p>
 ]]></content>
       <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java并发编程之同步锁</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
+        <tag>JVM</tag>
       </tags>
   </entry>
   <entry>
@@ -1836,6 +1704,128 @@
       </tags>
   </entry>
   <entry>
+    <title>Java并发编程之同步锁</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java并发编程-深入理解volatile</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/</url>
+    <content><![CDATA[<h1 id="volatile特性"><a href="#volatile特性" class="headerlink" title="volatile特性"></a>volatile特性</h1><p>正确理解volatile</p>
+<blockquote>
+<p>多级cache结构 -&gt; 缓存一致性协议（MESI）-&gt; store buffer和invalidate queue -&gt; 内存屏障</p>
+</blockquote>
+<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><p>volatile的可见性依赖于Java内存模型。 可以参见之前的文章  👉 <a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></p>
+<p><code>Java内存模型(JavaMemoryModel)</code>描述了Java程序中各种变量(线程共享变量)的访问规则，以及在JVM中将变量，存储到内存和从内存中读取变量这样的底层细节。</p>
+<p>所有的共享变量都存储于主内存，这里所说的变量指的是实例变量和类变量，不包含局部变量，因为局部变量是线程私有的，因此不存在竞争问题。</p>
+<p>每一个线程还存在自己的工作内存，线程的工作内存，保留了被线程使用的变量的工作副本。</p>
+<p><code>线程对变量的所有的操作(读，取)都必须在工作内存中完成，而不能直接读写主内存中的变量</code>。</p>
+<p>不同线程之间也不能直接访问对方工作内存中的变量，线程间变量的值的传递需要通过主内存中转来完成。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729170756502.png" alt="image-20210729170756502" style="zoom:35%;" />
+
+<p>volatile实现可见性</p>
+<p>每个线程操作数据的时候会把数据从主内存读取到自己的工作内存，如果他操作了数据并且写会了，他其他已经读取的线程的变量副本就会失效了，需要都数据进行操作又要再次去主内存中读取了。</p>
+<p>volatile保证不同线程对共享变量操作的可见性，也就是说一个线程修改了volatile修饰的变量，当修改写回主内存时，另外一个线程立即看到最新的值。</p>
+<p>至于其他线程是如何更新缓存行中的数据以及其他线程的缓存行是如何失效的，可以参见之前的文章。 <a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></p>
+<h3 id="嗅探机制"><a href="#嗅探机制" class="headerlink" title="嗅探机制"></a>嗅探机制</h3><p>在现代计算机中，CPU 的速度是极高的，如果 CPU 需要存取数据时都直接与内存打交道，在存取过程中，CPU 将一直空闲，这是一种极大的浪费，所以，为了提高处理速度，CPU 不直接和内存进行通信，而是在 CPU 与内存之间加入很多寄存器，多级缓存，它们比内存的存取速度高得多，这样就解决了 CPU 运算速度和内存读取速度不一致问题。</p>
+<p>由于 CPU 与内存之间加入了缓存，在进行数据操作时，先将数据从内存拷贝到缓存中，CPU 直接操作的是缓存中的数据。但在多处理器下，将可能导致各自的缓存数据不一致（这也是可见性问题的由来），为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，而<strong>嗅探是实现缓存一致性的常见机制</strong>。</p>
+<p><strong>嗅探机制工作原理</strong>：每个处理器通过监听在总线上传播的数据来检查自己的缓存值是不是过期了，如果处理器发现自己缓存行对应的内存地址修改，就会将当前处理器的缓存行设置无效状态，当处理器对这个数据进行修改操作的时候，会重新从主内存中把数据读到处理器缓存中。</p>
+<p>注意：</p>
+<blockquote>
+<p>基于 CPU 缓存一致性协议，JVM 实现了 volatile 的可见性，但由于总线嗅探机制，会不断的监听总线，如果大量使用 volatile 会引起总线风暴。所以，volatile 的使用要适合具体场景。</p>
+</blockquote>
+<h2 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h2><p><strong>什么是指令重排序</strong>?</p>
+<p>为了提高性能，编译器和处理器常常会对既定的代码执行顺序进行指令重排序。</p>
+<p>【源代码】 -&gt; 【编译器优化重排序】-&gt; 【指令集并行重排序】-&gt; 【内存系统重排序】-&gt; 【最终执行指令序列】</p>
+<p>一般重排序可以分为如下三种：</p>
+<ul>
+<li>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序;</li>
+<li>指令级并行的重排序。现代处理器采用了指令级并行技术来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序;</li>
+<li>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行的。</li>
+</ul>
+<h3 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h3><p>不管怎么重排序，单线程下的执行结果不能被改变。编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
+<p>java编译器会在生成指令系列时在适当的位置会插入<code>内存屏障</code>指令来禁止特定类型的处理器重排序。</p>
+<p>为了实现volatile的内存语义，JMM会限制特定类型的编译器和处理器重排序，JMM会针对编译器制定volatile重排序规则表：</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>内存屏障</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">StoreStore 屏障</td>
+<td align="left">禁止上面的普通写和下面的 volatile 写重排序。</td>
+</tr>
+<tr>
+<td align="center">StoreLoad 屏障</td>
+<td align="left">防止上面的 volatile 写与下面可能有的 volatile 读/写重排序。</td>
+</tr>
+<tr>
+<td align="center">LoadLoad 屏障</td>
+<td align="left">禁止下面所有的普通读操作和上面的 volatile 读重排序。</td>
+</tr>
+<tr>
+<td align="center">LoadStore 屏障</td>
+<td align="left">禁止下面所有的普通写操作和上面的 volatile 读重排序。</td>
+</tr>
+</tbody></table>
+<h3 id="happens-before规则"><a href="#happens-before规则" class="headerlink" title="happens-before规则"></a>happens-before规则</h3><p>如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。</p>
+<p><strong>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</strong></p>
+<h3 id="volatile在DCL的应用"><a href="#volatile在DCL的应用" class="headerlink" title="volatile在DCL的应用"></a>volatile在DCL的应用</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton singleton;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构造函数私有，禁止外部实例化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们分析一下为什么要在变量singleton之间加上volatile关键字。要理解这个问题，先要了解对象的构造过程，实例化一个对象其实可以分为三个步骤：</p>
+<ul>
+<li>分配内存空间。</li>
+<li>初始化对象。</li>
+<li>将内存空间的地址赋值给对应的引用。</li>
+</ul>
+<p>但是由于操作系统可以<code>对指令进行重排序</code>，所以上面的过程也可能会变成如下过程：</p>
+<ul>
+<li>分配内存空间。</li>
+<li>将内存空间的地址赋值给对应的引用。</li>
+<li>初始化对象</li>
+</ul>
+<p>如果是这个流程，多线程环境下就可能将一个未初始化的对象引用暴露出来，从而导致不可预料的结果。因此，为了防止这个过程的重排序，我们需要将变量设置为volatile类型的变量。</p>
+<h3 id="一次性安全发布"><a href="#一次性安全发布" class="headerlink" title="一次性安全发布"></a>一次性安全发布</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BackgroundFloobleLoader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> Flooble theFlooble;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initInBackground</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do lots of stuff</span></span><br><span class="line">        theFlooble = <span class="keyword">new</span> Flooble();  <span class="comment">// this is the only write to theFlooble</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeOtherClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doWork</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123; </span><br><span class="line">            <span class="comment">// do some stuff...</span></span><br><span class="line">            <span class="comment">// use the Flooble, but only if it is ready</span></span><br><span class="line">            <span class="keyword">if</span> (floobleLoader.theFlooble != <span class="keyword">null</span>) </span><br><span class="line">                doSomething(floobleLoader.theFlooble);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>theFlooble</code> 引用不是 volatile 类型，<code>doWork()</code> 中的代码在解除对 <code>theFlooble</code> 的引用时，将会得到一个不完全构造的 <code>Flooble</code>。</p>
+<p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象（有效不可变意味着对象的状态在发布之后永远不会被修改）。volatile 类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
+<h2 id="无法保证原子性"><a href="#无法保证原子性" class="headerlink" title="无法保证原子性"></a>无法保证原子性</h2><p>所谓的原子性是指在一次操作或者多次操作中，要么所有的操作全部都得到了执行并且不会受到任何因素的干扰而中断，要么所有的操作都不执行。</p>
+<p>在多线程环境下，volatile 关键字可以保证共享数据的可见性，但是并不能保证对数据操作的原子性。也就是说，多线程环境下，使用 volatile 修饰的变量是<strong>线程不安全的</strong>。</p>
+<p>要解决这个问题，我们可以使用锁机制，或者使用原子类（如 AtomicInteger）。</p>
+<p>这里特别说一下，对任意单个使用 volatile 修饰的变量的读 / 写是具有原子性，但类似于 <code>flag = !flag</code> 这种复合操作不具有原子性。简单地说就是，<strong>单纯的赋值操作是原子性的</strong>。</p>
+<h1 id="volatile-和-synchronized"><a href="#volatile-和-synchronized" class="headerlink" title="volatile 和 synchronized"></a>volatile 和 synchronized</h1><p>volatile只能修饰实例变量和类变量，而synchronized可以修饰方法，以及代码块。</p>
+<p>volatile保证数据的可见性，但是不保证原子性(多线程进行写操作，不保证线程安全);而synchronized是一种排他(互斥)的机制。</p>
+<p>volatile用于禁止指令重排序：可以解决单例双重检查对象初始化代码执行乱序问题。</p>
+<p>volatile可以看做是轻量版的synchronized，volatile不保证原子性，但是如果是对一个共享变量进行多个线程的赋值，而没有其他的操作，那么就可以用volatile来代替synchronized，因为赋值本身是有原子性的，而volatile又保证了可见性，所以就可以保证线程安全了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>1、volatile修饰符适用于以下场景：某个属性被多个线程共享，其中有一个线程修改了此属性，其他线程可以立即得到修改后的值，比如booleanflag;或者作为触发器，实现轻量级同步。</p>
+<p>2、volatile属性的读写操作都是无锁的，它不能替代synchronized，因为它没有提供<strong>原子性和互斥性</strong>。因为无锁，不需要花费时间在获取锁和释放锁_上，所以说它是低成本的。</p>
+<p>3、volatile只能作用于属性，我们用volatile修饰属性，这样compilers就不会对这个属性做指令重排序。</p>
+<p>4、volatile提供了可见性，任何一个线程对其的修改将立马对其他线程可见，volatile属性不会被线程缓存，始终从主 存中读取。</p>
+<p>5、volatile提供了happens-before保证，对volatile变量v的写入happens-before所有其他线程后续对v的读操作。</p>
+<p>6、volatile可以使得long和double的赋值是原子的。</p>
+<p>7、volatile可以在单例双重检查中实现可见性和禁止指令重排序，从而保证安全性。</p>
+<hr>
+<p><strong>参考资料</strong></p>
+<p><a href="https://mp.weixin.qq.com/s/Oa3tcfAFO9IgsbE22C5TEg">面试官想到，一个Volatile，敖丙都能吹半小时</a></p>
+<p><a href="https://juejin.cn/post/6844903520760496141">面试官最爱的volatile关键字</a></p>
+<p><a href="https://juejin.cn/post/6844903959107207175">一文吃透Volatile，征服面试官</a></p>
+<p><a href="https://www.cnblogs.com/lidl/archive/2012/06/25/2561431.html">java语言的线程安全volatile用法</a></p>
+]]></content>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Java注解</title>
     <url>/wiki/Java%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[<h1 id="Java基础之注解机制详解"><a href="#Java基础之注解机制详解" class="headerlink" title="Java基础之注解机制详解"></a>Java基础之注解机制详解</h1><blockquote>
@@ -1878,6 +1868,63 @@
       </categories>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java并发编程-多线程的发展和意义</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%92%8C%E6%84%8F%E4%B9%89/</url>
+    <content><![CDATA[<h1 id="线程基础概念"><a href="#线程基础概念" class="headerlink" title="线程基础概念"></a>线程基础概念</h1><h2 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h2><p>线程是CPU执行任务的基本单位，一个进程中包含一个或者多个线程，一个进程内的多个线程共享进程的资源，每一个线程有自己的独立内存，是线程不共享的。</p>
+<h2 id="并行与并发"><a href="#并行与并发" class="headerlink" title="并行与并发"></a>并行与并发</h2><ul>
+<li>并行<br> 同一时刻，横向有多少个线程可以运行</li>
+<li>并发<br> 系统和服务器同一时刻能够承受的并发线程</li>
+</ul>
+<h2 id="线程的特征"><a href="#线程的特征" class="headerlink" title="线程的特征"></a>线程的特征</h2><ul>
+<li>异步（不需要等待）<br> 比如说注册之后发送验证码，验证码的过程可以异步去做不需要客户去在注册接口等待这个时间；</li>
+<li>并行（CPU核数）   </li>
+</ul>
+<h2 id="Java中线程的使用"><a href="#Java中线程的使用" class="headerlink" title="Java中线程的使用"></a>Java中线程的使用</h2><ul>
+<li>继承Thread</li>
+<li>实现Runnalbe</li>
+<li>实现Callable/Future</li>
+</ul>
+<h2 id="线程原理"><a href="#线程原理" class="headerlink" title="线程原理"></a>线程原理</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadDemo</span> <span class="title">extend</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">      <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">      b = a + <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行start方法，其实是调用JVM相关的指令， thread.cpp</p>
+<blockquote>
+<p>java thread.start() -&gt; cpp thread.start() -&gt; os指令:create.thread    start.thread<br>操作系统层面会创建线程，线程创建之后，线程可以启动，（线程启动之后并不一定马上执行）这些线程统一有CPU调度算法来处理；决定那个线程分配给那个执行CPU；<br>CPU执行线程任务的时候，会调用run方法 -&gt; cpp run方法  -&gt; java  thread.run()</p>
+</blockquote>
+<img src='https://oscimg.oschina.net/oscnet/up-9147a0440e839bc9946fc87147e97b7c793.png' whith=600 height=380>
+
+<p>⚠️ CompletableFuture 异步回调通知，基于Future的优化 </p>
+<h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>线程创建，当线程中的指令执行完成之后，run（）结束 线程销毁<br>其他线程状态</p>
+<ul>
+<li>等待状态 （sleep join wait）</li>
+<li>锁阻塞状态 （blocked 竞争锁失败 park）</li>
+</ul>
+<img src="https://oscimg.oschina.net/oscnet/up-dc87c94066283689df31680050c67edd7b1.png" width=500 height=450>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadStatusDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, <span class="string">&quot;time waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (ThreadStatusDemo.class)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        ThreadStatusDemo.class.wait();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;waitting&quot;</span>).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 1&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BlockDemo(),<span class="string">&quot;block demo 2&quot;</span>).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockDemo</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (BlockDemo.class)&#123;</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        TimeUnit.SECONDS.sleep(<span class="number">100</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>查看线程状态</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">jps -l</span><br><span class="line">jstack pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程如何停止"><a href="#线程如何停止" class="headerlink" title="线程如何停止"></a>线程如何停止</h2><p>interrupt() 停止线程<br>主动停止方式 -&gt; run方法执行结束<br>被动停止方式</p>
+<p>一般中断线程是在无法控制线程的情况下，比如线程wait ， 线程sleep ， 线程while(true)<br><code>Thread.currnetThread().isInterrupted()</code></p>
+<blockquote>
+<p>stop方法停止线程 禁止使用 相当于kill线程 不友好</p>
+</blockquote>
+<p>interrupt 功能</p>
+<ul>
+<li>唤醒阻塞状态的线程</li>
+<li>修改中断标志，false -&gt; true</li>
+</ul>
+<h2 id="问题排查"><a href="#问题排查" class="headerlink" title="问题排查"></a>问题排查</h2>]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -1955,49 +2002,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Mysql-事务特性与实现原理</title>
-    <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
-<p>原子性(Atomicity)</p>
-</blockquote>
-<p>事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。</p>
-<blockquote>
-<p>一致性(Consistency)</p>
-</blockquote>
-<p>事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主码,参照完整性,check约束等) 2.系统的状态反应数据库本应描述的现实世界的真实状态,比如转账前后两个账户的金额总和应该保持不变。</p>
-<blockquote>
-<p>隔离性(Isolation)</p>
-</blockquote>
-<p>并发执行的事务不会相互影响,其对数据库的影响和它们串行执行时一样。比如多个用户同时往一个账户转账,最后账户的结果应该和他们按先后次序转账的结果一样。</p>
-<blockquote>
-<p>持久性(Durability)</p>
-</blockquote>
-<p>事务一旦提交,其对数据库的更新就是持久的。任何事务或系统故障都不会导致数据丢失。</p>
-<p>在事务的ACID特性中,C即一致性是事务的根本追求,而对数据一致性的破坏主要来自两个方面<br>1.事务的并发执行<br>2.事务故障或系统故障</p>
-<h2 id="事务实现原理"><a href="#事务实现原理" class="headerlink" title="事务实现原理"></a>事务实现原理</h2><img src="https://oscimg.oschina.net/oscnet/up-7b54f7847cee22930ec53a4058179a2b531.png" width=460 height=300>
-
-<ul>
-<li>并发控制技术保证了事务的隔离性,使数据库的一致性状态不会因为并发执行的操作被破坏。</li>
-<li>日志恢复技术保证了事务的原子性,使一致性状态不会因事务或系统故障被破坏。同时使已提交的对数据库的修改不会因系统崩溃而丢失,保证了事务的持久性。</li>
-</ul>
-<h3 id="回滚日志（undo）"><a href="#回滚日志（undo）" class="headerlink" title="回滚日志（undo）"></a>回滚日志（undo）</h3><p>undo log属于 「 逻辑日志 」，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
-<p>undo log用于存放数据被修改前的值，如果修改出现异常，可以使用undo日志来实现回滚操作，保证事务的一致性。另外InnoDB MVCC事务特性也是基于undo日志实现的。</p>
-<p>因此，undo log有两个作用：提供回滚和多个行版本控制(MVCC)。</p>
-<h3 id="重做日志（redo）"><a href="#重做日志（redo）" class="headerlink" title="重做日志（redo）"></a>重做日志（redo）</h3><p>redo log重做日志记录的是新数据的备份，属于物理日志。在事务提交前，只要将redo log持久化即可，不需要将数据持久化。当系统崩溃时，虽然数据没有持久化，但是redo log已经持久化。系统可以根据redo log的内容，将所有数据恢复到最新的状态。</p>
-<p>redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。</p>
-<p>MySQL中redo log刷新规则采用一种称为Checkpoint的机制（利用LSN实现），为了确保安全性，又引入double write机制。</p>
-<h2 id="事务基本操作"><a href="#事务基本操作" class="headerlink" title="事务基本操作"></a>事务基本操作</h2><p>开启事务：start transaction<br>回滚事务：rollback<br>提交事务：commit</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html">1、详细分析MySQL事务日志(redo log和undo log)</a><br><a href="https://www.cnblogs.com/takumicx/p/9998844.html">2、数据库事务的概念及其实现原理</a><br><a href="https://zhuanlan.zhihu.com/p/281927963">3、数据库事务实现原理</a></p>
-]]></content>
-      <categories>
-        <category>DataBase</category>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mysql-事务隔离级别</title>
     <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
     <content><![CDATA[<h1 id="数据库隔离级别"><a href="#数据库隔离级别" class="headerlink" title="数据库隔离级别"></a>数据库隔离级别</h1><p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。</p>
@@ -2047,6 +2051,49 @@
         <category>DataBase</category>
         <category>MySQL</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Mysql-事务特性与实现原理</title>
+    <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
+<p>原子性(Atomicity)</p>
+</blockquote>
+<p>事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。</p>
+<blockquote>
+<p>一致性(Consistency)</p>
+</blockquote>
+<p>事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主码,参照完整性,check约束等) 2.系统的状态反应数据库本应描述的现实世界的真实状态,比如转账前后两个账户的金额总和应该保持不变。</p>
+<blockquote>
+<p>隔离性(Isolation)</p>
+</blockquote>
+<p>并发执行的事务不会相互影响,其对数据库的影响和它们串行执行时一样。比如多个用户同时往一个账户转账,最后账户的结果应该和他们按先后次序转账的结果一样。</p>
+<blockquote>
+<p>持久性(Durability)</p>
+</blockquote>
+<p>事务一旦提交,其对数据库的更新就是持久的。任何事务或系统故障都不会导致数据丢失。</p>
+<p>在事务的ACID特性中,C即一致性是事务的根本追求,而对数据一致性的破坏主要来自两个方面<br>1.事务的并发执行<br>2.事务故障或系统故障</p>
+<h2 id="事务实现原理"><a href="#事务实现原理" class="headerlink" title="事务实现原理"></a>事务实现原理</h2><img src="https://oscimg.oschina.net/oscnet/up-7b54f7847cee22930ec53a4058179a2b531.png" width=460 height=300>
+
+<ul>
+<li>并发控制技术保证了事务的隔离性,使数据库的一致性状态不会因为并发执行的操作被破坏。</li>
+<li>日志恢复技术保证了事务的原子性,使一致性状态不会因事务或系统故障被破坏。同时使已提交的对数据库的修改不会因系统崩溃而丢失,保证了事务的持久性。</li>
+</ul>
+<h3 id="回滚日志（undo）"><a href="#回滚日志（undo）" class="headerlink" title="回滚日志（undo）"></a>回滚日志（undo）</h3><p>undo log属于 「 逻辑日志 」，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
+<p>undo log用于存放数据被修改前的值，如果修改出现异常，可以使用undo日志来实现回滚操作，保证事务的一致性。另外InnoDB MVCC事务特性也是基于undo日志实现的。</p>
+<p>因此，undo log有两个作用：提供回滚和多个行版本控制(MVCC)。</p>
+<h3 id="重做日志（redo）"><a href="#重做日志（redo）" class="headerlink" title="重做日志（redo）"></a>重做日志（redo）</h3><p>redo log重做日志记录的是新数据的备份，属于物理日志。在事务提交前，只要将redo log持久化即可，不需要将数据持久化。当系统崩溃时，虽然数据没有持久化，但是redo log已经持久化。系统可以根据redo log的内容，将所有数据恢复到最新的状态。</p>
+<p>redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。</p>
+<p>MySQL中redo log刷新规则采用一种称为Checkpoint的机制（利用LSN实现），为了确保安全性，又引入double write机制。</p>
+<h2 id="事务基本操作"><a href="#事务基本操作" class="headerlink" title="事务基本操作"></a>事务基本操作</h2><p>开启事务：start transaction<br>回滚事务：rollback<br>提交事务：commit</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html">1、详细分析MySQL事务日志(redo log和undo log)</a><br><a href="https://www.cnblogs.com/takumicx/p/9998844.html">2、数据库事务的概念及其实现原理</a><br><a href="https://zhuanlan.zhihu.com/p/281927963">3、数据库事务实现原理</a></p>
+]]></content>
+      <categories>
+        <category>DataBase</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
   </entry>
   <entry>
     <title>Parameter index out of range (1 &gt; number of parameters, which is 0).</title>
@@ -2138,26 +2185,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis-overview</title>
-    <url>/wiki/Redis-overview/</url>
-    <content><![CDATA[<h1 id="Redis-（Remote-Dictionary-Server）"><a href="#Redis-（Remote-Dictionary-Server）" class="headerlink" title="Redis （Remote Dictionary Server）"></a>Redis （Remote Dictionary Server）</h1><h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><p>Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中<br>进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。<br>因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10 万次读写操作，是已知性能最快的 Key-Value DB。<br>Redis 的出色之处不仅仅是性能，Redis 最大的魅力是支持保存多种数据结构，此外单个 value 的最大限<br>制是 1GB，不像 memcached 只能保存 1MB 的数据，因此 Redis 可以用来实现很多有用的功能。<br>比方说用他的 List 来做 FIFO 双向链表，实现一个轻量级的高性 能消息队列服务，用他的 Set 可以做高<br>性能的 tag 系统等等。<br>另外 Redis 也可以对存入的 Key-Value 设置 expire 时间，因此也可以被当作一 个功能加强版的 memcached 来用。<br>Redis 的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因<br>此 Redis 适合的场景主要局限在较小数据量的高性能操作和运算上。</p>
-<h2 id="Redis-如何设置密码及验证密码？"><a href="#Redis-如何设置密码及验证密码？" class="headerlink" title="Redis 如何设置密码及验证密码？"></a>Redis 如何设置密码及验证密码？</h2><p>设置密码：config set requirepass 123456<br>授权密码：auth 123456  </p>
-<h2 id="Redis-有哪几种数据淘汰策略？"><a href="#Redis-有哪几种数据淘汰策略？" class="headerlink" title="Redis 有哪几种数据淘汰策略？"></a>Redis 有哪几种数据淘汰策略？</h2><p>noeviction:返回错误当内存限制达到并且客户端尝试执行会让更多内存被使用的命令（大部分的写入指令，但 DEL 和几个例外）<br>allkeys-lru: 尝试回收最少使用的键（LRU），使得新添加的数据有空间存放。<br>volatile-lru: 尝试回收最少使用的键（LRU），但仅限于在过期集合的键,使得新添加的数据有空间存放。<br>allkeys-random: 回收随机的键使得新添加的数据有空间存放。<br>volatile-random: 回收随机的键使得新添加的数据有空间存放，但仅限于在过期集合的键。<br>volatile-ttl: 回收在过期集合的键，并且优先回收存活时间（TTL）较短的键,使得新添加的数据有空间存放。  </p>
-<h2 id="Redis-有哪些适合的场景？"><a href="#Redis-有哪些适合的场景？" class="headerlink" title="Redis 有哪些适合的场景？"></a>Redis 有哪些适合的场景？</h2><h3 id="（1）会话缓存（Session-Cache）"><a href="#（1）会话缓存（Session-Cache）" class="headerlink" title="（1）会话缓存（Session Cache）"></a>（1）会话缓存（Session Cache）</h3><p>最常用的一种使用 Redis 的情景是会话缓存（session cache）。用 Redis 缓存会话比其他存储（如 Mem<br>cached）的优势在于：Redis 提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车<br>信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？ 幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用 Redis 来缓存会话的文档。甚至广为<br>人知的商业平台 Magento 也提供 Redis 的插件。</p>
-<h3 id="（2）全页缓存（FPC）"><a href="#（2）全页缓存（FPC）" class="headerlink" title="（2）全页缓存（FPC）"></a>（2）全页缓存（FPC）</h3><p>除基本的会话 token 之外，Redis 还提供很简便的 FPC 平台。回到一致性问题，即使重启了 Redis 实<br>例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似 PHP 本地 FPC。<br>再次以 Magento 为例，Magento 提供一个插件来使用 Redis 作为全页缓存后端。<br>此外，对 WordPress 的用户来说，Pantheon 有一个非常好的插件 wp-redis，这个插件能帮助你以最快<br>速度加载你曾浏览过的页面。  </p>
-<h3 id="（3）队列"><a href="#（3）队列" class="headerlink" title="（3）队列"></a>（3）队列</h3><p>Redis 在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队<br>列平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言（如 Python）对 list 的 push/pop<br>操作。<br>如果你快速的在 Google 中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是<br>利用 Redis 创建非常好的后端工具，以满足各种队列需求。例如，Celery 有一个后台就是使用 Redis 作<br>为 broker，你可以从这里去查看。</p>
-<h3 id="（4）排行榜-计数器"><a href="#（4）排行榜-计数器" class="headerlink" title="（4）排行榜/计数器"></a>（4）排行榜/计数器</h3><p>Redis 在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也<br>使得我们在执行这些操作的时候变的非常简单，Redis 只是正好提供了这两种数据结构。<br>所以，我们要从排序集合中获取到排名最靠前的 10 个用户–我们称之为“user_scores”，我们只需要像下<br>面一样执行即可：<br>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执<br>行：<br>ZRANGE user_scores 0 10 WITHSCORESAgora Games 就是一个很好的例子，用 Ruby 实现的，它的排行榜就是使用 Redis 来存储数据的，你可<br>以在这里看到。<br>###（5）发布/订阅<br>最后（但肯定不是最不重要的）是 Redis 的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见<br>人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用 Redis 的发布/订阅功能来建<br>立聊天系统！</p>
-<h3 id="Redis-常见的性能问题和解决方案"><a href="#Redis-常见的性能问题和解决方案" class="headerlink" title="Redis 常见的性能问题和解决方案"></a>Redis 常见的性能问题和解决方案</h3><p>1、master 最好不要做持久化工作，如 RDB 内存快照和 AOF 日志文件<br>2、如果数据比较重要，某个 slave 开启 AOF 备份，策略设置成每秒同步一次<br>3、为了主从复制的速度和连接的稳定性，master 和 Slave 最好在一个局域网内<br>4、尽量避免在压力大得主库上增加从库<br>5、主从复制不要采用网状结构，尽量是线性结构，Master&lt;–Slave1&lt;—-Slave2 ….  </p>
-]]></content>
-      <categories>
-        <category>DataBase</category>
-        <category>Redis</category>
-      </categories>
-      <tags>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis-哈希表实现</title>
     <url>/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h1 id="Redis之Hash表底层实现"><a href="#Redis之Hash表底层实现" class="headerlink" title="Redis之Hash表底层实现"></a>Redis之Hash表底层实现</h1><p><img src="https://oscimg.oschina.net/oscnet/up-c8da12582edb1a4320e17096efc9b9103a2.png">  </p>
@@ -2194,6 +2221,26 @@
 <li>在rehash的过程中，如果有删改查，则优先选择第一张表，如果第一张表没有查到数据，则查找第二章哈希表；</li>
 </ul>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a href="https://www.cnblogs.com/ysocean/p/9080942.html">Redis详解（四）—— redis的底层数据结构</a><br>2、<a href="https://www.cnblogs.com/reecelin/p/13362104.html">Redis底层数据结构之hash</a><br>3、<a href="https://blog.csdn.net/mccand1234/article/details/93411326">Redis Hash数据结构的底层实现</a><br>4、<a href="https://baijiahao.baidu.com/s?id=1651767862408344160&wfr=spider&for=pc">图解redis五种数据结构底层实现(动图哦)</a><br>5、<a href="https://www.jianshu.com/p/c63d8448a7b0">redis hash底层数据结构</a><br>6、<a href="https://www.cnblogs.com/reecelin/p/13362104.html">Redis底层数据结构之hash</a>  </p>
+]]></content>
+      <categories>
+        <category>DataBase</category>
+        <category>Redis</category>
+      </categories>
+      <tags>
+        <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis-overview</title>
+    <url>/wiki/Redis-overview/</url>
+    <content><![CDATA[<h1 id="Redis-（Remote-Dictionary-Server）"><a href="#Redis-（Remote-Dictionary-Server）" class="headerlink" title="Redis （Remote Dictionary Server）"></a>Redis （Remote Dictionary Server）</h1><h2 id="Redis简介"><a href="#Redis简介" class="headerlink" title="Redis简介"></a>Redis简介</h2><p>Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中<br>进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。<br>因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10 万次读写操作，是已知性能最快的 Key-Value DB。<br>Redis 的出色之处不仅仅是性能，Redis 最大的魅力是支持保存多种数据结构，此外单个 value 的最大限<br>制是 1GB，不像 memcached 只能保存 1MB 的数据，因此 Redis 可以用来实现很多有用的功能。<br>比方说用他的 List 来做 FIFO 双向链表，实现一个轻量级的高性 能消息队列服务，用他的 Set 可以做高<br>性能的 tag 系统等等。<br>另外 Redis 也可以对存入的 Key-Value 设置 expire 时间，因此也可以被当作一 个功能加强版的 memcached 来用。<br>Redis 的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因<br>此 Redis 适合的场景主要局限在较小数据量的高性能操作和运算上。</p>
+<h2 id="Redis-如何设置密码及验证密码？"><a href="#Redis-如何设置密码及验证密码？" class="headerlink" title="Redis 如何设置密码及验证密码？"></a>Redis 如何设置密码及验证密码？</h2><p>设置密码：config set requirepass 123456<br>授权密码：auth 123456  </p>
+<h2 id="Redis-有哪几种数据淘汰策略？"><a href="#Redis-有哪几种数据淘汰策略？" class="headerlink" title="Redis 有哪几种数据淘汰策略？"></a>Redis 有哪几种数据淘汰策略？</h2><p>noeviction:返回错误当内存限制达到并且客户端尝试执行会让更多内存被使用的命令（大部分的写入指令，但 DEL 和几个例外）<br>allkeys-lru: 尝试回收最少使用的键（LRU），使得新添加的数据有空间存放。<br>volatile-lru: 尝试回收最少使用的键（LRU），但仅限于在过期集合的键,使得新添加的数据有空间存放。<br>allkeys-random: 回收随机的键使得新添加的数据有空间存放。<br>volatile-random: 回收随机的键使得新添加的数据有空间存放，但仅限于在过期集合的键。<br>volatile-ttl: 回收在过期集合的键，并且优先回收存活时间（TTL）较短的键,使得新添加的数据有空间存放。  </p>
+<h2 id="Redis-有哪些适合的场景？"><a href="#Redis-有哪些适合的场景？" class="headerlink" title="Redis 有哪些适合的场景？"></a>Redis 有哪些适合的场景？</h2><h3 id="（1）会话缓存（Session-Cache）"><a href="#（1）会话缓存（Session-Cache）" class="headerlink" title="（1）会话缓存（Session Cache）"></a>（1）会话缓存（Session Cache）</h3><p>最常用的一种使用 Redis 的情景是会话缓存（session cache）。用 Redis 缓存会话比其他存储（如 Mem<br>cached）的优势在于：Redis 提供持久化。当维护一个不是严格要求一致性的缓存时，如果用户的购物车<br>信息全部丢失，大部分人都会不高兴的，现在，他们还会这样吗？ 幸运的是，随着 Redis 这些年的改进，很容易找到怎么恰当的使用 Redis 来缓存会话的文档。甚至广为<br>人知的商业平台 Magento 也提供 Redis 的插件。</p>
+<h3 id="（2）全页缓存（FPC）"><a href="#（2）全页缓存（FPC）" class="headerlink" title="（2）全页缓存（FPC）"></a>（2）全页缓存（FPC）</h3><p>除基本的会话 token 之外，Redis 还提供很简便的 FPC 平台。回到一致性问题，即使重启了 Redis 实<br>例，因为有磁盘的持久化，用户也不会看到页面加载速度的下降，这是一个极大改进，类似 PHP 本地 FPC。<br>再次以 Magento 为例，Magento 提供一个插件来使用 Redis 作为全页缓存后端。<br>此外，对 WordPress 的用户来说，Pantheon 有一个非常好的插件 wp-redis，这个插件能帮助你以最快<br>速度加载你曾浏览过的页面。  </p>
+<h3 id="（3）队列"><a href="#（3）队列" class="headerlink" title="（3）队列"></a>（3）队列</h3><p>Redis 在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队<br>列平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言（如 Python）对 list 的 push/pop<br>操作。<br>如果你快速的在 Google 中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是<br>利用 Redis 创建非常好的后端工具，以满足各种队列需求。例如，Celery 有一个后台就是使用 Redis 作<br>为 broker，你可以从这里去查看。</p>
+<h3 id="（4）排行榜-计数器"><a href="#（4）排行榜-计数器" class="headerlink" title="（4）排行榜/计数器"></a>（4）排行榜/计数器</h3><p>Redis 在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也<br>使得我们在执行这些操作的时候变的非常简单，Redis 只是正好提供了这两种数据结构。<br>所以，我们要从排序集合中获取到排名最靠前的 10 个用户–我们称之为“user_scores”，我们只需要像下<br>面一样执行即可：<br>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执<br>行：<br>ZRANGE user_scores 0 10 WITHSCORESAgora Games 就是一个很好的例子，用 Ruby 实现的，它的排行榜就是使用 Redis 来存储数据的，你可<br>以在这里看到。<br>###（5）发布/订阅<br>最后（但肯定不是最不重要的）是 Redis 的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见<br>人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用 Redis 的发布/订阅功能来建<br>立聊天系统！</p>
+<h3 id="Redis-常见的性能问题和解决方案"><a href="#Redis-常见的性能问题和解决方案" class="headerlink" title="Redis 常见的性能问题和解决方案"></a>Redis 常见的性能问题和解决方案</h3><p>1、master 最好不要做持久化工作，如 RDB 内存快照和 AOF 日志文件<br>2、如果数据比较重要，某个 slave 开启 AOF 备份，策略设置成每秒同步一次<br>3、为了主从复制的速度和连接的稳定性，master 和 Slave 最好在一个局域网内<br>4、尽量避免在压力大得主库上增加从库<br>5、主从复制不要采用网状结构，尽量是线性结构，Master&lt;–Slave1&lt;—-Slave2 ….  </p>
 ]]></content>
       <categories>
         <category>DataBase</category>
@@ -4426,15 +4473,13 @@
   <entry>
     <title>Welcome to GeekIBLi</title>
     <url>/wiki/index/</url>
-    <content><![CDATA[<h2 id="道阻-且长"><a href="#道阻-且长" class="headerlink" title="道阻 且长"></a>道阻 且长</h2><h2 id="不错的学习网站推荐"><a href="#不错的学习网站推荐" class="headerlink" title="不错的学习网站推荐"></a>不错的学习网站推荐</h2><blockquote>
-<p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://www.slidestalk.com/">示说</a> 「 提供了很多优质的PPT 还有很多大厂的沙龙视屏以及材料」<br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a><br><a href="https://www.pdai.tech/">Java 全栈知识体系</a></p>
+    <content><![CDATA[<h2 id="道阻-且长"><a href="#道阻-且长" class="headerlink" title="道阻 且长"></a>道阻 且长</h2><h2 id="不错的学习网站推荐"><a href="#不错的学习网站推荐" class="headerlink" title="不错的学习网站推荐"></a>不错的学习网站推荐</h2><p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a><br><a href="https://www.pdai.tech/">Java 全栈知识体系</a></p>
+<h2 id="工具网站"><a href="#工具网站" class="headerlink" title="工具网站"></a>工具网站</h2><p><a href="https://www.processon.com/u/5b3adb64e4b0a8a7ffc22b90">ProcessOn</a><br><a href="https://www.slidestalk.com/">示说</a></p>
+<blockquote>
+<p>「 提供了很多优质的PPT 还有很多大厂的沙龙视屏以及材料」</p>
 </blockquote>
-<h2 id="技术团队推荐"><a href="#技术团队推荐" class="headerlink" title="技术团队推荐"></a>技术团队推荐</h2><blockquote>
-<p><a href="https://xiaomi-info.github.io/">小米信息部技术团队</a><br><a href="https://tech.youzan.com/">有赞技术团队</a><br><a href="https://tech.meituan.com/">美团技术团队</a></p>
-</blockquote>
-<h2 id="面试题合集"><a href="#面试题合集" class="headerlink" title="面试题合集"></a>面试题合集</h2><blockquote>
-<p><a href="https://juejin.cn/post/6844904096957218823">2020年大厂Java面试前复习的正确姿势（800+面试题附答案解析）</a><br><a href="https://juejin.cn/post/6844904125939843079">Java集合面试题（总结最全面的面试题）</a></p>
-</blockquote>
+<h2 id="技术团队推荐"><a href="#技术团队推荐" class="headerlink" title="技术团队推荐"></a>技术团队推荐</h2><p><a href="https://xiaomi-info.github.io/">小米信息部技术团队</a><br><a href="https://tech.youzan.com/">有赞技术团队</a><br><a href="https://tech.meituan.com/">美团技术团队</a></p>
+<h2 id="面试题合集"><a href="#面试题合集" class="headerlink" title="面试题合集"></a>面试题合集</h2><p><a href="https://juejin.cn/post/6844904096957218823">2020年大厂Java面试前复习的正确姿势（800+面试题附答案解析）</a><br><a href="https://juejin.cn/post/6844904125939843079">Java集合面试题（总结最全面的面试题）</a></p>
 <p><b> 两年学说话 一生学闭嘴 </b></p>
 ]]></content>
       <categories>

@@ -174,54 +174,98 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="类加载机制具体流程"><a href="#类加载机制具体流程" class="headerlink" title="类加载机制具体流程"></a>类加载机制具体流程</h2><p>Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。</p>
-<p>1）Loading（载入）</p>
-<p>JVM 在该阶段的主要目的是将字节码从不同的数据源（可能是 class 文件、也可能是 jar 包，甚至网络）转化为二进制字节流加载到内存中，并生成一个代表该类的 java.lang.Class 对象。</p>
-<p>2）Verification（验证）</p>
-<p>JVM 会在该阶段对二进制字节流进行校验，只有符合 JVM 字节码规范的才能被 JVM 正确执行。该阶段是保证 JVM 安全的重要屏障，下面是一些主要的检查。</p>
-<p>确保二进制字节流格式符合预期（比如说是否以 cafe bene 开头）。<br>是否所有方法都遵守访问控制关键字的限定。<br>方法调用的参数个数和类型是否正确。<br>确保变量在使用之前被正确初始化了。<br>检查变量是否被赋予恰当类型的值。<br>3）Preparation（准备）</p>
-<p>JVM 会在该阶段对类变量（也称为静态变量，static 关键字修饰的）分配内存并初始化（对应数据类型的默认初始值，如 0、0L、null、false 等）。</p>
+    <section class="markdown-content"><h1 id="类加载机制"><a href="#类加载机制" class="headerlink" title="类加载机制"></a>类加载机制</h1><h2 id="1-类加载机制具体流程"><a href="#1-类加载机制具体流程" class="headerlink" title="1. 类加载机制具体流程"></a>1. 类加载机制具体流程</h2><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730171153387.png" alt="image-20210730171153387" style="zoom:67%;" />
+
+<p>Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。</p>
+<h3 id="1-1-Loading（载入）"><a href="#1-1-Loading（载入）" class="headerlink" title="1.1 Loading（载入）"></a>1.1 Loading（载入）</h3><blockquote>
+<p> JVM 在该阶段的主要目的是将字节码从不同的数据源（可能是 class 文件、也可能是 jar 包，甚至网络）转化为二进制字节流加载到内存中，并生成一个代表该类的 java.lang.Class 对象。</p>
+</blockquote>
+<ol>
+<li>通过一个类的全限定名来获取定义次类的二进制流(ZIP 包、网络、运算生成、JSP 生成、数据库读取)。</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。</li>
+<li>在内存中生成一个代表这个类的 java.lang.Class 对象，作为方法去这个类的各种数据的访问入口。</li>
+</ol>
+<p><strong>数组类的特殊性</strong>：<code>数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的</code>。但数组类与类加载器仍然有很密切的关系，因为数组类的元素类型最终是要靠类加载器去创建的，数组创建过程如下：</p>
+<ol>
+<li>如果数组的组件类型是引用类型，那就递归采用类加载加载。</li>
+<li>如果数组的组件类型不是引用类型，Java 虚拟机会把数组标记为引导类加载器关联。</li>
+<li>数组类的可见性与他的组件类型的可见性一致，如果组件类型不是引用类型，那数组类的可见性将默认为 public。</li>
+</ol>
+<p>内存中实例的 java.lang.Class 对象存在方法区中。作为程序访问方法区中这些类型数据的外部接口。<br>加载阶段与连接阶段的部分内容是交叉进行的，但是开始时间保持先后顺序。</p>
+<h3 id="1-2-Verification（验证）"><a href="#1-2-Verification（验证）" class="headerlink" title="1.2 Verification（验证）"></a>1.2 Verification（验证）</h3><p>JVM 会在该阶段对二进制字节流进行校验，只有符合 JVM 字节码规范的才能被 JVM 正确执行。该阶段是保证 JVM 安全的重要屏障，下面是一些主要的检查。</p>
+<h5 id="1-2-1-文件格式验证"><a href="#1-2-1-文件格式验证" class="headerlink" title="1.2.1 文件格式验证"></a>1.2.1 文件格式验证</h5><ol>
+<li>是否以魔数 0xCAFEBABE 开头</li>
+<li>主、次版本号是否在当前虚拟机处理范围之内</li>
+<li>常量池的常量是否有不被支持常量的类型（检查常量 tag 标志）</li>
+<li>指向常量的各种索引值中是否有指向不存在的常量或不符合类型的常量</li>
+<li>CONSTANT_Utf8_info 型的常量中是否有不符合 UTF8 编码的数据</li>
+<li>Class 文件中各个部分集文件本身是否有被删除的附加的其他信息</li>
+<li>……</li>
+</ol>
+<p>只有通过这个阶段的验证后，字节流才会进入内存的方法区进行存储，所以后面 3 个验证阶段全部是基于方法区的存储结构进行的，不再直接操作字节流。</p>
+<h5 id="1-2-2-元数据验证"><a href="#1-2-2-元数据验证" class="headerlink" title="1.2.2 元数据验证"></a>1.2.2 元数据验证</h5><ol>
+<li>这个类是否有父类（除 java.lang.Object 之外）</li>
+<li>这个类的父类是否继承了不允许被继承的类（final 修饰的类）</li>
+<li>如果这个类不是抽象类，是否实现了其父类或接口之中要求实现的所有方法</li>
+<li>类中的字段、方法是否与父类产生矛盾（覆盖父类 final 字段、出现不符合规范的重载）</li>
+</ol>
+<p>这一阶段主要是对类的元数据信息进行语义校验，保证不存在不符合 Java 语言规范的元数据信息。</p>
+<h5 id="1-2-3-字节码验证"><a href="#1-2-3-字节码验证" class="headerlink" title="1.2.3 字节码验证"></a>1.2.3 字节码验证</h5><ol>
+<li>保证任意时刻操作数栈的数据类型与指令代码序列都鞥配合工作（不会出现按照 long 类型读一个 int 型数据）</li>
+<li>保证跳转指令不会跳转到方法体以外的字节码指令上</li>
+<li>保证方法体中的类型转换是有效的（子类对象赋值给父类数据类型是安全的，反过来不合法的）</li>
+<li>……</li>
+</ol>
+<p>这是整个验证过程中最复杂的一个阶段，主要目的是通过数据流和控制流分析，确定程序语义是合法的、符合逻辑的。这个阶段对类的方法体进行校验分析，保证校验类的方法在运行时不会做出危害虚拟机安全的事件。</p>
+<h5 id="1-2-4-符号引用验证"><a href="#1-2-4-符号引用验证" class="headerlink" title="1.2.4 符号引用验证"></a>1.2.4 符号引用验证</h5><ol>
+<li>符号引用中通过字符创描述的全限定名是否能找到对应的类</li>
+<li>在指定类中是否存在符方法的字段描述符以及简单名称所描述的方法和字段</li>
+<li>符号引用中的类、字段、方法的访问性（private、protected、public、default）是否可被当前类访问</li>
+<li>……</li>
+</ol>
+<p>最后一个阶段的校验发生在迅疾将符号引用转化为直接引用的时候，这个转化动作将在连接的第三阶段——解析阶段中发生。符号引用验证可以看做是对类自身以外（常量池中的各种符号引用）的信息进行匹配性校验，还有以上提及的内容。<br>符号引用的目的是确保解析动作能正常执行，如果无法通过符号引用验证将抛出一个 java.lang.IncompatibleClass.ChangeError 异常的子类。如 java.lang.IllegalAccessError、java.lang.NoSuchFieldError、java.lang.NoSuchMethodError 等。</p>
+<h3 id="1-3-Preparation（准备）"><a href="#1-3-Preparation（准备）" class="headerlink" title="1.3 Preparation（准备）"></a>1.3 Preparation（准备）</h3><h5 id="1-3-1-设置默认值"><a href="#1-3-1-设置默认值" class="headerlink" title="1.3.1 设置默认值"></a>1.3.1 设置默认值</h5><p>JVM 会在该阶段对类变量（也称为静态变量，static 关键字修饰的）分配内存并初始化（对应数据类型的默认初始值，如 0、0L、null、false 等）。</p>
 <p>也就是说，假如有这样一段代码：</p>
-<p>public String chenmo = “沉默”;<br>public static String wanger = “王二”;<br>public static final String cmower = “沉默王二”;<br>chenmo 不会被分配内存，而 wanger 会；但 wanger 的初始值不是“王二”而是 null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> String chenmo = <span class="string">&quot;沉默&quot;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String wanger = <span class="string">&quot;王二&quot;</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String cmower = <span class="string">&quot;沉默王二&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>chenmo 不会被分配内存，而 wanger 会；但 wanger 的初始值不是“王二”而是 null。</p>
 <p>需要注意的是，static final 修饰的变量被称作为常量，和类变量不同。常量一旦赋值就不会改变了，所以 cmower 在准备阶段的值为“沉默王二”而不是 null。</p>
-<p>4）Resolution（解析）</p>
-<p>该阶段将常量池中的符号引用转化为直接引用。</p>
-<p>what？符号引用，直接引用？</p>
-<p>符号引用以一组符号（任何形式的字面量，只要在使用时能够无歧义的定位到目标即可）来描述所引用的目标。</p>
+<h5 id="1-3-2-各种类型默认值"><a href="#1-3-2-各种类型默认值" class="headerlink" title="1.3.2 各种类型默认值"></a>1.3.2 各种类型默认值</h5><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730170747559.png" alt="image-20210730170747559" style="zoom:33%;" />
+
+<h3 id="1-4-Resolution（解析）"><a href="#1-4-Resolution（解析）" class="headerlink" title="1.4 Resolution（解析）"></a>1.4 Resolution（解析）</h3><p>该阶段将常量池中的符号引用转化为直接引用。</p>
+<p><code>**符号引用**</code> : 以一组符号（任何形式的字面量，只要在使用时能够无歧义的定位到目标即可）来描述所引用的目标。</p>
+<p><code>**直接引用**</code> : 直接引用可以使直接指向目标的指针、相对偏移量或是一个能间接定位到目标的句柄。直接引用和迅疾的内存布局实现有关</p>
 <p>在编译时，Java 类并不知道所引用的类的实际地址，因此只能使用符号引用来代替。比如 com.Wanger 类引用了 com.Chenmo 类，编译时 Wanger 类并不知道 Chenmo 类的实际内存地址，因此只能使用符号 com.Chenmo。</p>
 <p>直接引用通过对符号引用进行解析，找到引用的实际内存地址。</p>
-<p>5）Initialization（初始化）</p>
-<p>该阶段是类加载过程的最后一步。在准备阶段，类变量已经被赋过默认初始值，而在初始化阶段，类变量将被赋值为代码期望赋的值。换句话说，初始化阶段是执行类构造器方法的过程。</p>
+<h3 id="1-5-Initialization（初始化）"><a href="#1-5-Initialization（初始化）" class="headerlink" title="1.5 Initialization（初始化）"></a>1.5 Initialization（初始化）</h3><p>该阶段是类加载过程的最后一步。在准备阶段，类变量已经被赋过默认初始值，而在初始化阶段，类变量将被赋值为代码期望赋的值。换句话说，初始化阶段是执行类构造器方法的过程。</p>
 <p>oh，no，上面这段话说得很抽象，不好理解，对不对，我来举个例子。</p>
-<p>String cmower = new String(“沉默王二”);<br>上面这段代码使用了 new 关键字来实例化一个字符串对象，那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。</p>
-<h2 id="什么是双亲委派"><a href="#什么是双亲委派" class="headerlink" title="什么是双亲委派"></a>什么是双亲委派</h2><p>聊完类加载过程，就不得不聊聊类加载器。</p>
+<p><code>String cmower = new String(&quot;沉默王二&quot;);</code><br>上面这段代码使用了 new 关键字来实例化一个字符串对象，那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。</p>
+<h2 id="2-双亲委派机制"><a href="#2-双亲委派机制" class="headerlink" title="2. 双亲委派机制"></a>2. 双亲委派机制</h2><p>聊完类加载过程，就不得不聊聊类加载器。</p>
+<h3 id="2-1-什么是类加载"><a href="#2-1-什么是类加载" class="headerlink" title="2.1 什么是类加载"></a>2.1 什么是类加载</h3><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730171408574.png" alt="image-20210730171408574" style="zoom:50%;" />
+
 <p>一般来说，Java 程序员并不需要直接同类加载器进行交互。JVM 默认的行为就已经足够满足大多数情况的需求了。不过，如果遇到了需要和类加载器进行交互的情况，而对类加载器的机制又不是很了解的话，就不得不花大量的时间去调试<br>ClassNotFoundException 和 NoClassDefFoundError 等异常。</p>
-<p>对于任意一个类，都需要由它的类加载器和这个类本身一同确定其在 JVM 中的唯一性。也就是说，如果两个类的加载器不同，即使两个类来源于同一个字节码文件，那这两个类就必定不相等（比如两个类的 Class 对象不 equals）。</p>
+<p><em><strong>对于任意一个类，都需要由它的类加载器和这个类本身一同确定其在 JVM 中的唯一性。也就是说，如果两个类的加载器不同，即使两个类来源于同一个字节码文件，那这两个类就必定不相等（比如两个类的 Class 对象不 equals）。</strong></em></p>
 <p>站在程序员的角度来看，Java 类加载器可以分为三种。</p>
-<p>1）启动类加载器（Bootstrap Class-Loader），加载 jre/lib 包下面的 jar 文件，比如说常见的 rt.jar。</p>
-<p>2）扩展类加载器（Extension or Ext Class-Loader），加载 jre/lib/ext 包下面的 jar 文件。</p>
-<p>3）应用类加载器（Application or App Clas-Loader），根据程序的类路径（classpath）来加载 Java 类。</p>
+<p>1）<strong>启动类加载器</strong>（Bootstrap Class-Loader），加载 jre/lib 包下面的 jar 文件，比如说常见的 rt.jar。</p>
+<p>2）<strong>扩展类加载器</strong>（Extension or Ext Class-Loader），加载 jre/lib/ext 包下面的 jar 文件。</p>
+<p>3）<strong>应用类加载器</strong>（Application or App Clas-Loader），根据程序的类路径（classpath）来加载 Java 类。</p>
 <p>来来来，通过一段简单的代码了解下。</p>
-<pre><code class="java">public class Test &#123;
-
-    public static void main(String[] args) &#123;
-        ClassLoader loader = Test.class.getClassLoader();
-        while (loader != null) &#123;
-            System.out.println(loader.toString());
-            loader = loader.getParent();
-        &#125;
-    &#125;
-
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ClassLoader loader = Test.class.getClassLoader();</span><br><span class="line">        <span class="keyword">while</span> (loader != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(loader.toString());</span><br><span class="line">            loader = loader.getParent();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 类名.class.getClassLoader() 可以获取到此引用；然后通过 loader.getParent() 可以获取类加载器的上层类加载器。</p>
 <p>这段代码的输出结果如下：</p>
 <p>sun.misc.Launcher$AppClassLoader@73d16e93<br>sun.misc.Launcher$ExtClassLoader@15db9742<br>第一行输出为 Test 的类加载器，即应用类加载器，它是 sun.misc.Launcher$AppClassLoader 类的实例；第二行输出为扩展类加载器，是 sun.misc.Launcher$ExtClassLoader 类的实例。那启动类加载器呢？</p>
 <p>按理说，扩展类加载器的上层类加载器是启动类加载器，但在我这个版本的 JDK 中， 扩展类加载器的 getParent() 返回 null。所以没有输出。</p>
-<hr>
-<p>双亲委派机制：<br><img src="https://oscimg.oschina.net/oscnet/up-5314cbdba627f795c147f27e03270d392c7.png" width=400 height=450></p>
-<h2 id="双亲委派如何破坏"><a href="#双亲委派如何破坏" class="headerlink" title="双亲委派如何破坏"></a>双亲委派如何破坏</h2><p>线程上下文加载器</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40236948/article/details/88072698">Java类加载机制</a><br>2、<a target="_blank" rel="noopener" href="https://blog.csdn.net/codeyanbao/article/details/82875064">通俗易懂的双亲委派机制</a>  </p>
+<h3 id="2-2-双亲委派的意义"><a href="#2-2-双亲委派的意义" class="headerlink" title="2.2 双亲委派的意义"></a>2.2 双亲委派的意义</h3><p>使用双亲委派模型，Java类随着它的加载器一起具备了一种带有优先级的层次关系，通过这种层次模型，可以避免类的重复加载，也可以避免核心类被不同的类加载器加载到内存中造成冲突和混乱，从而保证了Java核心库的安全。</p>
+<h2 id="3-类加载的应用"><a href="#3-类加载的应用" class="headerlink" title="3. 类加载的应用"></a>3. 类加载的应用</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6931972267609948167">https://juejin.cn/post/6931972267609948167</a></p>
+<ul>
+<li>类加载</li>
+<li>热部署</li>
+<li>加密保护</li>
+<li>依赖冲突</li>
+</ul>
+<h2 id="4-双亲委派如何破坏"><a href="#4-双亲委派如何破坏" class="headerlink" title="4. 双亲委派如何破坏"></a>4. 双亲委派如何破坏</h2><p>线程上下文加载器</p>
+<p><a target="_blank" rel="noopener" href="https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/joemsu/p/9310226.html#_caption_2">https://www.cnblogs.com/joemsu/p/9310226.html#_caption_2</a></p>
 </section>
     <!-- Tags START -->
     
@@ -283,7 +327,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-nav-text">类加载机制</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-nav-text">类加载机制具体流程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE"><span class="toc-nav-text">什么是双亲委派</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%A6%82%E4%BD%95%E7%A0%B4%E5%9D%8F"><span class="toc-nav-text">双亲委派如何破坏</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-nav-text">类加载机制</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-nav-text">1. 类加载机制具体流程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-1-Loading%EF%BC%88%E8%BD%BD%E5%85%A5%EF%BC%89"><span class="toc-nav-text">1.1 Loading（载入）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-2-Verification%EF%BC%88%E9%AA%8C%E8%AF%81%EF%BC%89"><span class="toc-nav-text">1.2 Verification（验证）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-2-1-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E9%AA%8C%E8%AF%81"><span class="toc-nav-text">1.2.1 文件格式验证</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-2-2-%E5%85%83%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81"><span class="toc-nav-text">1.2.2 元数据验证</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-2-3-%E5%AD%97%E8%8A%82%E7%A0%81%E9%AA%8C%E8%AF%81"><span class="toc-nav-text">1.2.3 字节码验证</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-2-4-%E7%AC%A6%E5%8F%B7%E5%BC%95%E7%94%A8%E9%AA%8C%E8%AF%81"><span class="toc-nav-text">1.2.4 符号引用验证</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-3-Preparation%EF%BC%88%E5%87%86%E5%A4%87%EF%BC%89"><span class="toc-nav-text">1.3 Preparation（准备）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-3-1-%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-nav-text">1.3.1 设置默认值</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1-3-2-%E5%90%84%E7%A7%8D%E7%B1%BB%E5%9E%8B%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-nav-text">1.3.2 各种类型默认值</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-4-Resolution%EF%BC%88%E8%A7%A3%E6%9E%90%EF%BC%89"><span class="toc-nav-text">1.4 Resolution（解析）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-5-Initialization%EF%BC%88%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%89"><span class="toc-nav-text">1.5 Initialization（初始化）</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6"><span class="toc-nav-text">2. 双亲委派机制</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-nav-text">2.1 什么是类加载</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-nav-text">2.2 双亲委派的意义</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-nav-text">3. 类加载的应用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%A6%82%E4%BD%95%E7%A0%B4%E5%9D%8F"><span class="toc-nav-text">4. 双亲委派如何破坏</span></a></li></ol></li></ol>
     
   </div>
 </aside>
