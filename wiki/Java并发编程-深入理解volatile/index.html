@@ -234,7 +234,7 @@
 </tr>
 </tbody></table>
 <h3 id="happens-before规则"><a href="#happens-before规则" class="headerlink" title="happens-before规则"></a>happens-before规则</h3><p>如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须存在happens-before关系。</p>
-<p><code>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</code></p>
+<p><strong>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</strong></p>
 <h3 id="volatile在DCL的应用"><a href="#volatile在DCL的应用" class="headerlink" title="volatile在DCL的应用"></a>volatile在DCL的应用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton singleton;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 构造函数私有，禁止外部实例化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>现在我们分析一下为什么要在变量singleton之间加上volatile关键字。要理解这个问题，先要了解对象的构造过程，实例化一个对象其实可以分为三个步骤：</p>
@@ -300,6 +300,13 @@
         
       </a>
     
+    
+      <a class="nav-right" href="/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+        
+          JVM-深入理解Java虚拟机
+        
+        <span class="nav-arrow"> →</span>
+      </a>
     
   </div>
 

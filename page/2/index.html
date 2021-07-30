@@ -168,6 +168,72 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Mysql-事务特性与实现原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          事务特性与实现原理事务特性
+原子性(Atomicity)
+
+事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。
+
+一致性(Consistency)
+
+事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主 ...
+        
+      </div>
+      <a class="more" href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">Mysql-事务隔离级别</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+      <div class="article-summary">
+        
+          数据库隔离级别SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。
+
+Read Uncommitted（读取未提交内容）
+
+ ...
+        
+      </div>
+      <a class="more" href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Mysql-MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/">Mysql-MVCC多版本并发控制</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          MVCC多版本并发控制MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。
+MVCC在MySQL InnoDB中的实现主要是为了 「 提高数 ...
+        
+      </div>
+      <a class="more" href="/wiki/Mysql-MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/">Java对象头</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -314,77 +380,6 @@ JVM层级：锁升级过程
         
       </div>
       <a class="more" href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          锁升级使用JOL查看加锁之后的对象信息12345678public static void main(String[] args) &#123;        Object object = new Object();        System.out.println(ClassLayou ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-strace/">JVM-strace</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          strace 命令查看操作系统日志strace -ff -o out java ***.class
--ff : 跟踪进程下所有线程用到的系统命令-o : 将跟踪的操作系统日志输出
-
-下面查看JDK1.8下，BIO模式都有哪些系统命令的执行
-
-1234567891011121314151617 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-strace/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          NIO核心组件 - ChannelSocketChannel 和 ServerSocketChannel学习此部分可以对比Socket和ServerSocket
-服务端代码
-12345678910111213141516171819202122232425262728293031323334 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Read more</a>
     </article>
   
 

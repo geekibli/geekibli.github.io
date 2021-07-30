@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      JVM-对象创建 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>JVM-对象创建</h2>
+  <p class="post-date">2021-07-30</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="1-对象创建方式"><a href="#1-对象创建方式" class="headerlink" title="1.对象创建方式"></a>1.对象创建方式</h2><p>Java中有一下几种方式创建对象：</p>
+<table>
+<thead>
+<tr>
+<th><strong>方式</strong></th>
+<th><strong>实质</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>使用new关键</td>
+<td>调用无参或有参构造器函数创建</td>
+</tr>
+<tr>
+<td>使用Class的newInstance方法</td>
+<td>调用无参或有参构造器函数创建，且需要是publi的构造函数</td>
+</tr>
+<tr>
+<td>使用Constructor类的newInstance方法</td>
+<td>调用有参和私有private构造器函数创建，实用性更广</td>
+</tr>
+<tr>
+<td>使用Clone方法</td>
+<td>不调用任何参构造器函数，且对象需要实现Cloneable接口并实现其定义的clone方法，且默认为浅复制</td>
+</tr>
+<tr>
+<td>第三方库Objenesis</td>
+<td>利用了asm字节码技术，动态生成Constructor对象</td>
+</tr>
+</tbody></table>
+<h2 id="2、对象创建过程"><a href="#2、对象创建过程" class="headerlink" title="2、对象创建过程"></a>2、对象创建过程</h2><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730153219366.png" alt="image-20210730153219366"></p>
+<h3 id="2-1-类的加载"><a href="#2-1-类的加载" class="headerlink" title="2.1 类的加载"></a>2.1 类的加载</h3><p>虚拟机遇到一条new指令时，首先将去检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并且检查这个符号引用代表的类是否被加载、解析和初始化过。如果没有，那必须先执行相应的类加载过程。</p>
+<h3 id="2-2-分配内存"><a href="#2-2-分配内存" class="headerlink" title="2.2 分配内存"></a>2.2 分配内存</h3><p>类的加载检查通过后，接下来是为新生对象分配内存。但类加载完成后所需的内存大小就已经完全确定，为对象分配空间的任务等同于把一块确定大小的内存从java堆中划分出来。分配内存有两种方式：</p>
+<ul>
+<li><strong>指针碰撞（Bump the Pointer）</strong>：假设java堆中内存是绝对规整的，所有用过得内存都放在一边，空闲的内存放在另一边，中间放着一个指针作为分界点的指示器，那所分配内存就仅仅是把那个指针向空闲空间那边挪到一段与对象大小相等的距离</li>
+<li><strong>空闲列表（Free List）</strong>：如果java堆中的内存并不是完整的，已使用的内存和空闲的内存相互交错，那就没有办法简单地进行指针碰撞了，虚拟机就必须维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录。</li>
+</ul>
+<p>选择哪种分配方式由java堆是否完整决定，而java堆是否规整又由所采用的垃圾收集器是否带有压缩整理（标记-整理）功能决定。因此，在使用Serial、ParNew等带有Compact过程的收集器时，系统采用的分配算法是指针碰撞，而使用CMS这种基于Mark-Sweep算法的收集器时，通常采用空闲列表。</p>
+<p>还有一个问题需要考虑，在虚拟机中对象频繁的创建（即使是修改一个指针所指的位置），在并发情况下会带来线程安全的问题。作为虚拟机来说，必须保证线程安全，所有虚拟机采用两种方式保证线程安全：</p>
+<ul>
+<li><strong>CAS+失败重试</strong>：CAS是乐观锁的一种实现方式。所谓乐观锁就是，每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。虚拟机采用CAS配上失败重试的方式保证更新操作的原子性</li>
+<li><strong>本地线程分配缓冲（Thread Local Allocation Buffer，TLAB）</strong>：为每一个线程预先在Eden区分配一块内存，JVM在给线程中的对象分配内存时，首先在TLAB分配，当对象大于TLAB中剩余内存或TLAB的内存已用尽时，在采用上述的CAS进行内存分配</li>
+</ul>
+<h3 id="2-3-初始化零值"><a href="#2-3-初始化零值" class="headerlink" title="2.3 初始化零值"></a>2.3 初始化零值</h3><p>内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头），这⼀步操作保证了对象的实例字段在 Java 代码中可以不赋初始值就直接使⽤，<code>程序能访问到这些字段的数据类型所对应的零值</code>。</p>
+<h3 id="2-4-设置对象头"><a href="#2-4-设置对象头" class="headerlink" title="2.4 设置对象头"></a>2.4 设置对象头</h3><p>初始化零值完成之后，虚拟机要对对象进⾏必要的设置，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的 GC 分代年龄等信息。 这些信息存放在对象头中。 另外，根据虚拟机当前运⾏状态的不同，如是否启⽤偏向锁等，对象头会有不同的设置⽅式。</p>
+<h3 id="2-5-执行Init方法"><a href="#2-5-执行Init方法" class="headerlink" title="2.5 执行Init方法"></a>2.5 执行Init方法</h3><p>在上⾯⼯作都完成之后，从虚拟机的视⻆来看，⼀个新的对象已经产⽣了，但从 Java 程序的视⻆来看，对象创建才刚开始， <code>&lt;init&gt;</code> ⽅法还没有执⾏，所有的字段都还为零。所以⼀般来说，执⾏ new 指令之后会接着执⾏ <code>&lt;init&gt;</code>⽅法，把对象按照程序员的意愿进⾏初始化，这样⼀个真正可⽤的对象才算完全产⽣出来。</p>
+<h2 id="3-对象在内存布局"><a href="#3-对象在内存布局" class="headerlink" title="3.对象在内存布局"></a>3.对象在内存布局</h2><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730160335842.png" alt="image-20210730160335842" style="zoom:33%;" />
+
+
+
+<p><code>对象头(Header)</code>：包含两部分，第一部分用于存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁状态标志、线程持有的锁、偏向线程 ID、偏向时间戳等，32 位虚拟机占 32 bit，64 位虚拟机占 64 bit。官方称为 ‘Mark Word’。第二部分是类型指针，即对象指向它的类的元数据指针，虚拟机通过这个指针确定这个对象是哪个类的实例。另外，如果是 Java 数组，对象头中还必须有一块用于记录数组长度的数据，因为普通对象可以通过 Java 对象元数据确定大小，而数组对象不可以。</p>
+<p><code>实例数据(Instance Data)</code>：程序代码中所定义的各种类型的字段内容(包含父类继承下来的和子类中定义的)。</p>
+<p><code>对齐填充(Padding)</code>：不是必然需要，主要是占位，保证对象大小是某个字节的整数倍。</p>
+<h2 id="4-对象访问"><a href="#4-对象访问" class="headerlink" title="4. 对象访问"></a>4. 对象访问</h2><p>建⽴对象就是为了使⽤对象，我们的Java程序通过栈上的 reference 数据来操作堆上的具体对象。对象的访问⽅式有虚拟机实现⽽定，⽬前主流的访问⽅式有使⽤句柄和直接指针两种：</p>
+<h3 id="4-1-句柄访问"><a href="#4-1-句柄访问" class="headerlink" title="4.1 句柄访问"></a>4.1 句柄访问</h3><p> 如果使⽤句柄的话，那么Java堆中将会划分出⼀块内存来作为句柄池，reference 中存储的就是对象的句柄地址，⽽句柄中包含了对象实例数据与类型数据各⾃的具体地址信息；</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730160814175.png" alt="image-20210730160814175" style="zoom:50%;" />
+
+<h3 id="4-2-直接指针"><a href="#4-2-直接指针" class="headerlink" title="4 .2 直接指针"></a>4 .2 直接指针</h3><p> 如果使⽤直接指针访问，那么 Java 堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，⽽reference 中存储的直接就是对象的地址。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730161006154.png" alt="image-20210730161006154" style="zoom:50%;" />
+
+<p>这两种对象访问⽅式各有优势。使⽤句柄来访问的最⼤好处是 reference 中存储的是稳定的句柄地址，在对象被移动时只会改变句柄中的实例数据指针，⽽ reference 本身不需要修改。使⽤直接指针访问⽅式最⼤的好处就是速度快，它节省了⼀次指针定位的时间开销。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+        <span class="nav-arrow">← </span>
+        
+          JVM-内存结构
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="toc-nav-text">1.对象创建方式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2%E3%80%81%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="toc-nav-text">2、对象创建过程</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-1-%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD"><span class="toc-nav-text">2.1 类的加载</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98"><span class="toc-nav-text">2.2 分配内存</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%9B%B6%E5%80%BC"><span class="toc-nav-text">2.3 初始化零值</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-%E8%AE%BE%E7%BD%AE%E5%AF%B9%E8%B1%A1%E5%A4%B4"><span class="toc-nav-text">2.4 设置对象头</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-%E6%89%A7%E8%A1%8CInit%E6%96%B9%E6%B3%95"><span class="toc-nav-text">2.5 执行Init方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-nav-text">3.对象在内存布局</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-%E5%AF%B9%E8%B1%A1%E8%AE%BF%E9%97%AE"><span class="toc-nav-text">4. 对象访问</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-1-%E5%8F%A5%E6%9F%84%E8%AE%BF%E9%97%AE"><span class="toc-nav-text">4.1 句柄访问</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-2-%E7%9B%B4%E6%8E%A5%E6%8C%87%E9%92%88"><span class="toc-nav-text">4 .2 直接指针</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/JVM-对象创建/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
