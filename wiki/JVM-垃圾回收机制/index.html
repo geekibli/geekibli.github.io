@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      JVM-垃圾回收机制 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>JVM-垃圾回收机制</h2>
+  <p class="post-date">2021-07-30</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p><strong>垃圾回收总体思路：</strong></p>
+<p>1、什么是垃圾回收，为什么需要垃圾回收；</p>
+<p>2、回收的到底是什么？由谁来回收谁？</p>
+<p>3、回收的判断标准是什么</p>
+<p>4、什么时候回收，回收的种类和流程是怎样的</p>
+<p>5、在哪些地方进行回收</p>
+<hr>
+<h1 id="1-什么是垃圾回收"><a href="#1-什么是垃圾回收" class="headerlink" title="1. 什么是垃圾回收"></a>1. 什么是垃圾回收</h1><p>任何语言在运行过程中都会创建对象，也就意味着需要在内存中为这些对象在内存中分配空间，在这些对象失去使用的意义的时候，需要释放掉这些内容，保证内存能够提供给新的对象使用。<strong>对于对象内存的释放就是垃圾回收机制，也叫做gc</strong>。</p>
+<p>对于java开发者来说gc是一个双刃剑，一方面，java程序员在开发程序的时候不需要像开发C++那样手动分配对象的内存，还要在合适的时机手动释放，一定程度地降低了java程序员的开发难度。另一方面，虚拟机可以帮助程序开发人员管理内存，如果程序员不了解虚拟机垃圾回收的原理，很容易引起OOM，造成服务的崩溃和系统的宕机；</p>
+<h1 id="2、对象如何判活"><a href="#2、对象如何判活" class="headerlink" title="2、对象如何判活"></a>2、对象如何判活</h1><p>对象存活表示的是当前对象是否还在被使用，没有被使用的对象我们可以称其为已经“死亡”，如果对象依然在被使用，我们称其为“存活”状态，对象是否被使用则是通过对象的引用进行判断的。而垃圾回收机制就是负责将已经死亡的对象进行清理。</p>
+<p><strong>程序计数器、虚拟机栈、本地方法栈3个区域随线程而生</strong>，随线程而灭，栈中的栈帧随着方法的进入和退出而有条不紊地执行着出栈和入栈的操作。<code>每一个栈帧中分配多少内存基本上是在类结构确定下来时就已知的</code>，因此这几个区域的内存分配和回收都具备确定性，在这几个区域不需要过多的考虑回收的问题，当方法结束或者线程结束的时候，内存自然就跟着回收了。</p>
+<p>Java堆则和上述三种区域不同，Java中一个接口的多个实现类需要的内存可能不一样，一个方法中的多个分支需要的内存也不一样，而**只有当<code>Java程序运行时我们才能知道哪些对象会被创建**</code>，所以堆中的内存分配和回收都是<code>动态</code>进行的，因此垃圾收集器所关注的也是这部分的内存。</p>
+<p>垃圾回收器在对堆进行回收前，第一件事情就是要判断堆中的对象哪些是依旧在使用的，哪些已经不可能再被使用了。这里的判断主要有两种方式，第一种是引用计数算法，第二种是可达性分析算法。</p>
+<h2 id="2-1-引用计数算法"><a href="#2-1-引用计数算法" class="headerlink" title="2.1 引用计数算法"></a>2.1 引用计数算法</h2><p>引用计数算法给对象添加一个引用计数器，每当有一个地方引用它时，计数器就加1，当引用失效时，计数器就减1，任何时刻计数器为0的对象就是不可能再被使用的。这种算法实现简单，判定效率也很高，<font color=red>但是它难以解决对象之间循环引用的问题</font>，例如对象A和对象B相互引用了对方，而A和B都没有在被使用了，但这两个对象却也不会被垃圾回收器回收。</p>
+<h2 id="2-2-可达性分析"><a href="#2-2-可达性分析" class="headerlink" title="2.2 可达性分析"></a>2.2 可达性分析</h2><p>主流的判断方法则是使用可达性分析算法来判断对象是否存活。这个算法需要选择一些对象作为“GC Roots”，每次都通过这些roots节点向下搜索，搜索所走过的路径称为引用链，当一个对象到GC Roots不存在引用链的时候，则证明这个对象是不可用的。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730201240815.png" alt="image-20210730201240815" style="zoom:50%;" />
+
+<p>在Java语言中，可作为GC Roots的对象包括下面几种：</p>
+<p>1、虚拟机栈中引用的对象<br>2、方法区中类静态属性引用的对象<br>3、方法区中常量引用的对象<br>4、本地方法栈中JNI（即Native方法）引用的对象</p>
+<p>可达性分析算法中根据GC Roots找引用链，存在两个主要的问题。</p>
+<p>一个是可作为GC Roots的节点主要在全局性的引用（例如常量或者类静态属性）于上下文(例如栈帧中的本地变量表）中，现在很多应用仅仅方法区就有数百兆，如果要逐个检查这里面的引用，将会消耗很多的时间。</p>
+<p>还有一个问题是GC停顿，可达性分析必须确保在整个的分析过程中，执行系统就像被冻结在某个时间节点，整个分析过程中对象的引用关系不能发生变化，这样才能保证分析结果的准确性，因此在进行GC时，需要停顿所有的Java线程。（Stop The World）</p>
+<h2 id="3-3-对象两次标记判活"><a href="#3-3-对象两次标记判活" class="headerlink" title="3.3 对象两次标记判活"></a>3.3 对象两次标记判活</h2><p>即使在可达性分析算法中不可达的对象，也并非是”非死不可“的，这时候它们暂时处于”缓刑“阶段，<em><strong>要宣告一个对象死亡，至少要经历两次标记过程</strong></em>：</p>
+<p>如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链，那它将会被第一次标记并且进行一次筛选，筛选的条件是此对象是否有必要执行finalize()方法(当对象没有覆盖finalize()方法，或者finalize()方法已经被虚拟机调用过，虚拟机将这两种情况都视为”没有必要执行“)。</p>
+<p>如果一个对象被判定为有必要执行finalize()方法，那么这个对象将会放置在一个叫做F-Queue的队列之中，并在稍后由一个由虚拟机自动建立的、低优先级的Finalizer线程去执行它。这里的执行是指由虚拟机去触发这个方法，但并不一定会等待该方法执行完毕（为了避免finalize方法中出现类似死循环都操作，导致内存无法被回收，同时导致F-Queue队列中的其他对象一直处于等待状态）。</p>
+<p>当执行完finalze()方法后，GC将会对F-Queue中的对象进行第二次小规模的标记，如果对象在finalize()方法中又重新获得了引用，对象将会被移出对列并且继续存活，如果对象依旧存在于队列中并且被进行第二次标记，对象将被GC回收。</p>
+<p>需要注意的是任何一个对象的finalize()方法只会执行一次，如果第一次通过finalize()方法救活了对象，那么第二次相同的方法就会失效。同时由于finalize()方法的运行代价高昂，不确定性大，无法保证各个对象的调用顺序，因此应当尽量避免使用finalize()方法。</p>
+<h1 id="3-对象引用分类"><a href="#3-对象引用分类" class="headerlink" title="3. 对象引用分类"></a>3. 对象引用分类</h1><p>JDK1.2以前，Java中引用的定义很传统，如果reference类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存代表着一个引用。这种定义下的对象只存在两种状态，被引用和未被引用状态。但有些对象我们希望当内存存够的时候能够保留这些对象，当内存不足的时候则能够对这些对象进行清理，这一类对象则无法使用这种传统的定义来表示。</p>
+<p>JDK1.2之后，Java对引用进行了扩充，将引用分为<code>强引用</code>、<code>软引用</code>、<code>弱引用</code>和<code>虚引用</code>四种，这四种引用的强度依次逐渐减弱。</p>
+<h2 id="3-1-强引用"><a href="#3-1-强引用" class="headerlink" title="3.1 强引用"></a>3.1 强引用</h2><p>就是指在程序代码中普遍存在的，类似 <code>Object obj = new Object()</code> 这类的引用，只要强引用还存在，垃圾收集器永远不会回收被引用的对象。即使内存不足时，垃圾回收器也不会回收强引用的对象，而是会直接抛出<code>OutOfMemoryError</code>异常。如果想让强引用对象被回收，可以手动设置obj = null;来实现。</p>
+<h2 id="3-2-软引用"><a href="#3-2-软引用" class="headerlink" title="3.2 软引用"></a>3.2 软引用</h2><p>用来描述一些还有用但并非必需的对象。对于软引用关联着的对象，在内存足够的时候，是不会回收软引用的对象的，而在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围之中进行第二次回收，如果软引用回收后依然内存不足，则会抛出OutOfMemoryError异常。在JDK1.2之后，提供了SoftReference类来实现软引用。<code>软引用可以用来实现缓存技术。</code></p>
+<h2 id="3-3-弱引用"><a href="#3-3-弱引用" class="headerlink" title="3.3 弱引用"></a>3.3 弱引用</h2><p>弱引用和软引用一样用来描述非必须的对象，但是它的强度比软引用更弱一些，被<code>弱引用关联的对象只能生存到下一次垃圾收集发生之前</code>。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉被弱引用关联的对象。在JDK1.2之后，提供了<code>WeakReference</code>类来实现弱引用。</p>
+<h2 id="3-4-虚引用"><a href="#3-4-虚引用" class="headerlink" title="3.4 虚引用"></a>3.4 虚引用</h2><p>虚引用也被称为幽灵引用或者幻影引用，它是最弱的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。在JDK1.2之后，提供了PhantomReference类来实现虚引用。</p>
+<h1 id="4-垃圾回收算法"><a href="#4-垃圾回收算法" class="headerlink" title="4.垃圾回收算法"></a>4.垃圾回收算法</h1><p><em>垃圾收集算法的目的是在已经明确了哪些内存块需要回收以后，如何高效的回收这些内存空间。</em></p>
+<h2 id="4-1-标记清除算法"><a href="#4-1-标记清除算法" class="headerlink" title="4.1 标记清除算法"></a>4.1 标记清除算法</h2><p><strong>标记-清除算法</strong>采用从根集合进行扫描，对存活的对象对象标记，标记完毕后，再扫描整个空间中未被标记的对象，进行回收，如图所示。标记-清除算法不需要进行对象的移动，并且仅对不存活的对象进行处理，在存活对象比较多的情况下极为高效。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730203128783.png" alt="image-20210730203128783" style="zoom:50%;" />
+
+<p>标记清除算法主要有两个不足之处：一个是效率问题，标记和清除两个过程的效率都不高；另一个问题是空间问题，标记清除之后会造成内存空间中存在大量的内存碎片，空间碎片太多时，当要分配一片大内存空间时可能会找不到合适的连续内存空间进行分配，从而触发另一次垃圾收集动作。</p>
+<h2 id="4-2-标记复制算法"><a href="#4-2-标记复制算法" class="headerlink" title="4.2 标记复制算法"></a>4.2 标记复制算法</h2><p>该算法的提出是为了克服<strong>句柄的开销</strong>和<strong>解决堆碎片</strong>的垃圾回收。建立在存活对象少，垃圾对象多的前提下。此算法<code>每次只处理正在使用中的对象</code>，因此复制成本比较小，同时复制过去后还能进行相应的内存整理，不会出现碎片问题。但缺点也是很明显，就是需要两倍内存空间。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730203413207.png" alt="image-20210730203413207" style="zoom:50%;" />
+
+<p>它开始时把堆分成 一个对象面和多个空闲面， 程序从对象面为对象分配空间，当对象满了，基于copying算法的垃圾 收集就从根集中扫描活动对象，并将每个活动对象复制到空闲面(使得活动对象所占的内存之间没有空闲洞)，这样空闲面变成了对象面，原来的对象面变成了空闲面，程序会在新的对象面中分配内存。一种典型的基于coping算法的垃圾回收是stop-and-copy算法，它将堆分成对象面和空闲区域面，在对象面与空闲区域面的切换过程中，程序暂停执行。</p>
+<p>现在的商业虚拟机都会<code>采用这种算法来回收新生代</code>，根据统计新生代中98%的对象都是“朝夕生死”的，因此对于新生代的回收不用按照1:1的比例来进行内存划分，可以将内存划分为一块Eden区域和两块Survivor空间，每次使用时都选择Eden区域和一块Survivor区域进行内存分配。<em><strong>当回收时，将Eden区域和Survivor区域中还存活的对象全部移动到另一块Survivor区域，然后清理掉Eden区域和刚刚使用的Survivor区域。</strong></em></p>
+<p><em><strong>HotSpot虚拟机中Eden和Survivor的比例是1:8</strong></em>，<em><strong>即每次都有90%的内存空间在进行使用，只有10%的内存空间被浪费了。</strong></em>当然，如果每次内存都有98%被回收，那么每次被移动到另一块Survivor区域的内存只有2%，这样是没有任何问题的，但是如果移动到另一块Survivor区域的内存超过了10%，就需要依赖其他的内存（这里指老年代）进行分配担保了（将多出的对象分配到老年代）。</p>
+<h2 id="4-3-标记整理算法"><a href="#4-3-标记整理算法" class="headerlink" title="4.3 标记整理算法"></a>4.3 标记整理算法</h2><p> 此算法是结合了“标记-清除”和“复制算法”两个算法的优点。避免了“标记-清除”的碎片问题，同时也避免了“复制”算法的空间问题。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730203709050.png" alt="image-20210730203709050" style="zoom:50%;" />
+
+<p>标记-整理算法的标记过程和标记-清除算法的标记过程一致，但是在标记完以后，标记-整理算法会将所有存活的对象都移动到一端，然后再进行清除。<strong>这种算法适用于老年代</strong>，因为老年代的对象存活率都会比较高，如果像之前一样进行复制移动，将会产生大量的复制操作导致效率变低，同时每次都会存活下大量对象导致需要很多的内存空间来进行分配担保。</p>
+<h2 id="4-4-分代收集算法"><a href="#4-4-分代收集算法" class="headerlink" title="4.4 分代收集算法"></a>4.4 分代收集算法</h2><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210731141452995.png" alt="image-20210731141452995" style="zoom:50%;" />
+
+<p>当前商业虚拟机的垃圾收集都采用“分代收集”算法，这种算法根据对象存活周期的不同将内存划分为几块，一般是把Java堆划分位新生代和老年代。新生代中每次都会有大批对象死去，只有少量对象存活，因此可以选用复制算法。</p>
+<p>老年代每次都会有大量对象存活，因此选择标记-清理或者标记-整理算法来进行。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/JVM-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/">
+        <span class="nav-arrow">← </span>
+        
+          JVM-对象创建
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/JVM-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/">
+        
+          JVM-垃圾收集器
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="toc-nav-text">1. 什么是垃圾回收</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2%E3%80%81%E5%AF%B9%E8%B1%A1%E5%A6%82%E4%BD%95%E5%88%A4%E6%B4%BB"><span class="toc-nav-text">2、对象如何判活</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1-%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%AE%97%E6%B3%95"><span class="toc-nav-text">2.1 引用计数算法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2-%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="toc-nav-text">2.2 可达性分析</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-3-%E5%AF%B9%E8%B1%A1%E4%B8%A4%E6%AC%A1%E6%A0%87%E8%AE%B0%E5%88%A4%E6%B4%BB"><span class="toc-nav-text">3.3 对象两次标记判活</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3-%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8%E5%88%86%E7%B1%BB"><span class="toc-nav-text">3. 对象引用分类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1-%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="toc-nav-text">3.1 强引用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-2-%E8%BD%AF%E5%BC%95%E7%94%A8"><span class="toc-nav-text">3.2 软引用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-3-%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="toc-nav-text">3.3 弱引用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-4-%E8%99%9A%E5%BC%95%E7%94%A8"><span class="toc-nav-text">3.4 虚引用</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#4-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.垃圾回收算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-1-%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.1 标记清除算法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-2-%E6%A0%87%E8%AE%B0%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.2 标记复制算法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-3-%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.3 标记整理算法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-4-%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.4 分代收集算法</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/JVM-垃圾回收机制/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

@@ -168,6 +168,48 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          binlog相关命令mysql&gt; show variables like ‘binlog_format’;
+12345+---------------+-------+| Variable_name | Value |+---------------+-------+| binlog_ ...
+        
+      </div>
+      <a class="more" href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          开启binlog[mysqld]log-bin=mysql-bin #添加这一行就okbinlog-format=ROW #选择row模式server_id=1 #配置mysql replaction需要定义，不能和canal的slaveId重复  
+查看binlog状态mysql&gt;  ...
+        
+      </div>
+      <a class="more" href="/wiki/binlog%E9%85%8D%E7%BD%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a>
       </h2>
       <p class="article-date">July 4, 2021</p>
@@ -356,57 +398,6 @@ SWS(Silly Window syndrome) 糊涂窗口综合症
         
       </div>
       <a class="more" href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          滑动窗口
-之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口
-
-发送端窗口滑动窗口按照传输数据方向分为两种，发送端窗口和接收端窗口；下面先看一下发送端窗口👇：
-
-
-上图分为四个部分：
-
-已发送并 ...
-        
-      </div>
-      <a class="more" href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？
-
-什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT ...
-        
-      </div>
-      <a class="more" href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">Read more</a>
     </article>
   
 
