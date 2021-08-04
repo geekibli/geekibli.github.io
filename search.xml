@@ -104,31 +104,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM-jstack</title>
-    <url>/wiki/JVM-jstack/</url>
-    <content><![CDATA[<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><h2 id="jstack-功能"><a href="#jstack-功能" class="headerlink" title="jstack 功能"></a>jstack 功能</h2><p>主要分为两个功能：</p>
-<p>a．  针对活着的进程做本地的或远程的线程dump；</p>
-<p>b．  针对core文件做线程dump。</p>
-<p>jstack用于生成java虚拟机当前时刻的线程快照。线程快照是当前java虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等。 线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做什么事情，或者等待什么资源。 如果java程序崩溃生成core文件，jstack工具可以用来获得core文件的java stack和native stack的信息，从而可以轻松地知道java程序是如何崩溃和在程序何处发生问题。另外，jstack工具还可以附属到正在运行的java程序中，看到当时运行的java程序的java stack和native stack的信息, 如果现在运行的java程序呈现hung的状态，jstack是非常有用的。</p>
-<h2 id="jstack-操作方式"><a href="#jstack-操作方式" class="headerlink" title="jstack 操作方式"></a>jstack 操作方式</h2><blockquote>
-<p>jps -l | grep keyword -&gt; pid<br>jstack pid</p>
-</blockquote>
-<p>jstack结果如下；</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;lettuce-nioEventLoop-4-1&quot; #639 daemon prio=5 os_prio=0 tid=0x00007ff27025d800 nid=0x258f runnable [0x00007ff262af7000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)</span><br><span class="line">	at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)</span><br><span class="line">	- locked &lt;0x000000008988d6a8&gt; (a io.netty.channel.nio.SelectedSelectionKeySet)</span><br><span class="line">	- locked &lt;0x000000008988d770&gt; (a java.util.Collections$UnmodifiableSet)</span><br><span class="line">	- locked &lt;0x000000008988d600&gt; (a sun.nio.ch.EPollSelectorImpl)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:101)</span><br><span class="line">	at io.netty.channel.nio.SelectedSelectionKeySetSelector.select(SelectedSelectionKeySetSelector.java:68)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.select(NioEventLoop.java:803)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:457)</span><br><span class="line">	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)</span><br><span class="line">	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)</span><br><span class="line">	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>原文链接：<a href="https://blog.csdn.net/weixin_30013175/article/details/113901522">https://blog.csdn.net/weixin_30013175/article/details/113901522</a></p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>JVM</category>
-      </categories>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM-jstat</title>
     <url>/wiki/JVM-jstat/</url>
     <content><![CDATA[<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><p>jstat是一个简单的实用工具，在JDK中存在，用于提供与JVM性能相关的统计信息，例如垃圾收集，编译活动。 jstat的主要优势在于，它可以在运行JVM且无需任何先决条件的情况下动态捕获这些指标。 这是什么意思？ 例如，如果要捕获与垃圾回收相关的统计信息，则需要在启动JVM之前传递以下参数：</p>
@@ -201,6 +176,31 @@
 <img src="https://oscimg.oschina.net/oscnet/up-c306b9f94e3d0a3582b049d3c4769b4f5ec.png">
 
 <p>根据上面👆strace命令跟踪的日志可以看到，JDK1.8下的BIO的多路复用器是使用的「poll」</p>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>JVM</category>
+      </categories>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM-jstack</title>
+    <url>/wiki/JVM-jstack/</url>
+    <content><![CDATA[<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><h2 id="jstack-功能"><a href="#jstack-功能" class="headerlink" title="jstack 功能"></a>jstack 功能</h2><p>主要分为两个功能：</p>
+<p>a．  针对活着的进程做本地的或远程的线程dump；</p>
+<p>b．  针对core文件做线程dump。</p>
+<p>jstack用于生成java虚拟机当前时刻的线程快照。线程快照是当前java虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等。 线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做什么事情，或者等待什么资源。 如果java程序崩溃生成core文件，jstack工具可以用来获得core文件的java stack和native stack的信息，从而可以轻松地知道java程序是如何崩溃和在程序何处发生问题。另外，jstack工具还可以附属到正在运行的java程序中，看到当时运行的java程序的java stack和native stack的信息, 如果现在运行的java程序呈现hung的状态，jstack是非常有用的。</p>
+<h2 id="jstack-操作方式"><a href="#jstack-操作方式" class="headerlink" title="jstack 操作方式"></a>jstack 操作方式</h2><blockquote>
+<p>jps -l | grep keyword -&gt; pid<br>jstack pid</p>
+</blockquote>
+<p>jstack结果如下；</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;lettuce-nioEventLoop-4-1&quot; #639 daemon prio=5 os_prio=0 tid=0x00007ff27025d800 nid=0x258f runnable [0x00007ff262af7000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)</span><br><span class="line">	at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)</span><br><span class="line">	at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)</span><br><span class="line">	- locked &lt;0x000000008988d6a8&gt; (a io.netty.channel.nio.SelectedSelectionKeySet)</span><br><span class="line">	- locked &lt;0x000000008988d770&gt; (a java.util.Collections$UnmodifiableSet)</span><br><span class="line">	- locked &lt;0x000000008988d600&gt; (a sun.nio.ch.EPollSelectorImpl)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)</span><br><span class="line">	at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:101)</span><br><span class="line">	at io.netty.channel.nio.SelectedSelectionKeySetSelector.select(SelectedSelectionKeySetSelector.java:68)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.select(NioEventLoop.java:803)</span><br><span class="line">	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:457)</span><br><span class="line">	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)</span><br><span class="line">	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)</span><br><span class="line">	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:748)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>原文链接：<a href="https://blog.csdn.net/weixin_30013175/article/details/113901522">https://blog.csdn.net/weixin_30013175/article/details/113901522</a></p>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -387,25 +387,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JVM-深入理解Java虚拟机</title>
-    <url>/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
-    <content><![CDATA[<h2 id="JVM结构图"><a href="#JVM结构图" class="headerlink" title="JVM结构图"></a>JVM结构图</h2><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730150029336.png" alt="image-20210730150029336"></p>
-<h2 id="知识清单"><a href="#知识清单" class="headerlink" title="知识清单"></a>知识清单</h2><ul>
-<li><a href="https://geekibli.github.io/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">Java内存结构</a> </li>
-<li><a href="https://geekibli.github.io/wiki/JVM-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/">Java对象创建</a></li>
-<li><a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></li>
-<li><a href="https://geekibli.github.io/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">类加载机制</a></li>
-<li><a href="https://geekibli.github.io/wiki/JVM-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">垃圾回收机制</a></li>
-<li><a href="https://geekibli.github.io/wiki/JVM-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/">垃圾收集器</a></li>
-<li>虚拟机调优</li>
-</ul>
-<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p><a href="https://blog.csdn.net/qq_21122519/article/details/94408118">JAVA虚拟机概述</a><br><a href="http://c.biancheng.net/view/3677.html">Java虚拟机（JVM）工作原理</a><br><a href="https://juejin.cn/post/6844903892774289421">推荐收藏系列：一文理解JVM虚拟机（内存、垃圾回收、性能优化）解决面试中遇到问题</a><br><a href="https://juejin.cn/post/6981790758290358302">Java虚拟机内存管理和性能调优</a><br><a href="https://juejin.cn/post/6844903494063751175">重读 JVM</a><br><a href="https://juejin.cn/post/6986594521752535053">【2021最新版】JVM面试题总结（87道题含答案解析）</a><br><a href="https://www.pdai.tech/md/java/jvm/java-jvm-classload.html">JVM 基础 - Java 类加载机制</a><br><a href="https://juejin.cn/post/6981643053396131853">JVM知识点整理</a><br><a href="https://www.processon.com/view/5ec5d7c60791290fe0768668?fromnew=1">https://www.processon.com/view/5ec5d7c60791290fe0768668?fromnew=1</a></p>
-]]></content>
-      <tags>
-        <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JVM-对象创建</title>
     <url>/wiki/JVM-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/</url>
     <content><![CDATA[<h2 id="1-对象创建方式"><a href="#1-对象创建方式" class="headerlink" title="1.对象创建方式"></a>1.对象创建方式</h2><p>Java中有一下几种方式创建对象：</p>
@@ -477,6 +458,25 @@
 <h3 id="5-3长期存活的对象将进入老年代"><a href="#5-3长期存活的对象将进入老年代" class="headerlink" title="5.3长期存活的对象将进入老年代"></a>5.3长期存活的对象将进入老年代</h3><p>既然虚拟机采用了分代收集的思想来管理内存，那么内存回收时就必须能识别哪些对象应该放在新生代，哪些对象应该放在老年代。为了做到这一点，虚拟机给每一个对象定义了一个对象年龄计数器。如果对象在Eden出生并且经过了第一次Minor GC后仍然存活，并且能够被Survivor容纳的话，将被移动到Survivor空间中，并且对象年龄设置为1。对象在Survivor区域中每熬过一次Minor GC，年龄就增加1岁，当它的年龄增加到一定程度（默认为15岁）对象将会被晋身到老年代中。</p>
 <h3 id="5-4-动态对象年龄判定"><a href="#5-4-动态对象年龄判定" class="headerlink" title="5.4 动态对象年龄判定"></a>5.4 动态对象年龄判定</h3><p>为了能够更好的适应不同程序的内存状况，虚拟机并不是每次都要等到对象的年龄到达阈值才将对象移动到老年代。如果在Survivor空间中相同年龄所有对象大小的总和大于Survivor空间的一半，年龄大于或等于该年龄的对象就可以直接进入老年代，无需等待年龄增长。</p>
 <h3 id="5-6-空间分配担保"><a href="#5-6-空间分配担保" class="headerlink" title="5.6 空间分配担保"></a>5.6 空间分配担保</h3><p>在发生Minor GC之前，虚拟机会先检查老年代中最大可用的连续空间是否大于新生代所有对象空间综合，如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlePromotionFailure设置值是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次Minor GC，尽管这次GC是有风险的；如果小于，或者设置不允许，那这时将改为进行一次Full GC。</p>
+]]></content>
+      <tags>
+        <tag>JVM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JVM-深入理解Java虚拟机</title>
+    <url>/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/</url>
+    <content><![CDATA[<h2 id="JVM结构图"><a href="#JVM结构图" class="headerlink" title="JVM结构图"></a>JVM结构图</h2><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730150029336.png" alt="image-20210730150029336"></p>
+<h2 id="知识清单"><a href="#知识清单" class="headerlink" title="知识清单"></a>知识清单</h2><ul>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">Java内存结构</a> </li>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/">Java对象创建</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></li>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">类加载机制</a></li>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">垃圾回收机制</a></li>
+<li><a href="https://geekibli.github.io/wiki/JVM-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/">垃圾收集器</a></li>
+<li>虚拟机调优</li>
+</ul>
+<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p><a href="https://blog.csdn.net/qq_21122519/article/details/94408118">JAVA虚拟机概述</a><br><a href="http://c.biancheng.net/view/3677.html">Java虚拟机（JVM）工作原理</a><br><a href="https://juejin.cn/post/6844903892774289421">推荐收藏系列：一文理解JVM虚拟机（内存、垃圾回收、性能优化）解决面试中遇到问题</a><br><a href="https://juejin.cn/post/6981790758290358302">Java虚拟机内存管理和性能调优</a><br><a href="https://juejin.cn/post/6844903494063751175">重读 JVM</a><br><a href="https://juejin.cn/post/6986594521752535053">【2021最新版】JVM面试题总结（87道题含答案解析）</a><br><a href="https://www.pdai.tech/md/java/jvm/java-jvm-classload.html">JVM 基础 - Java 类加载机制</a><br><a href="https://juejin.cn/post/6981643053396131853">JVM知识点整理</a><br><a href="https://www.processon.com/view/5ec5d7c60791290fe0768668?fromnew=1">https://www.processon.com/view/5ec5d7c60791290fe0768668?fromnew=1</a></p>
 ]]></content>
       <tags>
         <tag>JVM</tag>
@@ -952,127 +952,44 @@
       </tags>
   </entry>
   <entry>
-    <title>Java-synchronized关键字剖析</title>
-    <url>/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/</url>
-    <content><![CDATA[<p>之前写过一篇关于synchronized关键字的文章，是当时听马士兵老师的公开课时记录的一些关键笔记📒 <a href="https://geekibli.github.io/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">链接🔗</a></p>
-<p>下面我们还是要学习和总结一下synchronized</p>
-<h2 id="synchronized-特性"><a href="#synchronized-特性" class="headerlink" title="synchronized 特性"></a>synchronized 特性</h2><ul>
-<li>有序性<br><code>as-if-serial</code></li>
-</ul>
-<p>不管编译器和CPU如何重排序，必须保证在单线程情况下程序的结果是正确的，还有就是有数据依赖的也是不能重排序的。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = a;</span><br></pre></td></tr></table></figure>
-<p>这两段是怎么都不能重排序的，b的值依赖a的值，a如果不先赋值，那就为空了。</p>
-<ul>
-<li>可见性<br>主要依靠Java内存模型实现</li>
-<li>原子性<br>通过汇编指令控制</li>
-<li>可重入<br>synchronized锁对象的时候有个计数器，他会记录下线程获取锁的次数，在执行完对应的代码块之后，计数器就会-1，直到计数器清零，就释放锁了</li>
-<li>不可中断<br>不可中断就是指，一个线程获取锁之后，另外一个线程处于阻塞或者等待状态，前一个不释放，后一个也一直会阻塞或者等待，不可以被中断。<br>值得一提的是，Lock的tryLock方法是可以被中断的。</li>
-</ul>
-<h2 id="了解对象头"><a href="#了解对象头" class="headerlink" title="了解对象头"></a>了解对象头</h2><p><strong>Mark Word</strong>：默认存储对象的HashCode，分代年龄和锁标志位信息。这些信息都是与对象自身定义无关的数据，所以Mark Word被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据。它会根据对象的状态复用自己的存储空间，也就是说在运行期间Mark Word里存储的数据会随着锁标志位的变化而变化。</p>
-<p><strong>在64位的虚拟机中：</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729145750638.png" alt="image-20210729145750638"></p>
-<p><strong>32位虚拟机中：</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729145831606.png" alt="image-20210729145831606"></p>
-<p><strong>可以参见之前的文章</strong>  👉  <a href="https://geekibli.github.io/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/">Java对象头</a></p>
-<h2 id="synchronized实现"><a href="#synchronized实现" class="headerlink" title="synchronized实现"></a>synchronized实现</h2><p>之前的文章已经在 <code>Java代码</code>、<code>字节码</code>、<code>JVM级别</code>和<code>汇编指令</code>四个级别介绍了synchronzied的实现。<br>JDK对synchronzied不断的优化，大家熟悉的锁升级过程，其实就是在源码里面，调用了不同的实现去获取获取锁，失败就调用更高级的实现，最后升级完成。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729144552761.png" alt="image-20210729144552761"></p>
-<p>升级方向：【 无锁 】 -&gt; 【 偏向锁 】-&gt; 【 轻量级锁 】-&gt; 【 重量级锁 】</p>
-<p>Tip：<font color=red>切记这个升级过程是不可逆的</font>；</p>
-<h3 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h3><p>无锁是指没有对资源进行锁定，所有的线程都能访问并修改同一个资源，但同时只有一个线程能修改成功。</p>
-<p>无锁的特点是修改操作会在循环内进行，线程会不断的尝试修改共享资源。如果没有冲突就修改成功并退出，否则就会继续循环尝试。如果有多个线程修改同一个值，必定会有一个线程能修改成功，而其他修改失败的线程会不断重试直到修改成功。</p>
-<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>对象头是由 Mark Word 和 Class pointer 组成，锁争夺也就是对象头指向的Monitor对象的争夺，一旦有线程持有了这个对象，标志位修改为1，就进入偏向模式，同时会把这个线程的ID记录在对象的Mark Word中。</p>
-<p>这个过程是采用了<code>CAS</code>乐观锁操作的，每次同一线程进入，虚拟机就不进行任何同步的操作了，对标志位+1就好了，不同线程过来，CAS会失败，也就意味着获取锁失败。</p>
-<p>偏向锁在1.6之后是默认开启的，1.5中是关闭的，需要手动开启参数是xx:-UseBiasedLocking=false。</p>
-<p>初次执行到synchronized代码块的时候，锁对象变成偏向锁（通过CAS修改对象头里的锁标志位），字面意思是“偏向于第一个获得它的线程”的锁。执行完同步代码块后，线程并不会主动释放偏向锁。</p>
-<p>当第二次到达同步代码块时，线程会判断此时持有锁的线程是否就是自己（持有锁的线程ID也在对象头里），如果是则正常往下执行。由于之前没有释放锁，这里也就不需要重新加锁。<code>如果自始至终使用锁的线程只有一个，很明显偏向锁几乎没有额外开销，性能极高。</code></p>
-<p>偏向锁是指当一段同步代码<strong>一直被同一个线程所访问</strong>时，即不存在多个线程的竞争时，那么该线程在后续访问时便会自动获得锁，从而降低获取锁带来的消耗，即提高性能。</p>
-<p>当一个线程访问同步代码块并获取锁时，会在 Mark Word 里存储锁偏向的线程 ID。在线程进入和退出同步块时不再通过 CAS 操作来加锁和解锁，而是检测 Mark Word 里是否存储着指向当前线程的偏向锁。<code>轻量级锁的获取及释放依赖多次 CAS 原子指令</code>，而<code>偏向锁只需要在置换 ThreadID 的时候依赖一次 CAS 原子指令</code>即可。</p>
-<p>偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，<code>线程是不会主动释放偏向锁的。</code></p>
-<p>关于偏向锁的撤销，需要等待全局安全点，即在某个时间点上没有字节码正在执行时，它会先暂停拥有偏向锁的线程，然后判断锁对象是否处于被锁定状态。如果<code>线程不处于活动状态</code>，则将对象头设置成无锁状态，并撤销偏向锁，恢复到无锁（标志位为01）或轻量级锁（标志位为00）的状态。</p>
-<p><strong>偏向锁关闭，或者多个线程竞争偏向锁怎么办呢？</strong></p>
-<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p>还是跟Mark Work 相关，如果这个对象是无锁的，jvm就会在当前线程的栈帧中建立一个叫<code>锁记录（Lock Record）</code>的空间，用来存储锁对象的Mark Word 拷贝，然后把Lock Record中的owner指向当前对象。</p>
-<p>JVM接下来会利用CAS尝试把对象原本的Mark Word 更新会Lock Record的指针，成功就说明加锁成功，改变锁标志位，执行相关同步操作。</p>
-<p>如果失败了，就会判断当前对象的Mark Word是否指向了当前线程的栈帧，是则表示当前的线程已经持有了这个对象的锁，否则说明被其他线程持有了，继续锁升级，修改锁的状态，之后等待的线程也阻塞。</p>
-<p>轻量级锁是指当锁是偏向锁的时候，却被另外的线程所访问，此时偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，线程不会阻塞，从而提高性能。</p>
-<p>轻量级锁的获取主要由两种情况：<br>① 当关闭偏向锁功能时；<br>② 由于多个线程竞争偏向锁导致偏向锁升级为轻量级锁。</p>
-<p>一旦有第二个线程加入锁竞争，偏向锁就升级为轻量级锁（自旋锁）。这里要明确一下什么是锁竞争：</p>
-<blockquote>
-<p>如果多个线程轮流获取一个锁，但是每次获取锁的时候都很顺利，没有发生阻塞，那么就不存在锁竞争。只有当某线程尝试获取锁的时候，发现该锁已经被占用，只能等待其释放，这才发生了锁竞争。</p>
-</blockquote>
-<img src='https://img-blog.csdnimg.cn/20200606123648335.png' width=600 height=650>
+    <title>Java-传统的BIO</title>
+    <url>/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/</url>
+    <content><![CDATA[<h1 id="传统的BIO"><a href="#传统的BIO" class="headerlink" title="传统的BIO"></a>传统的BIO</h1><h2 id="Socket-和-ServerSocket"><a href="#Socket-和-ServerSocket" class="headerlink" title="Socket 和 ServerSocket"></a>Socket 和 ServerSocket</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">       ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9090</span>);</span><br><span class="line">       <span class="comment">// 阻塞</span></span><br><span class="line">       Socket client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">       InputStream inputStream = client.getInputStream();</span><br><span class="line"></span><br><span class="line">       BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(inputStream));</span><br><span class="line">       <span class="comment">// 读阻塞</span></span><br><span class="line">       System.err.println(bufferedReader.readLine());</span><br><span class="line"></span><br><span class="line">       <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>在轻量级锁状态下继续锁竞争，没有抢到锁的线程将自旋，即不停地循环判断锁是否能够被成功获取。获取锁的操作，其实就是通过CAS修改对象头里的锁标志位。先比较当前锁标志位是否为“释放”，如果是则将其设置为“锁定”，比较并设置是原子性发生的。这就算抢到锁了，然后线程将当前锁的持有者信息修改为自己。</p>
-<p>长时间的自旋操作是非常消耗资源的，一个线程持有锁，其他线程就只能在原地空耗CPU，执行不了任何有效的任务，这种现象叫做忙等（busy-waiting）。如果多个线程用一个锁，但是没有发生锁竞争，或者发生了很轻微的锁竞争，那么synchronized就用轻量级锁，允许短时间的忙等现象。这是一种折衷的想法，短时间的忙等，换取线程在用户态和内核态之间切换的开销。</p>
-<h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>我不是在上面提到了Linux系统的用户态和内核态的切换很耗资源，其实就是线程的等待唤起过程，那怎么才能减少这种消耗呢？</p>
-<p>自旋，过来的现在就不断自旋，防止线程被挂起，一旦可以获取资源，就直接尝试成功，直到超出阈值，自旋锁的默认大小是10次，-XX：PreBlockSpin可以修改。</p>
-<p>自旋都失败了，那就升级为重量级的锁，像1.5的一样，等待唤起咯。</p>
-<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729151704773.png" alt="image-20210729151704773" style="zoom:33%;" />
+<blockquote>
+<p>new ServerSocket(9090);</p>
+</blockquote>
+<p>这个java程序创建new ServerSocket(9090);会调用操作系统内核，也就是系统调用，<br>比如linux操作系统，应用进程也就是我们的java进程，会调用linux的内核方法，创建一个socket，在linux系统中就是一个文件描述符fd，最终对得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">socket() = XXfd</span><br><span class="line">bind(XXfd,9090)</span><br><span class="line">listen(XXfd)</span><br></pre></td></tr></table></figure>
 
-<h3 id="自适应自旋锁"><a href="#自适应自旋锁" class="headerlink" title="自适应自旋锁"></a>自适应自旋锁</h3><p>自适应意味着自旋的时间不再固定了，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定：</p>
+<p><img src="https://sjwx.easydoc.xyz/47754217/files/kn1ecf3d.png" alt="image.png"></p>
 <ul>
-<li>如果在同一个锁对象上，自旋等待之前成功获得过的锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也很有可能再次成功，因此允许自旋等待持续相对更长的时间。</li>
-<li>相反的，如果对于某个锁，自旋很少成功获得过，那么以后要获取这个锁时将可能减少自旋时间甚至省略自旋过程，以避免浪费处理器资源。</li>
+<li>socket 的read方法 ，读取客户端发送的数据，如果没有，则一直阻塞</li>
+<li>serverSocket的accept方法，等待客户端的链接，如果没有链接，则一直阻塞等待</li>
+<li>serverSocket 一次只能处理一个客户端请求</li>
 </ul>
-<p><strong>自适应自旋解决的是“锁竞争时间不确定”的问题</strong>。JVM很难感知确切的锁竞争时间，而交给用户分析就违反了JVM的设计初衷。自适应自旋假定不同线程持有同一个锁对象的时间基本相当，竞争程度趋于稳定。因此，可以根据上一次自旋的时间与结果调整下一次自旋的时间。</p>
-<h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>如果锁竞争情况严重，某个达到最大自旋次数的线程，会将轻量级锁升级为重量级锁（依然是CAS修改锁标志位，但不修改持有锁的线程ID）。当后续线程尝试获取锁时，发现被占用的锁是重量级锁，则直接将自己挂起（而不是忙等），等待将来被唤醒。</p>
-<p>重量级锁是指当有一个线程获取锁之后，其余所有等待获取该锁的线程都会处于阻塞状态。</p>
-<p>简言之，就是所有的控制权都交给了操作系统，由操作系统来负责线程间的调度和线程的状态变更。而这样会出现频繁地对线程运行状态的切换，线程的挂起和唤醒，从而消耗大量的系统资</p>
-<p>大家在看ObjectMonitor源码的时候，会发现Atomic::cmpxchg_ptr，Atomic::inc_ptr等内核函数，对应的线程就是park()和upark()。<br>这个操作涉及用户态和内核态的转换了，这种切换是很耗资源的，所以知道为啥有自旋锁这样的操作了吧，按道理类似死循环的操作更费资源才是对吧？其实不是，大家了解一下就知道了。</p>
-<blockquote>
-<p>那用户态和内核态又是啥呢？</p>
+<h2 id="BIO程序有哪些弊端？"><a href="#BIO程序有哪些弊端？" class="headerlink" title="BIO程序有哪些弊端？"></a>BIO程序有哪些弊端？</h2><ul>
+<li>服务端一次处理一个请求，并发非常低</li>
+<li>没有客户端请求，服务端一直阻塞，占用资源</li>
+</ul>
+<h2 id="如果在bio的基础上，利用多线程处理客户端请求？"><a href="#如果在bio的基础上，利用多线程处理客户端请求？" class="headerlink" title="如果在bio的基础上，利用多线程处理客户端请求？"></a>如果在bio的基础上，利用多线程处理客户端请求？</h2><blockquote>
+<p>d C10K问题 </p>
 </blockquote>
-<img src='https://oscimg.oschina.net/oscnet/up-3d168748d90e18da228ce8f55a9cc4a6cc4.png' width=300 height=300>
-
-<p>Linux系统的体系结构分为用户空间（应用程序的活动空间）和内核。我们所有的程序都在用户空间运行，进入用户运行状态也就是（用户态），但是很多操作可能涉及内核运行，比如涉及到I/O，我们就会进入内核运行状态（内核态）。</p>
-<p>这个过程是很复杂的，也涉及很多值的传递，我简单概括下流程：</p>
+<p><font color=red>来一个链接，服务端创建一个线程</font> ，去处理请求，服务端继续监听客户端，是不是可以增加并发？<br>有什么问题？</p>
 <ul>
-<li>用户态把一些数据放到寄存器，或者创建对应的堆栈，表明需要操作系统提供的服务。</li>
-<li>用户态执行系统调用（系统调用是操作系统的最小功能单位）。</li>
-<li>CPU切换到内核态，跳到对应的内存指定的位置执行指令。</li>
-<li>系统调用处理器去读取我们先前放到内存的数据参数，执行程序的请求。</li>
-<li>调用完成，操作系统重置CPU为用户态返回结果，并执行下个指令。</li>
+<li>线程消耗内存资源</li>
 </ul>
-<p>所以大家一直说，1.6之前是重量级锁，没错，但是他重量的本质，是ObjectMonitor调用的过程，以及Linux内核的复杂运行机制决定的，大量的系统资源消耗，所以效率才低。<br>还有两种情况也会发生内核态和用户态的切换：异常事件和外围设备的中断 大家也可以了解下。</p>
-<blockquote>
-<p>普通的IO读写也会涉及到用户态和内核的切换，但是为了提升IO 的性能，操作系统可以通过 <code>零拷贝</code> 来实现，Redis和Kafka,还有netty的底层IO模型都存在零拷贝。</p>
-</blockquote>
-<h3 id="锁对比"><a href="#锁对比" class="headerlink" title="锁对比"></a>锁对比</h3><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729150936860.png" alt="image-20210729150936860"></p>
-<h2 id="synchronized和Lock对比"><a href="#synchronized和Lock对比" class="headerlink" title="synchronized和Lock对比"></a>synchronized和Lock对比</h2><p>我们先看看他们的区别：</p>
-<ul>
-<li>synchronized是关键字，是JVM层面的底层啥都帮我们做了，而Lock是一个接口，是JDK层面的有丰富的API。</li>
-<li>synchronized会自动释放锁，而Lock必须手动释放锁。</li>
-<li>synchronized是不可中断的，Lock可以中断也可以不中断。</li>
-<li>通过Lock可以知道线程有没有拿到锁，而synchronized不能。</li>
-<li>synchronized能锁住方法和代码块，而Lock只能锁住代码块。</li>
-<li>Lock可以使用读锁提高多线程读效率。</li>
-<li>synchronized是非公平锁，ReentrantLock可以控制是否是公平锁。</li>
-</ul>
-<p>两者一个是JDK层面的一个是JVM层面的，我觉得最大的区别其实在，我们是否需要丰富的api，还有一个我们的场景。</p>
-<blockquote>
-<p><strong>比如我现在是滴滴，我早上有打车高峰，我代码使用了大量的synchronized，有什么问题？锁升级过程是不可逆的，过了高峰我们还是重量级的锁，那效率是不是大打折扣了？这个时候你用Lock是不是很好？</strong></p>
-</blockquote>
-<h2 id="synchronized使用注意事项"><a href="#synchronized使用注意事项" class="headerlink" title="synchronized使用注意事项"></a>synchronized使用注意事项</h2><p>synchronized是通过软件(JVM)实现的，简单易用，即使在JDK5之后有了Lock，仍然被广泛地使用。</p>
-<blockquote>
-<p> <strong>使用Synchronized有哪些要注意的？</strong></p>
-</blockquote>
-<ul>
-<li>锁对象不能为空，因为锁的信息都保存在对象头里</li>
-<li>作用域不宜过大，影响程序执行的速度，控制范围过大，编写代码也容易出错</li>
-<li>避免死锁</li>
-<li>在能选择的情况下，既不要用Lock也不要用synchronized关键字，用java.util.concurrent包中的各种各样的类，如果不用该包下的类，在满足业务的情况下，可以使用synchronized关键，因为代码量少，避免出错</li>
-</ul>
-<blockquote>
-<p><strong>synchronized是公平锁吗？</strong></p>
-</blockquote>
-<p>synchronized实际上是非公平的，新来的线程有可能立即获得监视器，而在等待区中等候已久的线程可能再次等待，不过这种抢占的方式可以预防饥饿。</p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://www.cnblogs.com/bakari/p/5520860.html">Linux探秘之用户态与内核态</a></p>
-<p><a href="https://mp.weixin.qq.com/s/FgBCop2zFfcX5ZszE0NoCQ">傻瓜三歪让我教他「零拷贝」</a></p>
-<p><a href="https://www.jianshu.com/p/8c255b942535">偏向锁、轻量级锁、重量级锁、自旋锁、自适应自旋锁</a></p>
-<p><a href="https://www.cnblogs.com/mingyueyy/p/13054296.html">关于 锁的四种状态与锁升级过程 图文详解</a></p>
-<p><a href="https://mp.weixin.qq.com/s/2ka1cDTRyjsAGk_-ii4ngw">死磕Synchronized底层实现</a></p>
+<p>如果一下子过来10万个请求呢？<br>服务器要创建10万个线程，内存就崩了。</p>
+<p>如果搞一个线程池呢？ 并发度最大为最大线程数？ 并发度已经定死了？</p>
 ]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>IO</category>
+      </categories>
       <tags>
-        <tag>多线程</tag>
+        <tag>Java</tag>
+        <tag>IO</tag>
       </tags>
   </entry>
   <entry>
@@ -1203,44 +1120,127 @@
       </tags>
   </entry>
   <entry>
-    <title>Java-传统的BIO</title>
-    <url>/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/</url>
-    <content><![CDATA[<h1 id="传统的BIO"><a href="#传统的BIO" class="headerlink" title="传统的BIO"></a>传统的BIO</h1><h2 id="Socket-和-ServerSocket"><a href="#Socket-和-ServerSocket" class="headerlink" title="Socket 和 ServerSocket"></a>Socket 和 ServerSocket</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">       ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(<span class="number">9090</span>);</span><br><span class="line">       <span class="comment">// 阻塞</span></span><br><span class="line">       Socket client = serverSocket.accept();</span><br><span class="line"></span><br><span class="line">       InputStream inputStream = client.getInputStream();</span><br><span class="line"></span><br><span class="line">       BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(inputStream));</span><br><span class="line">       <span class="comment">// 读阻塞</span></span><br><span class="line">       System.err.println(bufferedReader.readLine());</span><br><span class="line"></span><br><span class="line">       <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+    <title>Java-synchronized关键字剖析</title>
+    <url>/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/</url>
+    <content><![CDATA[<p>之前写过一篇关于synchronized关键字的文章，是当时听马士兵老师的公开课时记录的一些关键笔记📒 <a href="https://geekibli.github.io/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">链接🔗</a></p>
+<p>下面我们还是要学习和总结一下synchronized</p>
+<h2 id="synchronized-特性"><a href="#synchronized-特性" class="headerlink" title="synchronized 特性"></a>synchronized 特性</h2><ul>
+<li>有序性<br><code>as-if-serial</code></li>
+</ul>
+<p>不管编译器和CPU如何重排序，必须保证在单线程情况下程序的结果是正确的，还有就是有数据依赖的也是不能重排序的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> b = a;</span><br></pre></td></tr></table></figure>
+<p>这两段是怎么都不能重排序的，b的值依赖a的值，a如果不先赋值，那就为空了。</p>
+<ul>
+<li>可见性<br>主要依靠Java内存模型实现</li>
+<li>原子性<br>通过汇编指令控制</li>
+<li>可重入<br>synchronized锁对象的时候有个计数器，他会记录下线程获取锁的次数，在执行完对应的代码块之后，计数器就会-1，直到计数器清零，就释放锁了</li>
+<li>不可中断<br>不可中断就是指，一个线程获取锁之后，另外一个线程处于阻塞或者等待状态，前一个不释放，后一个也一直会阻塞或者等待，不可以被中断。<br>值得一提的是，Lock的tryLock方法是可以被中断的。</li>
+</ul>
+<h2 id="了解对象头"><a href="#了解对象头" class="headerlink" title="了解对象头"></a>了解对象头</h2><p><strong>Mark Word</strong>：默认存储对象的HashCode，分代年龄和锁标志位信息。这些信息都是与对象自身定义无关的数据，所以Mark Word被设计成一个非固定的数据结构以便在极小的空间内存存储尽量多的数据。它会根据对象的状态复用自己的存储空间，也就是说在运行期间Mark Word里存储的数据会随着锁标志位的变化而变化。</p>
+<p><strong>在64位的虚拟机中：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729145750638.png" alt="image-20210729145750638"></p>
+<p><strong>32位虚拟机中：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729145831606.png" alt="image-20210729145831606"></p>
+<p><strong>可以参见之前的文章</strong>  👉  <a href="https://geekibli.github.io/wiki/Java%E5%AF%B9%E8%B1%A1%E5%A4%B4/">Java对象头</a></p>
+<h2 id="synchronized实现"><a href="#synchronized实现" class="headerlink" title="synchronized实现"></a>synchronized实现</h2><p>之前的文章已经在 <code>Java代码</code>、<code>字节码</code>、<code>JVM级别</code>和<code>汇编指令</code>四个级别介绍了synchronzied的实现。<br>JDK对synchronzied不断的优化，大家熟悉的锁升级过程，其实就是在源码里面，调用了不同的实现去获取获取锁，失败就调用更高级的实现，最后升级完成。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729144552761.png" alt="image-20210729144552761"></p>
+<p>升级方向：【 无锁 】 -&gt; 【 偏向锁 】-&gt; 【 轻量级锁 】-&gt; 【 重量级锁 】</p>
+<p>Tip：<font color=red>切记这个升级过程是不可逆的</font>；</p>
+<h3 id="无锁"><a href="#无锁" class="headerlink" title="无锁"></a>无锁</h3><p>无锁是指没有对资源进行锁定，所有的线程都能访问并修改同一个资源，但同时只有一个线程能修改成功。</p>
+<p>无锁的特点是修改操作会在循环内进行，线程会不断的尝试修改共享资源。如果没有冲突就修改成功并退出，否则就会继续循环尝试。如果有多个线程修改同一个值，必定会有一个线程能修改成功，而其他修改失败的线程会不断重试直到修改成功。</p>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>对象头是由 Mark Word 和 Class pointer 组成，锁争夺也就是对象头指向的Monitor对象的争夺，一旦有线程持有了这个对象，标志位修改为1，就进入偏向模式，同时会把这个线程的ID记录在对象的Mark Word中。</p>
+<p>这个过程是采用了<code>CAS</code>乐观锁操作的，每次同一线程进入，虚拟机就不进行任何同步的操作了，对标志位+1就好了，不同线程过来，CAS会失败，也就意味着获取锁失败。</p>
+<p>偏向锁在1.6之后是默认开启的，1.5中是关闭的，需要手动开启参数是xx:-UseBiasedLocking=false。</p>
+<p>初次执行到synchronized代码块的时候，锁对象变成偏向锁（通过CAS修改对象头里的锁标志位），字面意思是“偏向于第一个获得它的线程”的锁。执行完同步代码块后，线程并不会主动释放偏向锁。</p>
+<p>当第二次到达同步代码块时，线程会判断此时持有锁的线程是否就是自己（持有锁的线程ID也在对象头里），如果是则正常往下执行。由于之前没有释放锁，这里也就不需要重新加锁。<code>如果自始至终使用锁的线程只有一个，很明显偏向锁几乎没有额外开销，性能极高。</code></p>
+<p>偏向锁是指当一段同步代码<strong>一直被同一个线程所访问</strong>时，即不存在多个线程的竞争时，那么该线程在后续访问时便会自动获得锁，从而降低获取锁带来的消耗，即提高性能。</p>
+<p>当一个线程访问同步代码块并获取锁时，会在 Mark Word 里存储锁偏向的线程 ID。在线程进入和退出同步块时不再通过 CAS 操作来加锁和解锁，而是检测 Mark Word 里是否存储着指向当前线程的偏向锁。<code>轻量级锁的获取及释放依赖多次 CAS 原子指令</code>，而<code>偏向锁只需要在置换 ThreadID 的时候依赖一次 CAS 原子指令</code>即可。</p>
+<p>偏向锁只有遇到其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁，<code>线程是不会主动释放偏向锁的。</code></p>
+<p>关于偏向锁的撤销，需要等待全局安全点，即在某个时间点上没有字节码正在执行时，它会先暂停拥有偏向锁的线程，然后判断锁对象是否处于被锁定状态。如果<code>线程不处于活动状态</code>，则将对象头设置成无锁状态，并撤销偏向锁，恢复到无锁（标志位为01）或轻量级锁（标志位为00）的状态。</p>
+<p><strong>偏向锁关闭，或者多个线程竞争偏向锁怎么办呢？</strong></p>
+<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p>还是跟Mark Work 相关，如果这个对象是无锁的，jvm就会在当前线程的栈帧中建立一个叫<code>锁记录（Lock Record）</code>的空间，用来存储锁对象的Mark Word 拷贝，然后把Lock Record中的owner指向当前对象。</p>
+<p>JVM接下来会利用CAS尝试把对象原本的Mark Word 更新会Lock Record的指针，成功就说明加锁成功，改变锁标志位，执行相关同步操作。</p>
+<p>如果失败了，就会判断当前对象的Mark Word是否指向了当前线程的栈帧，是则表示当前的线程已经持有了这个对象的锁，否则说明被其他线程持有了，继续锁升级，修改锁的状态，之后等待的线程也阻塞。</p>
+<p>轻量级锁是指当锁是偏向锁的时候，却被另外的线程所访问，此时偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，线程不会阻塞，从而提高性能。</p>
+<p>轻量级锁的获取主要由两种情况：<br>① 当关闭偏向锁功能时；<br>② 由于多个线程竞争偏向锁导致偏向锁升级为轻量级锁。</p>
+<p>一旦有第二个线程加入锁竞争，偏向锁就升级为轻量级锁（自旋锁）。这里要明确一下什么是锁竞争：</p>
 <blockquote>
-<p>new ServerSocket(9090);</p>
+<p>如果多个线程轮流获取一个锁，但是每次获取锁的时候都很顺利，没有发生阻塞，那么就不存在锁竞争。只有当某线程尝试获取锁的时候，发现该锁已经被占用，只能等待其释放，这才发生了锁竞争。</p>
 </blockquote>
-<p>这个java程序创建new ServerSocket(9090);会调用操作系统内核，也就是系统调用，<br>比如linux操作系统，应用进程也就是我们的java进程，会调用linux的内核方法，创建一个socket，在linux系统中就是一个文件描述符fd，最终对得到：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">socket() = XXfd</span><br><span class="line">bind(XXfd,9090)</span><br><span class="line">listen(XXfd)</span><br></pre></td></tr></table></figure>
+<img src='https://img-blog.csdnimg.cn/20200606123648335.png' width=600 height=650>
 
-<p><img src="https://sjwx.easydoc.xyz/47754217/files/kn1ecf3d.png" alt="image.png"></p>
+<p>在轻量级锁状态下继续锁竞争，没有抢到锁的线程将自旋，即不停地循环判断锁是否能够被成功获取。获取锁的操作，其实就是通过CAS修改对象头里的锁标志位。先比较当前锁标志位是否为“释放”，如果是则将其设置为“锁定”，比较并设置是原子性发生的。这就算抢到锁了，然后线程将当前锁的持有者信息修改为自己。</p>
+<p>长时间的自旋操作是非常消耗资源的，一个线程持有锁，其他线程就只能在原地空耗CPU，执行不了任何有效的任务，这种现象叫做忙等（busy-waiting）。如果多个线程用一个锁，但是没有发生锁竞争，或者发生了很轻微的锁竞争，那么synchronized就用轻量级锁，允许短时间的忙等现象。这是一种折衷的想法，短时间的忙等，换取线程在用户态和内核态之间切换的开销。</p>
+<h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>我不是在上面提到了Linux系统的用户态和内核态的切换很耗资源，其实就是线程的等待唤起过程，那怎么才能减少这种消耗呢？</p>
+<p>自旋，过来的现在就不断自旋，防止线程被挂起，一旦可以获取资源，就直接尝试成功，直到超出阈值，自旋锁的默认大小是10次，-XX：PreBlockSpin可以修改。</p>
+<p>自旋都失败了，那就升级为重量级的锁，像1.5的一样，等待唤起咯。</p>
+<img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729151704773.png" alt="image-20210729151704773" style="zoom:33%;" />
+
+<h3 id="自适应自旋锁"><a href="#自适应自旋锁" class="headerlink" title="自适应自旋锁"></a>自适应自旋锁</h3><p>自适应意味着自旋的时间不再固定了，而是由前一次在同一个锁上的自旋时间及锁的拥有者的状态来决定：</p>
 <ul>
-<li>socket 的read方法 ，读取客户端发送的数据，如果没有，则一直阻塞</li>
-<li>serverSocket的accept方法，等待客户端的链接，如果没有链接，则一直阻塞等待</li>
-<li>serverSocket 一次只能处理一个客户端请求</li>
+<li>如果在同一个锁对象上，自旋等待之前成功获得过的锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也很有可能再次成功，因此允许自旋等待持续相对更长的时间。</li>
+<li>相反的，如果对于某个锁，自旋很少成功获得过，那么以后要获取这个锁时将可能减少自旋时间甚至省略自旋过程，以避免浪费处理器资源。</li>
 </ul>
-<h2 id="BIO程序有哪些弊端？"><a href="#BIO程序有哪些弊端？" class="headerlink" title="BIO程序有哪些弊端？"></a>BIO程序有哪些弊端？</h2><ul>
-<li>服务端一次处理一个请求，并发非常低</li>
-<li>没有客户端请求，服务端一直阻塞，占用资源</li>
-</ul>
-<h2 id="如果在bio的基础上，利用多线程处理客户端请求？"><a href="#如果在bio的基础上，利用多线程处理客户端请求？" class="headerlink" title="如果在bio的基础上，利用多线程处理客户端请求？"></a>如果在bio的基础上，利用多线程处理客户端请求？</h2><blockquote>
-<p>d C10K问题 </p>
+<p><strong>自适应自旋解决的是“锁竞争时间不确定”的问题</strong>。JVM很难感知确切的锁竞争时间，而交给用户分析就违反了JVM的设计初衷。自适应自旋假定不同线程持有同一个锁对象的时间基本相当，竞争程度趋于稳定。因此，可以根据上一次自旋的时间与结果调整下一次自旋的时间。</p>
+<h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>如果锁竞争情况严重，某个达到最大自旋次数的线程，会将轻量级锁升级为重量级锁（依然是CAS修改锁标志位，但不修改持有锁的线程ID）。当后续线程尝试获取锁时，发现被占用的锁是重量级锁，则直接将自己挂起（而不是忙等），等待将来被唤醒。</p>
+<p>重量级锁是指当有一个线程获取锁之后，其余所有等待获取该锁的线程都会处于阻塞状态。</p>
+<p>简言之，就是所有的控制权都交给了操作系统，由操作系统来负责线程间的调度和线程的状态变更。而这样会出现频繁地对线程运行状态的切换，线程的挂起和唤醒，从而消耗大量的系统资</p>
+<p>大家在看ObjectMonitor源码的时候，会发现Atomic::cmpxchg_ptr，Atomic::inc_ptr等内核函数，对应的线程就是park()和upark()。<br>这个操作涉及用户态和内核态的转换了，这种切换是很耗资源的，所以知道为啥有自旋锁这样的操作了吧，按道理类似死循环的操作更费资源才是对吧？其实不是，大家了解一下就知道了。</p>
+<blockquote>
+<p>那用户态和内核态又是啥呢？</p>
 </blockquote>
-<p><font color=red>来一个链接，服务端创建一个线程</font> ，去处理请求，服务端继续监听客户端，是不是可以增加并发？<br>有什么问题？</p>
+<img src='https://oscimg.oschina.net/oscnet/up-3d168748d90e18da228ce8f55a9cc4a6cc4.png' width=300 height=300>
+
+<p>Linux系统的体系结构分为用户空间（应用程序的活动空间）和内核。我们所有的程序都在用户空间运行，进入用户运行状态也就是（用户态），但是很多操作可能涉及内核运行，比如涉及到I/O，我们就会进入内核运行状态（内核态）。</p>
+<p>这个过程是很复杂的，也涉及很多值的传递，我简单概括下流程：</p>
 <ul>
-<li>线程消耗内存资源</li>
+<li>用户态把一些数据放到寄存器，或者创建对应的堆栈，表明需要操作系统提供的服务。</li>
+<li>用户态执行系统调用（系统调用是操作系统的最小功能单位）。</li>
+<li>CPU切换到内核态，跳到对应的内存指定的位置执行指令。</li>
+<li>系统调用处理器去读取我们先前放到内存的数据参数，执行程序的请求。</li>
+<li>调用完成，操作系统重置CPU为用户态返回结果，并执行下个指令。</li>
 </ul>
-<p>如果一下子过来10万个请求呢？<br>服务器要创建10万个线程，内存就崩了。</p>
-<p>如果搞一个线程池呢？ 并发度最大为最大线程数？ 并发度已经定死了？</p>
+<p>所以大家一直说，1.6之前是重量级锁，没错，但是他重量的本质，是ObjectMonitor调用的过程，以及Linux内核的复杂运行机制决定的，大量的系统资源消耗，所以效率才低。<br>还有两种情况也会发生内核态和用户态的切换：异常事件和外围设备的中断 大家也可以了解下。</p>
+<blockquote>
+<p>普通的IO读写也会涉及到用户态和内核的切换，但是为了提升IO 的性能，操作系统可以通过 <code>零拷贝</code> 来实现，Redis和Kafka,还有netty的底层IO模型都存在零拷贝。</p>
+</blockquote>
+<h3 id="锁对比"><a href="#锁对比" class="headerlink" title="锁对比"></a>锁对比</h3><p><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210729150936860.png" alt="image-20210729150936860"></p>
+<h2 id="synchronized和Lock对比"><a href="#synchronized和Lock对比" class="headerlink" title="synchronized和Lock对比"></a>synchronized和Lock对比</h2><p>我们先看看他们的区别：</p>
+<ul>
+<li>synchronized是关键字，是JVM层面的底层啥都帮我们做了，而Lock是一个接口，是JDK层面的有丰富的API。</li>
+<li>synchronized会自动释放锁，而Lock必须手动释放锁。</li>
+<li>synchronized是不可中断的，Lock可以中断也可以不中断。</li>
+<li>通过Lock可以知道线程有没有拿到锁，而synchronized不能。</li>
+<li>synchronized能锁住方法和代码块，而Lock只能锁住代码块。</li>
+<li>Lock可以使用读锁提高多线程读效率。</li>
+<li>synchronized是非公平锁，ReentrantLock可以控制是否是公平锁。</li>
+</ul>
+<p>两者一个是JDK层面的一个是JVM层面的，我觉得最大的区别其实在，我们是否需要丰富的api，还有一个我们的场景。</p>
+<blockquote>
+<p><strong>比如我现在是滴滴，我早上有打车高峰，我代码使用了大量的synchronized，有什么问题？锁升级过程是不可逆的，过了高峰我们还是重量级的锁，那效率是不是大打折扣了？这个时候你用Lock是不是很好？</strong></p>
+</blockquote>
+<h2 id="synchronized使用注意事项"><a href="#synchronized使用注意事项" class="headerlink" title="synchronized使用注意事项"></a>synchronized使用注意事项</h2><p>synchronized是通过软件(JVM)实现的，简单易用，即使在JDK5之后有了Lock，仍然被广泛地使用。</p>
+<blockquote>
+<p> <strong>使用Synchronized有哪些要注意的？</strong></p>
+</blockquote>
+<ul>
+<li>锁对象不能为空，因为锁的信息都保存在对象头里</li>
+<li>作用域不宜过大，影响程序执行的速度，控制范围过大，编写代码也容易出错</li>
+<li>避免死锁</li>
+<li>在能选择的情况下，既不要用Lock也不要用synchronized关键字，用java.util.concurrent包中的各种各样的类，如果不用该包下的类，在满足业务的情况下，可以使用synchronized关键，因为代码量少，避免出错</li>
+</ul>
+<blockquote>
+<p><strong>synchronized是公平锁吗？</strong></p>
+</blockquote>
+<p>synchronized实际上是非公平的，新来的线程有可能立即获得监视器，而在等待区中等候已久的线程可能再次等待，不过这种抢占的方式可以预防饥饿。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://www.cnblogs.com/bakari/p/5520860.html">Linux探秘之用户态与内核态</a></p>
+<p><a href="https://mp.weixin.qq.com/s/FgBCop2zFfcX5ZszE0NoCQ">傻瓜三歪让我教他「零拷贝」</a></p>
+<p><a href="https://www.jianshu.com/p/8c255b942535">偏向锁、轻量级锁、重量级锁、自旋锁、自适应自旋锁</a></p>
+<p><a href="https://www.cnblogs.com/mingyueyy/p/13054296.html">关于 锁的四种状态与锁升级过程 图文详解</a></p>
+<p><a href="https://mp.weixin.qq.com/s/2ka1cDTRyjsAGk_-ii4ngw">死磕Synchronized底层实现</a></p>
 ]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>IO</category>
-      </categories>
       <tags>
-        <tag>Java</tag>
-        <tag>IO</tag>
+        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -1416,31 +1416,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java多线程之ThreadLocal</title>
-    <url>/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/</url>
-    <content><![CDATA[<h2 id="ThreadLocalMap结构"><a href="#ThreadLocalMap结构" class="headerlink" title="ThreadLocalMap结构"></a>ThreadLocalMap结构</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b45487065b90?imageView2/0/w/1280/h/960/ignore-error/1'>
-
-
-
-
-<h2 id="ThreadLocal-set流程"><a href="#ThreadLocal-set流程" class="headerlink" title="ThreadLocal set流程"></a>ThreadLocal set流程</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b454879fe57d?imageView2/0/w/1280/h/960/ignore-error/1'>
-
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://juejin.cn/post/6854573219916021767">Java面试必问：ThreadLocal终极篇 </a></li>
-</ul>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Java</category>
-        <category>多线程与并发</category>
-      </categories>
-      <tags>
-        <tag>多线程</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java反射</title>
     <url>/wiki/Java%E5%8F%8D%E5%B0%84/</url>
     <content><![CDATA[<h2 id="Java反射"><a href="#Java反射" class="headerlink" title="Java反射"></a>Java反射</h2><blockquote>
@@ -1562,6 +1537,31 @@
       </categories>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java多线程之ThreadLocal</title>
+    <url>/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/</url>
+    <content><![CDATA[<h2 id="ThreadLocalMap结构"><a href="#ThreadLocalMap结构" class="headerlink" title="ThreadLocalMap结构"></a>ThreadLocalMap结构</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b45487065b90?imageView2/0/w/1280/h/960/ignore-error/1'>
+
+
+
+
+<h2 id="ThreadLocal-set流程"><a href="#ThreadLocal-set流程" class="headerlink" title="ThreadLocal set流程"></a>ThreadLocal set流程</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b454879fe57d?imageView2/0/w/1280/h/960/ignore-error/1'>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://juejin.cn/post/6854573219916021767">Java面试必问：ThreadLocal终极篇 </a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Java</category>
+        <category>多线程与并发</category>
+      </categories>
+      <tags>
+        <tag>多线程</tag>
       </tags>
   </entry>
   <entry>
@@ -1795,17 +1795,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java并发编程之Blocking Queue</title>
-    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BBlocking-Queue/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-</ul>
-</blockquote>
-]]></content>
-  </entry>
-  <entry>
     <title>Java并发编程之Condition机制底层</title>
     <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCondition%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82/</url>
     <content><![CDATA[<h1 id="Lock框架中的Condition机制"><a href="#Lock框架中的Condition机制" class="headerlink" title="Lock框架中的Condition机制"></a>Lock框架中的Condition机制</h1><p>还是看一下之前ReentrantLock中调用condition方法的流程图 👇</p>
@@ -1962,19 +1951,21 @@
 
 <h2 id="知识清单"><a href="#知识清单" class="headerlink" title="知识清单"></a>知识清单</h2><ul>
 <li>Java多线程与并发基础</li>
-<li>Java内存模型</li>
-<li>深入理解同步锁-synchronized关键字</li>
-<li>深入理解volatile关键字</li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">深入理解同步锁-synchronized关键字</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">synchronized实现原理概述</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/">深入理解volatile关键字</a></li>
 <li>深入理解final关键字</li>
 <li>深入理解并发编程之Blocking Queue</li>
-<li>深入理解并发编程之AQS</li>
-<li>深入理解ReentrantLock应用及实现</li>
-<li>深入Condition机制的底层原理</li>
-<li>Java多线程之中断机制</li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BAQS%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%8E%9F%E7%90%86/">深入理解并发编程之AQS</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ReetrantLock/">深入理解ReentrantLock应用及实现</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCondition%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82/">深入Condition机制的底层原理</a></li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6/">Java多线程之中断机制</a></li>
 <li>深入理解并发容器之concurrentHashMap</li>
-<li>深入理解并发编程之ThreadLocal</li>
+<li><a href="https://geekibli.github.io/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/">深入理解并发编程之ThreadLocal</a></li>
 <li>深入理解Atomic底层及原理</li>
 <li>并发编程之线程池使用及流程实现原理</li>
+<li><a href="https://geekibli.github.io/wiki/Java%E7%BA%BF%E7%A8%8B%E6%B1%A0/">如何构建一个安全可用的线程池</a></li>
 <li>JUC-CountDownLatch</li>
 <li>JUC-CyclicBarrier</li>
 <li>LockSupport工具</li>
@@ -1985,6 +1976,7 @@
 <p><a href="https://www.pdai.tech/md/java/thread/java-thread-x-juc-overview.html">https://www.pdai.tech/md/java/thread/java-thread-x-juc-overview.html</a></p>
 <p><a href="https://github.com/AobingJava/JavaFamily">https://github.com/AobingJava/JavaFamily</a></p>
 <p><a href="https://dayarch.top/categories/Coding/Java-Concurrency/">https://dayarch.top/categories/Coding/Java-Concurrency/</a></p>
+<p><a href="http://tutorials.jenkov.com/java-concurrency/blocking-queues.html">http://tutorials.jenkov.com/java-concurrency/blocking-queues.html</a></p>
 ]]></content>
       <tags>
         <tag>多线程</tag>
@@ -2176,6 +2168,49 @@
       </tags>
   </entry>
   <entry>
+    <title>Mysql-事务特性与实现原理</title>
+    <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
+<p>原子性(Atomicity)</p>
+</blockquote>
+<p>事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。</p>
+<blockquote>
+<p>一致性(Consistency)</p>
+</blockquote>
+<p>事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主码,参照完整性,check约束等) 2.系统的状态反应数据库本应描述的现实世界的真实状态,比如转账前后两个账户的金额总和应该保持不变。</p>
+<blockquote>
+<p>隔离性(Isolation)</p>
+</blockquote>
+<p>并发执行的事务不会相互影响,其对数据库的影响和它们串行执行时一样。比如多个用户同时往一个账户转账,最后账户的结果应该和他们按先后次序转账的结果一样。</p>
+<blockquote>
+<p>持久性(Durability)</p>
+</blockquote>
+<p>事务一旦提交,其对数据库的更新就是持久的。任何事务或系统故障都不会导致数据丢失。</p>
+<p>在事务的ACID特性中,C即一致性是事务的根本追求,而对数据一致性的破坏主要来自两个方面<br>1.事务的并发执行<br>2.事务故障或系统故障</p>
+<h2 id="事务实现原理"><a href="#事务实现原理" class="headerlink" title="事务实现原理"></a>事务实现原理</h2><img src="https://oscimg.oschina.net/oscnet/up-7b54f7847cee22930ec53a4058179a2b531.png" width=460 height=300>
+
+<ul>
+<li>并发控制技术保证了事务的隔离性,使数据库的一致性状态不会因为并发执行的操作被破坏。</li>
+<li>日志恢复技术保证了事务的原子性,使一致性状态不会因事务或系统故障被破坏。同时使已提交的对数据库的修改不会因系统崩溃而丢失,保证了事务的持久性。</li>
+</ul>
+<h3 id="回滚日志（undo）"><a href="#回滚日志（undo）" class="headerlink" title="回滚日志（undo）"></a>回滚日志（undo）</h3><p>undo log属于 「 逻辑日志 」，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
+<p>undo log用于存放数据被修改前的值，如果修改出现异常，可以使用undo日志来实现回滚操作，保证事务的一致性。另外InnoDB MVCC事务特性也是基于undo日志实现的。</p>
+<p>因此，undo log有两个作用：提供回滚和多个行版本控制(MVCC)。</p>
+<h3 id="重做日志（redo）"><a href="#重做日志（redo）" class="headerlink" title="重做日志（redo）"></a>重做日志（redo）</h3><p>redo log重做日志记录的是新数据的备份，属于物理日志。在事务提交前，只要将redo log持久化即可，不需要将数据持久化。当系统崩溃时，虽然数据没有持久化，但是redo log已经持久化。系统可以根据redo log的内容，将所有数据恢复到最新的状态。</p>
+<p>redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。</p>
+<p>MySQL中redo log刷新规则采用一种称为Checkpoint的机制（利用LSN实现），为了确保安全性，又引入double write机制。</p>
+<h2 id="事务基本操作"><a href="#事务基本操作" class="headerlink" title="事务基本操作"></a>事务基本操作</h2><p>开启事务：start transaction<br>回滚事务：rollback<br>提交事务：commit</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html">1、详细分析MySQL事务日志(redo log和undo log)</a><br><a href="https://www.cnblogs.com/takumicx/p/9998844.html">2、数据库事务的概念及其实现原理</a><br><a href="https://zhuanlan.zhihu.com/p/281927963">3、数据库事务实现原理</a></p>
+]]></content>
+      <categories>
+        <category>DataBase</category>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mysql-MVCC多版本并发控制</title>
     <url>/wiki/Mysql-MVCC%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6/</url>
     <content><![CDATA[<h1 id="MVCC多版本并发控制"><a href="#MVCC多版本并发控制" class="headerlink" title="MVCC多版本并发控制"></a>MVCC多版本并发控制</h1><p>MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务内存。</p>
@@ -2232,67 +2267,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Mysql-事务特性与实现原理</title>
-    <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
-<p>原子性(Atomicity)</p>
-</blockquote>
-<p>事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。</p>
-<blockquote>
-<p>一致性(Consistency)</p>
-</blockquote>
-<p>事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据的完整性约束(主码,参照完整性,check约束等) 2.系统的状态反应数据库本应描述的现实世界的真实状态,比如转账前后两个账户的金额总和应该保持不变。</p>
-<blockquote>
-<p>隔离性(Isolation)</p>
-</blockquote>
-<p>并发执行的事务不会相互影响,其对数据库的影响和它们串行执行时一样。比如多个用户同时往一个账户转账,最后账户的结果应该和他们按先后次序转账的结果一样。</p>
-<blockquote>
-<p>持久性(Durability)</p>
-</blockquote>
-<p>事务一旦提交,其对数据库的更新就是持久的。任何事务或系统故障都不会导致数据丢失。</p>
-<p>在事务的ACID特性中,C即一致性是事务的根本追求,而对数据一致性的破坏主要来自两个方面<br>1.事务的并发执行<br>2.事务故障或系统故障</p>
-<h2 id="事务实现原理"><a href="#事务实现原理" class="headerlink" title="事务实现原理"></a>事务实现原理</h2><img src="https://oscimg.oschina.net/oscnet/up-7b54f7847cee22930ec53a4058179a2b531.png" width=460 height=300>
-
-<ul>
-<li>并发控制技术保证了事务的隔离性,使数据库的一致性状态不会因为并发执行的操作被破坏。</li>
-<li>日志恢复技术保证了事务的原子性,使一致性状态不会因事务或系统故障被破坏。同时使已提交的对数据库的修改不会因系统崩溃而丢失,保证了事务的持久性。</li>
-</ul>
-<h3 id="回滚日志（undo）"><a href="#回滚日志（undo）" class="headerlink" title="回滚日志（undo）"></a>回滚日志（undo）</h3><p>undo log属于 「 逻辑日志 」，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
-<p>undo log用于存放数据被修改前的值，如果修改出现异常，可以使用undo日志来实现回滚操作，保证事务的一致性。另外InnoDB MVCC事务特性也是基于undo日志实现的。</p>
-<p>因此，undo log有两个作用：提供回滚和多个行版本控制(MVCC)。</p>
-<h3 id="重做日志（redo）"><a href="#重做日志（redo）" class="headerlink" title="重做日志（redo）"></a>重做日志（redo）</h3><p>redo log重做日志记录的是新数据的备份，属于物理日志。在事务提交前，只要将redo log持久化即可，不需要将数据持久化。当系统崩溃时，虽然数据没有持久化，但是redo log已经持久化。系统可以根据redo log的内容，将所有数据恢复到最新的状态。</p>
-<p>redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。</p>
-<p>MySQL中redo log刷新规则采用一种称为Checkpoint的机制（利用LSN实现），为了确保安全性，又引入double write机制。</p>
-<h2 id="事务基本操作"><a href="#事务基本操作" class="headerlink" title="事务基本操作"></a>事务基本操作</h2><p>开启事务：start transaction<br>回滚事务：rollback<br>提交事务：commit</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html">1、详细分析MySQL事务日志(redo log和undo log)</a><br><a href="https://www.cnblogs.com/takumicx/p/9998844.html">2、数据库事务的概念及其实现原理</a><br><a href="https://zhuanlan.zhihu.com/p/281927963">3、数据库事务实现原理</a></p>
-]]></content>
-      <categories>
-        <category>DataBase</category>
-        <category>MySQL</category>
-      </categories>
-      <tags>
-        <tag>MySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Parameter index out of range (1 &gt; number of parameters, which is 0).</title>
-    <url>/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/</url>
-    <content><![CDATA[<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to import data to index: rd_member</span><br><span class="line">2021-07-06 12:39:31.186 [http-nio-8081-exec-2] ERROR com.alibaba.otter.canal.client.adapter.support.Util - sqlRs has error, sql: SELECT COUNT(1) FROM ( select t.redtom_id as id, t.username, t.nickname, t.avatar, t.status, t.mobile, t.mobile_region_no, t.email, t.gender, t.password,t.salt,t.birthday,t.introduce,t.country,t.region,t.level,t.is_vip,t.follows    ,t.fans,t.likes_num, t.collects_num, t.instagram_account, t.youtube_account, t.facebook_account, t.twitter_account,t.create_ip, t.create_time,t.update_time from rd_member r where t.create_time&gt;=&#x27;&#123;0&#125;&#x27;) _CNT</span><br><span class="line">2021-07-06 12:39:31.188 [http-nio-8081-exec-2] ERROR c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">java.lang.RuntimeException: java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.Util.sqlRS(Util.java:65) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.AbstractEtlService.importData(AbstractEtlService.java:62) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.etl.ESEtlService.importData(ESEtlService.java:56) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.ES7xAdapter.etl(ES7xAdapter.java:79) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:100) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:123) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_292]</span><br></pre></td></tr></table></figure>
-
-<h2 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h2><p>我执行的操作如下：👇<br><code>curl http://127.0.0.1:8081/etl/es7/customer.yml -X POST -d &quot;params=2019-08-31 00:00:00&quot;</code></p>
-<p>但是我的 es7/rd_member.yml的配置文件如下：</p>
-<p><code>etlCondition:&quot;where a.c_time&gt;=&#39;&#123;0&#125;&#39;&quot; # etl 的条件参数</code></p>
-<p>应该改成：<br><code>etlCondition:&quot;where a.c_time&gt;=&#123;&#125;&quot; # etl 的条件参数</code></p>
-]]></content>
-      <categories>
-        <category>Elasticsearch</category>
-        <category>Other Question</category>
-      </categories>
-      <tags>
-        <tag>elasticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mysql-事务隔离级别</title>
     <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
     <content><![CDATA[<h1 id="数据库隔离级别"><a href="#数据库隔离级别" class="headerlink" title="数据库隔离级别"></a>数据库隔离级别</h1><p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。</p>
@@ -2342,6 +2316,24 @@
         <category>DataBase</category>
         <category>MySQL</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Parameter index out of range (1 &gt; number of parameters, which is 0).</title>
+    <url>/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/</url>
+    <content><![CDATA[<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to import data to index: rd_member</span><br><span class="line">2021-07-06 12:39:31.186 [http-nio-8081-exec-2] ERROR com.alibaba.otter.canal.client.adapter.support.Util - sqlRs has error, sql: SELECT COUNT(1) FROM ( select t.redtom_id as id, t.username, t.nickname, t.avatar, t.status, t.mobile, t.mobile_region_no, t.email, t.gender, t.password,t.salt,t.birthday,t.introduce,t.country,t.region,t.level,t.is_vip,t.follows    ,t.fans,t.likes_num, t.collects_num, t.instagram_account, t.youtube_account, t.facebook_account, t.twitter_account,t.create_ip, t.create_time,t.update_time from rd_member r where t.create_time&gt;=&#x27;&#123;0&#125;&#x27;) _CNT</span><br><span class="line">2021-07-06 12:39:31.188 [http-nio-8081-exec-2] ERROR c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">java.lang.RuntimeException: java.sql.SQLException: Parameter index out of range (1 &gt; number of parameters, which is 0).</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.Util.sqlRS(Util.java:65) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.support.AbstractEtlService.importData(AbstractEtlService.java:62) ~[client-adapter.common-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.etl.ESEtlService.importData(ESEtlService.java:56) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.client.adapter.es7x.ES7xAdapter.etl(ES7xAdapter.java:79) [client-adapter.es7x-1.1.5-SNAPSHOT-jar-with-dependencies.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:100) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at com.alibaba.otter.canal.adapter.launcher.rest.CommonRest.etl(CommonRest.java:123) [client-adapter.launcher-1.1.5-SNAPSHOT.jar:na]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:1.8.0_292]</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_292]</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h2><p>我执行的操作如下：👇<br><code>curl http://127.0.0.1:8081/etl/es7/customer.yml -X POST -d &quot;params=2019-08-31 00:00:00&quot;</code></p>
+<p>但是我的 es7/rd_member.yml的配置文件如下：</p>
+<p><code>etlCondition:&quot;where a.c_time&gt;=&#39;&#123;0&#125;&#39;&quot; # etl 的条件参数</code></p>
+<p>应该改成：<br><code>etlCondition:&quot;where a.c_time&gt;=&#123;&#125;&quot; # etl 的条件参数</code></p>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Other Question</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
+      </tags>
   </entry>
   <entry>
     <title>Redis-list底层实现</title>
@@ -2671,103 +2663,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring梳理启动脉络</title>
-    <url>/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/</url>
-    <content><![CDATA[<h1 id="Spring是如何启动的"><a href="#Spring是如何启动的" class="headerlink" title="Spring是如何启动的"></a>Spring是如何启动的</h1><p>Spring最大的核心就是Bean容器；<br>容器： 从对象创建，使用和销毁全部由容器帮我们控制，用户仅仅使用就可以。</p>
-<h2 id="两大核心"><a href="#两大核心" class="headerlink" title="两大核心"></a>两大核心</h2><ul>
-<li>IOC 控制反转</li>
-<li>AOP 面向切面编程</li>
-</ul>
-<p>思考：我们是如何使用Spring的呢？</p>
-<blockquote>
-<p> 加入从配置文件中加载bean 我们猜想一下大致流程是怎样的</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">getPerson</span> <span class="attr">class</span>=<span class="string">com.ibli.Person</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">id</span> <span class="attr">value</span>=<span class="string">1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">age</span> <span class="attr">value</span>=<span class="string">20</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>配置文件如上👆，这里是伪代码！</p>
-<p>先猜想大致流程：</p>
-<img src="https://oscimg.oschina.net/oscnet/up-c5313f104a205f008fde4f4b729507c80e7.png">
-
-
-<p>通过上面猜想创建的对象流程，创建出对象，对象已经好了，就是使用了，那么如何使用呢？</p>
-<p>一般情况下我们会可以这样使用，写一下伪代码吧👇：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">创建一个ApplicationContext对象</span><br><span class="line">Object obj = applicationContext.getBean(<span class="string">&quot;bean name); </span></span><br></pre></td></tr></table></figure>
-
-<p>思考，创建的对象如何存储？ 或者容器到底是什么呢？ 应该可以猜到是Map结构，具体是什么Map,先不管；</p>
-<img src="https://oscimg.oschina.net/oscnet/up-baea159953c9590bba80022b251df95a255.png" >
-
-<blockquote>
-<p>1、首先容器是创建好的，容器创建好之后，才可以加载配置文件</p>
-</blockquote>
-<p>也就是我们猜想的Map</p>
-<blockquote>
-<p>2、加载配置文件</p>
-</blockquote>
-<p>配置文件可能会有多种方式，比如XML格式，property格式，yaml格式，注解格式，这个格式各不相同，又是如何加载的呢？<br>Spring提供了一个接口，BeanDefinitionReader,它有一个抽象实现类AbstractBeanDefinitionReader，不同配置文件的Reader来继承这个抽象类，实现它们自己的逻辑；</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertiesBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">GroovyBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span> <span class="keyword">implements</span> <span class="title">GroovyObject</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">XmlBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span></span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>3、读取的配置文件会转换成Spring定义的格式，也就是BeanDefinition；</p>
-</blockquote>
-<p>BeanDefinition定义了类的所有相关的数据； 此时得到的BeanDefinition的属性值只是「符号类型」,并不是真正的属性值；</p>
-<p>我们可能会见过这中加载数据源的方式👇</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">dataSource</span> <span class="attr">class</span>=<span class="string">com.alibab.durid.pool.DruidDataSource</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">url</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.url&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">username</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.username&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">password</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.password&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br></pre></td></tr></table></figure>
-<p>数据源的具体配置是放在配置文件中的，当通过XmlBeanDefinitionReader读取并解析到的BeanDefinition，仅仅是将Xml中的文件数据存放到BeanDefinition中，属性的值是${jdbc.url}而不是真正的我们数据源的地址；</p>
-<blockquote>
-<p>4、得到所有的BeanDefinition之后，通过BeanFactoryPostProcessor来处理上一步骤中，属性value不是真实数据的问题</p>
-</blockquote>
-<p>比如PlaceHolderConfigurerSupport(占位符处理) 经过工厂后置处理器处理之后，BeanDefinition的属性值就是真实需要的数据了；</p>
-<blockquote>
-<p>5、BeanDefinition数据准备完成之后，由BeanFactory来完成Bean的创建</p>
-</blockquote>
-<ul>
-<li>实例化 对象中分配堆内存等操作<blockquote>
-<p>反射调用无参构造函数 创建对象 但是属性是空的</p>
-</blockquote>
-</li>
-<li>初始化</li>
-</ul>
-<blockquote>
-<p>6、初始化之前需要准备的工作 </p>
-</blockquote>
-<p>1、准备BeanPostProcessors<br>2、观察者模式，准备监听器 事件 广播器</p>
-<blockquote>
-<p>7、初始化环节有很多步骤</p>
-</blockquote>
-<ul>
-<li><p>对象的填充</p>
-<blockquote>
-<p>其实就是调用get/set方法对属性赋值</p>
-</blockquote>
-</li>
-<li><p>调用aware方法</p>
-<blockquote>
-<p>如果我们的对象中的属性是BeanFactory 我们不用自己去完成setBeanFactory方法，只需要当前类实现BeanFactoryAware方法即可</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BeanFactoryAware</span> <span class="keyword">extends</span> <span class="title">Aware</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setBeanFactory</span><span class="params">(BeanFactory var1)</span> <span class="keyword">throws</span> BeansException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>处理before操作</p>
-</li>
-<li><p>调用init方法</p>
-</li>
-<li><p>执行after方法</p>
-<blockquote>
-<p>before和after此处是调用的BeanPostProcessor的方法</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 前置方法</span><br><span class="line">postProcessBeforeInitialization</span><br><span class="line">// 后置方法</span><br><span class="line">postProcessAfterInitialization</span><br></pre></td></tr></table></figure></li>
-</ul>
-<blockquote>
-<p>8、执行到此，完成对象的创建，得到一个可以使用的对象</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Spring Family</category>
-        <category>Spring Framework</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring加载配置文件原理</title>
     <url>/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<h1 id="Spring如何加载配置文件到应用程序"><a href="#Spring如何加载配置文件到应用程序" class="headerlink" title="Spring如何加载配置文件到应用程序"></a>Spring如何加载配置文件到应用程序</h1><h2 id="加载Xml文件配置，获取对象"><a href="#加载Xml文件配置，获取对象" class="headerlink" title="加载Xml文件配置，获取对象"></a>加载Xml文件配置，获取对象</h2><blockquote>
@@ -2855,6 +2750,103 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Nullable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BeanDefinitionHolder <span class="title">parseBeanDefinitionElement</span><span class="params">(Element ele, <span class="meta">@Nullable</span> BeanDefinition containingBean)</span> </span>&#123;</span><br><span class="line">        String id = ele.getAttribute(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">        String nameAttr = ele.getAttribute(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">        List&lt;String&gt; aliases = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.hasLength(nameAttr)) &#123;</span><br><span class="line">            String[] nameArr = StringUtils.tokenizeToStringArray(nameAttr, <span class="string">&quot;,; &quot;</span>);</span><br><span class="line">            aliases.addAll(Arrays.asList(nameArr));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String beanName = id;</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.hasText(id) &amp;&amp; !aliases.isEmpty()) &#123;</span><br><span class="line">            beanName = (String)aliases.remove(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.logger.isTraceEnabled()) &#123;</span><br><span class="line">                <span class="keyword">this</span>.logger.trace(<span class="string">&quot;No XML &#x27;id&#x27; specified - using &#x27;&quot;</span> + beanName + <span class="string">&quot;&#x27; as bean name and &quot;</span> + aliases + <span class="string">&quot; as aliases&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (containingBean == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.checkNameUniqueness(beanName, aliases, ele);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将element数据最终转换成一个beanDefinition对象 是不是很惊奇 哈哈哈</span></span><br><span class="line">     👉 AbstractBeanDefinition beanDefinition = <span class="keyword">this</span>.parseBeanDefinitionElement(ele, beanName, containingBean);</span><br><span class="line">        <span class="keyword">if</span> (beanDefinition != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!StringUtils.hasText(beanName)) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (containingBean != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        beanName = BeanDefinitionReaderUtils.generateBeanName(beanDefinition, <span class="keyword">this</span>.readerContext.getRegistry(), <span class="keyword">true</span>);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        beanName = <span class="keyword">this</span>.readerContext.generateBeanName(beanDefinition);</span><br><span class="line">                        String beanClassName = beanDefinition.getBeanClassName();</span><br><span class="line">                        <span class="keyword">if</span> (beanClassName != <span class="keyword">null</span> &amp;&amp; beanName.startsWith(beanClassName) &amp;&amp; beanName.length() &gt; beanClassName.length() &amp;&amp; !<span class="keyword">this</span>.readerContext.getRegistry().isBeanNameInUse(beanClassName)) &#123;</span><br><span class="line">                            aliases.add(beanClassName);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">this</span>.logger.isTraceEnabled()) &#123;</span><br><span class="line">                        <span class="keyword">this</span>.logger.trace(<span class="string">&quot;Neither XML &#x27;id&#x27; nor &#x27;name&#x27; specified - using generated bean name [&quot;</span> + beanName + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception var9) &#123;</span><br><span class="line">                    <span class="keyword">this</span>.error(var9.getMessage(), ele);</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            String[] aliasesArray = StringUtils.toStringArray(aliases);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> BeanDefinitionHolder(beanDefinition, beanName, aliasesArray);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
+]]></content>
+      <categories>
+        <category>Spring Family</category>
+        <category>Spring Framework</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring梳理启动脉络</title>
+    <url>/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/</url>
+    <content><![CDATA[<h1 id="Spring是如何启动的"><a href="#Spring是如何启动的" class="headerlink" title="Spring是如何启动的"></a>Spring是如何启动的</h1><p>Spring最大的核心就是Bean容器；<br>容器： 从对象创建，使用和销毁全部由容器帮我们控制，用户仅仅使用就可以。</p>
+<h2 id="两大核心"><a href="#两大核心" class="headerlink" title="两大核心"></a>两大核心</h2><ul>
+<li>IOC 控制反转</li>
+<li>AOP 面向切面编程</li>
+</ul>
+<p>思考：我们是如何使用Spring的呢？</p>
+<blockquote>
+<p> 加入从配置文件中加载bean 我们猜想一下大致流程是怎样的</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">getPerson</span> <span class="attr">class</span>=<span class="string">com.ibli.Person</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">id</span> <span class="attr">value</span>=<span class="string">1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">age</span> <span class="attr">value</span>=<span class="string">20</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置文件如上👆，这里是伪代码！</p>
+<p>先猜想大致流程：</p>
+<img src="https://oscimg.oschina.net/oscnet/up-c5313f104a205f008fde4f4b729507c80e7.png">
+
+
+<p>通过上面猜想创建的对象流程，创建出对象，对象已经好了，就是使用了，那么如何使用呢？</p>
+<p>一般情况下我们会可以这样使用，写一下伪代码吧👇：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">创建一个ApplicationContext对象</span><br><span class="line">Object obj = applicationContext.getBean(<span class="string">&quot;bean name); </span></span><br></pre></td></tr></table></figure>
+
+<p>思考，创建的对象如何存储？ 或者容器到底是什么呢？ 应该可以猜到是Map结构，具体是什么Map,先不管；</p>
+<img src="https://oscimg.oschina.net/oscnet/up-baea159953c9590bba80022b251df95a255.png" >
+
+<blockquote>
+<p>1、首先容器是创建好的，容器创建好之后，才可以加载配置文件</p>
+</blockquote>
+<p>也就是我们猜想的Map</p>
+<blockquote>
+<p>2、加载配置文件</p>
+</blockquote>
+<p>配置文件可能会有多种方式，比如XML格式，property格式，yaml格式，注解格式，这个格式各不相同，又是如何加载的呢？<br>Spring提供了一个接口，BeanDefinitionReader,它有一个抽象实现类AbstractBeanDefinitionReader，不同配置文件的Reader来继承这个抽象类，实现它们自己的逻辑；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertiesBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">GroovyBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span> <span class="keyword">implements</span> <span class="title">GroovyObject</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">XmlBeanDefinitionReader</span> <span class="keyword">extends</span> <span class="title">AbstractBeanDefinitionReader</span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3、读取的配置文件会转换成Spring定义的格式，也就是BeanDefinition；</p>
+</blockquote>
+<p>BeanDefinition定义了类的所有相关的数据； 此时得到的BeanDefinition的属性值只是「符号类型」,并不是真正的属性值；</p>
+<p>我们可能会见过这中加载数据源的方式👇</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">dataSource</span> <span class="attr">class</span>=<span class="string">com.alibab.durid.pool.DruidDataSource</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">url</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.url&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">username</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.username&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">password</span> <span class="attr">value</span>=<span class="string">$&#123;jdbc.password&#125;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>数据源的具体配置是放在配置文件中的，当通过XmlBeanDefinitionReader读取并解析到的BeanDefinition，仅仅是将Xml中的文件数据存放到BeanDefinition中，属性的值是${jdbc.url}而不是真正的我们数据源的地址；</p>
+<blockquote>
+<p>4、得到所有的BeanDefinition之后，通过BeanFactoryPostProcessor来处理上一步骤中，属性value不是真实数据的问题</p>
+</blockquote>
+<p>比如PlaceHolderConfigurerSupport(占位符处理) 经过工厂后置处理器处理之后，BeanDefinition的属性值就是真实需要的数据了；</p>
+<blockquote>
+<p>5、BeanDefinition数据准备完成之后，由BeanFactory来完成Bean的创建</p>
+</blockquote>
+<ul>
+<li>实例化 对象中分配堆内存等操作<blockquote>
+<p>反射调用无参构造函数 创建对象 但是属性是空的</p>
+</blockquote>
+</li>
+<li>初始化</li>
+</ul>
+<blockquote>
+<p>6、初始化之前需要准备的工作 </p>
+</blockquote>
+<p>1、准备BeanPostProcessors<br>2、观察者模式，准备监听器 事件 广播器</p>
+<blockquote>
+<p>7、初始化环节有很多步骤</p>
+</blockquote>
+<ul>
+<li><p>对象的填充</p>
+<blockquote>
+<p>其实就是调用get/set方法对属性赋值</p>
+</blockquote>
+</li>
+<li><p>调用aware方法</p>
+<blockquote>
+<p>如果我们的对象中的属性是BeanFactory 我们不用自己去完成setBeanFactory方法，只需要当前类实现BeanFactoryAware方法即可</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BeanFactoryAware</span> <span class="keyword">extends</span> <span class="title">Aware</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setBeanFactory</span><span class="params">(BeanFactory var1)</span> <span class="keyword">throws</span> BeansException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>处理before操作</p>
+</li>
+<li><p>调用init方法</p>
+</li>
+<li><p>执行after方法</p>
+<blockquote>
+<p>before和after此处是调用的BeanPostProcessor的方法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 前置方法</span><br><span class="line">postProcessBeforeInitialization</span><br><span class="line">// 后置方法</span><br><span class="line">postProcessAfterInitialization</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>8、执行到此，完成对象的创建，得到一个可以使用的对象</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Spring Family</category>
@@ -4740,46 +4732,43 @@
       </tags>
   </entry>
   <entry>
-    <title>most_fields类型</title>
-    <url>/wiki/most-fields%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="多字段映射"><a href="#多字段映射" class="headerlink" title="多字段映射"></a>多字段映射</h2><p>首先要做的事情就是对我们的字段索引两次：一次使用词干模式以及一次非词干模式。为了做到这点，采用 <code>multifields</code> 来实现，已经在 <a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-fields.html">multifields</a> 有所介绍：</p>
-<p><code>DELETE /my_index</code>  </p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT /my_index</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;settings&quot;</span>: &#123; <span class="attr">&quot;number_of_shards&quot;</span>: <span class="number">1</span> &#125;, </span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;my_type&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">                <span class="attr">&quot;title&quot;</span>: &#123; </span><br><span class="line">                    <span class="attr">&quot;type&quot;</span>:     <span class="string">&quot;string&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;english&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;fields&quot;</span>: &#123;</span><br><span class="line">                        <span class="attr">&quot;std&quot;</span>:   &#123; </span><br><span class="line">                            <span class="attr">&quot;type&quot;</span>:     <span class="string">&quot;string&quot;</span>,</span><br><span class="line">                            <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;standard&quot;</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>kafka安装与初体验</title>
+    <url>/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
+    <content><![CDATA[<h2 id="Kafka的安装"><a href="#Kafka的安装" class="headerlink" title="Kafka的安装"></a>Kafka的安装</h2><h3 id="安装zookeeper"><a href="#安装zookeeper" class="headerlink" title="安装zookeeper"></a>安装zookeeper</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install zookeeper</span><br></pre></td></tr></table></figure>
+<p>默认端口：2181<br>默认安装位置：/usr/local/Cellar/zookeeper<br>配置文件位置：/usr/local/etc/zookeeper<br>日志文件位置：/usr/local/var/log/zookeeper/zookeeper.log  </p>
+<h3 id="启动zookeeper"><a href="#启动zookeeper" class="headerlink" title="启动zookeeper"></a>启动zookeeper</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nohup zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties &amp;</span><br></pre></td></tr></table></figure>
+<p><img src="https://oscimg.oschina.net/oscnet/up-d339f3f26756d950d6099483c5d033619bd.png"></p>
+<h3 id="安装Kafka"><a href="#安装Kafka" class="headerlink" title="安装Kafka"></a>安装Kafka</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install kafka</span><br></pre></td></tr></table></figure>
+<p>默认端口：9092<br>默认安装位置：/usr/local/Cellar/kafka<br>配置文件位置：/usr/local/etc/kafka<br>日志文件位置：/usr/local/var/lib/kafka-logs  </p>
+<h3 id="启动kafka"><a href="#启动kafka" class="headerlink" title="启动kafka"></a>启动kafka</h3><p>nohup kafka-server-start /usr/local/etc/kafka/server.properties &amp;<br><img src="https://oscimg.oschina.net/oscnet/up-6dcc2cdd724f403f0a5f1af44448cb5c523.png"></p>
+<h2 id="订阅发布Demo"><a href="#订阅发布Demo" class="headerlink" title="订阅发布Demo"></a>订阅发布Demo</h2><h3 id="创建一个Topic"><a href="#创建一个Topic" class="headerlink" title="创建一个Topic"></a>创建一个Topic</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</span><br></pre></td></tr></table></figure>
+<h3 id="查看创建的Topic"><a href="#查看创建的Topic" class="headerlink" title="查看创建的Topic"></a>查看创建的Topic</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-topics --list --zookeeper localhost:2181</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>title 字段使用 english 英语分析器来提取词干。</li>
-<li>title.std 字段使用 standard 标准分析器，所以没有词干提取。</li>
-</ul>
-<p>接着索引一些文档：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT /my_index/my_type/<span class="number">1</span></span><br><span class="line">&#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My rabbit jumps&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line">PUT /my_index/my_type/<span class="number">2</span></span><br><span class="line">&#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Jumping jack rabbits&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="生产者生产消息"><a href="#生产者生产消息" class="headerlink" title="生产者生产消息"></a>生产者生产消息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-console-producer --broker-list localhost:9092 --topic test</span><br></pre></td></tr></table></figure>
 
-<p>这里用一个简单 match 查询 title 标题字段是否包含 jumping rabbits （跳跃的兔子）：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;jumping rabbits&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>因为有了 <code>english</code> 分析器，这个查询是在查找以 jump 和 rabbit 这两个被提取词的文档。两个文档的 title 字段都同时包括这两个词，所以两个文档得到的评分也相同：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span>: [</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.42039964</span>,</span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My rabbit jumps&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.42039964</span>,</span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Jumping jack rabbits&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="消费者消费消息"><a href="#消费者消费消息" class="headerlink" title="消费者消费消息"></a>消费者消费消息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic test1 --from-beginning</span><br></pre></td></tr></table></figure>
+<p>–from-beginning: 将从第一个消息开始接收</p>
+<h2 id="SpringBoot集成Kafka"><a href="#SpringBoot集成Kafka" class="headerlink" title="SpringBoot集成Kafka"></a>SpringBoot集成Kafka</h2><p><strong>源码地址：<a href="https://gitee.com/IBLiplus/kafka-demo.git">https://gitee.com/IBLiplus/kafka-demo.git</a></strong><br>项目启动前按照上述安装启动步骤，在本地启动kafka.<br>创建Maven项目，引入一下依赖  </p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.kafka<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pring-kafka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>添加如下配置，端口号可以自己定<br>配置文件：  </p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="string">server.port=9010</span></span><br><span class="line"><span class="string">spring.kafka.bootstrap-servers=</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9092</span></span><br><span class="line"><span class="comment"># 发生错误后，消息重发的次数。</span></span><br><span class="line"><span class="string">spring.kafka.producer.retries=</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#当有多个消息需要被发送到同一个分区时，生产者会把它们放在同一个批次里。该参数指定了一个批次可以使用的内存大小，按照字节数计算。</span></span><br><span class="line"><span class="string">spring.kafka.producer.batch-size=</span> <span class="number">16384</span></span><br><span class="line"><span class="comment"># 设置生产者内存缓冲区的大小。</span></span><br><span class="line"><span class="string">spring.kafka.producer.buffer-memory=</span> <span class="number">33554432</span></span><br><span class="line"><span class="comment"># 键的序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.producer.key-serializer=</span> <span class="string">org.apache.kafka.common.serialization.StringSerializer</span></span><br><span class="line"><span class="comment"># 值的序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.producer.value-serializer</span> <span class="string">=</span> <span class="string">org.apache.kafka.common.serialization.StringSerializer</span></span><br><span class="line"><span class="comment"># acks=0 ： 生产者在成功写入消息之前不会等待任何来自服务器的响应。</span></span><br><span class="line"><span class="comment"># acks=1 ： 只要集群的首领节点收到消息，生产者就会收到一个来自服务器成功响应。</span></span><br><span class="line"><span class="comment"># acks=all ：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。</span></span><br><span class="line"><span class="string">spring.kafka.producer.acks=</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># 自动提交的时间间隔 在spring boot 2.X 版本中这里采用的是值的类型为Duration 需要符合特定的格式，如1S,1M,2H,5D</span></span><br><span class="line"><span class="string">spring.kafka.consumer.auto-commit-interval=</span> <span class="string">1S</span></span><br><span class="line"><span class="comment"># 该属性指定了消费者在读取一个没有偏移量的分区或者偏移量无效的情况下该作何处理：</span></span><br><span class="line"><span class="comment"># latest（默认值）在偏移量无效的情况下，消费者将从最新的记录开始读取数据（在消费者启动之后生成的记录）</span></span><br><span class="line"><span class="comment"># earliest ：在偏移量无效的情况下，消费者将从起始位置读取分区的记录</span></span><br><span class="line"><span class="string">spring.kafka.consumer.auto-offset-reset=</span> <span class="string">earliest</span></span><br><span class="line"><span class="comment"># 是否自动提交偏移量，默认值是true,为了避免出现重复数据和数据丢失，可以把它设置为false,然后手动提交偏移量</span></span><br><span class="line"><span class="string">spring.kafka.consumer.enable-auto-commit=</span> <span class="literal">false</span></span><br><span class="line"><span class="comment"># 键的反序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.consumer.key-deserializer=</span> <span class="string">org.apache.kafka.common.serialization.StringDeserializer</span></span><br><span class="line"><span class="comment"># 值的反序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.consumer.value-deserializer=</span> <span class="string">org.apache.kafka.common.serialization.StringDeserializer</span></span><br><span class="line"><span class="comment"># 在侦听器容器中运行的线程数。</span></span><br><span class="line"><span class="string">spring.kafka.listener.concurrency=</span> <span class="number">5</span></span><br><span class="line"><span class="comment">#listner负责ack，每调用一次，就立即commit</span></span><br><span class="line"><span class="string">spring.kafka.listener.ack-mode=</span> <span class="string">manual_immediate</span></span><br><span class="line"><span class="string">spring.kafka.listener.missing-topics-fatal=</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>生产者生产消息：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductDemo</span> </span>&#123;</span><br><span class="line">    Logger log = LoggerFactory.getLogger(ProductDemo.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> KafkaTemplate&lt;String, Object&gt; kafkaTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//自定义topic</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_TEST = <span class="string">&quot;topic.test&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_GROUP1 = <span class="string">&quot;topic.group1&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_GROUP2 = <span class="string">&quot;topic.group2&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(String obj)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;准备发送消息为：&#123;&#125;&quot;</span>, obj);</span><br><span class="line">        <span class="comment">//发送消息</span></span><br><span class="line">        ListenableFuture&lt;SendResult&lt;String, Object&gt;&gt; future = kafkaTemplate.send(TOPIC_TEST, obj);</span><br><span class="line">        future.addCallback(<span class="keyword">new</span> ListenableFutureCallback&lt;SendResult&lt;String, Object&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable throwable)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//发送失败的处理</span></span><br><span class="line">                log.info(TOPIC_TEST + <span class="string">&quot; - 生产者 发送消息失败：&quot;</span> + throwable.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(SendResult&lt;String, Object&gt; stringObjectSendResult)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//成功的处理</span></span><br><span class="line">                log.info(TOPIC_TEST + <span class="string">&quot; - 生产者 发送消息成功：&quot;</span> + stringObjectSendResult.toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消费消息</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerDemo</span> </span>&#123;</span><br><span class="line">    Logger log = LoggerFactory.getLogger(ConsumerDemo.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@KafkaListener(topics = ProductDemo.TOPIC_TEST, groupId = ProductDemo.TOPIC_GROUP1)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">topic_test</span><span class="params">(ConsumerRecord&lt;?, ?&gt; record, Acknowledgment ack, <span class="meta">@Header(KafkaHeaders.RECEIVED_TOPIC)</span> String topic)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Optional message = Optional.ofNullable(record.value());</span><br><span class="line">        <span class="keyword">if</span> (message.isPresent()) &#123;</span><br><span class="line">            Object msg = message.get();</span><br><span class="line">            log.info(<span class="string">&quot;topic_test 消费了： Topic:&quot;</span> + topic + <span class="string">&quot;,Message:&quot;</span> + msg);</span><br><span class="line">            ack.acknowledge();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@KafkaListener(topics = ProductDemo.TOPIC_TEST, groupId = ProductDemo.TOPIC_GROUP2)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">topic_test1</span><span class="params">(ConsumerRecord&lt;?, ?&gt; record, Acknowledgment ack, <span class="meta">@Header(KafkaHeaders.RECEIVED_TOPIC)</span> String topic)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Optional message = Optional.ofNullable(record.value());</span><br><span class="line">        <span class="keyword">if</span> (message.isPresent()) &#123;</span><br><span class="line">            Object msg = message.get();</span><br><span class="line">            log.info(<span class="string">&quot;topic_test1 消费了： Topic:&quot;</span> + topic + <span class="string">&quot;,Message:&quot;</span> + msg);</span><br><span class="line">            ack.acknowledge();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试接口：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Resource</span><br><span class="line">private ProductDemo productDemo;</span><br><span class="line"></span><br><span class="line">@GetMapping(&quot;/kafka/test&quot;)</span><br><span class="line">public void testKafka()&#123;</span><br><span class="line">    logger.info(&quot;start test&quot;);</span><br><span class="line">    productDemo.send(&quot;hello kafka&quot;);</span><br><span class="line">    logger.info(&quot;end test&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>如果只是查询 <code>title.std</code> 字段，那么只有文档 2 是匹配的。尽管如此，如果同时查询两个字段，然后使用 <code>bool</code> 查询将评分结果 合并 ，那么两个文档都是匹配的（ <code>title</code> 字段的作用），而且文档 2 的相关度评分更高（ <code>title.std</code> 字段的作用）：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;jumping rabbits&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:   <span class="string">&quot;most_fields&quot;</span>, </span><br><span class="line">            <span class="attr">&quot;fields&quot;</span>: [ <span class="string">&quot;title&quot;</span>, <span class="string">&quot;title.std&quot;</span> ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>我们希望将所有匹配字段的评分合并起来，所以使用 <code>most_fields</code> 类型。这让 <code>multi_match</code> 查询用 <code>bool</code> 查询将两个字段语句包在里面，而不是使用 <code>dis_max</code> (最佳字段) 查询。</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span>: [</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.8226396</span>, </span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Jumping jack rabbits&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.10741998</span>, </span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My rabbit jumps&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>文档 2 现在的评分要比文档 1 高。</p>
-<p>用广度匹配字段 <code>title</code> 包括尽可能多的文档——以提升召回率——同时又使用字段 <code>title.std</code> 作为 信号 将相关度更高的文档置于结果顶部。</p>
-<p>每个字段对于最终评分的贡献可以通过自定义值 <code>boost</code> 来控制。比如，使 <code>title</code> 字段更为重要，这样同时也降低了其他信号字段的作用：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>:       <span class="string">&quot;jumping rabbits&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:        <span class="string">&quot;most_fields&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;fields&quot;</span>:      [ <span class="string">&quot;title^10&quot;</span>, <span class="string">&quot;title.std&quot;</span> ] </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>title 字段的 boost 的值为 10 使它比 title.std 更重要。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
-<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/most-fields.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 多数字段</a></li>
-</ul>
-</blockquote>
+<blockquote>
+<p align="middle">山脚太拥挤 我们更高处见。</p></blockquote>
 ]]></content>
       <categories>
-        <category>Elasticsearch</category>
-        <category>Search in Depth</category>
+        <category>Distributed Dir</category>
+        <category>Kafka</category>
       </categories>
       <tags>
-        <tag>elasticsearch</tag>
+        <tag>kafka</tag>
       </tags>
   </entry>
   <entry>
@@ -4823,72 +4812,37 @@
       </tags>
   </entry>
   <entry>
-    <title>kafka安装与初体验</title>
-    <url>/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/</url>
-    <content><![CDATA[<h2 id="Kafka的安装"><a href="#Kafka的安装" class="headerlink" title="Kafka的安装"></a>Kafka的安装</h2><h3 id="安装zookeeper"><a href="#安装zookeeper" class="headerlink" title="安装zookeeper"></a>安装zookeeper</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install zookeeper</span><br></pre></td></tr></table></figure>
-<p>默认端口：2181<br>默认安装位置：/usr/local/Cellar/zookeeper<br>配置文件位置：/usr/local/etc/zookeeper<br>日志文件位置：/usr/local/var/log/zookeeper/zookeeper.log  </p>
-<h3 id="启动zookeeper"><a href="#启动zookeeper" class="headerlink" title="启动zookeeper"></a>启动zookeeper</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nohup zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties &amp;</span><br></pre></td></tr></table></figure>
-<p><img src="https://oscimg.oschina.net/oscnet/up-d339f3f26756d950d6099483c5d033619bd.png"></p>
-<h3 id="安装Kafka"><a href="#安装Kafka" class="headerlink" title="安装Kafka"></a>安装Kafka</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install kafka</span><br></pre></td></tr></table></figure>
-<p>默认端口：9092<br>默认安装位置：/usr/local/Cellar/kafka<br>配置文件位置：/usr/local/etc/kafka<br>日志文件位置：/usr/local/var/lib/kafka-logs  </p>
-<h3 id="启动kafka"><a href="#启动kafka" class="headerlink" title="启动kafka"></a>启动kafka</h3><p>nohup kafka-server-start /usr/local/etc/kafka/server.properties &amp;<br><img src="https://oscimg.oschina.net/oscnet/up-6dcc2cdd724f403f0a5f1af44448cb5c523.png"></p>
-<h2 id="订阅发布Demo"><a href="#订阅发布Demo" class="headerlink" title="订阅发布Demo"></a>订阅发布Demo</h2><h3 id="创建一个Topic"><a href="#创建一个Topic" class="headerlink" title="创建一个Topic"></a>创建一个Topic</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</span><br></pre></td></tr></table></figure>
-<h3 id="查看创建的Topic"><a href="#查看创建的Topic" class="headerlink" title="查看创建的Topic"></a>查看创建的Topic</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-topics --list --zookeeper localhost:2181</span><br></pre></td></tr></table></figure>
+    <title>most_fields类型</title>
+    <url>/wiki/most-fields%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="多字段映射"><a href="#多字段映射" class="headerlink" title="多字段映射"></a>多字段映射</h2><p>首先要做的事情就是对我们的字段索引两次：一次使用词干模式以及一次非词干模式。为了做到这点，采用 <code>multifields</code> 来实现，已经在 <a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-fields.html">multifields</a> 有所介绍：</p>
+<p><code>DELETE /my_index</code>  </p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT /my_index</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;settings&quot;</span>: &#123; <span class="attr">&quot;number_of_shards&quot;</span>: <span class="number">1</span> &#125;, </span><br><span class="line">    <span class="attr">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;my_type&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;properties&quot;</span>: &#123;</span><br><span class="line">                <span class="attr">&quot;title&quot;</span>: &#123; </span><br><span class="line">                    <span class="attr">&quot;type&quot;</span>:     <span class="string">&quot;string&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;english&quot;</span>,</span><br><span class="line">                    <span class="attr">&quot;fields&quot;</span>: &#123;</span><br><span class="line">                        <span class="attr">&quot;std&quot;</span>:   &#123; </span><br><span class="line">                            <span class="attr">&quot;type&quot;</span>:     <span class="string">&quot;string&quot;</span>,</span><br><span class="line">                            <span class="attr">&quot;analyzer&quot;</span>: <span class="string">&quot;standard&quot;</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="生产者生产消息"><a href="#生产者生产消息" class="headerlink" title="生产者生产消息"></a>生产者生产消息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-console-producer --broker-list localhost:9092 --topic test</span><br></pre></td></tr></table></figure>
-
-<h3 id="消费者消费消息"><a href="#消费者消费消息" class="headerlink" title="消费者消费消息"></a>消费者消费消息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic test1 --from-beginning</span><br></pre></td></tr></table></figure>
-<p>–from-beginning: 将从第一个消息开始接收</p>
-<h2 id="SpringBoot集成Kafka"><a href="#SpringBoot集成Kafka" class="headerlink" title="SpringBoot集成Kafka"></a>SpringBoot集成Kafka</h2><p><strong>源码地址：<a href="https://gitee.com/IBLiplus/kafka-demo.git">https://gitee.com/IBLiplus/kafka-demo.git</a></strong><br>项目启动前按照上述安装启动步骤，在本地启动kafka.<br>创建Maven项目，引入一下依赖  </p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.kafka<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pring-kafka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.7.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>添加如下配置，端口号可以自己定<br>配置文件：  </p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="string">server.port=9010</span></span><br><span class="line"><span class="string">spring.kafka.bootstrap-servers=</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9092</span></span><br><span class="line"><span class="comment"># 发生错误后，消息重发的次数。</span></span><br><span class="line"><span class="string">spring.kafka.producer.retries=</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#当有多个消息需要被发送到同一个分区时，生产者会把它们放在同一个批次里。该参数指定了一个批次可以使用的内存大小，按照字节数计算。</span></span><br><span class="line"><span class="string">spring.kafka.producer.batch-size=</span> <span class="number">16384</span></span><br><span class="line"><span class="comment"># 设置生产者内存缓冲区的大小。</span></span><br><span class="line"><span class="string">spring.kafka.producer.buffer-memory=</span> <span class="number">33554432</span></span><br><span class="line"><span class="comment"># 键的序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.producer.key-serializer=</span> <span class="string">org.apache.kafka.common.serialization.StringSerializer</span></span><br><span class="line"><span class="comment"># 值的序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.producer.value-serializer</span> <span class="string">=</span> <span class="string">org.apache.kafka.common.serialization.StringSerializer</span></span><br><span class="line"><span class="comment"># acks=0 ： 生产者在成功写入消息之前不会等待任何来自服务器的响应。</span></span><br><span class="line"><span class="comment"># acks=1 ： 只要集群的首领节点收到消息，生产者就会收到一个来自服务器成功响应。</span></span><br><span class="line"><span class="comment"># acks=all ：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。</span></span><br><span class="line"><span class="string">spring.kafka.producer.acks=</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># 自动提交的时间间隔 在spring boot 2.X 版本中这里采用的是值的类型为Duration 需要符合特定的格式，如1S,1M,2H,5D</span></span><br><span class="line"><span class="string">spring.kafka.consumer.auto-commit-interval=</span> <span class="string">1S</span></span><br><span class="line"><span class="comment"># 该属性指定了消费者在读取一个没有偏移量的分区或者偏移量无效的情况下该作何处理：</span></span><br><span class="line"><span class="comment"># latest（默认值）在偏移量无效的情况下，消费者将从最新的记录开始读取数据（在消费者启动之后生成的记录）</span></span><br><span class="line"><span class="comment"># earliest ：在偏移量无效的情况下，消费者将从起始位置读取分区的记录</span></span><br><span class="line"><span class="string">spring.kafka.consumer.auto-offset-reset=</span> <span class="string">earliest</span></span><br><span class="line"><span class="comment"># 是否自动提交偏移量，默认值是true,为了避免出现重复数据和数据丢失，可以把它设置为false,然后手动提交偏移量</span></span><br><span class="line"><span class="string">spring.kafka.consumer.enable-auto-commit=</span> <span class="literal">false</span></span><br><span class="line"><span class="comment"># 键的反序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.consumer.key-deserializer=</span> <span class="string">org.apache.kafka.common.serialization.StringDeserializer</span></span><br><span class="line"><span class="comment"># 值的反序列化方式</span></span><br><span class="line"><span class="string">spring.kafka.consumer.value-deserializer=</span> <span class="string">org.apache.kafka.common.serialization.StringDeserializer</span></span><br><span class="line"><span class="comment"># 在侦听器容器中运行的线程数。</span></span><br><span class="line"><span class="string">spring.kafka.listener.concurrency=</span> <span class="number">5</span></span><br><span class="line"><span class="comment">#listner负责ack，每调用一次，就立即commit</span></span><br><span class="line"><span class="string">spring.kafka.listener.ack-mode=</span> <span class="string">manual_immediate</span></span><br><span class="line"><span class="string">spring.kafka.listener.missing-topics-fatal=</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-<p>生产者生产消息：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductDemo</span> </span>&#123;</span><br><span class="line">    Logger log = LoggerFactory.getLogger(ProductDemo.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> KafkaTemplate&lt;String, Object&gt; kafkaTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//自定义topic</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_TEST = <span class="string">&quot;topic.test&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_GROUP1 = <span class="string">&quot;topic.group1&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOPIC_GROUP2 = <span class="string">&quot;topic.group2&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(String obj)</span> </span>&#123;</span><br><span class="line">        log.info(<span class="string">&quot;准备发送消息为：&#123;&#125;&quot;</span>, obj);</span><br><span class="line">        <span class="comment">//发送消息</span></span><br><span class="line">        ListenableFuture&lt;SendResult&lt;String, Object&gt;&gt; future = kafkaTemplate.send(TOPIC_TEST, obj);</span><br><span class="line">        future.addCallback(<span class="keyword">new</span> ListenableFutureCallback&lt;SendResult&lt;String, Object&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable throwable)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//发送失败的处理</span></span><br><span class="line">                log.info(TOPIC_TEST + <span class="string">&quot; - 生产者 发送消息失败：&quot;</span> + throwable.getMessage());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(SendResult&lt;String, Object&gt; stringObjectSendResult)</span> </span>&#123;</span><br><span class="line">                <span class="comment">//成功的处理</span></span><br><span class="line">                log.info(TOPIC_TEST + <span class="string">&quot; - 生产者 发送消息成功：&quot;</span> + stringObjectSendResult.toString());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>消费消息</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConsumerDemo</span> </span>&#123;</span><br><span class="line">    Logger log = LoggerFactory.getLogger(ConsumerDemo.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@KafkaListener(topics = ProductDemo.TOPIC_TEST, groupId = ProductDemo.TOPIC_GROUP1)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">topic_test</span><span class="params">(ConsumerRecord&lt;?, ?&gt; record, Acknowledgment ack, <span class="meta">@Header(KafkaHeaders.RECEIVED_TOPIC)</span> String topic)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Optional message = Optional.ofNullable(record.value());</span><br><span class="line">        <span class="keyword">if</span> (message.isPresent()) &#123;</span><br><span class="line">            Object msg = message.get();</span><br><span class="line">            log.info(<span class="string">&quot;topic_test 消费了： Topic:&quot;</span> + topic + <span class="string">&quot;,Message:&quot;</span> + msg);</span><br><span class="line">            ack.acknowledge();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@KafkaListener(topics = ProductDemo.TOPIC_TEST, groupId = ProductDemo.TOPIC_GROUP2)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">topic_test1</span><span class="params">(ConsumerRecord&lt;?, ?&gt; record, Acknowledgment ack, <span class="meta">@Header(KafkaHeaders.RECEIVED_TOPIC)</span> String topic)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Optional message = Optional.ofNullable(record.value());</span><br><span class="line">        <span class="keyword">if</span> (message.isPresent()) &#123;</span><br><span class="line">            Object msg = message.get();</span><br><span class="line">            log.info(<span class="string">&quot;topic_test1 消费了： Topic:&quot;</span> + topic + <span class="string">&quot;,Message:&quot;</span> + msg);</span><br><span class="line">            ack.acknowledge();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试接口：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Resource</span><br><span class="line">private ProductDemo productDemo;</span><br><span class="line"></span><br><span class="line">@GetMapping(&quot;/kafka/test&quot;)</span><br><span class="line">public void testKafka()&#123;</span><br><span class="line">    logger.info(&quot;start test&quot;);</span><br><span class="line">    productDemo.send(&quot;hello kafka&quot;);</span><br><span class="line">    logger.info(&quot;end test&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
-<p align="middle">山脚太拥挤 我们更高处见。</p></blockquote>
-]]></content>
-      <categories>
-        <category>Distributed Dir</category>
-        <category>Kafka</category>
-      </categories>
-      <tags>
-        <tag>kafka</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>multi_match 查询</title>
-    <url>/wiki/multi-match-%E6%9F%A5%E8%AF%A2/</url>
-    <content><![CDATA[<p>multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。</p>
-<p>📒 📒 📒</p>
-<blockquote>
-<p>multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：<code>best_fields</code> 、 <code>most_fields</code> 和 <code>cross_fields</code> （最佳字段、多数字段、跨字段）。</p>
-</blockquote>
-<p>默认情况下，查询的类型是 <code>best_fields</code> ，这表示它会为每个字段生成一个 <code>match</code> 查询，然后将它们组合到 <code>dis_max</code> 查询的内部，如下：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;queries&quot;</span>:  [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;title&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;body&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;tie_breaker&quot;</span>: <span class="number">0.3</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面这个查询用 multi_match 重写成更简洁的形式：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:                <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>:                 <span class="string">&quot;best_fields&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>:               [ <span class="string">&quot;title&quot;</span>, <span class="string">&quot;body&quot;</span> ],</span><br><span class="line">        <span class="attr">&quot;tie_breaker&quot;</span>:          <span class="number">0.3</span>,</span><br><span class="line">        <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>⚠️ ⚠️ ⚠️</p>
 <ul>
-<li>best_fields 类型是默认值，可以不指定。</li>
-<li>如 minimum_should_match 或 operator 这样的参数会被传递到生成的 match 查询中。</li>
+<li>title 字段使用 english 英语分析器来提取词干。</li>
+<li>title.std 字段使用 standard 标准分析器，所以没有词干提取。</li>
 </ul>
-<h2 id="查询字段名称的模糊匹配"><a href="#查询字段名称的模糊匹配" class="headerlink" title="查询字段名称的模糊匹配"></a>查询字段名称的模糊匹配</h2><p>字段名称可以用 <code>模糊匹配</code> 的方式给出：任何与模糊模式正则匹配的字段都会被包括在搜索条件中，例如可以使用以下方式同时匹配 <code>book_title</code> 、 <code>chapter_title</code> 和 <code>section_title</code> （书名、章名、节名）这三个字段：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: <span class="string">&quot;*_title&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着索引一些文档：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">PUT /my_index/my_type/<span class="number">1</span></span><br><span class="line">&#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My rabbit jumps&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line">PUT /my_index/my_type/<span class="number">2</span></span><br><span class="line">&#123; <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Jumping jack rabbits&quot;</span> &#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="提升单个字段的权重"><a href="#提升单个字段的权重" class="headerlink" title="提升单个字段的权重"></a>提升单个字段的权重</h2><p>可以使用 ^ 字符语法为单个字段提升权重，在字段名称的末尾添加 ^boost ，其中 boost 是一个浮点数：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: [ <span class="string">&quot;*_title&quot;</span>, <span class="string">&quot;chapter_title^2&quot;</span> ] </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>chapter_title 这个字段的 boost 值为 2 ，而其他两个字段 book_title 和 section_title 字段的默认 boost 值为 1 。</p>
+<p>这里用一个简单 match 查询 title 标题字段是否包含 jumping rabbits （跳跃的兔子）：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;jumping rabbits&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为有了 <code>english</code> 分析器，这个查询是在查找以 jump 和 rabbit 这两个被提取词的文档。两个文档的 title 字段都同时包括这两个词，所以两个文档得到的评分也相同：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span>: [</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.42039964</span>,</span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My rabbit jumps&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.42039964</span>,</span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Jumping jack rabbits&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果只是查询 <code>title.std</code> 字段，那么只有文档 2 是匹配的。尽管如此，如果同时查询两个字段，然后使用 <code>bool</code> 查询将评分结果 合并 ，那么两个文档都是匹配的（ <code>title</code> 字段的作用），而且文档 2 的相关度评分更高（ <code>title.std</code> 字段的作用）：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;jumping rabbits&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:   <span class="string">&quot;most_fields&quot;</span>, </span><br><span class="line">            <span class="attr">&quot;fields&quot;</span>: [ <span class="string">&quot;title&quot;</span>, <span class="string">&quot;title.std&quot;</span> ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们希望将所有匹配字段的评分合并起来，所以使用 <code>most_fields</code> 类型。这让 <code>multi_match</code> 查询用 <code>bool</code> 查询将两个字段语句包在里面，而不是使用 <code>dis_max</code> (最佳字段) 查询。</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;hits&quot;</span>: [</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.8226396</span>, </span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;Jumping jack rabbits&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     &#123;</span><br><span class="line">        <span class="attr">&quot;_id&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;_score&quot;</span>: <span class="number">0.10741998</span>, </span><br><span class="line">        <span class="attr">&quot;_source&quot;</span>: &#123;</span><br><span class="line">           <span class="attr">&quot;title&quot;</span>: <span class="string">&quot;My rabbit jumps&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>文档 2 现在的评分要比文档 1 高。</p>
+<p>用广度匹配字段 <code>title</code> 包括尽可能多的文档——以提升召回率——同时又使用字段 <code>title.std</code> 作为 信号 将相关度更高的文档置于结果顶部。</p>
+<p>每个字段对于最终评分的贡献可以通过自定义值 <code>boost</code> 来控制。比如，使 <code>title</code> 字段更为重要，这样同时也降低了其他信号字段的作用：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">GET /my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>:       <span class="string">&quot;jumping rabbits&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;type&quot;</span>:        <span class="string">&quot;most_fields&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;fields&quot;</span>:      [ <span class="string">&quot;title^10&quot;</span>, <span class="string">&quot;title.std&quot;</span> ] </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>title 字段的 boost 的值为 10 使它比 title.std 更重要。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
 <ul>
-<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-match-query.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » multi_match 查询</a></li>
-<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/query-dsl-multi-match-query.html">Elasticsearch Guide [7.x] » Query DSL » Full text queries » Multi-match query</a></li>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/most-fields.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 多数字段</a></li>
 </ul>
 </blockquote>
 ]]></content>
@@ -4938,6 +4892,44 @@
       </categories>
       <tags>
         <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>multi_match 查询</title>
+    <url>/wiki/multi-match-%E6%9F%A5%E8%AF%A2/</url>
+    <content><![CDATA[<p>multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。</p>
+<p>📒 📒 📒</p>
+<blockquote>
+<p>multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：<code>best_fields</code> 、 <code>most_fields</code> 和 <code>cross_fields</code> （最佳字段、多数字段、跨字段）。</p>
+</blockquote>
+<p>默认情况下，查询的类型是 <code>best_fields</code> ，这表示它会为每个字段生成一个 <code>match</code> 查询，然后将它们组合到 <code>dis_max</code> 查询的内部，如下：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;dis_max&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;queries&quot;</span>:  [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;title&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;body&quot;</span>: &#123;</span><br><span class="line">            <span class="attr">&quot;query&quot;</span>: <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;tie_breaker&quot;</span>: <span class="number">0.3</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这个查询用 multi_match 重写成更简洁的形式：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:                <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;type&quot;</span>:                 <span class="string">&quot;best_fields&quot;</span>, </span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>:               [ <span class="string">&quot;title&quot;</span>, <span class="string">&quot;body&quot;</span> ],</span><br><span class="line">        <span class="attr">&quot;tie_breaker&quot;</span>:          <span class="number">0.3</span>,</span><br><span class="line">        <span class="attr">&quot;minimum_should_match&quot;</span>: <span class="string">&quot;30%&quot;</span> </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>⚠️ ⚠️ ⚠️</p>
+<ul>
+<li>best_fields 类型是默认值，可以不指定。</li>
+<li>如 minimum_should_match 或 operator 这样的参数会被传递到生成的 match 查询中。</li>
+</ul>
+<h2 id="查询字段名称的模糊匹配"><a href="#查询字段名称的模糊匹配" class="headerlink" title="查询字段名称的模糊匹配"></a>查询字段名称的模糊匹配</h2><p>字段名称可以用 <code>模糊匹配</code> 的方式给出：任何与模糊模式正则匹配的字段都会被包括在搜索条件中，例如可以使用以下方式同时匹配 <code>book_title</code> 、 <code>chapter_title</code> 和 <code>section_title</code> （书名、章名、节名）这三个字段：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: <span class="string">&quot;*_title&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="提升单个字段的权重"><a href="#提升单个字段的权重" class="headerlink" title="提升单个字段的权重"></a>提升单个字段的权重</h2><p>可以使用 ^ 字符语法为单个字段提升权重，在字段名称的末尾添加 ^boost ，其中 boost 是一个浮点数：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;multi_match&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;query&quot;</span>:  <span class="string">&quot;Quick brown fox&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;fields&quot;</span>: [ <span class="string">&quot;*_title&quot;</span>, <span class="string">&quot;chapter_title^2&quot;</span> ] </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>chapter_title 这个字段的 boost 值为 2 ，而其他两个字段 book_title 和 section_title 字段的默认 boost 值为 1 。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/multi-match-query.html">Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » multi_match 查询</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.x/query-dsl-multi-match-query.html">Elasticsearch Guide [7.x] » Query DSL » Full text queries » Multi-match query</a></li>
+</ul>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Elasticsearch</category>
+        <category>Search in Depth</category>
+      </categories>
+      <tags>
+        <tag>elasticsearch</tag>
       </tags>
   </entry>
   <entry>
@@ -5120,65 +5112,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python3基础语法</title>
-    <url>/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：<br><code># -*- coding: cp-1252 -*-</code></p>
-<h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><ul>
-<li>第一个字符必须是字母表中字母或下划线 _ 。</li>
-<li>标识符的其他的部分由字母、数字和下划线组成。</li>
-<li>标识符对大小写敏感。<br>在 Python 3 中，可以用中文作为变量名，非 ASCII 标识符也是允许的了。</li>
-</ul>
-<h2 id="python保留字"><a href="#python保留字" class="headerlink" title="python保留字"></a>python保留字</h2><p>import keyword<br>keyword.kwlist<br>[‘False’, ‘None’, ‘True’, ‘and’, ‘as’, ‘assert’, ‘break’, ‘class’, ‘continue’, ‘def’, ‘del’, ‘elif’, ‘else’, ‘except’, ‘finally’, ‘for’, ‘from’, ‘global’, ‘if’, ‘import’, ‘in’, ‘is’, ‘lambda’, ‘nonlocal’, ‘not’, ‘or’, ‘pass’, ‘raise’, ‘return’, ‘try’, ‘while’, ‘with’, ‘yield’]</p>
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>Python中单行注释以 # 开头,多行注释可以用多个 # 号，还有 ‘’’ 和 “””：</p>
-<h2 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h2><p>python最具特色的就是使用缩进来表示代码块，不需要使用大括号 {} 。<br>缩进的空格数是可变的，但是同一个代码块的语句必须包含相同的缩进空格数。</p>
-<h2 id="多行语句"><a href="#多行语句" class="headerlink" title="多行语句"></a>多行语句</h2><p>Python 通常是一行写完一条语句，但如果语句很长，我们可以使用反斜杠 \ 来实现多行语句，例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">total = item_one + \</span><br><span class="line">        item_two + \</span><br><span class="line">        item_three</span><br></pre></td></tr></table></figure>
-
-<p>在 [], {}, 或 () 中的多行语句，不需要使用反斜杠 \，例如：</p>
-<p><code>total = [&#39;item_one&#39;, &#39;item_two&#39;, &#39;item_three&#39;,         &#39;item_four&#39;, &#39;item_five&#39;]</code></p>
-<h2 id="数字-Number-类型"><a href="#数字-Number-类型" class="headerlink" title="数字(Number)类型"></a>数字(Number)类型</h2><p>python中数字有四种类型：整数、布尔型、浮点数和复数。</p>
-<ul>
-<li>int (整数) , 如 1, 只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</li>
-<li>bool (布尔), 如 True。</li>
-<li>float (浮点数), 如 1.23、3E-2</li>
-<li>complex (复数), 如 1 + 2j、 1.1 + 2.2j</li>
-</ul>
-<h2 id="字符串-String"><a href="#字符串-String" class="headerlink" title="字符串(String)"></a>字符串(String)</h2><ul>
-<li>python中单引号和双引号使用完全相同。</li>
-<li>使用三引号(‘’’ 或 “””)可以指定一个多行字符串。</li>
-<li>转义符 \</li>
-<li>反斜杠可以用来转义，使用r可以让反斜杠不发生转义。。 如 r”this is a line with \n” 则\n会显示，并不是换行。</li>
-<li>按字面意义级联字符串，如”this “ “is “ “string”会被自动转换为this is string。</li>
-<li>字符串可以用 + 运算符连接在一起，用 * 运算符重复。</li>
-<li>Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以 -1 开始。</li>
-<li>Python中的字符串不能改变。</li>
-<li>Python 没有单独的字符类型，一个字符就是长度为 1 的字符串。</li>
-<li>字符串的截取的语法格式如下：变量[头下标:尾下标:步长]</li>
-</ul>
-<h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><p>函数之间或类的方法之间用空行分隔，表示一段新的代码的开始。类和函数入口之间也用一行空行分隔，以突出函数入口的开始。</p>
-<p>空行与代码缩进不同，空行并不是Python语法的一部分。书写时不插入空行，Python解释器运行也不会出错。但是空行的作用在于分隔两段不同功能或含义的代码，便于日后代码的维护或重构。</p>
-<p>记住：空行也是程序代码的一部分。</p>
-<h2 id="同一行显示多条语句"><a href="#同一行显示多条语句" class="headerlink" title="同一行显示多条语句"></a>同一行显示多条语句</h2><p>Python 可以在同一行中使用多条语句，语句之间使用分号 ; 分割，以下是一个简单的实例：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> sys; x = <span class="string">&#x27;runoob&#x27;</span>; sys.stdout.write(x + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="多个语句构成代码组"><a href="#多个语句构成代码组" class="headerlink" title="多个语句构成代码组"></a>多个语句构成代码组</h2><p>缩进相同的一组语句构成一个代码块，我们称之代码组。</p>
-<p>像if、while、def和class这样的复合语句，首行以关键字开始，以冒号( : )结束，该行之后的一行或多行代码构成代码组。</p>
-<p>我们将首行及后面的代码组称为一个子句(clause)。</p>
-<p>如下实例：  </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> expression : </span><br><span class="line">   suite</span><br><span class="line"><span class="keyword">elif</span> expression : </span><br><span class="line">   suite </span><br><span class="line"><span class="keyword">else</span> : </span><br><span class="line">   suite</span><br><span class="line">```      </span><br><span class="line"></span><br><span class="line"><span class="comment">## print 输出</span></span><br><span class="line"><span class="built_in">print</span> 默认输出是换行的，如果要实现不换行需要在变量末尾加上 end=<span class="string">&quot;&quot;</span>：</span><br><span class="line"></span><br><span class="line"><span class="comment">## import 与 from...import</span></span><br><span class="line">在 python 用 <span class="keyword">import</span> 或者 <span class="keyword">from</span>...<span class="keyword">import</span> 来导入相应的模块。</span><br><span class="line"></span><br><span class="line">将整个模块(somemodule)导入，格式为： <span class="keyword">import</span> somemodule</span><br><span class="line"></span><br><span class="line">从某个模块中导入某个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> somefunction</span><br><span class="line"></span><br><span class="line">从某个模块中导入多个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> firstfunc, secondfunc, thirdfunc</span><br><span class="line"></span><br><span class="line">将某个模块中的全部函数导入，格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">## 命令行参数</span></span><br><span class="line"></span><br><span class="line">很多程序可以执行一些操作来查看一些基本信息，Python可以使用-h参数查看各参数帮助信息：</span><br></pre></td></tr></table></figure>
-<p>$ python -h<br>usage: python [option] … [-c cmd | -m mod | file | -] [arg] …<br>Options and arguments (and corresponding environment variables):<br>-c cmd : program passed in as string (terminates option list)<br>-d     : debug output from parser (also PYTHONDEBUG=x)<br>-E     : ignore environment variables (such as PYTHONPATH)<br>-h     : print this help message and exit</p>
-<p>[ etc. ]</p>
-<p>```<br>我们在使用脚本形式执行 Python 时，可以接收命令行输入的参数;</p>
-]]></content>
-      <categories>
-        <category>Develop Lan</category>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python3基本数据类型</title>
     <url>/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
     <content><![CDATA[<p>Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。</p>
@@ -5247,6 +5180,65 @@ print (tinydict.values()) # 输出所有值
 <h2 id="Python数据类型转换"><a href="#Python数据类型转换" class="headerlink" title="Python数据类型转换"></a>Python数据类型转换</h2><p>有时候，我们需要对数据内置的类型进行转换，数据类型的转换，你只需要将数据类型作为函数名即可。</p>
 <p>以下几个内置的函数可以执行数据类型之间的转换。这些函数返回一个新的对象，表示转换的值。</p>
 <img src = 'https://oscimg.oschina.net/oscnet/up-2af36cf02d5a8c9ba5c9148154bbdd83207.png' whdth='700'>]]></content>
+      <categories>
+        <category>Develop Lan</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python3基础语法</title>
+    <url>/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：<br><code># -*- coding: cp-1252 -*-</code></p>
+<h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><ul>
+<li>第一个字符必须是字母表中字母或下划线 _ 。</li>
+<li>标识符的其他的部分由字母、数字和下划线组成。</li>
+<li>标识符对大小写敏感。<br>在 Python 3 中，可以用中文作为变量名，非 ASCII 标识符也是允许的了。</li>
+</ul>
+<h2 id="python保留字"><a href="#python保留字" class="headerlink" title="python保留字"></a>python保留字</h2><p>import keyword<br>keyword.kwlist<br>[‘False’, ‘None’, ‘True’, ‘and’, ‘as’, ‘assert’, ‘break’, ‘class’, ‘continue’, ‘def’, ‘del’, ‘elif’, ‘else’, ‘except’, ‘finally’, ‘for’, ‘from’, ‘global’, ‘if’, ‘import’, ‘in’, ‘is’, ‘lambda’, ‘nonlocal’, ‘not’, ‘or’, ‘pass’, ‘raise’, ‘return’, ‘try’, ‘while’, ‘with’, ‘yield’]</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>Python中单行注释以 # 开头,多行注释可以用多个 # 号，还有 ‘’’ 和 “””：</p>
+<h2 id="行与缩进"><a href="#行与缩进" class="headerlink" title="行与缩进"></a>行与缩进</h2><p>python最具特色的就是使用缩进来表示代码块，不需要使用大括号 {} 。<br>缩进的空格数是可变的，但是同一个代码块的语句必须包含相同的缩进空格数。</p>
+<h2 id="多行语句"><a href="#多行语句" class="headerlink" title="多行语句"></a>多行语句</h2><p>Python 通常是一行写完一条语句，但如果语句很长，我们可以使用反斜杠 \ 来实现多行语句，例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">total = item_one + \</span><br><span class="line">        item_two + \</span><br><span class="line">        item_three</span><br></pre></td></tr></table></figure>
+
+<p>在 [], {}, 或 () 中的多行语句，不需要使用反斜杠 \，例如：</p>
+<p><code>total = [&#39;item_one&#39;, &#39;item_two&#39;, &#39;item_three&#39;,         &#39;item_four&#39;, &#39;item_five&#39;]</code></p>
+<h2 id="数字-Number-类型"><a href="#数字-Number-类型" class="headerlink" title="数字(Number)类型"></a>数字(Number)类型</h2><p>python中数字有四种类型：整数、布尔型、浮点数和复数。</p>
+<ul>
+<li>int (整数) , 如 1, 只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。</li>
+<li>bool (布尔), 如 True。</li>
+<li>float (浮点数), 如 1.23、3E-2</li>
+<li>complex (复数), 如 1 + 2j、 1.1 + 2.2j</li>
+</ul>
+<h2 id="字符串-String"><a href="#字符串-String" class="headerlink" title="字符串(String)"></a>字符串(String)</h2><ul>
+<li>python中单引号和双引号使用完全相同。</li>
+<li>使用三引号(‘’’ 或 “””)可以指定一个多行字符串。</li>
+<li>转义符 \</li>
+<li>反斜杠可以用来转义，使用r可以让反斜杠不发生转义。。 如 r”this is a line with \n” 则\n会显示，并不是换行。</li>
+<li>按字面意义级联字符串，如”this “ “is “ “string”会被自动转换为this is string。</li>
+<li>字符串可以用 + 运算符连接在一起，用 * 运算符重复。</li>
+<li>Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以 -1 开始。</li>
+<li>Python中的字符串不能改变。</li>
+<li>Python 没有单独的字符类型，一个字符就是长度为 1 的字符串。</li>
+<li>字符串的截取的语法格式如下：变量[头下标:尾下标:步长]</li>
+</ul>
+<h2 id="空行"><a href="#空行" class="headerlink" title="空行"></a>空行</h2><p>函数之间或类的方法之间用空行分隔，表示一段新的代码的开始。类和函数入口之间也用一行空行分隔，以突出函数入口的开始。</p>
+<p>空行与代码缩进不同，空行并不是Python语法的一部分。书写时不插入空行，Python解释器运行也不会出错。但是空行的作用在于分隔两段不同功能或含义的代码，便于日后代码的维护或重构。</p>
+<p>记住：空行也是程序代码的一部分。</p>
+<h2 id="同一行显示多条语句"><a href="#同一行显示多条语句" class="headerlink" title="同一行显示多条语句"></a>同一行显示多条语句</h2><p>Python 可以在同一行中使用多条语句，语句之间使用分号 ; 分割，以下是一个简单的实例：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="keyword">import</span> sys; x = <span class="string">&#x27;runoob&#x27;</span>; sys.stdout.write(x + <span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多个语句构成代码组"><a href="#多个语句构成代码组" class="headerlink" title="多个语句构成代码组"></a>多个语句构成代码组</h2><p>缩进相同的一组语句构成一个代码块，我们称之代码组。</p>
+<p>像if、while、def和class这样的复合语句，首行以关键字开始，以冒号( : )结束，该行之后的一行或多行代码构成代码组。</p>
+<p>我们将首行及后面的代码组称为一个子句(clause)。</p>
+<p>如下实例：  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> expression : </span><br><span class="line">   suite</span><br><span class="line"><span class="keyword">elif</span> expression : </span><br><span class="line">   suite </span><br><span class="line"><span class="keyword">else</span> : </span><br><span class="line">   suite</span><br><span class="line">```      </span><br><span class="line"></span><br><span class="line"><span class="comment">## print 输出</span></span><br><span class="line"><span class="built_in">print</span> 默认输出是换行的，如果要实现不换行需要在变量末尾加上 end=<span class="string">&quot;&quot;</span>：</span><br><span class="line"></span><br><span class="line"><span class="comment">## import 与 from...import</span></span><br><span class="line">在 python 用 <span class="keyword">import</span> 或者 <span class="keyword">from</span>...<span class="keyword">import</span> 来导入相应的模块。</span><br><span class="line"></span><br><span class="line">将整个模块(somemodule)导入，格式为： <span class="keyword">import</span> somemodule</span><br><span class="line"></span><br><span class="line">从某个模块中导入某个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> somefunction</span><br><span class="line"></span><br><span class="line">从某个模块中导入多个函数,格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> firstfunc, secondfunc, thirdfunc</span><br><span class="line"></span><br><span class="line">将某个模块中的全部函数导入，格式为： <span class="keyword">from</span> somemodule <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment">## 命令行参数</span></span><br><span class="line"></span><br><span class="line">很多程序可以执行一些操作来查看一些基本信息，Python可以使用-h参数查看各参数帮助信息：</span><br></pre></td></tr></table></figure>
+<p>$ python -h<br>usage: python [option] … [-c cmd | -m mod | file | -] [arg] …<br>Options and arguments (and corresponding environment variables):<br>-c cmd : program passed in as string (terminates option list)<br>-d     : debug output from parser (also PYTHONDEBUG=x)<br>-E     : ignore environment variables (such as PYTHONPATH)<br>-h     : print this help message and exit</p>
+<p>[ etc. ]</p>
+<p>```<br>我们在使用脚本形式执行 Python 时，可以接收命令行输入的参数;</p>
+]]></content>
       <categories>
         <category>Develop Lan</category>
         <category>Python</category>
@@ -6643,6 +6635,151 @@ https://juejin.cn/post/6885159254764814349
 <p><a href="https://segmentfault.com/a/1190000015804888/">https://segmentfault.com/a/1190000015804888/</a></p>
 <p><a href="https://juejin.cn/post/6844903997438951437">https://juejin.cn/post/6844903997438951437</a></p>
 <p><a href="https://juejin.cn/post/6870099231361728525">https://juejin.cn/post/6870099231361728525</a></p>
+]]></content>
+      <tags>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java并发编程之Blocking Queue</title>
+    <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BBlocking-Queue/</url>
+    <content><![CDATA[<h1 id="Blocking-Queue"><a href="#Blocking-Queue" class="headerlink" title="Blocking Queue"></a>Blocking Queue</h1><p>A blocking queue is a queue that blocks when you try to dequeue from it and the queue is empty, or if you try to enqueue items to it and the queue is already full. A thread trying to dequeue from an empty queue is blocked until some other thread inserts an item into the queue. A thread trying to enqueue an item in a full queue is blocked until some other thread makes space in the queue, either by dequeuing one or more items or clearing the queue completely.</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210804131939043.png" alt="image-20210804131939043" style="zoom:50%;" />
+
+<p>阻塞队列两大特性：</p>
+<ul>
+<li>当队列满时，如果<strong>生产者线程</strong>向队列 put 元素，队列会一直阻塞生产者线程，直到队列可用或者响应中断退出</li>
+<li>当队列为空时，如果<strong>消费者线程</strong> 从队列里面 take 元素，队列会阻塞消费者线程，直到队列不为空</li>
+</ul>
+<p>阻塞队列最常使用在生产者和消费者模型中，生产者生产数据，将数据存放在队列中，消费者消费数据，在队列中取出数据。</p>
+<p>阻塞队列在不可用时，下面是各种处理操作的结果：👇</p>
+<table>
+<thead>
+<tr>
+<th align="center">方法/处理方式</th>
+<th align="center">抛出异常</th>
+<th align="center">返回特殊值</th>
+<th align="center">一直阻塞</th>
+<th align="center">超时退出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">插入方法</td>
+<td align="center">add(e)</td>
+<td align="center">offer(e)</td>
+<td align="center">put(e)</td>
+<td align="center">offer(e, time,unit)</td>
+</tr>
+<tr>
+<td align="center">移除方法</td>
+<td align="center">remove()</td>
+<td align="center">poll()</td>
+<td align="center">take()</td>
+<td align="center">poll(time,unit)</td>
+</tr>
+<tr>
+<td align="center">检查方法</td>
+<td align="center">element()</td>
+<td align="center">peek()</td>
+<td align="center">不可用</td>
+<td align="center">不可用</td>
+</tr>
+</tbody></table>
+<h3 id="add-抛出异常IllegalStateException"><a href="#add-抛出异常IllegalStateException" class="headerlink" title="add 抛出异常IllegalStateException"></a>add 抛出异常IllegalStateException</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayBlockingQueueDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ArrayBlockingQueue&lt;String&gt; queue = <span class="keyword">new</span> ArrayBlockingQueue&lt;String&gt;(<span class="number">1</span>);</span><br><span class="line">        queue.add(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">        queue.add(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">        System.err.println(<span class="string">&quot;queue size -&gt; &quot;</span> + queue.size());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>异常信息：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.lang.IllegalStateException: Queue full</span><br><span class="line">	at java.util.AbstractQueue.add(AbstractQueue.java:<span class="number">98</span>)</span><br><span class="line">	at java.util.concurrent.ArrayBlockingQueue.add(ArrayBlockingQueue.java:<span class="number">312</span>)</span><br><span class="line">	at com.ibli.note.ArrayBlockingQueueDemo.main(ArrayBlockingQueueDemo.java:<span class="number">15</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="element抛出异常NoSuchElementException"><a href="#element抛出异常NoSuchElementException" class="headerlink" title="element抛出异常NoSuchElementException"></a>element抛出异常NoSuchElementException</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayBlockingQueueDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ArrayBlockingQueue&lt;String&gt; queue = <span class="keyword">new</span> ArrayBlockingQueue&lt;String&gt;(<span class="number">1</span>);</span><br><span class="line">        System.err.println(<span class="string">&quot;queue size -&gt; &quot;</span> + queue.size());</span><br><span class="line">        queue.element();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>异常信息：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">queue size -&gt; <span class="number">0</span></span><br><span class="line">Exception in thread <span class="string">&quot;main&quot;</span> java.util.NoSuchElementException</span><br><span class="line">	at java.util.AbstractQueue.element(AbstractQueue.java:<span class="number">136</span>)</span><br><span class="line">	at com.ibli.note.ArrayBlockingQueueDemo.main(ArrayBlockingQueueDemo.java:<span class="number">14</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="ArrayBlockingQueue"><a href="#ArrayBlockingQueue" class="headerlink" title="ArrayBlockingQueue"></a>ArrayBlockingQueue</h2><p>底层由数组实现的有界的阻塞队列，它的容量在创建的时候就已经确认了，并且不能修改。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrayBlockingQueue</span><span class="params">(<span class="keyword">int</span> capacity, <span class="keyword">boolean</span> fair)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (capacity &lt;= <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">this</span>.items = <span class="keyword">new</span> Object[capacity];</span><br><span class="line">    lock = <span class="keyword">new</span> ReentrantLock(fair);</span><br><span class="line">    notEmpty = lock.newCondition();</span><br><span class="line">    notFull =  lock.newCondition();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，ArrayBlockingQueue是不保证线程公平访问队列的，这里所谓的公平与否是指，阻塞的线程能否按照阻塞的先后顺序访问队列，先阻塞先访问，后阻塞后访问。</p>
+<p>思考为什么默认情况下是非公平的方式访问呢？ 🤔</p>
+<blockquote>
+<p>这个是为了增加系统资源利用率，在不保证公平的情况下，多线程之间之间执行的效率要比公平模式下高的多。</p>
+</blockquote>
+<h3 id="ArrayBlovkingQueue-put方法"><a href="#ArrayBlovkingQueue-put方法" class="headerlink" title="ArrayBlovkingQueue#put方法"></a>ArrayBlovkingQueue#put方法</h3><p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210804140652447.png" alt="image-20210804140652447"></p>
+<p>下面是put方法源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    checkNotNull(e);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">  	<span class="comment">// 加锁</span></span><br><span class="line">    lock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (count == items.length)</span><br><span class="line">          	<span class="comment">// 队列满了之后，阻塞</span></span><br><span class="line">            notFull.await();</span><br><span class="line">      	<span class="comment">// 向队列中添加元素</span></span><br><span class="line">        enqueue(e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      	<span class="comment">// 执行完最后释放锁</span></span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面是添加数据的方法源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(E x)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert lock.getHoldCount() == 1;</span></span><br><span class="line">    <span class="comment">// assert items[putIndex] == null;</span></span><br><span class="line">    <span class="keyword">final</span> Object[] items = <span class="keyword">this</span>.items;</span><br><span class="line">    items[putIndex] = x;</span><br><span class="line">    <span class="keyword">if</span> (++putIndex == items.length)</span><br><span class="line">        putIndex = <span class="number">0</span>;</span><br><span class="line">    count++;</span><br><span class="line">  	<span class="comment">// 数据添加完之后，唤醒等待队列中的线程到同步队列</span></span><br><span class="line">    notEmpty.signal();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>‼️唤醒的线程能够抢到锁是不确定的，signal会添加节点到同步队列中等待获取锁。这个可以看一下Condition那篇文章。</p>
+<p>ArrayBlockingQueue更多详细细节以及原理跳转链接<a href="https://www.jianshu.com/p/a636b3d83911">https://www.jianshu.com/p/a636b3d83911</a></p>
+<h2 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a>LinkedBlockingQueue</h2><p>LinkedBlockingQueue是用链表实现的有界阻塞队列，同样满足FIFO的特性，与ArrayBlockingQueue相比起来具有更高的吞吐量，为了防止LinkedBlockingQueue容量迅速增，损耗大量内存。通常在创建LinkedBlockingQueue对象时，会指定其大小，如果未指定，容量等于Integer.MAX_VALUE;</p>
+<blockquote>
+<p>Executors.newFixedThreadPool 阿里巴巴禁止使用Executors来创建线程池</p>
+</blockquote>
+<p>队列大小无限制，常用的为无界的LinkedBlockingQueue，使用该队列做为阻塞队列时要尤其当心，当任务耗时较长时可能会导致大量新任务在队列中堆积最终导致OOM。阅读代码发现，Executors.newFixedThreadPool 采用就是 LinkedBlockingQueue，当QPS很高，发送数据很大，大量的任务被添加到这个无界LinkedBlockingQueue 中，导致cpu和内存飙升服务器挂掉。</p>
+<h3 id="属性信息"><a href="#属性信息" class="headerlink" title="属性信息"></a>属性信息</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 节点类，用于存储数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    E item;</span><br><span class="line">    Node&lt;E&gt; next;</span><br><span class="line"></span><br><span class="line">    Node(E x) &#123; item = x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 阻塞队列的大小，默认为Integer.MAX_VALUE */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> capacity;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 当前阻塞队列中的元素个数 */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger count = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 阻塞队列的头结点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">transient</span> Node&lt;E&gt; head;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 阻塞队列的尾节点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> Node&lt;E&gt; last;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 获取并移除元素时使用的锁，如take, poll, etc */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock takeLock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line"><span class="comment">/** notEmpty条件对象，当队列没有数据时用于挂起执行删除的线程 */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notEmpty = takeLock.newCondition();</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 添加元素时使用的锁如 put, offer, etc */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ReentrantLock putLock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line"><span class="comment">/** notFull条件对象，当队列数据已满时用于挂起执行添加的线程 */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notFull = putLock.newCondition();</span><br></pre></td></tr></table></figure>
+
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedBlockingQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 默认大小为Integer.MAX_VALUE</span></span><br><span class="line">    <span class="keyword">this</span>(Integer.MAX_VALUE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedBlockingQueue</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (capacity &lt;= <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    <span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">    last = head = <span class="keyword">new</span> Node&lt;E&gt;(<span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">LinkedBlockingQueue</span><span class="params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(Integer.MAX_VALUE);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock putLock = <span class="keyword">this</span>.putLock;</span><br><span class="line">    putLock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (E e : c) &#123;</span><br><span class="line">            <span class="keyword">if</span> (e == <span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">            <span class="keyword">if</span> (n == capacity)</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;Queue full&quot;</span>);</span><br><span class="line">            enqueue(<span class="keyword">new</span> Node&lt;E&gt;(e));</span><br><span class="line">            ++n;</span><br><span class="line">        &#125;</span><br><span class="line">        count.set(n);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        putLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LinkedBlockingQueue-put方法"><a href="#LinkedBlockingQueue-put方法" class="headerlink" title="LinkedBlockingQueue#put方法"></a>LinkedBlockingQueue#put方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    <span class="keyword">int</span> c = -<span class="number">1</span>;</span><br><span class="line">    Node&lt;E&gt; node = <span class="keyword">new</span> Node&lt;E&gt;(e);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock putLock = <span class="keyword">this</span>.putLock;</span><br><span class="line">    <span class="keyword">final</span> AtomicInteger count = <span class="keyword">this</span>.count;</span><br><span class="line">    <span class="comment">// 获取锁中断</span></span><br><span class="line">    putLock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//判断队列是否已满，如果已满阻塞等待</span></span><br><span class="line">        <span class="keyword">while</span> (count.get() == capacity) &#123;</span><br><span class="line">            notFull.await();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 把node放入队列中</span></span><br><span class="line">        enqueue(node);</span><br><span class="line">        c = count.getAndIncrement();</span><br><span class="line">        <span class="comment">// 再次判断队列是否有可用空间，如果有唤醒下一个线程进行添加操作</span></span><br><span class="line">        <span class="keyword">if</span> (c + <span class="number">1</span> &lt; capacity)</span><br><span class="line">            notFull.signal();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        putLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果队列中有一条数据，唤醒消费线程进行消费</span></span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>)</span><br><span class="line">        signalNotEmpty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>队列已满，阻塞等待。</li>
+<li>队列未满，创建一个node节点放入队列中，如果放完以后队列还有剩余空间，继续唤醒下一个添加线程进行添加。如果放之前队列中没有元素，放完以后要唤醒消费线程进行消费。</li>
+</ul>
+<h3 id="ArrayBlockingQueue与LinkedBlockingQueue的比较"><a href="#ArrayBlockingQueue与LinkedBlockingQueue的比较" class="headerlink" title="ArrayBlockingQueue与LinkedBlockingQueue的比较"></a>ArrayBlockingQueue与LinkedBlockingQueue的比较</h3><p><strong>相同点</strong>：ArrayBlockingQueue和LinkedBlockingQueue都是通过condition通知机制来实现可阻塞式插入和删除元素，并满足线程安全的特性；</p>
+<p><strong>不同点</strong>：</p>
+<p>1、ArrayBlockingQueue底层是采用的数组进行实现，而LinkedBlockingQueue则是采用链表数据结构；</p>
+<p>2、ArrayBlockingQueue插入和删除数据，只采用了一个lock，而LinkedBlockingQueue则是在插入和删除分别采用了<code>putLock</code>和<code>takeLock</code>，这样可以降低线程由于线程无法获取到lock而进入WAITING状态的可能性，从而提高了线程并发执行的效率</p>
+<p>更多LinkedBlockingQueue的实现细节参见<a href="https://blog.csdn.net/tonywu1992/article/details/83419448">https://blog.csdn.net/tonywu1992/article/details/83419448</a></p>
+<h2 id="PriorityBlockingQueue"><a href="#PriorityBlockingQueue" class="headerlink" title="PriorityBlockingQueue"></a>PriorityBlockingQueue</h2><p>PriorityBlockingQueue是一个支持优先级的<strong>无界阻塞</strong>队列。默认情况下元素采用自然顺序进行排序，也可以通过自定义类实现compareTo()方法来指定元素排序规则，或者初始化时通过构造器参数Comparator来指定排序规则。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityBlockingQueue</span><span class="params">(<span class="keyword">int</span> initialCapacity,</span></span></span><br><span class="line"><span class="params"><span class="function">                                 Comparator&lt;? <span class="keyword">super</span> E&gt; comparator)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (initialCapacity &lt; <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">        <span class="keyword">this</span>.lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">        <span class="keyword">this</span>.notEmpty = lock.newCondition();</span><br><span class="line">        <span class="keyword">this</span>.comparator = comparator;</span><br><span class="line">        <span class="keyword">this</span>.queue = <span class="keyword">new</span> Object[initialCapacity];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用优先级队列需要注意的点：</p>
+<p>1、队列中不允许出现null值，也不允许出现不能排序的元素。</p>
+<p>2、队列容量是没有上限的，但是如果插入的元素超过负载，有可能会引起OutOfMemory异常。</p>
+<blockquote>
+<p>当我们使用无界队列是都应该注意的点，不能在队列中无限存放数据</p>
+</blockquote>
+<p>3、PriorityBlockingQueue由于是无界的，所以put方法是非阻塞的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    offer(e); <span class="comment">// never need to block  请自行对照上面表格</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以给定初始容量，这个容量会按照一定的算法自动扩充</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Default array capacity.</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">11</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">PriorityBlockingQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(DEFAULT_INITIAL_CAPACITY, <span class="keyword">null</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里默认的容量是 11，由于也是基于数组。</p>
+<p>4、<code>内部只有一个Lock，所以生产消费者不能同时作业</code></p>
+<p>详情可以参照<a href="https://www.cnblogs.com/wyq1995/p/12289462.html">https://www.cnblogs.com/wyq1995/p/12289462.html</a></p>
+<h2 id="DelayQueue"><a href="#DelayQueue" class="headerlink" title="DelayQueue"></a>DelayQueue</h2><p>DelayQueue顾名思义，具有延时作用的队列。</p>
+<p>记得第一次接触延时队列的时候是在看分布式任务调度时看到底层有关延时队列的实现。</p>
+<p>DelayQueue 也是一个无界阻塞队列，使用时要注意OOM。</p>
+<p><code>只有delay时间小于0的元素才能够被取出。</code></p>
+<h3 id="生产者消费者模型"><a href="#生产者消费者模型" class="headerlink" title="生产者消费者模型"></a>生产者消费者模型</h3><p>创建一个类，实现Delayed方法，重写getDelay方法和compareTo方法；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelayData</span> <span class="keyword">implements</span> <span class="title">Delayed</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> second;</span><br><span class="line">    <span class="keyword">private</span> String val;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DelayData</span><span class="params">(<span class="keyword">long</span> second, String val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> l = System.currentTimeMillis();</span><br><span class="line">        System.err.println(second + <span class="string">&quot; &quot;</span> + l);</span><br><span class="line">        <span class="keyword">this</span>.second = second + l;</span><br><span class="line">        <span class="keyword">this</span>.val = val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getSecond</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> second;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getDelay</span><span class="params">(TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> diffTime = second - System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">return</span> unit.convert(diffTime,TimeUnit.MILLISECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Delayed o)</span> </span>&#123;</span><br><span class="line">        DelayData tmp = (DelayData) o;</span><br><span class="line">        <span class="keyword">long</span> result =  second - tmp.getSecond() ;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;DelayData&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;second=&quot;</span> + second +</span><br><span class="line">                <span class="string">&quot;, val=&#x27;&quot;</span> + val + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>然后创建两个线程模拟生产者和消费者</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelayQueueDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        DelayQueue&lt;DelayData&gt; delayQueue = <span class="keyword">new</span> DelayQueue&lt;DelayData&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            delayQueue.put(<span class="keyword">new</span> DelayData(<span class="number">5000</span>, <span class="string">&quot;a&quot;</span>));</span><br><span class="line">            delayQueue.put(<span class="keyword">new</span> DelayData(<span class="number">10000</span>, <span class="string">&quot;b&quot;</span>));</span><br><span class="line">            delayQueue.put(<span class="keyword">new</span> DelayData(<span class="number">15000</span>, <span class="string">&quot;c&quot;</span>));</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span> &amp;&amp; flag) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                    System.err.println(<span class="string">&quot;执行一次循环  队列长度&quot;</span> + delayQueue.size());</span><br><span class="line">                    DelayData poll = delayQueue.take();</span><br><span class="line">                    <span class="keyword">if</span> (poll != <span class="keyword">null</span>)&#123;</span><br><span class="line">                        System.err.println(poll.toString());</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (delayQueue.size() == <span class="number">0</span>)&#123;</span><br><span class="line">                        flag = <span class="keyword">false</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SynchronousQueue"><a href="#SynchronousQueue" class="headerlink" title="SynchronousQueue"></a>SynchronousQueue</h2><p><strong>SynchronousQueue</strong>实际上它不是一个真正的队列，因为它不会维护队列中元素的存储空间，与其他队列不同的是，它维护一组线程，这些线程在等待把元素加入或移除队列。适用于生产者少消费者多的情况。</p>
+<p>SynchronousQueue是生产者直接把数据给消费者（消费者直接从生产者这里拿数据）。换句话说，<strong>每一个插入操作必须等待一个线程对应的移除操作</strong>。SynchronousQueue又有两种模式：</p>
+<p>1、公平模式</p>
+<p>　　采用公平锁，并配合一个FIFO队列（Queue）来管理多余的生产者和消费者</p>
+<p>2、非公平模式</p>
+<p>　　采用非公平锁，并配合一个LIFO栈（Stack）来管理多余的生产者和消费者，这也是SynchronousQueue默认的模式</p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">SynchronousQueue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">SynchronousQueue</span><span class="params">(<span class="keyword">boolean</span> fair)</span> </span>&#123;</span><br><span class="line">        transferer = fair ? <span class="keyword">new</span> TransferQueue() : <span class="keyword">new</span> TransferStack();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>transferer 是一个内部类用于在生产者和消费者之间传递数据</p>
+<h3 id="实现生产者消费者"><a href="#实现生产者消费者" class="headerlink" title="实现生产者消费者"></a>实现生产者消费者</h3><p>下面模拟一个生产者生产数据，两个消费者消费数据。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronousQueueDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        SynchronousQueue queue = <span class="keyword">new</span> SynchronousQueue();</span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">2000L</span>);</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    <span class="keyword">long</span> l = System.currentTimeMillis();</span><br><span class="line">                    queue.put(l);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">&quot; 生产者生产数据 :&quot;</span> + l);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">300</span>);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">&quot;消费者消费数据 ： &quot;</span> + queue.take());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">300</span>);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">&quot;消费者消费数据 ： &quot;</span> + queue.take());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Thread-0 生产者生产数据 :1628055947404</span><br><span class="line">Thread-1消费者消费数据 ： 1628055947404</span><br><span class="line">Thread-0 生产者生产数据 :1628055947506</span><br><span class="line">Thread-2消费者消费数据 ： 1628055947506</span><br><span class="line">Thread-0 生产者生产数据 :1628055947608</span><br><span class="line">Thread-2消费者消费数据 ： 1628055947608</span><br><span class="line">Thread-0 生产者生产数据 :1628055947713</span><br></pre></td></tr></table></figure>
+
+<p>SynchronousQueue详细实现细节参见<a href="https://blog.csdn.net/yanyan19880509/article/details/52562039">https://blog.csdn.net/yanyan19880509/article/details/52562039</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html">https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html</a></p>
+<p><a href="http://tutorials.jenkov.com/java-concurrency/index.html">http://tutorials.jenkov.com/java-concurrency/index.html</a></p>
+<p><a href="https://www.baeldung.com/java-blocking-queue">https://www.baeldung.com/java-blocking-queue</a></p>
+<p><a href="https://blog.csdn.net/tonywu1992/article/details/83419448">https://blog.csdn.net/tonywu1992/article/details/83419448</a></p>
 ]]></content>
       <tags>
         <tag>多线程</tag>
