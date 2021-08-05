@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Java并发编程之CountDownLatch工具 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Java并发编程之CountDownLatch工具</h2>
+  <p class="post-date">2021-08-04</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h1><p>你要问什么是CountDownLatch? 那我可有的说了。</p>
+<p>之前干活的时候，有很多处理数据的任务，但是呢，数据量很大，写的java脚本执行下来肯定会比较慢，那怎么办呢，想起来刚毕业那会，有个同事写了一个并发调用的工具，当时感觉碉堡了。</p>
+<p>当我查看这个工具的具体实现时，发现它是基于CountDownLatch来封装的，咱当时也没用过CountDownLatch，感觉应该挺难，就直接用了那个工具。</p>
+<p>后来发现那个工具使用起来有些繁琐，就比如我刷数据这个事，CountDownLatch直接干是最简单的。</p>
+<h2 id="CountDownLatch是什么"><a href="#CountDownLatch是什么" class="headerlink" title="CountDownLatch是什么"></a>CountDownLatch是什么</h2><p>A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes.</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210804172448596.png" alt="image-20210804172448596" style="zoom:50%;" />
+
+<p>按照官方API文档上的介绍呢，CountDownLatch就是一个同步机制，用来实现一个或多个线程一直wait知道另一个线程完成一系列动作。</p>
+<h2 id="CountDownLatch使用"><a href="#CountDownLatch使用" class="headerlink" title="CountDownLatch使用"></a>CountDownLatch使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                latch.countDown();</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">&quot; execute 111&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">                System.out.println(Thread.currentThread().getName() + <span class="string">&quot; execute 222&quot;</span>);</span><br><span class="line">                latch.countDown();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;main thread invoke await&quot;</span>);</span><br><span class="line">        latch.await();</span><br><span class="line">        System.out.println(<span class="string">&quot;subThread execute end&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main thread invoke await</span><br><span class="line">Thread-0 execute 111</span><br><span class="line">Thread-1 execute 222</span><br><span class="line">subThread execute end</span><br></pre></td></tr></table></figure>
+
+<p>下面我们就从countDown和await两个方法解析CountDownLatch的运行机制吧</p>
+<h2 id="CountDownLatch实现原理"><a href="#CountDownLatch实现原理" class="headerlink" title="CountDownLatch实现原理"></a>CountDownLatch实现原理</h2><p>和ReentrantLock实现独占锁不同的是，CountDownLatch是典型的共享锁。</p>
+<p>值得注意的是，CountDownLatch的静态内部类Sync继承了AbstractQueuedSynchronizer并实现了tryAcquireShared方法和tryReleaseShared方法。</p>
+<p>下面先从构造方法入手开始学习 👇</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CountDownLatch</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count &lt; <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;count &lt; 0&quot;</span>);</span><br><span class="line">    <span class="keyword">this</span>.sync = <span class="keyword">new</span> Sync(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化count字段，其值是设置在AQS的state字段上面的，当每个线程执行了countDown()之后，<code>state = state - 1</code></p>
+<p>当state = 0 时，唤醒之前await的线程。</p>
+<h3 id="await"><a href="#await" class="headerlink" title="await()"></a>await()</h3><p><strong>下面是await方法：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    sync.acquireSharedInterruptibly(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>AQS#acquireSharedInterruptibly(int arg)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">          	<span class="comment">// 获取中断标志，把中断标志复位，然后把中断异常往上层抛</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">        <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</span><br><span class="line">            doAcquireSharedInterruptibly(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>tryAcquireShared(arg)这个方法和之前学习ReentrantLock时是一样的，这是AQS提供的模版方法。</p>
+<p>AQS提供模版方法，有每个子类自己去实现逻辑，然后再由AQS本身调用。</p>
+<p><strong>CountDownLatch#tryAcquireShared(int acquires)</strong> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (getState() == <span class="number">0</span>) ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>getState()返回的是AQS的state值，第一个线程获取是肯定不是0</p>
+<p>如果getState()方法返回-1的话，会执行下面的方法：</p>
+<p><strong>AQS#doAcquireSharedInterruptibly</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.SHARED);</span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();</span><br><span class="line">            <span class="keyword">if</span> (p == head) &#123;</span><br><span class="line">                <span class="keyword">int</span> r = tryAcquireShared(arg);</span><br><span class="line">                <span class="keyword">if</span> (r &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                  	<span class="comment">// 表示aqs state = 0</span></span><br><span class="line">                  	<span class="comment">// 需要把当前线程设置成头节点，并向下传播</span></span><br><span class="line">                    setHeadAndPropagate(node, r);</span><br><span class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC</span></span><br><span class="line">                    failed = <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          	<span class="comment">// 避免一直空转，将前一个节点状态设置成SIGNAL,然后挂起当前线程</span></span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                parkAndCheckInterrupt())</span><br><span class="line">              	<span class="comment">// 如果线程中断，则直接抛出异常</span></span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            cancelAcquire(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当countDownLatch的count变成0的时候，主线程await完成，然后被唤醒，继续执行。</p>
+<p><strong>setHeadAndPropagate(Node node, int propagate)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setHeadAndPropagate</span><span class="params">(Node node, <span class="keyword">int</span> propagate)</span> </span>&#123;</span><br><span class="line">    Node h = head; <span class="comment">// Record old head for check below</span></span><br><span class="line">    setHead(node);</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Try to signal next queued node if:</span></span><br><span class="line"><span class="comment">     *   Propagation was indicated by caller,</span></span><br><span class="line"><span class="comment">     *     or was recorded (as h.waitStatus either before</span></span><br><span class="line"><span class="comment">     *     or after setHead) by a previous operation</span></span><br><span class="line"><span class="comment">     *     (note: this uses sign-check of waitStatus because</span></span><br><span class="line"><span class="comment">     *      PROPAGATE status may transition to SIGNAL.)</span></span><br><span class="line"><span class="comment">     * and</span></span><br><span class="line"><span class="comment">     *   The next node is waiting in shared mode,</span></span><br><span class="line"><span class="comment">     *     or we don&#x27;t know, because it appears null</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * The conservatism in both of these checks may cause</span></span><br><span class="line"><span class="comment">     * unnecessary wake-ups, but only when there are multiple</span></span><br><span class="line"><span class="comment">     * racing acquires/releases, so most need signals now or soon</span></span><br><span class="line"><span class="comment">     * anyway.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">if</span> (propagate &gt; <span class="number">0</span> || h == <span class="keyword">null</span> || h.waitStatus &lt; <span class="number">0</span> ||</span><br><span class="line">        (h = head) == <span class="keyword">null</span> || h.waitStatus &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        Node s = node.next;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.isShared())</span><br><span class="line">          	<span class="comment">// 如果后续节点是shard节点，释放</span></span><br><span class="line">            doReleaseShared();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="countDown"><a href="#countDown" class="headerlink" title="countDown()"></a>countDown()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">countDown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    sync.releaseShared(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>AQS#releaseShared(int arg) 释放共享锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 有子类实现</span></span><br><span class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</span><br><span class="line">        doReleaseShared();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>CountDownLatch#tryReleaseShared(int releases)</strong></p>
+<p>这个方法比较简单，每执行一次countDown(), state = state - 1</p>
+<p>最后返回state是否等于0 如果不等于0 说明共享锁不能释放</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryReleaseShared</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// Decrement count; signal when transition to zero</span></span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                <span class="keyword">int</span> c = getState();</span><br><span class="line">                <span class="keyword">if</span> (c == <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                <span class="keyword">int</span> nextc = c-<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span> (compareAndSetState(c, nextc))</span><br><span class="line">                    <span class="keyword">return</span> nextc == <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>doReleaseShared() 释放共享锁方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReleaseShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Ensure that a release propagates, even if there are other</span></span><br><span class="line"><span class="comment">         * in-progress acquires/releases.  This proceeds in the usual</span></span><br><span class="line"><span class="comment">         * way of trying to unparkSuccessor of head if it needs</span></span><br><span class="line"><span class="comment">         * signal. But if it does not, status is set to PROPAGATE to</span></span><br><span class="line"><span class="comment">         * ensure that upon release, propagation continues.</span></span><br><span class="line"><span class="comment">         * Additionally, we must loop in case a new node is added</span></span><br><span class="line"><span class="comment">         * while we are doing this. Also, unlike other uses of</span></span><br><span class="line"><span class="comment">         * unparkSuccessor, we need to know if CAS to reset status</span></span><br><span class="line"><span class="comment">         * fails, if so rechecking.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            Node h = head;</span><br><span class="line">            <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h != tail) &#123;</span><br><span class="line">              <span class="comment">// 获取头结点的等待状态</span></span><br><span class="line">                <span class="keyword">int</span> ws = h.waitStatus;</span><br><span class="line">                <span class="keyword">if</span> (ws == Node.SIGNAL) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!compareAndSetWaitStatus(h, Node.SIGNAL, <span class="number">0</span>))</span><br><span class="line">                        <span class="keyword">continue</span>;            <span class="comment">// loop to recheck cases</span></span><br><span class="line">                  	 <span class="comment">// 释放后继结点</span></span><br><span class="line">                    unparkSuccessor(h);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (ws == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                         !compareAndSetWaitStatus(h, <span class="number">0</span>, Node.PROPAGATE))</span><br><span class="line">                    <span class="keyword">continue</span>;                <span class="comment">// loop on failed CAS</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (h == head)                   <span class="comment">// loop if head changed</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>unparkSuccessor()执行线程唤醒的方法</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * If status is negative (i.e., possibly needing signal) try</span></span><br><span class="line"><span class="comment">     * to clear in anticipation of signalling.  It is OK if this</span></span><br><span class="line"><span class="comment">     * fails or if status is changed by waiting thread.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">int</span> ws = node.waitStatus;</span><br><span class="line">    <span class="keyword">if</span> (ws &lt; <span class="number">0</span>)</span><br><span class="line">        compareAndSetWaitStatus(node, ws, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Thread to unpark is held in successor, which is normally</span></span><br><span class="line"><span class="comment">     * just the next node.  But if cancelled or apparently null,</span></span><br><span class="line"><span class="comment">     * traverse backwards from tail to find the actual</span></span><br><span class="line"><span class="comment">     * non-cancelled successor.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    Node s = node.next;</span><br><span class="line">    <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        s = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">for</span> (Node t = tail; t != <span class="keyword">null</span> &amp;&amp; t != node; t = t.prev)</span><br><span class="line">            <span class="keyword">if</span> (t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">                s = t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (s != <span class="keyword">null</span>)</span><br><span class="line">        LockSupport.unpark(s.thread);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/128476015902">https://www.jianshu.com/p/128476015902</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000015807573">https://segmentfault.com/a/1190000015807573</a></p>
+<p><a target="_blank" rel="noopener" href="http://localhost:4000/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCountDownLatch%E5%B7%A5%E5%85%B7/">http://localhost:4000/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCountDownLatch%E5%B7%A5%E5%85%B7/</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%90%9E%E6%87%82%E7%BA%BF%E7%A8%8B%E6%B1%A0-1/">
+        <span class="nav-arrow">← </span>
+        
+          Java并发编程之搞懂线程池
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BConcurrentHashMap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+          Java并发编程之ConcurrentHashMap实现原理
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#CountDownLatch"><span class="toc-nav-text">CountDownLatch</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CountDownLatch%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-nav-text">CountDownLatch是什么</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CountDownLatch%E4%BD%BF%E7%94%A8"><span class="toc-nav-text">CountDownLatch使用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CountDownLatch%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="toc-nav-text">CountDownLatch实现原理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#await"><span class="toc-nav-text">await()</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#countDown"><span class="toc-nav-text">countDown()</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-nav-text">参考文章</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/Java并发编程之CountDownLatch工具/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
