@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      设计模式之美-装饰器模式 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>设计模式之美-装饰器模式</h2>
+  <p class="post-date">2021-08-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="装饰器模式（Decorator-Pattern）"><a href="#装饰器模式（Decorator-Pattern）" class="headerlink" title="装饰器模式（Decorator Pattern）"></a>装饰器模式（Decorator Pattern）</h1><p>装饰器模式也叫做包装模式，是指在不改变原有对象的基础上，将功能附加到对象上，提供比继承更有弹性的替代方案（扩展原有对象的功能），强调一点是基于已有对象的功能增强；装饰器模式属于结构性模式;</p>
+<h2 id="装饰器类图"><a href="#装饰器类图" class="headerlink" title="装饰器类图"></a>装饰器类图</h2><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/up-b2f04bf843bb9c3e787016e216e5fbd91cf.png" style="zoom:67%;" />  
+
+
+<h3 id="Component-抽象构件"><a href="#Component-抽象构件" class="headerlink" title="Component 抽象构件"></a>Component 抽象构件</h3><blockquote>
+<p>定义一个抽象接口以规范准备接受附加责任的对象</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcreteComponent-具体的构件"><a href="#ConcreteComponent-具体的构件" class="headerlink" title="ConcreteComponent 具体的构件"></a>ConcreteComponent 具体的构件</h3><blockquote>
+<p>实现抽象构件,通过装饰角色为其添加一些职责</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.err.println(<span class="string">&quot;Do some biz event!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Decorator-抽象装饰角色"><a href="#Decorator-抽象装饰角色" class="headerlink" title="Decorator 抽象装饰角色"></a>Decorator 抽象装饰角色</h3><blockquote>
+<p>继承抽象构件,并包含具体构件的实例,可以通过其子类扩展具体构件的功能</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//持有组件对象</span></span><br><span class="line">    <span class="keyword">protected</span> Component component;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Decorator</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.component = component;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//转发请求给组件对象,可以在转发前后执行一些附加动作</span></span><br><span class="line">        component.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcreteDecoratorA"><a href="#ConcreteDecoratorA" class="headerlink" title="ConcreteDecoratorA"></a>ConcreteDecoratorA</h3><blockquote>
+<p>实现抽象装饰的相关方法,并给具体构件对象添加附加的责任</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteDecoratorA</span> <span class="keyword">extends</span> <span class="title">Decorator</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteDecoratorA</span><span class="params">(Component component)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(component);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.err.println(<span class="string">&quot;ConcreteDecoratorA first!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationLast</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.err.println(<span class="string">&quot;ConcreteDecoratorA last!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        operationFirst();</span><br><span class="line">        <span class="keyword">super</span>.operation();</span><br><span class="line">        operationLast();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Client-测试类"><a href="#Client-测试类" class="headerlink" title="Client 测试类"></a>Client 测试类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Component component = <span class="keyword">new</span> ConcreteComponent();</span><br><span class="line">        Decorator decoratorA = <span class="keyword">new</span> ConcreteDecoratorA(component);</span><br><span class="line">        decoratorA.operation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>买煎饼的时候,我们可以直接买一个煎饼,但有的时候觉得味道单一或者吃不饱,我们可以加一些东西,比如烤肠,鸡蛋,鸡排等等;  </p>
+<p><strong>先看看非装饰器模式的写法</strong>  </p>
+<h3 id="BatterCake"><a href="#BatterCake" class="headerlink" title="BatterCake"></a>BatterCake</h3><blockquote>
+<p>就一个普通的煎饼类；  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BatterCake</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="string">&quot;煎饼&quot;</span>;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BatterCakeWithEgg"><a href="#BatterCakeWithEgg" class="headerlink" title="BatterCakeWithEgg"></a>BatterCakeWithEgg</h3><blockquote>
+<p>添加一个鸡蛋的煎饼；  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BatterCakeWithEgg</span> <span class="keyword">extends</span> <span class="title">BatterCake</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getMsg() + <span class="string">&quot; 加一个鸡蛋&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getPrice() + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="BatterCakeWithEggAndSauage"><a href="#BatterCakeWithEggAndSauage" class="headerlink" title="BatterCakeWithEggAndSauage"></a>BatterCakeWithEggAndSauage</h3><blockquote>
+<p>加一个鸡蛋 再加一跟烤肠的煎饼；  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BatterCakeWithEggAndSauage</span> <span class="keyword">extends</span> <span class="title">BatterCakeWithEgg</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getMsg() + <span class="string">&quot; 加一个烤肠&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getPrice() + <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Client-客户"><a href="#Client-客户" class="headerlink" title="Client 客户"></a>Client 客户</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        BatterCake batterCake = <span class="keyword">new</span> BatterCake();</span><br><span class="line">        System.err.println(batterCake.getMsg() + <span class="string">&quot;价格 &quot;</span> + batterCake.getPrice());</span><br><span class="line"></span><br><span class="line">        BatterCakeWithEgg batterCakeWithEgg = <span class="keyword">new</span> BatterCakeWithEgg();</span><br><span class="line">        System.err.println(batterCakeWithEgg.getMsg() + <span class="string">&quot;价格 &quot;</span> + batterCakeWithEgg.getPrice());</span><br><span class="line"></span><br><span class="line">        BatterCakeWithEggAndSauage batterCakeWithEggAndSauage = <span class="keyword">new</span> BatterCakeWithEggAndSauage();</span><br><span class="line">        System.err.println(batterCakeWithEggAndSauage.getMsg() + <span class="string">&quot;价格 &quot;</span> + batterCakeWithEggAndSauage.getPrice());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看到这种写法，应该能看出它的弊端了，就是实现很简单，适合于需求固定的业务和多样性比较简单的业务；一旦客户需要一个鸡蛋，两根烤肠，那是不是还要在BatterCakeWithEggAndSauage类上继续扩展呢，这其实是很low的设计；而且非常不灵活，比如客户只需要一跟烤肠的煎饼。这个时候怎么解决呢；</p>
+<p><strong>使用装饰器模式优化</strong>  </p>
+<h3 id="BatterCake-抽象组件"><a href="#BatterCake-抽象组件" class="headerlink" title="BatterCake 抽象组件"></a>BatterCake 抽象组件</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BatterCake</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> String <span class="title">getMsg</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="基础类-实现抽象接口"><a href="#基础类-实现抽象接口" class="headerlink" title="基础类 实现抽象接口"></a>基础类 实现抽象接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseBatterCake</span> <span class="keyword">extends</span> <span class="title">BatterCake</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;煎饼&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">5</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="BatterCakeDecorator-装饰器"><a href="#BatterCakeDecorator-装饰器" class="headerlink" title="BatterCakeDecorator 装饰器"></a>BatterCakeDecorator 装饰器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BatterCakeDecorator</span> <span class="keyword">extends</span> <span class="title">BatterCake</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BatterCake batterCake;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BatterCakeDecorator</span><span class="params">(BatterCake batterCake)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.batterCake = batterCake;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.batterCake.getMsg();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.batterCake.getPrice();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="EggDecorator-具体的装饰器对象"><a href="#EggDecorator-具体的装饰器对象" class="headerlink" title="EggDecorator 具体的装饰器对象"></a>EggDecorator 具体的装饰器对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EggDecorator</span> <span class="keyword">extends</span> <span class="title">BatterCakeDecorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EggDecorator</span><span class="params">(BatterCake batterCake)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(batterCake);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getMsg() + <span class="string">&quot; 加一个鸡蛋&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getPrice() + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SauageDecorator-具体的装饰对象"><a href="#SauageDecorator-具体的装饰对象" class="headerlink" title="SauageDecorator 具体的装饰对象"></a>SauageDecorator 具体的装饰对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SauageDecorator</span> <span class="keyword">extends</span> <span class="title">BatterCakeDecorator</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SauageDecorator</span><span class="params">(BatterCake batterCake)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>(batterCake);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getMsg() + <span class="string">&quot; 加一个烤肠&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getPrice() + <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="客户-测试类"><a href="#客户-测试类" class="headerlink" title="客户 测试类"></a>客户 测试类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        BatterCake batterCake = <span class="keyword">new</span> BaseBatterCake();</span><br><span class="line">        System.err.println(batterCake.getMsg() + <span class="string">&quot;总计 : &quot;</span> + batterCake.getPrice());</span><br><span class="line"></span><br><span class="line">        batterCake = <span class="keyword">new</span> EggDecorator(batterCake);</span><br><span class="line">        System.err.println(batterCake.getMsg() + <span class="string">&quot;总计 : &quot;</span> + batterCake.getPrice());</span><br><span class="line"></span><br><span class="line">        batterCake = <span class="keyword">new</span> SauageDecorator(batterCake);</span><br><span class="line">        System.err.println(batterCake.getMsg() + <span class="string">&quot;总计 : &quot;</span> + batterCake.getPrice());</span><br><span class="line"></span><br><span class="line">        batterCake = <span class="keyword">new</span> EggDecorator(batterCake);</span><br><span class="line">        System.err.println(batterCake.getMsg() + <span class="string">&quot;总计 : &quot;</span> + batterCake.getPrice());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这种写法是运用了装饰器模式的写法，这样会增加程序的灵活性，EggDecorator返回一个BatterCake，在EggDecorator中的getMsg方法和getPrice方法中添加关于Egg的逻辑来实现对BatterCake的增强，同理SauageDecorator也是，在它自己的getMsg方法和getPrice方法中添加自己的逻辑，当然，都是基于调用super方法的基础上添加自己的逻辑，同时具体的装饰对象返回父类类型的对象；  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getPrice() + <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>这里进行一下总结：</strong><br>1、具体装饰对象(EggDecorator)一定是继承自装饰组件(BatterCakeDecorator)<br>2、为了实现对象增强，子类中的方法一定是基于super方法的基础上，添加自己的逻辑的  </p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
+<li>用于扩展一个类的功能或给一个类添加附加职责</li>
+<li>动态地给一个对象添加功能,这些功能可以在动态的撤销</li>
+</ul>
+<h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><p>Spring TransactionAwareCacheManager<br>JDK FileInputStream   </p>
+<h2 id="装饰器模式与代理模式"><a href="#装饰器模式与代理模式" class="headerlink" title="装饰器模式与代理模式"></a>装饰器模式与代理模式</h2><ul>
+<li>装饰器模式是一种特殊的代理模式  </li>
+<li>装饰器模式强调自身的功能扩展,透明的,动态的扩展与增强  <blockquote>
+<p>透明指的是功能的扩展由客户端控制  </p>
+</blockquote>
+</li>
+<li>代理模式强调代理过程的控制  </li>
+</ul>
+<h2 id="装饰器模式的优点"><a href="#装饰器模式的优点" class="headerlink" title="装饰器模式的优点"></a>装饰器模式的优点</h2><p>1、装饰器是继承的有力补充，比继承灵活，在不改变原有对象的情况下，动态的给一个对象扩展功能，即插即用<br>2、通过使用不用装饰类及这些装饰类的排列组合，可以实现不同效果<br>3、装饰器模式完全遵守开闭原则  </p>
+<h2 id="装饰器模式的缺点"><a href="#装饰器模式的缺点" class="headerlink" title="装饰器模式的缺点"></a>装饰器模式的缺点</h2><p>1、增加了一些子类，系统代码会显得臃肿。<br>2、组合方式容易出错，代码可读性比较差。   </p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p>1、<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903603178569741">包装模式就是这么简单啦</a><br>2、<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/1366.html">装饰器模式（装饰设计模式）详解</a><br>3、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/losedMemory/p/6246029.html">java中的装饰设计模式，浅谈与继承之间的区别</a><br>4、<a target="_blank" rel="noopener" href="https://blog.csdn.net/lsgqjh/article/details/63254876">JDK IO中的适配器模式和装饰者模式</a>  </p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#设计模式" >
+    <span class="tag-code">设计模式</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+        <span class="nav-arrow">← </span>
+        
+          设计模式之美-策略模式
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+        
+          设计模式之美-观察者模式
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%EF%BC%88Decorator-Pattern%EF%BC%89"><span class="toc-nav-text">装饰器模式（Decorator Pattern）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E7%B1%BB%E5%9B%BE"><span class="toc-nav-text">装饰器类图</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Component-%E6%8A%BD%E8%B1%A1%E6%9E%84%E4%BB%B6"><span class="toc-nav-text">Component 抽象构件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ConcreteComponent-%E5%85%B7%E4%BD%93%E7%9A%84%E6%9E%84%E4%BB%B6"><span class="toc-nav-text">ConcreteComponent 具体的构件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Decorator-%E6%8A%BD%E8%B1%A1%E8%A3%85%E9%A5%B0%E8%A7%92%E8%89%B2"><span class="toc-nav-text">Decorator 抽象装饰角色</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ConcreteDecoratorA"><span class="toc-nav-text">ConcreteDecoratorA</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Client-%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="toc-nav-text">Client 测试类</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="toc-nav-text">举个例子</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#BatterCake"><span class="toc-nav-text">BatterCake</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#BatterCakeWithEgg"><span class="toc-nav-text">BatterCakeWithEgg</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#BatterCakeWithEggAndSauage"><span class="toc-nav-text">BatterCakeWithEggAndSauage</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Client-%E5%AE%A2%E6%88%B7"><span class="toc-nav-text">Client 客户</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#BatterCake-%E6%8A%BD%E8%B1%A1%E7%BB%84%E4%BB%B6"><span class="toc-nav-text">BatterCake 抽象组件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%9F%BA%E7%A1%80%E7%B1%BB-%E5%AE%9E%E7%8E%B0%E6%8A%BD%E8%B1%A1%E6%8E%A5%E5%8F%A3"><span class="toc-nav-text">基础类 实现抽象接口</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#BatterCakeDecorator-%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-nav-text">BatterCakeDecorator 装饰器</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#EggDecorator-%E5%85%B7%E4%BD%93%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AF%B9%E8%B1%A1"><span class="toc-nav-text">EggDecorator 具体的装饰器对象</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SauageDecorator-%E5%85%B7%E4%BD%93%E7%9A%84%E8%A3%85%E9%A5%B0%E5%AF%B9%E8%B1%A1"><span class="toc-nav-text">SauageDecorator 具体的装饰对象</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%A2%E6%88%B7-%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="toc-nav-text">客户 测试类</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">使用场景</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="toc-nav-text">实际应用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="toc-nav-text">装饰器模式与代理模式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-nav-text">装饰器模式的优点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-nav-text">装饰器模式的缺点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-nav-text">参考文档</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/设计模式之美-装饰器模式/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

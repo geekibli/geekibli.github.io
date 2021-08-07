@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      设计模式之美-适配器模式 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>设计模式之美-适配器模式</h2>
+  <p class="post-date">2021-08-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h1><p>适配器模式（Adapter Pattern）又叫做变压器模式，它的功能是将一个类的接口变成客户端所期望的另一个接口，从而<br>使得原本因接口不匹配而导致无法在一起工作的两个类能够在一起工作，属于结构性设计模式的一种；</p>
+<p>在软件开发的过程中，基本上任何问题都可以通过一个中间层解决。适配器模式其实就是一个中间层，适配器模式起着<br>转化/委托的作用，将一种接口转化为两一种服务功能或需求的接口。</p>
+<p>下面举个例子来分析一下👇  </p>
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/up-785fc6504778eee5c2c820597c0d6e36fbd.png" style="zoom:67%;" /> 
+如图是一个适配器模式类图所在👆  
+
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>实现一个文件上传的功能，我们有很多中选择，亚马逊的AWS,阿里的OSS等等吧，但是不同的厂商有自己的标准或者API,但是在我们系统中体现的就是一个putObject方法，所以需要定义一个CloudSDK标准，然后不同的厂商来适配我们自己的标准，在我们的putObject和三方的SDK中间加一层适配层；<br>对于客户端来说，仅仅是完成文件上传的动作，至于你服务端到底使用亚马逊的服务还是阿里的服务，它是不care的，这也体现的策略模式；  所以这个例子兼备工厂模式+策略模式+适配器模式；  </p>
+<h3 id="CloudController"><a href="#CloudController" class="headerlink" title="CloudController"></a>CloudController</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloudController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果是Spring项目这里直接注入就可以了，没必要这么麻烦</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CloudController</span><span class="params">(CloudService cloudService)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cloudService = cloudService;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CloudService cloudService;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uploadFile</span><span class="params">(String fileName)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;invoke upload file service!&quot;</span> + fileName);</span><br><span class="line">        cloudService.uploadFile(fileName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        CloudController cloudController = <span class="keyword">new</span> CloudController(<span class="keyword">new</span> CloudService(<span class="string">&quot;ali&quot;</span>));</span><br><span class="line">        cloudController.uploadFile(<span class="string">&quot;think in java&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CloudService"><a href="#CloudService" class="headerlink" title="CloudService"></a>CloudService</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloudService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> CloudSDK cloudSDK;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CloudService</span><span class="params">(String cloudStorage)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 使用工厂来创建具体的SDK</span></span><br><span class="line">        <span class="keyword">this</span>.cloudSDK = CloudFactory.create(cloudStorage);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uploadFile</span><span class="params">(String fileName)</span> </span>&#123;</span><br><span class="line">        cloudSDK.putObject(fileName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="CloudSDK-定义SDK标准"><a href="#CloudSDK-定义SDK标准" class="headerlink" title="CloudSDK 定义SDK标准"></a>CloudSDK 定义SDK标准</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CloudSDK</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">putObject</span><span class="params">(String fileName)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AWSSDKAdapter-适配CloudSDK标准"><a href="#AWSSDKAdapter-适配CloudSDK标准" class="headerlink" title="AWSSDKAdapter 适配CloudSDK标准"></a>AWSSDKAdapter 适配CloudSDK标准</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AWSSDKAdapter</span> <span class="keyword">implements</span> <span class="title">CloudSDK</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> AWSSDK awssdk;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AWSSDKAdapter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.awssdk = <span class="keyword">new</span> AWSSDK();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putObject</span><span class="params">(String fileName)</span> </span>&#123;</span><br><span class="line">        awssdk.putObject(fileName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AliSDKAdapter适配CloudSDK标准"><a href="#AliSDKAdapter适配CloudSDK标准" class="headerlink" title="AliSDKAdapter适配CloudSDK标准"></a>AliSDKAdapter适配CloudSDK标准</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AliSDKAdapter</span> <span class="keyword">implements</span> <span class="title">CloudSDK</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> AliSDK aliSDK;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AliSDKAdapter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.aliSDK = <span class="keyword">new</span> AliSDK();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 这个方法就是适配器的标准 不管你的三方服务需要多少接口，是要实现云上传，统一通过putObject这个接口实现就可以</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putObject</span><span class="params">(String fileName)</span> </span>&#123;</span><br><span class="line">        aliSDK.setBucket();</span><br><span class="line">        aliSDK.uploadFile(fileName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AWSSDK-三方SDK"><a href="#AWSSDK-三方SDK" class="headerlink" title="AWSSDK 三方SDK"></a>AWSSDK 三方SDK</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AWSSDK</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 一般以JAR的方式引入到项目中，我们也不可能去修改三方的SDK,这是各个厂商制定的自己的标准</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putObject</span><span class="params">(String fileName)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;aws upload file &quot;</span> + fileName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="AliSDK-三方SDK"><a href="#AliSDK-三方SDK" class="headerlink" title="AliSDK 三方SDK"></a>AliSDK 三方SDK</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AliSDK</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 一般以JAR的方式引入到项目中，我们也不可能去修改三方的SDK,这是各个厂商制定的自己的标准</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBucket</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Ali oss set bucket!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uploadFile</span><span class="params">(String fileName)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Ali oss upload file!&quot;</span> + fileName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CloudFactory"><a href="#CloudFactory" class="headerlink" title="CloudFactory"></a>CloudFactory</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloudFactory</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 这里是写死了 生产环境中可以通过配置文件的方式或者启动加载等等方式实现，有很多</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Map&lt;String, CloudSDK&gt; sdkMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 总之要符合开闭原则 对修改关闭</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        sdkMap.put(<span class="string">&quot;ali&quot;</span>, <span class="keyword">new</span> AliSDKAdapter());</span><br><span class="line">        sdkMap.put(<span class="string">&quot;aws&quot;</span>, <span class="keyword">new</span> AWSSDKAdapter());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 通过不同的策略生成具体的SDK实例</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CloudSDK <span class="title">create</span><span class="params">(String storage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sdkMap.get(storage);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="适配器和装饰器模式的区别"><a href="#适配器和装饰器模式的区别" class="headerlink" title="适配器和装饰器模式的区别"></a>适配器和装饰器模式的区别</h2><p>适配器模式和装饰器模式都是包装器模式，装饰器模式其实是一种特殊的代理模式；</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>适配器模式</th>
+<th>装饰器模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>形式</td>
+<td>没有层级关系</td>
+<td>一种非常特别的代理模式，具有层级关系</td>
+</tr>
+<tr>
+<td>定义</td>
+<td>适配器和被适配者没有必然的联系，通常采用继承或代理的方式进行包装</td>
+<td>装饰器和被装饰者都实现同一个接口，主要目的是扩展之后依旧保留OOP关系</td>
+</tr>
+<tr>
+<td>关系</td>
+<td>没有满足has-a的关系</td>
+<td>满足is-a关系</td>
+</tr>
+<tr>
+<td>功能</td>
+<td>注重兼容、转换</td>
+<td>注重覆盖、扩展</td>
+</tr>
+<tr>
+<td>设计</td>
+<td>后置考虑</td>
+<td>前置考虑</td>
+</tr>
+</tbody></table>
+<h2 id="适配器功能的优点-✅"><a href="#适配器功能的优点-✅" class="headerlink" title="适配器功能的优点 ✅"></a>适配器功能的优点 ✅</h2><ul>
+<li><strong>能提高类的透明性和复用，但现有的类复用不需要改变</strong>  </li>
+<li><strong>适配器类和原角色解耦，投稿程序的扩展性</strong></li>
+<li><strong>在很多业务中符合开闭原则</strong>  </li>
+</ul>
+<h2 id="适配器的缺点"><a href="#适配器的缺点" class="headerlink" title="适配器的缺点"></a>适配器的缺点</h2><ul>
+<li><strong>适配器编写过程需要结合业务场景综合考虑，可能会增加系统的复杂性</strong></li>
+<li><strong>增加代码阅读难度，降低代码可读性，过多的适配器会使得系统代码变得紊乱</strong></li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#设计模式" >
+    <span class="tag-code">设计模式</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">
+        <span class="nav-arrow">← </span>
+        
+          设计模式之美-责任链模式
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">
+        
+          设计模式之美-门面模式
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-nav-text">适配器模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="toc-nav-text">类图</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-nav-text">代码</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#CloudController"><span class="toc-nav-text">CloudController</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#CloudService"><span class="toc-nav-text">CloudService</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#CloudSDK-%E5%AE%9A%E4%B9%89SDK%E6%A0%87%E5%87%86"><span class="toc-nav-text">CloudSDK 定义SDK标准</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#AWSSDKAdapter-%E9%80%82%E9%85%8DCloudSDK%E6%A0%87%E5%87%86"><span class="toc-nav-text">AWSSDKAdapter 适配CloudSDK标准</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#AliSDKAdapter%E9%80%82%E9%85%8DCloudSDK%E6%A0%87%E5%87%86"><span class="toc-nav-text">AliSDKAdapter适配CloudSDK标准</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#AWSSDK-%E4%B8%89%E6%96%B9SDK"><span class="toc-nav-text">AWSSDK 三方SDK</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#AliSDK-%E4%B8%89%E6%96%B9SDK"><span class="toc-nav-text">AliSDK 三方SDK</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#CloudFactory"><span class="toc-nav-text">CloudFactory</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E5%92%8C%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-nav-text">适配器和装饰器模式的区别</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E5%8A%9F%E8%83%BD%E7%9A%84%E4%BC%98%E7%82%B9-%E2%9C%85"><span class="toc-nav-text">适配器功能的优点 ✅</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-nav-text">适配器的缺点</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/设计模式之美-适配器模式/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

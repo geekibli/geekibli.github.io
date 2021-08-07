@@ -168,250 +168,234 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a>
+        <a href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">elasticsearch稳定性调优</a>
       </h2>
-      <p class="article-date">July 8, 2021</p>
+      <p class="article-date">July 15, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
     <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          两层嵌套在我们使用不同的嵌套方案时，聚合的力量才能真正得以显现。 在前例中，我们已经看到如何将一个度量嵌入桶中，它的功能已经十分强大了。
-但真正令人激动的分析来自于将桶嵌套进 另外一个桶 所能得到的结果。 现在，我们想知道每个颜色的汽车制造商的分布：
-GET /cars/transactio ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          桶桶 简单来说就是满足特定条件的文档的集合：
-
-一个雇员属于 男性 桶或者 女性 桶
-奥尔巴尼属于 纽约 桶
-日期2014-10-28属于 十月 桶当聚合开始被执行，每个文档里面的值通过计算来决定符合哪个桶的条件。如果匹配到，文档将放入相应的桶并接着进行聚合操作。
-
-桶也可以被嵌套在其他桶里 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          学习资料
- https://www.codingdict.com/
- https://elasticsearch.cn/
- https://www.elastic.co/guide/en/
- 铭毅天下
-
-
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch-overview/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Elasticsearch 和 Lucene 对内存使用情况： 
-
-
-
-Elasticsearch 限制的内存大小是 JAVA 堆空间的大小，不包括Lucene 缓存倒排索引数据空间。
-Lucene 中的 倒排索引 segments 存储在文件中，为提高访问速度，都会把它加载到内存中，从而提 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          参考资料
-
-Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » cross-fields 跨字段查询
-
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          参考资料
-
-Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 自定义 _all 字段
-Docs » Mapping parameters（映射参数） » Mapping(映射) » copy_to（合并参数）
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/copy-to%E5%8F%82%E6%95%B0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          被解析的字符串字段也是多值字段， 但是很少会按照你想要的方式进行排序。如果你想分析一个字符串，如 fine old art ， 这包含 3 项。我们很可能想要按第一项的字母排序，然后按第二项的字母排序，诸如此类，但是 Elasticsearch 在排序过程中没有这样的信息。
-你可以使用 mi ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#推荐系统" >
-    <span class="tag-code">推荐系统</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          博客资料
-深度解析京东个性化推荐系统演进史  
-用 Mahout 和 Elasticsearch 实现推荐系统
-美团推荐算法实践
-58同城推荐系统设计与实现
-微博推荐系统的架构演进之路
-Flink 在小红书推荐系统中的应用
-小红书大数据在推荐系统中的应用
-快看漫画个性化推荐探索与实践
-数据仓 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a>
-      </h2>
-      <p class="article-date">July 6, 2021</p>
-      
-        
-  <a href="/tags#flink" >
-    <span class="tag-code">flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          下面演示如何通过admin页面提交任务 👇
-准备task jar1234567891011121314151617181920public class StreamWordCount &#123;      public static void main(String[] args) th ...
-        
-      </div>
-      <a class="more" href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/apache-flink-overview/">apache-flink-overview</a>
-      </h2>
-      <p class="article-date">July 6, 2021</p>
-      
-        
-  <a href="/tags#flink" >
-    <span class="tag-code">flink</span>
   </a>
 
       
       <div class="article-summary">
         
           
+Elasticsearch性能优化总结Elasticsearch调优实践
 
-学习初衷推荐系统数据需要实时处理，使用Apache Flink实时计算用户数据，分析用户行为，达到实时业务数据分析和实现业务相关推荐；
-学习资料
-ashiamd.github.io
-尚硅谷2021最新Java版Flink 武老师清华硕士，原IBM-CDL负责人
-Apache Flink® ...
+稳定性调优一 Linux参数调优
+修改系统资源限制 👇单用户可以打开的最大文件数量，可以设置为官方推荐的65536或更大些 echo &quot;* - nofile 655360&quot; &gt;&gt;/ ...
         
       </div>
-      <a class="more" href="/wiki/apache-flink-overview/">Read more</a>
+      <a class="more" href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a>
+      </h2>
+      <p class="article-date">July 14, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          esuser 授权chown -R esuser /usr/local/elasticsearch/*
+elastcisearch 启动脚本nohup ./elasticsearch-7.10.0/bin/elasticsearch &gt;&gt; ./elasticsearch-7.10 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a>
+      </h2>
+      <p class="article-date">July 14, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+从性能和稳定性两方面，从linux参数调优、ES节点配置和ES使用方式三个角度入手，介绍ES调优的基本方案。当然，ES的调优绝不能一概而论，需要根据实际业务场景做适当的取舍和调整
+
+
+Elasticsearch性能优化总结Elasticsearch调优实践
+
+Linux优化关闭交换分区，防 ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a>
+      </h2>
+      <p class="article-date">July 14, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+修改服务器时间date -s &quot;2021-07-14 21:22:10&quot;
+
+执行DDLalter table mirror_user comment &#39;用户表&#39;;
+
+服务器时间修正ntpdate ntp1.aliyun.com
+
+
+
+        
+      </div>
+      <a class="more" href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a>
+      </h2>
+      <p class="article-date">July 14, 2021</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+如果你仅需一个Java导出excel的工具，👇就可以满足你的临时需求，当然代码下面这么写肯定是不规范的，可以稍后完善！
+
+添加依赖123456789101112131415161718&lt;!-- https://mvnrepository.com/artifact/cn.hutool ...
+        
+      </div>
+      <a class="more" href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a>
+      </h2>
+      <p class="article-date">July 14, 2021</p>
+      
+        
+  <a href="/tags#git" >
+    <span class="tag-code">git</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          初始化本地仓库git init git add .git commit -m &lt;message&gt;git remote add &lt;name&gt; &lt;url&gt;git pushgit push &lt;name&gt;git push --set-upstream  ...
+        
+      </div>
+      <a class="more" href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a>
+      </h2>
+      <p class="article-date">July 13, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          用户相关文件相关日志相关
+linux 在文档中查找关键字个数grep -o “关键字” 文档名 | wc -l grep -o “关键字” 文档名 | sort | uniq -c
+
+清除history记录vim .bash_history命令模式下（Esc之后输入:） 输入 set nu  ...
+        
+      </div>
+      <a class="more" href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          参考资料
+
+learnku.com
+
+
+
+        
+      </div>
+      <a class="more" href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          cardinality用法常用写法如下👇curl -X GET &quot;localhost:9200/cars/transactions/_search?pretty&quot; -H &#39;Content-Type: application/json&#39; -d&#39;
+1 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          多值桶（ terms 、 histogram 和 date_histogram ）动态生成很多桶。 Elasticsearch 是如何决定这些桶展示给用户的顺序呢？
+默认的，桶会根据 doc_count 降序排列。这是一个好的默认行为，因为通常我们想要找到文档中与查询条件相关的最大值：售价、 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">Read more</a>
     </article>
   
 

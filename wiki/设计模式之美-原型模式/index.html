@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      设计模式之美-原型模式 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>设计模式之美-原型模式</h2>
+  <p class="post-date">2021-08-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h1><p>原型模式（Prototype Pattern）指原型实例指定创建对象的种类，并且通过复制这些原型创建新的对象，属于创<br>建型模式；</p>
+<p>原型模式的核心在于复制原型对象。以系统中已存在的一个对象为原型，直接基于内存二进制流进行复制，不需要<br>再精力耗时的对象初始化过程（不调用构造函数），性能提升很多。当对象的构造过程比较耗时时，可以把当前系统<br>已存在的对象作为原型，对其进行复制（一般是基于二进制流的复制），躲避初始化过程，使得新对象的创建时间大大缩短；</p>
+<h2 id="原型模式类图"><a href="#原型模式类图" class="headerlink" title="原型模式类图"></a>原型模式类图</h2><p><img src="https://oscimg.oschina.net/oscnet/up-85e3522fe29b05e31c4957bbcdf82eeba4c.png"></p>
+<h3 id="IPrototype-定义克隆的方法-类似于JDK自带的Cloneable"><a href="#IPrototype-定义克隆的方法-类似于JDK自带的Cloneable" class="headerlink" title="IPrototype 定义克隆的方法 类似于JDK自带的Cloneable"></a>IPrototype 定义克隆的方法 类似于JDK自带的Cloneable</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IPrototype</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">T <span class="title">clone</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcretePrototype-具体的要克隆的对象"><a href="#ConcretePrototype-具体的要克隆的对象" class="headerlink" title="ConcretePrototype 具体的要克隆的对象"></a>ConcretePrototype 具体的要克隆的对象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcretePrototype</span> <span class="keyword">implements</span> <span class="title">IPrototype</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 可能我们平时都这么去复制对象</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConcretePrototype <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ConcretePrototype concretePrototype = <span class="keyword">new</span> ConcretePrototype();</span><br><span class="line">        concretePrototype.setAge(<span class="keyword">this</span>.age);</span><br><span class="line">        concretePrototype.setName(<span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> concretePrototype;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ConcretePrototype&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Client-客户端-测试"><a href="#Client-客户端-测试" class="headerlink" title="Client 客户端 测试"></a>Client 客户端 测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     <span class="comment">//创建原型对象</span></span><br><span class="line">     ConcretePrototype prototype = <span class="keyword">new</span> ConcretePrototype();</span><br><span class="line">     prototype.setAge(<span class="number">18</span>);</span><br><span class="line">     prototype.setName(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">     System.out.println(prototype);</span><br><span class="line"></span><br><span class="line">     <span class="comment">//拷贝原型对象</span></span><br><span class="line">     ConcretePrototype cloneType = prototype.clone();</span><br><span class="line">     System.out.println(cloneType);</span><br><span class="line">     System.err.println(cloneType == prototype);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ConcretePrototype&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>&#125;</span><br><span class="line">ConcretePrototype&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>&#125;</span><br><span class="line"><span class="keyword">false</span> </span><br></pre></td></tr></table></figure>
+<h3 id="实现JDK-Cloneable的克隆对象写法"><a href="#实现JDK-Cloneable的克隆对象写法" class="headerlink" title="实现JDK Cloneable的克隆对象写法"></a>实现JDK Cloneable的克隆对象写法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcretePrototype1</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConcretePrototype1 <span class="title">clone</span><span class="params">()</span>  </span>&#123;</span><br><span class="line">        Object clone = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            clone = <span class="keyword">super</span>.clone();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.err.println(<span class="string">&quot;Clone Error!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (ConcretePrototype1) clone;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ConcretePrototype&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果同上；以上的两个属性都是基本数据类型和String，并没有引用类型，下面我们添加一个引用类型的属性测试以下👇👇  </p>
+<h3 id="ConcretePrototype添加一个List类型属性"><a href="#ConcretePrototype添加一个List类型属性" class="headerlink" title="ConcretePrototype添加一个List类型属性"></a>ConcretePrototype添加一个List类型属性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcretePrototype</span> <span class="keyword">implements</span> <span class="title">IPrototype</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hobbies;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getHobbies</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHobbies</span><span class="params">(List&lt;String&gt; hobbies)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.hobbies = hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConcretePrototype <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ConcretePrototype concretePrototype = <span class="keyword">new</span> ConcretePrototype();</span><br><span class="line">        concretePrototype.setAge(<span class="keyword">this</span>.age);</span><br><span class="line">        concretePrototype.setName(<span class="keyword">this</span>.name);</span><br><span class="line">        concretePrototype.setHobbies(<span class="keyword">this</span>.hobbies);</span><br><span class="line">        <span class="keyword">return</span> concretePrototype;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ConcretePrototype&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, hobbies=&quot;</span> + hobbies +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SETTER方法实现浅克隆"><a href="#SETTER方法实现浅克隆" class="headerlink" title="SETTER方法实现浅克隆"></a>SETTER方法实现浅克隆</h3><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/up-569ebf8ef5519ace6b434b1301d87165f2c.png" style="zoom:50%;" />
+
+<blockquote>
+<p>浅克隆也叫浅拷贝：创建一个新对象，新对象的属性和原来对象完全相同，对于非基本类型属性，仍指向原有属性所指向的对象的内存地址。  </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建原型对象</span></span><br><span class="line">        ConcretePrototype1 prototype = <span class="keyword">new</span> ConcretePrototype1();</span><br><span class="line">        prototype.setAge(<span class="number">18</span>);</span><br><span class="line">        prototype.setName(<span class="string">&quot;Tom&quot;</span>);</span><br><span class="line">        ArrayList&lt;String&gt; strings = Lists.newArrayList(<span class="string">&quot;数学&quot;</span>, <span class="string">&quot;英语&quot;</span>);</span><br><span class="line">        prototype.setHobbies(strings);</span><br><span class="line">        System.out.println(prototype);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//拷贝原型对象</span></span><br><span class="line">        ConcretePrototype1 cloneType = prototype.clone();</span><br><span class="line">        cloneType.getHobbies().add(<span class="string">&quot;语文&quot;</span>);</span><br><span class="line">        System.out.println(cloneType);</span><br><span class="line">        System.out.println(prototype);</span><br><span class="line">        System.err.println(cloneType == prototype);</span><br><span class="line">        System.err.println(cloneType.getHobbies() == prototype.getHobbies());</span><br><span class="line">    &#125;</span><br><span class="line">输出结果：</span><br><span class="line">ConcretePrototype1&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>, hobbies=[数学, 英语]&#125;</span><br><span class="line">ConcretePrototype1&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>, hobbies=[数学, 英语, 语文]&#125;</span><br><span class="line">ConcretePrototype1&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>, hobbies=[数学, 英语, 语文]&#125;</span><br><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="comment">// 这里为什么结果是true看到上面画的图应该可以看懂吧，set方法其实是将list的引用设置过去，并不是创建一个新的list再赋值！</span></span><br><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="通过内存字节流”克隆”对象，实现深克隆"><a href="#通过内存字节流”克隆”对象，实现深克隆" class="headerlink" title="通过内存字节流”克隆”对象，实现深克隆"></a>通过内存字节流”克隆”对象，实现深克隆</h2><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/up-41df4d66a80f2d0c2bfd87b7fea52ca9ddd.png" style="zoom:50%;" />
+
+<blockquote>
+<p>深克隆也叫深拷贝：创建一个新对象，属性中引用的其他对象也会被克隆，不再指向原有对象地址。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcretePrototypeDeep</span> <span class="keyword">implements</span> <span class="title">Cloneable</span>,<span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; hobbies;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">getHobbies</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHobbies</span><span class="params">(List&lt;String&gt; hobbies)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.hobbies = hobbies;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 基于内存字节流生成对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConcretePrototypeDeep <span class="title">deepClone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//将当前对象信息写到内存</span></span><br><span class="line">            ByteArrayOutputStream byteArrayOutputStream = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            ObjectOutputStream objectOutputStream = <span class="keyword">new</span> ObjectOutputStream(byteArrayOutputStream);</span><br><span class="line">            objectOutputStream.writeObject(<span class="keyword">this</span>);</span><br><span class="line">            <span class="comment">//从内存中读取对象信息，强制转换成当前类型</span></span><br><span class="line">            ByteArrayInputStream byteArrayInputStream = <span class="keyword">new</span> ByteArrayInputStream(byteArrayOutputStream.toByteArray());</span><br><span class="line">            ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(byteArrayInputStream);</span><br><span class="line">            <span class="keyword">return</span> (ConcretePrototypeDeep) objectInputStream.readObject();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException ioException) &#123;</span><br><span class="line">            ioException.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;ConcretePrototype&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, hobbies=&quot;</span> + hobbies +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ConcretePrototype&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>, hobbies=[数学, 英语]&#125;</span><br><span class="line">ConcretePrototype&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>, hobbies=[数学, 英语, 语文]&#125;</span><br><span class="line">ConcretePrototype&#123;age=<span class="number">18</span>, name=<span class="string">&#x27;Tom&#x27;</span>, hobbies=[数学, 英语]&#125;</span><br><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+
+<p>在Java语言中，如果需要实现深克隆，可以通过覆盖Object类的clone()方法实现，也可以通过序列化(Serialization)等方式来实现。</p>
+<blockquote>
+<p>要实现深拷贝，必须实现Cloneable接口，去重写clone方法，否则会抛出CloneNotSupportedException异常，<br>但是如果对象中包含很多引用类型的属性，这样去覆盖clone方法其实是很麻烦的，可以优先使用序列化的方式实现！    </p>
+</blockquote>
+<h2 id="克隆破坏单例模式"><a href="#克隆破坏单例模式" class="headerlink" title="克隆破坏单例模式"></a>克隆破坏单例模式</h2><p>如果我们克隆的目标的对象是单例对象，这便意味着，深克隆会破坏单例。解决以上问题的思路：</p>
+<ul>
+<li><strong>禁止深克隆</strong></li>
+<li><strong>在单例对象的getInstance方法，返回当前对象，而不是去新创建一个对象或者通过内存字节流等方法生成对象</strong></li>
+</ul>
+<h2 id="原型模式在Java中的应用"><a href="#原型模式在Java中的应用" class="headerlink" title="原型模式在Java中的应用"></a>原型模式在Java中的应用</h2><p>ArrayList底层是基于数组结果的，它的动态扩容过程是创建一个新的数组，并把数组中的元素拷贝过去，用新的数组来继续存放元素；<br>在创建新数组的过程中便使用了原型模式。</p>
+<h3 id="java-util-ArrayList-clone"><a href="#java-util-ArrayList-clone" class="headerlink" title="java.util.ArrayList.clone"></a>java.util.ArrayList.clone</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ArrayList&lt;?&gt; v = (ArrayList&lt;?&gt;) <span class="keyword">super</span>.clone();</span><br><span class="line">        v.elementData = Arrays.copyOf(elementData, size);</span><br><span class="line">        v.modCount = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">        <span class="comment">// this shouldn&#x27;t happen, since we are Cloneable</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InternalError(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="java-util-Arrays-copyOf-T-int"><a href="#java-util-Arrays-copyOf-T-int" class="headerlink" title="java.util.Arrays.copyOf(T[], int)"></a>java.util.Arrays.copyOf(T[], int)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T[] copyOf(T[] original, <span class="keyword">int</span> newLength) &#123;</span><br><span class="line">       <span class="keyword">return</span> (T[]) copyOf(original, newLength, original.getClass());</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="java-util-Arrays-copyOf-U-int-java-lang-Class-lt-extends-T-gt"><a href="#java-util-Arrays-copyOf-U-int-java-lang-Class-lt-extends-T-gt" class="headerlink" title="java.util.Arrays.copyOf(U[], int, java.lang.Class&lt;? extends T[]&gt;)"></a>java.util.Arrays.copyOf(U[], int, java.lang.Class&lt;? extends T[]&gt;)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T,U&gt; T[] copyOf(U[] original, <span class="keyword">int</span> newLength, Class&lt;? extends T[]&gt; newType) &#123;</span><br><span class="line">        <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">        T[] copy = ((Object)newType == (Object)Object[].class)</span><br><span class="line">            ? (T[]) <span class="keyword">new</span> Object[newLength]</span><br><span class="line">            : (T[]) Array.newInstance(newType.getComponentType(), newLength);</span><br><span class="line">        System.arraycopy(original, <span class="number">0</span>, copy, <span class="number">0</span>,</span><br><span class="line">                         Math.min(original.length, newLength));</span><br><span class="line">        <span class="keyword">return</span> copy;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>最终还是System.arraycopy(original, 0, copy, 0,<br>                             Math.min(original.length, newLength));这个方法来完成数组的拷贝！<br>像我们使用的 </p>
+<p><code>com.alibaba.fastjson.JSON#parseObject</code></p>
+<p>org.springframework.beans.BeanUtils#copyProperties(java.lang.Object, java.lang.Object)`</p>
+<p>等都是原型模式；</p>
+<h2 id="原型模式适用场景"><a href="#原型模式适用场景" class="headerlink" title="原型模式适用场景"></a>原型模式适用场景</h2><ul>
+<li><strong>类初始化消耗资源过多</strong>  </li>
+<li><strong>new一个对象需要很多繁琐的过程（数据准备，访问权限等）</strong>  </li>
+<li><strong>构造函数比较复杂</strong></li>
+<li><strong>循环体内产生大量对象时</strong></li>
+</ul>
+<h2 id="原型模式的优点"><a href="#原型模式的优点" class="headerlink" title="原型模式的优点"></a>原型模式的优点</h2><ul>
+<li><strong>Java自带的原型模式是基于内存二进制流的复制，在性能上比直接创建一个对象更加优良</strong></li>
+<li><strong>可以使用深克隆的方式保存对象的状态，使用原型模式将对象复制一份，并将其状态保存起来，简化了创建对象的过程，<br>以便在需要的时候使用，可辅助实现撤销操作。</strong></li>
+</ul>
+<h2 id="原型模式的缺点"><a href="#原型模式的缺点" class="headerlink" title="原型模式的缺点"></a>原型模式的缺点</h2><ul>
+<li><strong>需要为每一个类都配置一个 clone 方法</strong></li>
+<li><strong>clone 方法位于类的内部，当对已有类进行改造的时候，需要修改代码，违背了开闭原则</strong></li>
+<li><strong>当实现深克隆时，需要编写较为复杂的代码，而且当对象之间存在多重嵌套引用时，为了实现深克隆，每一层对象对应的类都必须支持深克隆，<br>实现起来会比较麻烦。因此，深克隆、浅克隆需要运用得当</strong></li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#设计模式" >
+    <span class="tag-code">设计模式</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+        <span class="nav-arrow">← </span>
+        
+          设计模式之美-单例模式
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+        
+          设计模式之美-工厂模式
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-nav-text">原型模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%9B%BE"><span class="toc-nav-text">原型模式类图</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#IPrototype-%E5%AE%9A%E4%B9%89%E5%85%8B%E9%9A%86%E7%9A%84%E6%96%B9%E6%B3%95-%E7%B1%BB%E4%BC%BC%E4%BA%8EJDK%E8%87%AA%E5%B8%A6%E7%9A%84Cloneable"><span class="toc-nav-text">IPrototype 定义克隆的方法 类似于JDK自带的Cloneable</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ConcretePrototype-%E5%85%B7%E4%BD%93%E7%9A%84%E8%A6%81%E5%85%8B%E9%9A%86%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-nav-text">ConcretePrototype 具体的要克隆的对象</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Client-%E5%AE%A2%E6%88%B7%E7%AB%AF-%E6%B5%8B%E8%AF%95"><span class="toc-nav-text">Client 客户端 测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%9E%E7%8E%B0JDK-Cloneable%E7%9A%84%E5%85%8B%E9%9A%86%E5%AF%B9%E8%B1%A1%E5%86%99%E6%B3%95"><span class="toc-nav-text">实现JDK Cloneable的克隆对象写法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ConcretePrototype%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AAList%E7%B1%BB%E5%9E%8B%E5%B1%9E%E6%80%A7"><span class="toc-nav-text">ConcretePrototype添加一个List类型属性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SETTER%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%B5%85%E5%85%8B%E9%9A%86"><span class="toc-nav-text">SETTER方法实现浅克隆</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%80%9A%E8%BF%87%E5%86%85%E5%AD%98%E5%AD%97%E8%8A%82%E6%B5%81%E2%80%9D%E5%85%8B%E9%9A%86%E2%80%9D%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%AE%9E%E7%8E%B0%E6%B7%B1%E5%85%8B%E9%9A%86"><span class="toc-nav-text">通过内存字节流”克隆”对象，实现深克隆</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%85%8B%E9%9A%86%E7%A0%B4%E5%9D%8F%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-nav-text">克隆破坏单例模式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F%E5%9C%A8Java%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-nav-text">原型模式在Java中的应用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#java-util-ArrayList-clone"><span class="toc-nav-text">java.util.ArrayList.clone</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#java-util-Arrays-copyOf-T-int"><span class="toc-nav-text">java.util.Arrays.copyOf(T[], int)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#java-util-Arrays-copyOf-U-int-java-lang-Class-lt-extends-T-gt"><span class="toc-nav-text">java.util.Arrays.copyOf(U[], int, java.lang.Class&lt;? extends T[]&gt;)</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">原型模式适用场景</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-nav-text">原型模式的优点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-nav-text">原型模式的缺点</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/设计模式之美-原型模式/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

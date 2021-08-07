@@ -168,106 +168,36 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a>
+        <a href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/">Http状态码及含义</a>
       </h2>
-      <p class="article-date">July 14, 2021</p>
+      <p class="article-date">July 20, 2021</p>
       
         
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
+  <a href="/tags#http" >
+    <span class="tag-code">http</span>
   </a>
 
       
       <div class="article-summary">
         
           
-从性能和稳定性两方面，从linux参数调优、ES节点配置和ES使用方式三个角度入手，介绍ES调优的基本方案。当然，ES的调优绝不能一概而论，需要根据实际业务场景做适当的取舍和调整
+http状态码由3个十进制数字组成。第一个数字表示状态码的分类，后面的两位表示该分类下不同的状态。分为5个大类。
 
-
-Elasticsearch性能优化总结Elasticsearch调优实践
-
-Linux优化关闭交换分区，防 ...
+分类
+1**    信息。服务器收到请求，请继续执行请求
+2**    成功。请求被成功接收并处理
+3**    重定向。需要进一步操作来完成请求
+4**    客户端错误。 ...
         
       </div>
-      <a class="more" href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">Read more</a>
+      <a class="more" href="/wiki/Http%E7%8A%B6%E6%80%81%E7%A0%81%E5%8F%8A%E5%90%AB%E4%B9%89/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a>
+        <a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">操作系统-死锁</a>
       </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-修改服务器时间date -s &quot;2021-07-14 21:22:10&quot;
-
-执行DDLalter table mirror_user comment &#39;用户表&#39;;
-
-服务器时间修正ntpdate ntp1.aliyun.com
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-如果你仅需一个Java导出excel的工具，👇就可以满足你的临时需求，当然代码下面这么写肯定是不规范的，可以稍后完善！
-
-添加依赖123456789101112131415161718&lt;!-- https://mvnrepository.com/artifact/cn.hutool ...
-        
-      </div>
-      <a class="more" href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#git" >
-    <span class="tag-code">git</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          初始化本地仓库git init git add .git commit -m &lt;message&gt;git remote add &lt;name&gt; &lt;url&gt;git pushgit push &lt;name&gt;git push --set-upstream  ...
-        
-      </div>
-      <a class="more" href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a>
-      </h2>
-      <p class="article-date">July 13, 2021</p>
+      <p class="article-date">July 20, 2021</p>
       
         
   <a href="/tags#linux" >
@@ -277,24 +207,27 @@ Linux优化关闭交换分区，防 ...
       
       <div class="article-summary">
         
-          用户相关文件相关日志相关
-linux 在文档中查找关键字个数grep -o “关键字” 文档名 | wc -l grep -o “关键字” 文档名 | sort | uniq -c
+          参考资料
 
-清除history记录vim .bash_history命令模式下（Esc之后输入:） 输入 set nu  ...
+死锁是什么？如何避免死锁？
+哲学家就餐问题
+
+
+
         
       </div>
-      <a class="more" href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+      <a class="more" href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a>
+        <a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">操作系统进程调度策略</a>
       </h2>
-      <p class="article-date">July 8, 2021</p>
+      <p class="article-date">July 20, 2021</p>
       
         
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
   </a>
 
       
@@ -302,87 +235,25 @@ linux 在文档中查找关键字个数grep -o “关键字” 文档名 | wc -l
         
           参考资料
 
-learnku.com
+操作系统中的进程调度策略有哪几种
+
 
 
 
         
       </div>
-      <a class="more" href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">Read more</a>
+      <a class="more" href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a>
+        <a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a>
       </h2>
-      <p class="article-date">July 8, 2021</p>
+      <p class="article-date">July 20, 2021</p>
       
         
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          cardinality用法常用写法如下👇curl -X GET &quot;localhost:9200/cars/transactions/_search?pretty&quot; -H &#39;Content-Type: application/json&#39; -d&#39;
-1 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          多值桶（ terms 、 histogram 和 date_histogram ）动态生成很多桶。 Elasticsearch 是如何决定这些桶展示给用户的顺序呢？
-默认的，桶会根据 doc_count 降序排列。这是一个好的默认行为，因为通常我们想要找到文档中与查询条件相关的最大值：售价、 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          过滤和聚合聚合范围限定还有一个自然的扩展就是过滤。因为聚合是在查询结果范围内操作的，任何可以适用于查询的过滤器也可以应用在聚合上。
-过滤如果我们想找到售价在 $10,000 美元之上的所有汽车同时也为这些车计算平均售价， 可以简单地使用一个 constant_score 查询和 filter ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
   </a>
 
       
@@ -390,14 +261,145 @@ learnku.com
         
           参考资料
 
-
-
+进程间通信IPC (InterProcess Communication)
 
 
 
         
       </div>
-      <a class="more" href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">Read more</a>
+      <a class="more" href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a>
+      </h2>
+      <p class="article-date">July 19, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+需求背景，要统计文章在一年的时间内，每个小时的访问情况，按照0点举例子，每个文章，一年内每一天0点的访问次数累加起来；
+
+Elasticsearch索引如下1234567891011121314151617181920212223242526272829303132333435363738 ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a>
+      </h2>
+      <p class="article-date">July 19, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          search.max_bucketsThis limit can be set by changing the [search.max_buckets] cluster level setting.]];
+123456PUT _cluster/settings&#123;  &quot;pe ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a>
+      </h2>
+      <p class="article-date">July 18, 2021</p>
+      
+        
+  <a href="/tags#Python" >
+    <span class="tag-code">Python</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。
+在 Python 中，变量就是变量，它没有类型，我们所说的”类型”是变量所指的内存中对象的类型。
+等号（=）用来给变量赋值。
+等号（=）运算符左边是一个变量名,等号（=）运算符右边是存储在变量中的值 ...
+        
+      </div>
+      <a class="more" href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a>
+      </h2>
+      <p class="article-date">July 18, 2021</p>
+      
+        
+  <a href="/tags#Python" >
+    <span class="tag-code">Python</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          编码默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：# -*- coding: cp-1252 -*-
+标识符
+第一个字符必须是字母表中字母或下划线 _ 。
+标识符的其他的部分由字母、数字和下划线组成 ...
+        
+      </div>
+      <a class="more" href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a>
+      </h2>
+      <p class="article-date">July 18, 2021</p>
+      
+        
+  <a href="/tags#Python" >
+    <span class="tag-code">Python</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          下载python对应的elasticsearch依赖包pip3 install elasticsearch==7.10.0
+python操作elasticsearch代码1234567from elasticsearch import Elasticsearchprint(&quot;ini ...
+        
+      </div>
+      <a class="more" href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">kibana添加用户及控制权限</a>
+      </h2>
+      <p class="article-date">July 15, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+操作步骤： 【修改elasticsearch配置文件】 -&gt; 【重启elasticsearch】 -&gt; 【初始化账号&amp;密码】 -&gt; 【修改kibana配置文件】 -&gt; 【重启kibana】 -&gt; 【初始账号登录kibana】 -&gt; 【创建、配置角 ...
+        
+      </div>
+      <a class="more" href="/wiki/kibana%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%8A%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90/">Read more</a>
     </article>
   
 

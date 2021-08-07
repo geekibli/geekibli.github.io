@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      设计模式之美-享元模式 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>设计模式之美-享元模式</h2>
+  <p class="post-date">2021-08-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="享元模式（Flyweight-Pattern）"><a href="#享元模式（Flyweight-Pattern）" class="headerlink" title="享元模式（Flyweight Pattern）"></a>享元模式（Flyweight Pattern）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在面向对象程序设计过程中，有时会面临要创建大量相同或相似对象实例的问题。创建那么多的对象将会耗费很多的系统资源，它是系统性能提高的一个瓶颈。  </p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>享元模式，又称为轻量级模式，运用共享技术来有效地支持大量细粒度对象的复用。它通过共享已经存在的对象来大幅度减少需要创建的对象数量、<br>避免大量相似类的开销，从而提高系统资源的利用率。它是对象池的一种实现，类似于线程池，线程池可以避免不停的创建个销毁多个对象，消耗性能（用户态和内核态）；<br><strong>【宗旨】</strong>：共享细粒度对象，将多个对同一对象的访问集中起来；属于结构性模式；       </p>
+<h2 id="内部状态和外部状态"><a href="#内部状态和外部状态" class="headerlink" title="内部状态和外部状态"></a>内部状态和外部状态</h2><p>在共享对象的过程中，又两种状态：<br><strong>内部状态：</strong> 内部状态指对象共享出来的信息，存储在享元信息内部，并且不回随环境的改变而改变；  </p>
+<blockquote>
+<p>就是对象所共有的信息，比如火车票，多有从北京-上海的对象可以共用一个，而不是有1000张票，创建1000个对象；    </p>
+</blockquote>
+<p><strong>外部状态：</strong> 外部状态指对象得以依赖的一个标记，随环境的改变而改变，不可共享；  </p>
+<blockquote>
+<p>也是不叫好理解的，当火车票被你购买之后，就和你的身份证号（唯一）绑定了，这属于外部状态；    </p>
+</blockquote>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>1、常常应用于系统底层的开发，以便解决系统的性能问题；<br>2、系统有大量相似对象，需要缓冲池的地方；  </p>
+<h2 id="举个例子🌰"><a href="#举个例子🌰" class="headerlink" title="举个例子🌰"></a>举个例子🌰</h2><h3 id="享元实体类"><a href="#享元实体类" class="headerlink" title="享元实体类"></a>享元实体类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Examination</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String phone;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String subject;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Examination</span><span class="params">(String subject)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.subject = subject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPhone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> phone;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPhone</span><span class="params">(String phone)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.phone = phone;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Examination [name=&quot;</span> + name + <span class="string">&quot;, phone=&quot;</span> + phone + <span class="string">&quot;, subject=&quot;</span> + subject + <span class="string">&quot;]&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="享元工厂"><a href="#享元工厂" class="headerlink" title="享元工厂"></a>享元工厂</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExaminationFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 对象池</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, Examination&gt; pool = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Examination <span class="title">getexExamination</span><span class="params">(String name, String phone, String subject)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 通过学科判断是否存在这个对象</span></span><br><span class="line">        <span class="keyword">if</span> (pool.containsKey(subject)) &#123;</span><br><span class="line">            Examination examination = pool.get(subject);</span><br><span class="line">            examination.setName(name);</span><br><span class="line">            examination.setPhone(phone);</span><br><span class="line">            System.out.println(<span class="string">&quot;在缓存池取用对象:&quot;</span> + examination.toString());</span><br><span class="line">            <span class="keyword">return</span> examination;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Examination examination = <span class="keyword">new</span> Examination(subject);</span><br><span class="line">            pool.put(subject, examination);</span><br><span class="line">            examination.setName(name);</span><br><span class="line">            examination.setPhone(phone);</span><br><span class="line">            System.out.println(<span class="string">&quot;新建对象:&quot;</span> + examination.toString());</span><br><span class="line">            <span class="keyword">return</span> examination;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Examination A = ExaminationFactory.getexExamination(<span class="string">&quot;A&quot;</span>, <span class="string">&quot;13812345678&quot;</span>, <span class="string">&quot;软件工程&quot;</span>);</span><br><span class="line">        Examination B = ExaminationFactory.getexExamination(<span class="string">&quot;B&quot;</span>, <span class="string">&quot;13812341234&quot;</span>, <span class="string">&quot;软件工程&quot;</span>);</span><br><span class="line">        Examination C = ExaminationFactory.getexExamination(<span class="string">&quot;C&quot;</span>, <span class="string">&quot;13812341328&quot;</span>, <span class="string">&quot;电子信息工程&quot;</span>);</span><br><span class="line">        Examination D = ExaminationFactory.getexExamination(<span class="string">&quot;D&quot;</span>, <span class="string">&quot;13812345111&quot;</span>, <span class="string">&quot;桥梁工程工程&quot;</span>);</span><br><span class="line">        Examination E = ExaminationFactory.getexExamination(<span class="string">&quot;E&quot;</span>, <span class="string">&quot;13812345444&quot;</span>, <span class="string">&quot;软件工程&quot;</span>);</span><br><span class="line"></span><br><span class="line">        System.err.println(A.hashCode());</span><br><span class="line">        System.err.println(B.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">新建对象:Examination [name=A, phone=<span class="number">13812345678</span>, subject=软件工程]</span><br><span class="line">在缓存池取用对象:Examination [name=B, phone=<span class="number">13812341234</span>, subject=软件工程]</span><br><span class="line">新建对象:Examination [name=C, phone=<span class="number">13812341328</span>, subject=电子信息工程]</span><br><span class="line">新建对象:Examination [name=D, phone=<span class="number">13812345111</span>, subject=桥梁工程工程]</span><br><span class="line">在缓存池取用对象:Examination [name=E, phone=<span class="number">13812345444</span>, subject=软件工程]</span><br><span class="line"><span class="number">1528902577</span></span><br><span class="line"><span class="number">1528902577</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h2><p>1、JDK – String  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  		<span class="comment">// &quot;hello&quot;是编译器常量， String s1是运行时，把常量地址赋值给他&lt;br&gt;</span></span><br><span class="line">      String s1 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">      String s2 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    <span class="comment">// &quot;he&quot; + &quot;llo&quot; 两个常量相加，会在编译期处理&lt;br&gt;</span></span><br><span class="line">      String s3 = <span class="string">&quot;he&quot;</span> + <span class="string">&quot;llo&quot;</span>; </span><br><span class="line">    <span class="comment">// &quot;hel&quot; &quot;lo&quot; new String 共建了3个空间，然后拼接起来是一个新的空间（why?）</span></span><br><span class="line">      String s4 = <span class="string">&quot;hel&quot;</span> + <span class="keyword">new</span> String(<span class="string">&quot;lo&quot;</span>); </span><br><span class="line">      String s5 = <span class="keyword">new</span> String(<span class="string">&quot;hello&quot;</span>); <span class="comment">// s5存放的是堆中中间</span></span><br><span class="line">      String s6 = s5.intern();  <span class="comment">//拿到常量中的地址，</span></span><br><span class="line">      String s7 = <span class="string">&quot;h&quot;</span>;</span><br><span class="line">      String s8 = <span class="string">&quot;ello&quot;</span>;</span><br><span class="line">      String s9 = s7 + s8; <span class="comment">//为什么这个不一样，因为是变量相加所以编译期没有做优化</span></span><br><span class="line"></span><br><span class="line">      System.out.println(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;</span>);</span><br><span class="line">      System.out.println(<span class="string">&quot;s1 &quot;</span> + System.identityHashCode(s1));</span><br><span class="line">      System.out.println(<span class="string">&quot;s2 &quot;</span> + System.identityHashCode(s2));</span><br><span class="line">      System.out.println(<span class="string">&quot;s3 &quot;</span> + System.identityHashCode(s3));</span><br><span class="line">      System.out.println(<span class="string">&quot;s4 &quot;</span> + System.identityHashCode(s4));</span><br><span class="line">      System.out.println(<span class="string">&quot;s5 &quot;</span> + System.identityHashCode(s5));</span><br><span class="line">   		<span class="comment">//s6为s5.intern()拿到的是常量池里的“hello”</span></span><br><span class="line">      System.out.println(<span class="string">&quot;s6 &quot;</span> + System.identityHashCode(s6));</span><br><span class="line">      System.out.println(<span class="string">&quot;s7 &quot;</span> + System.identityHashCode(s7));</span><br><span class="line">      System.out.println(<span class="string">&quot;s8 &quot;</span> + System.identityHashCode(s8));</span><br><span class="line">      System.out.println(<span class="string">&quot;s9 &quot;</span> + System.identityHashCode(s9));</span><br><span class="line">      System.out.print(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;</span>);</span><br><span class="line">      System.out.println(s1==s2);<span class="comment">//true</span></span><br><span class="line">      System.out.println(s1==s3);<span class="comment">//true</span></span><br><span class="line">      System.out.println(s1==s4);<span class="comment">//false</span></span><br><span class="line">      System.out.println(s1==s9);<span class="comment">//false</span></span><br><span class="line">      System.out.println(s4==s5);<span class="comment">//false</span></span><br><span class="line">      System.out.println(s1==s6);<span class="comment">//true</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/7689e9454c9140819c515317ba2f3da8~tplv-k3u1fbpfcp-zoom-1.image" style="zoom:50%;" />  
+
+<p>2、JDK – Integer  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntegerCache</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> low = -<span class="number">128</span>;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> high;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> Integer cache[];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">static</span> &#123;</span><br><span class="line">            <span class="comment">// high value may be configured by property</span></span><br><span class="line">            <span class="keyword">int</span> h = <span class="number">127</span>;</span><br><span class="line">            String integerCacheHighPropValue =</span><br><span class="line">                sun.misc.VM.getSavedProperty(<span class="string">&quot;java.lang.Integer.IntegerCache.high&quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (integerCacheHighPropValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">int</span> i = parseInt(integerCacheHighPropValue);</span><br><span class="line">                    i = Math.max(i, <span class="number">127</span>);</span><br><span class="line">                    <span class="comment">// Maximum array size is Integer.MAX_VALUE</span></span><br><span class="line">                    h = Math.min(i, Integer.MAX_VALUE - (-low) -<span class="number">1</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span>( NumberFormatException nfe) &#123;</span><br><span class="line">                    <span class="comment">// If the property cannot be parsed into an int, ignore it.</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            high = h;</span><br><span class="line"></span><br><span class="line">            cache = <span class="keyword">new</span> Integer[(high - low) + <span class="number">1</span>];</span><br><span class="line">            <span class="keyword">int</span> j = low;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; cache.length; k++)</span><br><span class="line">                cache[k] = <span class="keyword">new</span> Integer(j++);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// range [-128, 127] must be interned (JLS7 5.1.7)</span></span><br><span class="line">            <span class="keyword">assert</span> IntegerCache.high &gt;= <span class="number">127</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="title">IntegerCache</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3、线程池<br>4、Tomcat连接池  </p>
+<h2 id="享元模式的优点✅"><a href="#享元模式的优点✅" class="headerlink" title="享元模式的优点✅"></a>享元模式的优点✅</h2><p>1、减少对象的创建，降低内存中对象的数量，降低系统的内存使用，提升效率；<br>2、减少内存之外的其他资源占用，IO,带宽等；  </p>
+<h2 id="享元模式的缺点"><a href="#享元模式的缺点" class="headerlink" title="享元模式的缺点"></a>享元模式的缺点</h2><p>1、关注内部，外部状态，关注程序线程安全问题；<br>2、使系统、程序的逻辑变得复杂；  </p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>1、<a target="_blank" rel="noopener" href="https://juejin.cn/post/6924611630391115783">[设计模式] - 享元模式</a><br>2、<a target="_blank" rel="noopener" href="https://juejin.cn/post/6914489741706526734">设计模式-享元模式</a><br>3、<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903841188577288">设计模式-享元设计模式</a>    </p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#设计模式" >
+    <span class="tag-code">设计模式</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BConcurrentHashMap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        <span class="nav-arrow">← </span>
+        
+          Java并发编程之ConcurrentHashMap实现原理
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
+        
+          设计模式之美-单例模式
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F%EF%BC%88Flyweight-Pattern%EF%BC%89"><span class="toc-nav-text">享元模式（Flyweight Pattern）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-nav-text">定义</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%86%85%E9%83%A8%E7%8A%B6%E6%80%81%E5%92%8C%E5%A4%96%E9%83%A8%E7%8A%B6%E6%80%81"><span class="toc-nav-text">内部状态和外部状态</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">使用场景</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90%F0%9F%8C%B0"><span class="toc-nav-text">举个例子🌰</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%BA%AB%E5%85%83%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-nav-text">享元实体类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E4%BA%AB%E5%85%83%E5%B7%A5%E5%8E%82"><span class="toc-nav-text">享元工厂</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="toc-nav-text">测试类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="toc-nav-text">测试结果</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="toc-nav-text">实际应用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%82%B9%E2%9C%85"><span class="toc-nav-text">享元模式的优点✅</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-nav-text">享元模式的缺点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/设计模式之美-享元模式/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

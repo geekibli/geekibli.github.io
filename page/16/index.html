@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link active">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link mobile-active">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <main class="app-body">
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？
+
+什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          背景
+
+如上图👆所示，设备A向设备B发送消息，消息在网络中会由于各种各样的问题导致丢失，那么该如何解决上述问题呢？
+采用定时器重传
+PAR：Positive Acknowledgment with Retransmission
+
+
+
+最简单的思路是在发送方设置「 定时器 」：
+
+当设备A发 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          MSS产生的背景我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 TCP协议要完成的工作是将从应用层接 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          握手🤝的目的
+同步Sequence序列号
+初始化序列号ISN （Inital Sequence Number）
+
+
+交换TCP通讯的参数
+比如最大报文段参数（MSS）、窗口比例因子（Window）、选择性确认（SACK）、制定校验和算法；
+
+
+
+三次握手握手过程
+
+TCP三次握手的大致流程 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          带着问题学习
+如何校验报文段是否损坏？ 如何CRC校验
+seq和ack是如何计算的？ 
+tcp校验位都有那些？ 6个 分别是什么含义？
+tcp如何计算首部长度？ 偏移量
+TCP Retransmission 重传？ 
+tcp spurious retransmission 又是什么呢？ 
+t ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E5%A4%B4%E9%83%A8/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          TCP协议学习笔记📒
+下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！
+
+
+1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/index/">Welcome to GeekIBLi</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+      <div class="article-summary">
+        
+          道阻 且长不错的学习网站推荐掘金 博客https://www.codingdict.com/极客时间ashiamd.github.io字节跳动后端面试题集知乎 Java快速进阶通道To Be Top Javaer - Java工程师成神之路Div-wangJava 全栈知识体系https:/ ...
+        
+      </div>
+      <a class="more" href="/wiki/index/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E5%90%88%E9%9B%86/">2021年后端大厂面试题合集</a>
+      </h2>
+      <p class="article-date">January 7, 2021</p>
+      
+      <div class="article-summary">
+        
+          
+记录2021年各互联网大厂面试问题以及答案链接，达到快速复习效果
+
+面试题合集《我们一起进大厂》https://aobing.blog.csdn.net/category_9424379.html
+1、Spring面试题1、Spring启动流程
+https://aobing.blog.cs ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E5%90%88%E9%9B%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">2021年后端大厂-计算机网络</a>
+      </h2>
+      <p class="article-date">January 1, 2021</p>
+      
+        
+  <a href="/tags#面试题" >
+    <span class="tag-code">面试题</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          计算机网络
+面试合集链接优秀简历模板及计算机网络八股文
+面试题目为什么需要TCP协议？TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。
+IP 层是「不可靠」的，它不保证网络包的交付、不保证网络包的按序交付、也不保证网络包中的数据的完整性。
+因为 TCP 是一个工作在传输层的可靠数据 ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-MySQL/">2021年后端大厂-MySQL</a>
+      </h2>
+      <p class="article-date">January 1, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+  <a href="/tags#面试题" >
+    <span class="tag-code">面试题</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+没有别的目的，就是为了快速复习
+
+Mysql面试合集什么是回表https://blog.csdn.net/xuyw10000/article/details/95971218
+https://juejin.cn/post/6844904062329028621
+覆盖索引的一个优化办法是将要 ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-MySQL/">Read more</a>
+    </article>
+  
+
+  
+    <div class="guide-pager">
+  
+    <a href="/page/15/"><span class="page-arrow">← </span>Prev</a>
+  
+  
+    <a href="/page/17/">Next<span class="page-arrow"> →</span></a>
+  
+</div>
+  
+</main>
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
