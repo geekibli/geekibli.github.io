@@ -168,6 +168,96 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a>
+      </h2>
+      <p class="article-date">July 13, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          用户相关文件相关日志相关
+linux 在文档中查找关键字个数grep -o “关键字” 文档名 | wc -l grep -o “关键字” 文档名 | sort | uniq -c
+
+清除history记录vim .bash_history命令模式下（Esc之后输入:） 输入 set nu  ...
+        
+      </div>
+      <a class="more" href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          参考资料
+
+learnku.com
+
+
+
+        
+      </div>
+      <a class="more" href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          cardinality用法常用写法如下👇curl -X GET &quot;localhost:9200/cars/transactions/_search?pretty&quot; -H &#39;Content-Type: application/json&#39; -d&#39;
+1 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          多值桶（ terms 、 histogram 和 date_histogram ）动态生成很多桶。 Elasticsearch 是如何决定这些桶展示给用户的顺序呢？
+默认的，桶会根据 doc_count 降序排列。这是一个好的默认行为，因为通常我们想要找到文档中与查询条件相关的最大值：售价、 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a>
       </h2>
       <p class="article-date">July 8, 2021</p>
@@ -310,108 +400,6 @@ Lucene 中的 倒排索引 segments 存储在文件中，为提高访问速度�
         
       </div>
       <a class="more" href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          参考资料
-
-Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » cross-fields 跨字段查询
-
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          参考资料
-
-Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 自定义 _all 字段
-Docs » Mapping parameters（映射参数） » Mapping(映射) » copy_to（合并参数）
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/copy-to%E5%8F%82%E6%95%B0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          被解析的字符串字段也是多值字段， 但是很少会按照你想要的方式进行排序。如果你想分析一个字符串，如 fine old art ， 这包含 3 项。我们很可能想要按第一项的字母排序，然后按第二项的字母排序，诸如此类，但是 Elasticsearch 在排序过程中没有这样的信息。
-你可以使用 mi ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a>
-      </h2>
-      <p class="article-date">July 7, 2021</p>
-      
-        
-  <a href="/tags#推荐系统" >
-    <span class="tag-code">推荐系统</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          博客资料
-深度解析京东个性化推荐系统演进史  
-用 Mahout 和 Elasticsearch 实现推荐系统
-美团推荐算法实践
-58同城推荐系统设计与实现
-微博推荐系统的架构演进之路
-Flink 在小红书推荐系统中的应用
-小红书大数据在推荐系统中的应用
-快看漫画个性化推荐探索与实践
-数据仓 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">Read more</a>
     </article>
   
 

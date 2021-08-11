@@ -175,7 +175,7 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h2 id="Flink运行时组件"><a href="#Flink运行时组件" class="headerlink" title="Flink运行时组件"></a>Flink运行时组件</h2><ol>
-<li><p>JobManager (作业管理器)<br>JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的职责：它决定何时调度下一个 task（或一组 task）、对完成的 task 或执行失败做出反应、协调 checkpoint、并且协调从失败中恢复等等。这个进程由三个不同的组件组成：</p>
+<li><p>JobManager (作业管理器)<br> JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的职责：它决定何时调度下一个 task（或一组 task）、对完成的 task 或执行失败做出反应、协调 checkpoint、并且协调从失败中恢复等等。这个进程由三个不同的组件组成：</p>
 <ul>
 <li><p><code>ResourceManager</code><br>ResourceManager 负责 Flink 集群中的资源提供、回收、分配 - 它管理 <code>task slots</code>，这是 Flink 集群中资源调度的单位。Flink 为不同的环境和资源提供者（例如 YARN、Mesos、Kubernetes 和 standalone 部署）实现了对应的 <code>ResourceManager</code>。在 standalone 设置中，ResourceManager 只能分配可用 TaskManager 的 slots，而不能自行启动新的 TaskManager。</p>
 </li>
@@ -218,8 +218,8 @@
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#flink" >
-    <span class="tag-code">flink</span>
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
   </a>
 
       </div>

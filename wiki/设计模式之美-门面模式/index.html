@@ -196,12 +196,12 @@
 <p>这种写法会将库存，支付和物流等服务都暴露给调用方，是很不安全的，而且造成客户端依赖严重，代码臃肿；  </p>
 <h3 id="门面模式写法"><a href="#门面模式写法" class="headerlink" title="门面模式写法"></a>门面模式写法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       FacadeService facadeService = <span class="keyword">new</span> FacadeService();</span><br><span class="line">       GiftInfo giftInfo = <span class="keyword">new</span> GiftInfo(<span class="string">&quot; 《Java编程思想》 &quot;</span>);</span><br><span class="line">       String shipNo = facadeService.doOrder(giftInfo);</span><br><span class="line">       System.err.println(<span class="string">&quot;Order shipNo:&quot;</span> + shipNo);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>上面这种就是门面模式的写法👆 ， 相信大家应该很熟悉吧，这样的话，暴露给客户端就一个订单服务就可以了！</p>
-<h2 id="门面模式的应用场景"><a href="#门面模式的应用场景" class="headerlink" title="门面模式的应用场景"></a>门面模式的应用场景</h2><ul>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
 <li><strong>子系统越来越复杂，增加门面模式提供简单的接口，给用户使用；</strong></li>
 <li><strong>构建多层的系统接口，利用门面对象作为每层的入口，简化层之间的调用</strong></li>
 </ul>
-<h2 id="门面模式的应用"><a href="#门面模式的应用" class="headerlink" title="门面模式的应用"></a>门面模式的应用</h2><p><code>Spring JdbcUtils</code><br><code>Mybatis configuration</code><br><code>Tomcat requestFacade responseFacade </code></p>
-<h2 id="门面模式的优点"><a href="#门面模式的优点" class="headerlink" title="门面模式的优点"></a>门面模式的优点</h2><ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><code>Spring JdbcUtils</code><br><code>Mybatis configuration</code><br><code>Tomcat requestFacade responseFacade </code></p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
 <li><strong>简化了调用过程，无需深入了解子系统，以防止给子系统带来风险</strong></li>
 </ul>
 <p>根据上面礼品兑换的逻辑，用户根本不care你底层的兑换逻辑，什么库存啊，支付状态啊，生成订单逻辑等等，对于用户来说，我只需要一步下单即可；  </p>
@@ -216,7 +216,7 @@
 <ul>
 <li><strong>遵循迪米特法则</strong></li>
 </ul>
-<h2 id="门面模式的缺点"><a href="#门面模式的缺点" class="headerlink" title="门面模式的缺点"></a>门面模式的缺点</h2><ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
 <li><strong>当子系统的功能需要扩展或者修改的时候，上层封装可能要面临修改的风险，这样增加了后期的维护成本，也不遵循开闭原则</strong></li>
 <li><strong>可能会违背单一职责原则</strong></li>
 </ul>
@@ -247,6 +247,13 @@
       </a>
     
     
+      <a class="nav-right" href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">
+        
+          Flink-核心之Windows窗口
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
   </div>
 
     <!-- NAV END -->
@@ -275,7 +282,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F"><span class="toc-nav-text">门面模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="toc-nav-text">类图</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Facade-%E9%97%A8%E9%9D%A2%E7%B1%BB"><span class="toc-nav-text">Facade 门面类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9FA"><span class="toc-nav-text">子系统A</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9FB"><span class="toc-nav-text">子系统B</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9FC"><span class="toc-nav-text">子系统C</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-nav-text">举个栗子</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%A6%82%E4%B8%8B"><span class="toc-nav-text">关系图如下</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#PaymentService-%E6%94%AF%E4%BB%98%E6%9C%8D%E5%8A%A1"><span class="toc-nav-text">PaymentService 支付服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#QualityService-%E5%BA%93%E5%AD%98%E6%9C%8D%E5%8A%A1"><span class="toc-nav-text">QualityService 库存服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ShipService-%E7%89%A9%E6%B5%81%E6%9C%8D%E5%8A%A1"><span class="toc-nav-text">ShipService 物流服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF-%E9%9D%9E%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%86%99%E6%B3%95"><span class="toc-nav-text">客户端 非门面模式写法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%86%99%E6%B3%95"><span class="toc-nav-text">门面模式写法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">门面模式的应用场景</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-nav-text">门面模式的应用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-nav-text">门面模式的优点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="toc-nav-text">门面模式的缺点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-nav-text">门面模式和代理模式的区别</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F"><span class="toc-nav-text">门面模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%B1%BB%E5%9B%BE"><span class="toc-nav-text">类图</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Facade-%E9%97%A8%E9%9D%A2%E7%B1%BB"><span class="toc-nav-text">Facade 门面类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9FA"><span class="toc-nav-text">子系统A</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9FB"><span class="toc-nav-text">子系统B</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AD%90%E7%B3%BB%E7%BB%9FC"><span class="toc-nav-text">子系统C</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-nav-text">举个栗子</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9B%BE%E5%A6%82%E4%B8%8B"><span class="toc-nav-text">关系图如下</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#PaymentService-%E6%94%AF%E4%BB%98%E6%9C%8D%E5%8A%A1"><span class="toc-nav-text">PaymentService 支付服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#QualityService-%E5%BA%93%E5%AD%98%E6%9C%8D%E5%8A%A1"><span class="toc-nav-text">QualityService 库存服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#ShipService-%E7%89%A9%E6%B5%81%E6%9C%8D%E5%8A%A1"><span class="toc-nav-text">ShipService 物流服务</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF-%E9%9D%9E%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%86%99%E6%B3%95"><span class="toc-nav-text">客户端 非门面模式写法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%86%99%E6%B3%95"><span class="toc-nav-text">门面模式写法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">应用场景</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-nav-text">应用</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%BC%98%E7%82%B9"><span class="toc-nav-text">优点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-nav-text">缺点</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-nav-text">门面模式和代理模式的区别</span></a></li></ol></li></ol>
     
   </div>
 </aside>

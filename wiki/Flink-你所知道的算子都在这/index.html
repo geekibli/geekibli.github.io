@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Flink-你所知道的算子都在这 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Flink-你所知道的算子都在这</h2>
+  <p class="post-date">2021-08-11</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><p>好了，看到这的话，Apache Flink基础概念啥的都应该了解差不多了吧，我们几天就See一下，平时用到的StreamApi中各式各样的算子都有什么，然后，我们搞点Demo试一下。</p>
+<p>📒 我也是边学边实现一些Demo,这样呢可以方便自己理解，形成体系以后也应该能帮到别人快速学习吧。</p>
+<p>这就是地址了👉 <a target="_blank" rel="noopener" href="https://github.com/geekibli/flink-study">https://github.com/geekibli/flink-study</a>  欢迎star！</p>
+<p><strong>下面的Demo都是可以直接运行的</strong>  如果是通过socket获取数据的话，确认现开启端口啊，我用的Mac系统，可以使用以下命令 <code>nc -lk 9999</code></p>
+<h2 id="提供一个全局获取环境的方法"><a href="#提供一个全局获取环境的方法" class="headerlink" title="提供一个全局获取环境的方法"></a>提供一个全局获取环境的方法</h2><p>我们一个静态方法getEnv(), 不然每次还要new，挺麻烦的；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> StreamExecutionEnvironment <span class="title">getEnv</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="POJO类"><a href="#POJO类" class="headerlink" title="POJO类"></a>POJO类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensorReading</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> String sersorId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> timestamp;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> newtemp;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mapTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    StreamExecutionEnvironment env = getEnv();</span><br><span class="line">    ArrayList&lt;Integer&gt; nums = Lists.newArrayList();</span><br><span class="line">    nums.add(<span class="number">1</span>);</span><br><span class="line">    nums.add(<span class="number">2</span>);</span><br><span class="line">    nums.add(<span class="number">3</span>);</span><br><span class="line">    DataStreamSource&lt;Integer&gt; source = env.fromCollection(nums);</span><br><span class="line">    SingleOutputStreamOperator&lt;Integer&gt; map = source.map(<span class="keyword">new</span> MapFunction&lt;Integer, Integer&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Integer <span class="title">map</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> integer * integer;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    map.print();</span><br><span class="line">    env.execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="keyBy"><a href="#keyBy" class="headerlink" title="keyBy"></a>keyBy</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">keyByTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv();</span><br><span class="line">        DataStreamSource&lt;Tuple2&lt;String, Integer&gt;&gt; source = env.fromElements(</span><br><span class="line">                <span class="keyword">new</span> Tuple2&lt;String, Integer&gt;(<span class="string">&quot;age&quot;</span>, <span class="number">1</span>),</span><br><span class="line">                <span class="keyword">new</span> Tuple2&lt;String, Integer&gt;(<span class="string">&quot;name&quot;</span>, <span class="number">2</span>),</span><br><span class="line">                <span class="keyword">new</span> Tuple2&lt;String, Integer&gt;(<span class="string">&quot;name&quot;</span>, <span class="number">3</span>),</span><br><span class="line">                <span class="keyword">new</span> Tuple2&lt;String, Integer&gt;(<span class="string">&quot;name&quot;</span>, <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">        source.map(</span><br><span class="line">                <span class="keyword">new</span> MapFunction&lt;Tuple2&lt;String, Integer&gt;, Tuple2&lt;String, Integer&gt;&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> Tuple2&lt;String, Integer&gt; <span class="title">map</span><span class="params">(Tuple2&lt;String, Integer&gt; stringIntegerTuple2)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        Integer f1 = stringIntegerTuple2.f1;</span><br><span class="line">                        stringIntegerTuple2.setField(f1 + <span class="number">10</span>, <span class="number">1</span>);</span><br><span class="line">                        <span class="keyword">return</span> stringIntegerTuple2;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .keyBy(<span class="number">1</span>)</span><br><span class="line">                .print();</span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reduceTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv();</span><br><span class="line">        env.fromElements(</span><br><span class="line">                Tuple2.of(<span class="number">2L</span>, <span class="number">3L</span>),</span><br><span class="line">                Tuple2.of(<span class="number">1L</span>, <span class="number">5L</span>),</span><br><span class="line">                Tuple2.of(<span class="number">1L</span>, <span class="number">5L</span>),</span><br><span class="line">                Tuple2.of(<span class="number">1L</span>, <span class="number">7L</span>),</span><br><span class="line">                Tuple2.of(<span class="number">2L</span>, <span class="number">4L</span>),</span><br><span class="line">                Tuple2.of(<span class="number">1L</span>, <span class="number">5L</span>))</span><br><span class="line">                .keyBy(<span class="number">1</span>)</span><br><span class="line">                .reduce(<span class="keyword">new</span> ReduceFunction&lt;Tuple2&lt;Long, Long&gt;&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> Tuple2&lt;Long, Long&gt; <span class="title">reduce</span><span class="params">(Tuple2&lt;Long, Long&gt; longLongTuple2, Tuple2&lt;Long, Long&gt; t1)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">new</span> Tuple2&lt;Long, Long&gt;(t1.f0, longLongTuple2.f1 + t1.f1);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .print();</span><br><span class="line">        env.execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有一个栗子🌰</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv();</span><br><span class="line">        DataStreamSource&lt;String&gt; dataSource = env.socketTextStream(<span class="string">&quot;localhost&quot;</span>, <span class="number">9999</span>);</span><br><span class="line"></span><br><span class="line">        DataStream&lt;SensorReading&gt; dataStream = dataSource.map(<span class="keyword">new</span> MapFunction&lt;String, SensorReading&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> SensorReading <span class="title">map</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                String[] strings = s.split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(strings[<span class="number">0</span>], <span class="keyword">new</span> Long(strings[<span class="number">1</span>]), <span class="keyword">new</span> Double(strings[<span class="number">2</span>]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        DataStream&lt;SensorReading&gt; sersorId = dataStream.keyBy(<span class="string">&quot;sersorId&quot;</span>)</span><br><span class="line">                .reduce(<span class="keyword">new</span> ReduceFunction&lt;SensorReading&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> SensorReading <span class="title">reduce</span><span class="params">(SensorReading sensorReading, SensorReading t1)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        String id = t1.getSersorId();</span><br><span class="line">                        Double time = t1.getTimestamp();</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(id, time, Math.max(sensorReading.getNewtemp(), t1.getNewtemp()));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        sersorId.print();</span><br><span class="line">        env.execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="split-select"><a href="#split-select" class="headerlink" title="split|select"></a>split|select</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">splitTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv();</span><br><span class="line">        DataStreamSource&lt;String&gt; dataSource = env.socketTextStream(<span class="string">&quot;localhost&quot;</span>, <span class="number">9999</span>);</span><br><span class="line"></span><br><span class="line">        DataStream&lt;SensorReading&gt; dataStream = dataSource.map(<span class="keyword">new</span> MapFunction&lt;String, SensorReading&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> SensorReading <span class="title">map</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                String[] strings = s.split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(strings[<span class="number">0</span>], <span class="keyword">new</span> Double(strings[<span class="number">1</span>]), <span class="keyword">new</span> Double(strings[<span class="number">2</span>]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        SplitStream&lt;SensorReading&gt; split = dataStream.split(<span class="keyword">new</span> OutputSelector&lt;SensorReading&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Iterable&lt;String&gt; <span class="title">select</span><span class="params">(SensorReading value)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> (value.getNewtemp() &gt; <span class="number">30</span>) ? Collections.singleton(<span class="string">&quot;high&quot;</span>) : Collections.singleton(<span class="string">&quot;low&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        DataStream&lt;SensorReading&gt; low = split.select(<span class="string">&quot;low&quot;</span>);</span><br><span class="line">        DataStream&lt;SensorReading&gt; high = split.select(<span class="string">&quot;high&quot;</span>);</span><br><span class="line">        DataStream&lt;SensorReading&gt; all = split.select(<span class="string">&quot;high&quot;</span>, <span class="string">&quot;low&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// connect</span></span><br><span class="line">        DataStream&lt;Tuple2&lt;String, Double&gt;&gt; highStream = high.map(<span class="keyword">new</span> MapFunction&lt;SensorReading, Tuple2&lt;String, Double&gt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Tuple2&lt;String, Double&gt; <span class="title">map</span><span class="params">(SensorReading sensorReading)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Tuple2&lt;&gt;(sensorReading.getSersorId(), sensorReading.getNewtemp());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 链接之后的stream</span></span><br><span class="line">        ConnectedStreams&lt;Tuple2&lt;String, Double&gt;, SensorReading&gt; connect = highStream.connect(low);</span><br><span class="line"></span><br><span class="line">        SingleOutputStreamOperator&lt;Object&gt; resultStream = connect.map(<span class="keyword">new</span> CoMapFunction&lt;Tuple2&lt;String, Double&gt;, SensorReading, Object&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">map1</span><span class="params">(Tuple2&lt;String, Double&gt; stringDoubleTuple2)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Tuple3&lt;&gt;(stringDoubleTuple2.f0, stringDoubleTuple2.f0, <span class="string">&quot;high temp warning&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">map2</span><span class="params">(SensorReading sensorReading)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Tuple2&lt;&gt;(sensorReading.getSersorId(), <span class="string">&quot;normal temp&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        resultStream.print();</span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="connect-coMap"><a href="#connect-coMap" class="headerlink" title="connect | coMap"></a>connect | coMap</h2><p>如上split方法下面我们是有操作connect的api的</p>
+<h2 id="union"><a href="#union" class="headerlink" title="union"></a>union</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">unionTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 必须是数据类型相同</span></span><br><span class="line">        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br><span class="line">        DataStreamSource&lt;String&gt; firstStream = env.socketTextStream(<span class="string">&quot;localhost&quot;</span>, <span class="number">9999</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; secondStream = env.socketTextStream(<span class="string">&quot;localhost&quot;</span>, <span class="number">7777</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        DataStream&lt;String&gt; unionStream = firstStream.union(secondStream);</span><br><span class="line">        DataStream&lt;SensorReading&gt; dataStream = unionStream.map(<span class="keyword">new</span> MapFunction&lt;String, SensorReading&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> SensorReading <span class="title">map</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                String[] strings = s.split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> SensorReading(strings[<span class="number">0</span>], <span class="keyword">new</span> Double(strings[<span class="number">1</span>]), <span class="keyword">new</span> Double(strings[<span class="number">2</span>]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        dataStream.print();</span><br><span class="line">        env.execute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>// TODO 不断学习 不断补充</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">
+        <span class="nav-arrow">← </span>
+        
+          Flink-核心之Windows窗口
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">
+        
+          Flink-如何读取数据源（集合｜文件｜自定义｜Kafka等）
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E6%8F%90%E4%BE%9B%E4%B8%80%E4%B8%AA%E5%85%A8%E5%B1%80%E8%8E%B7%E5%8F%96%E7%8E%AF%E5%A2%83%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-nav-text">提供一个全局获取环境的方法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#POJO%E7%B1%BB"><span class="toc-nav-text">POJO类</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#map"><span class="toc-nav-text">map</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#keyBy"><span class="toc-nav-text">keyBy</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#reduce"><span class="toc-nav-text">reduce</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#split-select"><span class="toc-nav-text">split|select</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#connect-coMap"><span class="toc-nav-text">connect | coMap</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#union"><span class="toc-nav-text">union</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/Flink-你所知道的算子都在这/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
