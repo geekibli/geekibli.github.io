@@ -174,7 +174,7 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="初始化本地仓库"><a href="#初始化本地仓库" class="headerlink" title="初始化本地仓库"></a>初始化本地仓库</h2><p><code>git init </code><br><code>git add .</code><br><code>git commit -m &lt;message&gt;</code><br><code>git remote add &lt;name&gt; &lt;url&gt;</code><br><code>git push</code><br><code>git push &lt;name&gt;</code><br><code>git push --set-upstream &lt;name&gt; &lt;branch&gt;</code></p>
+    <section class="markdown-content"><h2 id="初始化本地仓库"><a href="#初始化本地仓库" class="headerlink" title="初始化本地仓库"></a>初始化本地仓库</h2><p><code>git init</code><br><code>git add README.md</code><br><code>git commit -m &quot;first commit&quot;</code><br><code>git branch -M master</code><br><code>git remote add origin git@github.com:XXXXX</code><br><code>git push -u origin master</code></p>
 <h2 id="批量删除分支"><a href="#批量删除分支" class="headerlink" title="批量删除分支"></a>批量删除分支</h2><p>远程：<code>git branch -r| grep &#39;ss-1&#39; | sed &#39;s/origin\///g&#39; | xargs -I &#123;&#125; git push origin :&#123;&#125;</code><br>本地：<code>git branch -a | grep &#39;feature-re-1&#39; | xargs git branch -D</code></p>
 </section>
     <!-- Tags START -->

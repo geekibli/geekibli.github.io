@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Flink-物理分区函数 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Flink-物理分区函数</h2>
+  <p class="post-date">2021-08-12</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="Flink提供的8种分区函数"><a href="#Flink提供的8种分区函数" class="headerlink" title="Flink提供的8种分区函数"></a>Flink提供的8种分区函数</h1><h2 id="GlobalPartitioner"><a href="#GlobalPartitioner" class="headerlink" title="GlobalPartitioner"></a>GlobalPartitioner</h2><p>该分区器会将所有的数据都发送到下游的某个算子实例(subtask id = 0)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  数据会被分发到下游算子的第一个实例中进行处理</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">global</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv().setMaxParallelism(<span class="number">8</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;ggg&quot;</span>, <span class="string">&quot;fff&quot;</span>, <span class="string">&quot;ddd&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;qqq&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        dataStream.flatMap(<span class="keyword">new</span> RichFlatMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMap</span><span class="params">(String s, Collector&lt;String&gt; collector)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                collector.collect(s + <span class="string">&quot;_**&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).setParallelism(<span class="number">2</span>).global().print(<span class="string">&quot;global : &quot;</span>);</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ShufflePartitioner"><a href="#ShufflePartitioner" class="headerlink" title="ShufflePartitioner"></a>ShufflePartitioner</h2><p>随机选择一个下游算子实例进行发送</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//数据会被随机分发到下游算子的每一个实例中进行</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shuffle</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv();</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;ggg&quot;</span>, <span class="string">&quot;fff&quot;</span>, <span class="string">&quot;ddd&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;qqq&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        DataStream&lt;String&gt; broadcast = dataStream.shuffle();</span><br><span class="line">        broadcast.print(<span class="string">&quot;shuffle : &quot;</span>);</span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="BroadcastPartitioner"><a href="#BroadcastPartitioner" class="headerlink" title="BroadcastPartitioner"></a>BroadcastPartitioner</h2><p>发送到下游所有的算子实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//广播分区会将上游数据输出到下游算子的每个实例中。适合于大数据集和小数据集做Jion的场景</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">broadcast</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv();</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;ggg&quot;</span>, <span class="string">&quot;fff&quot;</span>, <span class="string">&quot;ddd&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;qqq&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        DataStream&lt;String&gt; broadcast = dataStream.broadcast();</span><br><span class="line">        broadcast.print(<span class="string">&quot;broadcast : &quot;</span>);</span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="RebalancePartitioner"><a href="#RebalancePartitioner" class="headerlink" title="RebalancePartitioner"></a>RebalancePartitioner</h2><p>通过循环的方式依次发送到下游的task</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rebalance</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv().setParallelism(<span class="number">4</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;ggg&quot;</span>, <span class="string">&quot;fff&quot;</span>, <span class="string">&quot;ddd&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;qqq&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        dataStream.map(<span class="keyword">new</span> RichMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">map</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> s + <span class="string">&quot;_**&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).setParallelism(<span class="number">1</span>).rebalance().print(<span class="string">&quot;rebalance : &quot;</span>);</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="RescalePartitioner"><a href="#RescalePartitioner" class="headerlink" title="RescalePartitioner"></a>RescalePartitioner</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这种分区器会根据上下游算子的并行度，循环的方式输出到下游算子的每个实例。这里有点难以理解，假设上游并行度为 2，编号为 A 和 B。下游并行度为 4，编号为 1，2，3，4。那么 A 则把数据循环发送给 1 和 2，B 则把数据循环发送给 3 和 4。假设上游并行度为 4，编号为 A，B，C，D。下游并行度为 2，编号为 1，2。那么 A 和 B 则把数据发送给 1，C 和 D 则把数据发送给 2。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">rescale</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv().setParallelism(<span class="number">4</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;ggg&quot;</span>, <span class="string">&quot;fff&quot;</span>, <span class="string">&quot;ddd&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;qqq&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        dataStream.map(<span class="keyword">new</span> RichMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">map</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> s + <span class="string">&quot;_**&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).setParallelism(<span class="number">1</span>).rescale().print(<span class="string">&quot;rescale : &quot;</span>);</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ForwardPartitioner"><a href="#ForwardPartitioner" class="headerlink" title="ForwardPartitioner"></a>ForwardPartitioner</h2><p>发送到下游对应的第一个task，保证上下游算子并行度一致，即上有算子与下游算子是1:1的关系</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用于将记录输出到下游本地的算子实例。它要求上下游算子并行度一样。简单的说，ForwardPartitioner用来做数据的控制台打印。</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">forward</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv().setParallelism(<span class="number">1</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;ggg&quot;</span>, <span class="string">&quot;fff&quot;</span>, <span class="string">&quot;ddd&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;aaa&quot;</span>, <span class="string">&quot;qqq&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        DataStream&lt;String&gt; broadcast = dataStream.shuffle();</span><br><span class="line">        broadcast.print(<span class="string">&quot;shuffle : &quot;</span>);</span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>⚠️ 在上下游的算子没有指定分区器的情况下，如果上下游的算子并行度一致，则使用ForwardPartitioner，否则使用RebalancePartitioner，对于ForwardPartitioner，必须保证上下游算子并行度一致，否则会抛出异常。</p>
+<h2 id="KeyByPartitioner"><a href="#KeyByPartitioner" class="headerlink" title="KeyByPartitioner"></a>KeyByPartitioner</h2><p>根据key的分组索引选择发送到相对应的下游subtask</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">keyBy</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv().setMaxParallelism(<span class="number">8</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        dataStream.flatMap(<span class="keyword">new</span> RichFlatMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMap</span><span class="params">(String s, Collector&lt;String&gt; collector)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                collector.collect(s + <span class="string">&quot;_**&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).keyBy(String::toString).print(<span class="string">&quot;keyBy : &quot;</span>);</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CustomPartitionerWrapper"><a href="#CustomPartitionerWrapper" class="headerlink" title="CustomPartitionerWrapper"></a>CustomPartitionerWrapper</h2><p>通过Partitioner实例的partition方法(自定义的)将记录输出到下游。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">custom</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        StreamExecutionEnvironment env = getEnv().setMaxParallelism(<span class="number">8</span>);</span><br><span class="line">        DataStreamSource&lt;String&gt; dataStream = env.fromElements(<span class="string">&quot;hhhh&quot;</span>, <span class="string">&quot;hhhss&quot;</span>, <span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;hhh&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;sss&quot;</span>, <span class="string">&quot;www&quot;</span>);</span><br><span class="line">        dataStream.flatMap(<span class="keyword">new</span> RichFlatMapFunction&lt;String, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">flatMap</span><span class="params">(String s, Collector&lt;String&gt; collector)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                collector.collect(s + <span class="string">&quot;_**&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).partitionCustom(<span class="keyword">new</span> CustomPartitioner(),String::toString)</span><br><span class="line">        .print(<span class="string">&quot;custom :&quot;</span>);</span><br><span class="line"></span><br><span class="line">        env.execute();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomPartitioner</span> <span class="keyword">implements</span> <span class="title">Partitioner</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">        <span class="comment">// key: 根据key的值来分区</span></span><br><span class="line">        <span class="comment">// numPartitions: 下游算子并行度</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(String key, <span class="keyword">int</span> numPartitions)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> key.length() % numPartitions;<span class="comment">//在此处定义分区策略</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36039236/article/details/112576091?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0.control&spm=1001.2101.3001.4242">Flink的八种分区策略源码解读</a></p>
+<p><a target="_blank" rel="noopener" href="https://ci.apache.org/projects/flink/flink-docs-release-1.13/zh/docs/dev/datastream/operators/overview/#custom-partitioning">Apache Flink 中文文档</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">
+        <span class="nav-arrow">← </span>
+        
+          Flink-UDF函数类
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flink%E6%8F%90%E4%BE%9B%E7%9A%848%E7%A7%8D%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0"><span class="toc-nav-text">Flink提供的8种分区函数</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#GlobalPartitioner"><span class="toc-nav-text">GlobalPartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ShufflePartitioner"><span class="toc-nav-text">ShufflePartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#BroadcastPartitioner"><span class="toc-nav-text">BroadcastPartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#RebalancePartitioner"><span class="toc-nav-text">RebalancePartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#RescalePartitioner"><span class="toc-nav-text">RescalePartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#ForwardPartitioner"><span class="toc-nav-text">ForwardPartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#KeyByPartitioner"><span class="toc-nav-text">KeyByPartitioner</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#CustomPartitionerWrapper"><span class="toc-nav-text">CustomPartitionerWrapper</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/Flink-物理分区函数/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
