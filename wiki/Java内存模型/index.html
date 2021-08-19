@@ -174,7 +174,9 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><h2 id="什么是JMM"><a href="#什么是JMM" class="headerlink" title="什么是JMM?"></a>什么是JMM?</h2><p>Java Memory Model简称JMM, 是一系列的Java虚拟机平台对开发者提供的多线程环境下的内存可见性、是否可以重排序等问题的无关具体平台的统一的保证。(可能在术语上与Java运行时内存分布有歧义，后者指堆、方法区、线程栈等内存区域)。</p>
+    <section class="markdown-content"><h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210818151542767.png" alt="image-20210818151542767" style="zoom:50%;" />
+
+<h2 id="什么是JMM"><a href="#什么是JMM" class="headerlink" title="什么是JMM?"></a>什么是JMM?</h2><p>Java Memory Model简称JMM, 是一系列的Java虚拟机平台对开发者提供的多线程环境下的内存可见性、是否可以重排序等问题的无关具体平台的统一的保证。(可能在术语上与Java运行时内存分布有歧义，后者指堆、方法区、线程栈等内存区域)。</p>
 <p> <strong>JMM规范的内容</strong>  </p>
 <ul>
 <li>所有变量存储在主内存  </li>
@@ -233,6 +235,7 @@
 <p>1、单线程每个操作，happen-before于该线程中任意后续操作；<br>2、volatile写happen-before与后续对这个变量的读；<br>3、synchronized解锁happen-before后续对这个锁的加锁；<br>4、final变量的写happen-before于final域对象的读，happen-before后续对final变量的读；<br>5、传递性规则，A先于B，B先于C，那么A一定先于C发生；  </p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1">https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU4NzA3MTc5Mg==&mid=2247484606&idx=1&sn=42212c0ac1c123ebee1903d07f88b6db&chksm=fdf0ece1ca8765f7e623d2a3d19ff637d8f2449db0dea2bb63d87e11f63b482cf16c0a007faf&token=2087444891&lang=zh_CN&scene=21#wechat_redirect">深入理解Java内存模型-3y</a></p>
 </blockquote>
 </section>
     <!-- Tags START -->

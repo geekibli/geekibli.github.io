@@ -174,7 +174,11 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+    <section class="markdown-content"><h2 id="造成死锁的原因"><a href="#造成死锁的原因" class="headerlink" title="造成死锁的原因"></a>造成死锁的原因</h2><p>当前线程拥有其他线程需要的资源，当前线程等待其他线程释放资源，线程持有资源不可剥夺，线程一直循环等待。</p>
+<h2 id="避免死锁的方法"><a href="#避免死锁的方法" class="headerlink" title="避免死锁的方法"></a>避免死锁的方法</h2><p>1、固定加锁的顺序</p>
+<p>2、尽可能缩小锁范围，减少锁粒度</p>
+<p>3、使用可释放的定时锁（申请一段时间，超时之后，放弃）</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/44125bb12ebf">死锁是什么？如何避免死锁？</a></li>
 <li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98">哲学家就餐问题</a></li>
@@ -241,7 +245,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%80%A0%E6%88%90%E6%AD%BB%E9%94%81%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-nav-text">造成死锁的原因</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%81%BF%E5%85%8D%E6%AD%BB%E9%94%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-nav-text">避免死锁的方法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol>
     
   </div>
 </aside>

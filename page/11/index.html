@@ -168,6 +168,79 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">操作系统-死锁</a>
+      </h2>
+      <p class="article-date">July 20, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          造成死锁的原因当前线程拥有其他线程需要的资源，当前线程等待其他线程释放资源，线程持有资源不可剥夺，线程一直循环等待。
+避免死锁的方法1、固定加锁的顺序
+2、尽可能缩小锁范围，减少锁粒度
+3、使用可释放的定时锁（申请一段时间，超时之后，放弃）
+参考资料
+
+死锁是什么？如何避免死锁？
+哲学家就餐 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">操作系统进程调度策略</a>
+      </h2>
+      <p class="article-date">July 20, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          操作系统进程调度策略1. 什么是进程进程是操作系统进行资源分配的基本单位，每个进程都有它自己的内存空间和系统资源。进程实现了多处理机环境下进程调度，分派，切换时，都需要花费较大的时间和空间开销；
+为了提升系统的执行效率，减少CPU的空转时间和调度切换的时间，以便于系统的管理，所以有了线程的概 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a>
+      </h2>
+      <p class="article-date">July 20, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          参考资料
+
+进程间通信IPC (InterProcess Communication)
+
+
+
+        
+      </div>
+      <a class="more" href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a>
       </h2>
       <p class="article-date">July 19, 2021</p>
@@ -320,81 +393,6 @@ Elasticsearch性能优化总结Elasticsearch调优实践
         
       </div>
       <a class="more" href="/wiki/elasticsearch%E7%A8%B3%E5%AE%9A%E6%80%A7%E8%B0%83%E4%BC%98/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">启动ELK脚本命令</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          esuser 授权chown -R esuser /usr/local/elasticsearch/*
-elastcisearch 启动脚本nohup ./elasticsearch-7.10.0/bin/elasticsearch &gt;&gt; ./elasticsearch-7.10 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%90%AF%E5%8A%A8ELK%E8%84%9A%E6%9C%AC%E5%91%BD%E4%BB%A4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">elasticsearch调优实践</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-从性能和稳定性两方面，从linux参数调优、ES节点配置和ES使用方式三个角度入手，介绍ES调优的基本方案。当然，ES的调优绝不能一概而论，需要根据实际业务场景做适当的取舍和调整
-
-
-Elasticsearch性能优化总结Elasticsearch调优实践
-
-Linux优化关闭交换分区，防 ...
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-修改服务器时间date -s &quot;2021-07-14 21:22:10&quot;
-
-执行DDLalter table mirror_user comment &#39;用户表&#39;;
-
-服务器时间修正ntpdate ntp1.aliyun.com
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">Read more</a>
     </article>
   
 

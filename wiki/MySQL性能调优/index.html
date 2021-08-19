@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      MySQL性能调优 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>MySQL性能调优</h2>
+  <p class="post-date">2021-08-19</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h5 id="1、使用【-覆盖索引-】避免回表锁造成的时间消耗"><a href="#1、使用【-覆盖索引-】避免回表锁造成的时间消耗" class="headerlink" title="1、使用【 覆盖索引 】避免回表锁造成的时间消耗"></a>1、使用【 覆盖索引 】避免回表锁造成的时间消耗</h5><p>1、查询语句的时候避免使用select * </p>
+<p>2、创建索引添加适当的列避免回表</p>
+<h5 id="2、使用【-联合索引-】区分度比较高的列放到前面"><a href="#2、使用【-联合索引-】区分度比较高的列放到前面" class="headerlink" title="2、使用【 联合索引 】区分度比较高的列放到前面"></a>2、使用【 联合索引 】区分度比较高的列放到前面</h5><p>注意联合索引的最左匹配原则</p>
+<h5 id="3、对索引进行函数计算或者表达式计算会导致索引失效-🔒"><a href="#3、对索引进行函数计算或者表达式计算会导致索引失效-🔒" class="headerlink" title="3、对索引进行函数计算或者表达式计算会导致索引失效 🔒"></a>3、对索引进行函数计算或者表达式计算会导致索引失效 🔒</h5><h5 id="4、利用子查询优化超多分页场景"><a href="#4、利用子查询优化超多分页场景" class="headerlink" title="4、利用子查询优化超多分页场景"></a>4、利用子查询优化超多分页场景</h5><h5 id="5、explain命令查询执行计划-show-profile查询执行的性能消耗"><a href="#5、explain命令查询执行计划-show-profile查询执行的性能消耗" class="headerlink" title="5、explain命令查询执行计划 show profile查询执行的性能消耗"></a>5、explain命令查询执行计划 show profile查询执行的性能消耗</h5><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484461&idx=2&sn=5469534e2f370aba86c3a24a2ff52b70&chksm=ebd7452cdca0cc3ad456d695a78f48e72c245f85b4afb210fb7b62218e89785d964d72ec4891&token=620000779&lang=zh_CN&scene=21###wechat_redirect">面试前必须知道的MySQL命令【expalin】 -3y</a></p>
+<h5 id="6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间"><a href="#6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间" class="headerlink" title="6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间"></a>6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间</h5><h5 id="7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch"><a href="#7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch" class="headerlink" title="7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch"></a>7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch</h5><h5 id="8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据"><a href="#8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据" class="headerlink" title="8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据"></a>8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据</h5><h5 id="9、读写瓶颈问题"><a href="#9、读写瓶颈问题" class="headerlink" title="9、读写瓶颈问题"></a>9、读写瓶颈问题</h5><p>9.1 如果是单库的情况下，可以考虑读写分离，提升读/写的性能</p>
+<p>9.2 主从结构下还是存在瓶颈的话，可以考虑分库分表</p>
+<p>注意 分库分表下的id尽量保证递增</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+        <span class="nav-arrow">← </span>
+        
+          kafka-基础知识
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/MySQL%E4%B8%AD%E7%9A%84%E9%94%81%F0%9F%94%92/">
+        
+          MySQL中的锁🔒
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8%E3%80%90-%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95-%E3%80%91%E9%81%BF%E5%85%8D%E5%9B%9E%E8%A1%A8%E9%94%81%E9%80%A0%E6%88%90%E7%9A%84%E6%97%B6%E9%97%B4%E6%B6%88%E8%80%97"><span class="toc-nav-text">1、使用【 覆盖索引 】避免回表锁造成的时间消耗</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#2%E3%80%81%E4%BD%BF%E7%94%A8%E3%80%90-%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95-%E3%80%91%E5%8C%BA%E5%88%86%E5%BA%A6%E6%AF%94%E8%BE%83%E9%AB%98%E7%9A%84%E5%88%97%E6%94%BE%E5%88%B0%E5%89%8D%E9%9D%A2"><span class="toc-nav-text">2、使用【 联合索引 】区分度比较高的列放到前面</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#3%E3%80%81%E5%AF%B9%E7%B4%A2%E5%BC%95%E8%BF%9B%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AE%A1%E7%AE%97%E6%88%96%E8%80%85%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%BC%9A%E5%AF%BC%E8%87%B4%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88-%F0%9F%94%92"><span class="toc-nav-text">3、对索引进行函数计算或者表达式计算会导致索引失效 🔒</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#4%E3%80%81%E5%88%A9%E7%94%A8%E5%AD%90%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E8%B6%85%E5%A4%9A%E5%88%86%E9%A1%B5%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">4、利用子查询优化超多分页场景</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#5%E3%80%81explain%E5%91%BD%E4%BB%A4%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92-show-profile%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E7%9A%84%E6%80%A7%E8%83%BD%E6%B6%88%E8%80%97"><span class="toc-nav-text">5、explain命令查询执行计划 show profile查询执行的性能消耗</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#6%E3%80%81%E5%9C%A8%E4%BA%8B%E5%8A%A1%E5%BC%80%E5%A7%8B%E5%90%8E%EF%BC%8C%E4%BA%8B%E5%8A%A1%E5%86%85%E5%B0%BD%E5%8F%AF%E8%83%BD%E5%8F%AA%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%87%8F%E5%B0%91%E9%94%81%E6%8C%81%E6%9C%89%E6%97%B6%E9%97%B4"><span class="toc-nav-text">6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#7%E3%80%81%E5%B0%BD%E9%87%8F%E9%81%BF%E5%85%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9F%A5%E8%AF%A2%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%85%81%E8%AE%B8%E7%9A%84%E8%AF%9D%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8Elasticsearch"><span class="toc-nav-text">7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#8%E3%80%81%E5%A6%82%E6%9E%9C%E4%BC%98%E5%8C%96%E9%83%BD%E5%81%9A%E4%BA%86%E8%BF%98%E6%98%AF%E6%9F%A5%E8%AF%A2%E7%9A%84%E5%BE%88%E6%85%A2%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%B8%80%E4%BA%9B%E8%81%9A%E5%90%88%E8%A1%A8%EF%BC%8C%E7%BA%BF%E4%B8%8A%E7%9A%84%E4%B8%9A%E5%8A%A1%E7%9B%B4%E6%8E%A5%E6%9F%A5%E8%81%9A%E5%90%88%E4%B9%8B%E5%90%8E%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-nav-text">8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#9%E3%80%81%E8%AF%BB%E5%86%99%E7%93%B6%E9%A2%88%E9%97%AE%E9%A2%98"><span class="toc-nav-text">9、读写瓶颈问题</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/MySQL性能调优/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

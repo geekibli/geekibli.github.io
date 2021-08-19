@@ -1566,7 +1566,9 @@
   <entry>
     <title>Java内存模型</title>
     <url>/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><h2 id="什么是JMM"><a href="#什么是JMM" class="headerlink" title="什么是JMM?"></a>什么是JMM?</h2><p>Java Memory Model简称JMM, 是一系列的Java虚拟机平台对开发者提供的多线程环境下的内存可见性、是否可以重排序等问题的无关具体平台的统一的保证。(可能在术语上与Java运行时内存分布有歧义，后者指堆、方法区、线程栈等内存区域)。</p>
+    <content><![CDATA[<h1 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h1><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210818151542767.png" alt="image-20210818151542767" style="zoom:50%;" />
+
+<h2 id="什么是JMM"><a href="#什么是JMM" class="headerlink" title="什么是JMM?"></a>什么是JMM?</h2><p>Java Memory Model简称JMM, 是一系列的Java虚拟机平台对开发者提供的多线程环境下的内存可见性、是否可以重排序等问题的无关具体平台的统一的保证。(可能在术语上与Java运行时内存分布有歧义，后者指堆、方法区、线程栈等内存区域)。</p>
 <p> <strong>JMM规范的内容</strong>  </p>
 <ul>
 <li>所有变量存储在主内存  </li>
@@ -1625,6 +1627,7 @@
 <p>1、单线程每个操作，happen-before于该线程中任意后续操作；<br>2、volatile写happen-before与后续对这个变量的读；<br>3、synchronized解锁happen-before后续对这个锁的加锁；<br>4、final变量的写happen-before于final域对象的读，happen-before后续对final变量的读；<br>5、传递性规则，A先于B，B先于C，那么A一定先于C发生；  </p>
 <blockquote>
 <p><a href="https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1">https://www.processon.com/view/5c8b0978e4b0c996d363dcbc?fromnew=1</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzU4NzA3MTc5Mg==&mid=2247484606&idx=1&sn=42212c0ac1c123ebee1903d07f88b6db&chksm=fdf0ece1ca8765f7e623d2a3d19ff637d8f2449db0dea2bb63d87e11f63b482cf16c0a007faf&token=2087444891&lang=zh_CN&scene=21#wechat_redirect">深入理解Java内存模型-3y</a></p>
 </blockquote>
 ]]></content>
       <categories>
@@ -1766,14 +1769,48 @@
     <url>/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/</url>
     <content><![CDATA[<h2 id="ThreadLocalMap结构"><a href="#ThreadLocalMap结构" class="headerlink" title="ThreadLocalMap结构"></a>ThreadLocalMap结构</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b45487065b90?imageView2/0/w/1280/h/960/ignore-error/1'>
 
+<p>ThreadLocal底层实际上是依赖ThreadLocalMap来实现数据存储的，而ThreadLocalMap并不是真正的Map结构，它是基于ThreadLocalMap类中的内部类Entry类型的数组来实现。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">            <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">            Object value;</span><br><span class="line"></span><br><span class="line">            Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">                <span class="keyword">super</span>(k);</span><br><span class="line">                value = v;</span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它的key其实就是当前threadlocal变量，继承了WeakReference。然后<code>Object value;</code>实际存储的值。</p>
+<p>Thread类中有ThreadLocal类型的变量，如下👇</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="comment">/* ThreadLocal values pertaining to this thread. This map is maintained</span></span><br><span class="line"><span class="comment">   * by the ThreadLocal class. */</span></span><br><span class="line">  ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * InheritableThreadLocal values pertaining to this thread. This map is</span></span><br><span class="line"><span class="comment">   * maintained by the InheritableThreadLocal class.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="comment">// 子线程可以获取到inheritableThreadLocals中的值</span></span><br><span class="line">  ThreadLocal.ThreadLocalMap inheritableThreadLocals = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
 
 
 
+<p><font color=red><strong>为什么ThreadLocalMap使用ThreadLocal当作key而不是Thread呢？</strong></font></p>
+<p>1、因为一个线程可能会出现多个ThreadLocal变量，所以一个线程一个ThreadLocalMap（实质上是Entry数组）来存放多个ThreadLocal变量。</p>
+<p>2、倘若是Thread作为key，就会变成多个线程共同访问一个ThreadLocalMap，就会变成线程公用的变量，那个每个线程中可能存储多个ThreadLocal变量的情况下，Entry可能真的用到map结果才可以实现呀</p>
+<p>3、多个线程共同访问ThreadLocalMap，那么可能会出现ThreadLocalMap提及很大从而降低性能，而且何时销毁这个变量是无法确定的</p>
 <h2 id="ThreadLocal-set流程"><a href="#ThreadLocal-set流程" class="headerlink" title="ThreadLocal set流程"></a>ThreadLocal set流程</h2><img src='https://user-gold-cdn.xitu.io/2020/7/26/1738b454879fe57d?imageView2/0/w/1280/h/960/ignore-error/1'>
 
+<p>下面是set方法的源码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">        Thread t = Thread.currentThread();</span><br><span class="line">        ThreadLocalMap map = getMap(t);</span><br><span class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">            map.set(<span class="keyword">this</span>, value);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>set的操作就是向Entry数组中添加当前变量和值👇</p>
+<p>用数组是因为，我们开发过程中可以一个线程可以有多个TreadLocal来存放不同类型的对象的，但是他们都将放到你当前线程的ThreadLocalMap里，所以肯定要数组来存。</p>
+<p>至于Hash冲突，我们先看一下源码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(ThreadLocal&lt;?&gt; key, Object value)</span> </span>&#123;</span><br><span class="line">           Entry[] tab = table;</span><br><span class="line">            <span class="keyword">int</span> len = tab.length;</span><br><span class="line">            <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">for</span> (Entry e = tab[i];</span><br><span class="line">                 e != <span class="keyword">null</span>;</span><br><span class="line">                 e = tab[i = nextIndex(i, len)]) &#123;</span><br><span class="line">                ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (k == key) &#123;</span><br><span class="line">                    e.value = value;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    replaceStaleEntry(key, value, i);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            tab[i] = <span class="keyword">new</span> Entry(key, value);</span><br><span class="line">            <span class="keyword">int</span> sz = ++size;</span><br><span class="line">            <span class="keyword">if</span> (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)</span><br><span class="line">                rehash();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我从源码里面看到ThreadLocalMap在存储的时候会给每一个ThreadLocal对象一个threadLocalHashCode，在插入过程中，根据ThreadLocal对象的hash值，定位到table中的位置i，**int i = key.threadLocalHashCode &amp; (len-1)**。</p>
+<p>然后会判断一下：如果当前位置是空的，就初始化一个Entry对象放在位置i上；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123;</span><br><span class="line">    replaceStaleEntry(key, value, i);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果位置i不为空，如果这个Entry对象的key正好是即将设置的key，那么就刷新Entry中的value；</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (k == key) &#123;</span><br><span class="line">    e.value = value;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果位置i的不为空，而且key不等于entry，那就找下一个空位置，直到为空为止。</p>
+<h5 id="ThreadLocal是如何引起内存泄漏的？"><a href="#ThreadLocal是如何引起内存泄漏的？" class="headerlink" title="ThreadLocal是如何引起内存泄漏的？"></a><strong>ThreadLocal是如何引起内存泄漏的？</strong></h5><p>如上面Entry的源码大家也看到了，<code>static class Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt;</code></p>
+<p>一个ThreadLocal变量存在两条引用：</p>
+<p>1、ThreadLocalRef（栈）-》ThreadLocal（key）和 ThreadLocalMap -&gt; ThreadLocal（key）</p>
+<p>2、ThreadRef -&gt; Thread -&gt; ThreadLocalMap -&gt; Entry -&gt; Value</p>
+<p>内存泄漏值的是ThreadLocal被回收了，ThreadLocalMap -&gt; Entry -&gt; key没有了指向，但是Entry的value的指向还在，长期占用内存，就可能会导致内存泄漏。</p>
+<h5 id="如何避免内存泄漏"><a href="#如何避免内存泄漏" class="headerlink" title="如何避免内存泄漏"></a><strong>如何避免内存泄漏</strong></h5><p>ThreadLocal使用完之后及时remove</p>
+<h5 id="为什么建议ThreadLocal变量为static类型的"><a href="#为什么建议ThreadLocal变量为static类型的" class="headerlink" title="为什么建议ThreadLocal变量为static类型的"></a>为什么建议ThreadLocal变量为static类型的</h5><p>ThreadLocal能够实现线程隔离的关键在于Thread持有自己的一个ThreadLocalMap变量，需要每一个ThreadLocal变量占用一个Entry就可以了，没有必要作为成员变量频繁创建，浪费内存空间。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
 <ul>
 <li><a href="https://juejin.cn/post/6854573219916021767">Java面试必问：ThreadLocal终极篇 </a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzU4NzA3MTc5Mg==&mid=2247484118&idx=1&sn=9526a1dc0d42926dd9bcccfc55e6abc2&scene=21#wechat_redirect">【对线面试官】ThreadLocal</a></li>
 </ul>
 </blockquote>
 ]]></content>
@@ -2520,7 +2557,7 @@
   <entry>
     <title>Mysql-事务特性与实现原理</title>
     <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h1 id="事务特性与实现原理"><a href="#事务特性与实现原理" class="headerlink" title="事务特性与实现原理"></a>事务特性与实现原理</h1><h2 id="事务特性"><a href="#事务特性" class="headerlink" title="事务特性"></a>事务特性</h2><blockquote>
+    <content><![CDATA[<h1 id="MySQL事务特性与实现原理"><a href="#MySQL事务特性与实现原理" class="headerlink" title="MySQL事务特性与实现原理"></a>MySQL事务特性与实现原理</h1><h2 id="1-事务特性"><a href="#1-事务特性" class="headerlink" title="1. 事务特性"></a>1. 事务特性</h2><blockquote>
 <p>原子性(Atomicity)</p>
 </blockquote>
 <p>事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。</p>
@@ -2537,20 +2574,37 @@
 </blockquote>
 <p>事务一旦提交,其对数据库的更新就是持久的。任何事务或系统故障都不会导致数据丢失。</p>
 <p>在事务的ACID特性中,C即一致性是事务的根本追求,而对数据一致性的破坏主要来自两个方面<br>1.事务的并发执行<br>2.事务故障或系统故障</p>
-<h2 id="事务实现原理"><a href="#事务实现原理" class="headerlink" title="事务实现原理"></a>事务实现原理</h2><img src="https://oscimg.oschina.net/oscnet/up-7b54f7847cee22930ec53a4058179a2b531.png" width=460 height=300>
+<h2 id="2-事务实现原理"><a href="#2-事务实现原理" class="headerlink" title="2. 事务实现原理"></a>2. 事务实现原理</h2><img src="https://oscimg.oschina.net/oscnet/up-7b54f7847cee22930ec53a4058179a2b531.png" width=460 height=300>
 
 <ul>
 <li>并发控制技术保证了事务的隔离性,使数据库的一致性状态不会因为并发执行的操作被破坏。</li>
 <li>日志恢复技术保证了事务的原子性,使一致性状态不会因事务或系统故障被破坏。同时使已提交的对数据库的修改不会因系统崩溃而丢失,保证了事务的持久性。</li>
 </ul>
-<h3 id="回滚日志（undo）"><a href="#回滚日志（undo）" class="headerlink" title="回滚日志（undo）"></a>回滚日志（undo）</h3><p>undo log属于 「 逻辑日志 」，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
+<h3 id="2-1-回滚日志（undo）"><a href="#2-1-回滚日志（undo）" class="headerlink" title="2.1 回滚日志（undo）"></a>2.1 回滚日志（undo）</h3><p>undo log属于 「 逻辑日志 」，它记录的是sql执行相关的信息。当发生回滚时，InnoDB会根据undo log的内容做与之前相反的工作：对于每个insert，回滚时会执行delete；对于每个delete，回滚时会执行insert；对于每个update，回滚时会执行一个相反的update，把数据改回去。</p>
 <p>undo log用于存放数据被修改前的值，如果修改出现异常，可以使用undo日志来实现回滚操作，保证事务的一致性。另外InnoDB MVCC事务特性也是基于undo日志实现的。</p>
 <p>因此，undo log有两个作用：提供回滚和多个行版本控制(MVCC)。</p>
-<h3 id="重做日志（redo）"><a href="#重做日志（redo）" class="headerlink" title="重做日志（redo）"></a>重做日志（redo）</h3><p>redo log重做日志记录的是新数据的备份，属于物理日志。在事务提交前，只要将redo log持久化即可，不需要将数据持久化。当系统崩溃时，虽然数据没有持久化，但是redo log已经持久化。系统可以根据redo log的内容，将所有数据恢复到最新的状态。</p>
+<h3 id="2-2-重做日志（redo）"><a href="#2-2-重做日志（redo）" class="headerlink" title="2.2 重做日志（redo）"></a>2.2 重做日志（redo）</h3><p>redo log重做日志记录的是新数据的备份，属于物理日志。在事务提交前，只要将redo log持久化即可，不需要将数据持久化。当系统崩溃时，虽然数据没有持久化，但是redo log已经持久化。系统可以根据redo log的内容，将所有数据恢复到最新的状态。</p>
 <p>redo log包括两部分：一是内存中的日志缓冲(redo log buffer)，该部分日志是易失性的；二是磁盘上的重做日志文件(redo log file)，该部分日志是持久的。</p>
 <p>MySQL中redo log刷新规则采用一种称为Checkpoint的机制（利用LSN实现），为了确保安全性，又引入double write机制。</p>
 <h2 id="事务基本操作"><a href="#事务基本操作" class="headerlink" title="事务基本操作"></a>事务基本操作</h2><p>开启事务：start transaction<br>回滚事务：rollback<br>提交事务：commit</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html">1、详细分析MySQL事务日志(redo log和undo log)</a><br><a href="https://www.cnblogs.com/takumicx/p/9998844.html">2、数据库事务的概念及其实现原理</a><br><a href="https://zhuanlan.zhihu.com/p/281927963">3、数据库事务实现原理</a></p>
+<h2 id="数据库隔离级别"><a href="#数据库隔离级别" class="headerlink" title="数据库隔离级别"></a>数据库隔离级别</h2><p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。</p>
+<h3 id="Read-Uncommitted（读取未提交内容）"><a href="#Read-Uncommitted（读取未提交内容）" class="headerlink" title="Read Uncommitted（读取未提交内容）"></a>Read Uncommitted（读取未提交内容）</h3><p>在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
+<h3 id="Read-Committed（读取提交内容）"><a href="#Read-Committed（读取提交内容）" class="headerlink" title="Read Committed（读取提交内容）"></a>Read Committed（读取提交内容）</h3><p>这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
+<h3 id="Repeatable-Read（可重读）"><a href="#Repeatable-Read（可重读）" class="headerlink" title="Repeatable Read（可重读）"></a>Repeatable Read（可重读）</h3><p>这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
+<h3 id="Serializable（可串行化）"><a href="#Serializable（可串行化）" class="headerlink" title="Serializable（可串行化）"></a>Serializable（可串行化）</h3><p>这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
+<h3 id="事务隔离级别产生的问题"><a href="#事务隔离级别产生的问题" class="headerlink" title="事务隔离级别产生的问题"></a>事务隔离级别产生的问题</h3><img src="https://oscimg.oschina.net/oscnet/up-ee3cb778a32220ff81103f9163d22f774b2.png"> 
+
+<h4 id="脏读-Drity-Read"><a href="#脏读-Drity-Read" class="headerlink" title="脏读(Drity Read)"></a>脏读(Drity Read)</h4><p>某个事务已更新一份数据，另一个事务在此时读取了同一份数据，由于某些原因，前一个RollBack了操作，则后一个事务所读取的数据就会是不正确的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新update price=120，但是此时的事务B还未commit</span><br><span class="line">事务A读取的price=120</span><br><span class="line">事务B-&gt;rollback操作</span><br><span class="line">事务A读取到的是脏数据</span><br></pre></td></tr></table></figure>
+
+<h4 id="不可重复读-Non-repeatable-read"><a href="#不可重复读-Non-repeatable-read" class="headerlink" title="不可重复读(Non-repeatable read)"></a>不可重复读(Non-repeatable read)</h4><p>在一个事务的两次查询之中数据不一致，这可能是两次查询过程中间插入了一个事务更新的原有的数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新update price=120，并commit</span><br><span class="line">事务A读取的price=120</span><br><span class="line">事务A多次读取的结果不一致</span><br></pre></td></tr></table></figure>
+
+<h4 id="幻读-Phantom-Read"><a href="#幻读-Phantom-Read" class="headerlink" title="幻读(Phantom Read)"></a>幻读(Phantom Read)</h4><p><font color=red >幻读和不可重复读的区别在于，幻读主要表现在数据的删除和插入，而不可重复读表现在数据的更新。</font></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新delete price=100 这条记录，并commit</span><br><span class="line">事务A读取的price=100</span><br><span class="line">price这条记录已经不存在，但是事务A还是可以读取到</span><br></pre></td></tr></table></figure>
+
+<p>1、在可重复读隔离级别下，普通查询是快照读，是不会看到别的事务插入的数据的，幻读只在当前读下才会出现。<br>2、幻读专指新插入的行，读到原本存在行的更新结果不算。因为当前读的作用就是能读到所有已经提交记录的最新值。 </p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://www.cnblogs.com/f-ck-need-u/archive/2018/05/08/9010872.html">详细分析MySQL事务日志(redo log和undo log)</a><br><a href="https://www.cnblogs.com/takumicx/p/9998844.html">数据库事务的概念及其实现原理</a><br><a href="https://zhuanlan.zhihu.com/p/281927963">数据库事务实现原理</a><br><a href="https://blog.csdn.net/xiewenfeng520/article/details/99407038">mysql数据库的隔离级别</a><br><a href="https://blog.csdn.net/sinat_15805929/article/details/91127491">MYSQL数据库的四种隔离级别</a><br><a href="https://www.jianshu.com/p/c53c8ab650b5">MySQL幻读</a><br><a href="https://mp.weixin.qq.com/s?__biz=MzU4NzA3MTc5Mg==&mid=2247484480&idx=1&sn=3571b89575e8c37c114c9f290b953a1c&chksm=fdf0ec1fca87650913e6673a453d0ba1614341433aa67dd9977fef7231a3d825f7da4e4a132a&token=1651214636&lang=zh_CN&scene=21#wechat_redirect">MySQL 事务&amp;&amp;锁机制&amp;&amp;MVCC</a></p>
 ]]></content>
       <categories>
         <category>DataBase</category>
@@ -2559,57 +2613,6 @@
       <tags>
         <tag>MySQL</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Mysql-事务隔离级别</title>
-    <url>/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
-    <content><![CDATA[<h1 id="数据库隔离级别"><a href="#数据库隔离级别" class="headerlink" title="数据库隔离级别"></a>数据库隔离级别</h1><p>SQL标准定义了4类隔离级别，包括了一些具体规则，用来限定事务内外的哪些改变是可见的，哪些是不可见的。低级别的隔离级一般支持更高的并发处理，并拥有更低的系统开销。另外，这篇分布式事务不理解？一次给你讲清楚！推荐大家阅读。</p>
-<blockquote>
-<p>Read Uncommitted（读取未提交内容）</p>
-</blockquote>
-<p>在该隔离级别，所有事务都可以看到其他未提交事务的执行结果。本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少。读取未提交的数据，也被称之为脏读（Dirty Read）。</p>
-<blockquote>
-<p>Read Committed（读取提交内容）</p>
-</blockquote>
-<p>这是大多数数据库系统的默认隔离级别（但不是MySQL默认的）。它满足了隔离的简单定义：一个事务只能看见已经提交事务所做的改变。这种隔离级别 也支持所谓的不可重复读（Nonrepeatable Read），因为同一事务的其他实例在该实例处理其间可能会有新的commit，所以同一select可能返回不同结果。</p>
-<blockquote>
-<p>Repeatable Read（可重读）</p>
-</blockquote>
-<p>这是MySQL的默认事务隔离级别，它确保同一事务的多个实例在并发读取数据时，会看到同样的数据行。不过理论上，这会导致另一个棘手的问题：幻读 （Phantom Read）。简单的说，幻读指当用户读取某一范围的数据行时，另一个事务又在该范围内插入了新行，当用户再读取该范围的数据行时，会发现有新的“幻影” 行。InnoDB和Falcon存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）机制解决了该问题。</p>
-<blockquote>
-<p>Serializable（可串行化）</p>
-</blockquote>
-<p>这是最高的隔离级别，它通过强制事务排序，使之不可能相互冲突，从而解决幻读问题。简言之，它是在每个读的数据行上加上共享锁。在这个级别，可能导致大量的超时现象和锁竞争。</p>
-<h2 id="事务隔离级别产生的问题"><a href="#事务隔离级别产生的问题" class="headerlink" title="事务隔离级别产生的问题"></a>事务隔离级别产生的问题</h2><img src="https://oscimg.oschina.net/oscnet/up-ee3cb778a32220ff81103f9163d22f774b2.png"> 
-
-
-<blockquote>
-<p>脏读(Drity Read)</p>
-</blockquote>
-<p>某个事务已更新一份数据，另一个事务在此时读取了同一份数据，由于某些原因，前一个RollBack了操作，则后一个事务所读取的数据就会是不正确的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新update price=120，但是此时的事务B还未commit</span><br><span class="line">事务A读取的price=120</span><br><span class="line">事务B-&gt;rollback操作</span><br><span class="line">事务A读取到的是脏数据</span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
-<p>不可重复读(Non-repeatable read)</p>
-</blockquote>
-<p>在一个事务的两次查询之中数据不一致，这可能是两次查询过程中间插入了一个事务更新的原有的数据。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新update price=120，并commit</span><br><span class="line">事务A读取的price=120</span><br><span class="line">事务A多次读取的结果不一致</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>幻读(Phantom Read) </p>
-</blockquote>
-<p><font color=red >幻读和不可重复读的区别在于，幻读主要表现在数据的删除和插入，而不可重复读表现在数据的更新。</font></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">事务A第一次读取到price=100</span><br><span class="line">同时事务B更新delete price=100 这条记录，并commit</span><br><span class="line">事务A读取的price=100</span><br><span class="line">price这条记录已经不存在，但是事务A还是可以读取到</span><br></pre></td></tr></table></figure>
-
-<p>1、在可重复读隔离级别下，普通查询是快照读，是不会看到别的事务插入的数据的，幻读只在当前读下才会出现。<br>　　2、幻读专指新插入的行，读到原本存在行的更新结果不算。因为当前读的作用就是能读到所有已经提交记录的最新值。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/xiewenfeng520/article/details/99407038">1、mysql数据库的隔离级别</a><br><a href="https://blog.csdn.net/sinat_15805929/article/details/91127491">2、MYSQL数据库的四种隔离级别</a><br><a href="https://www.jianshu.com/p/c53c8ab650b5">3、MySQL幻读
-</a></p>
-]]></content>
-      <categories>
-        <category>DataBase</category>
-        <category>MySQL</category>
-      </categories>
   </entry>
   <entry>
     <title>Parameter index out of range (1 &gt; number of parameters, which is 0).</title>
@@ -4992,7 +4995,7 @@
   <entry>
     <title>Welcome to GeekIBLi</title>
     <url>/wiki/index/</url>
-    <content><![CDATA[<h2 id="道阻-且长"><a href="#道阻-且长" class="headerlink" title="道阻 且长"></a>道阻 且长</h2><h2 id="不错的学习网站推荐"><a href="#不错的学习网站推荐" class="headerlink" title="不错的学习网站推荐"></a>不错的学习网站推荐</h2><p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a><br><a href="https://www.pdai.tech/">Java 全栈知识体系</a><br><a href="https://github.com/crossoverJie/JCSprout">https://github.com/crossoverJie/JCSprout</a><br><a href="https://github.com/ZhongFuCheng3y/3y">https://github.com/ZhongFuCheng3y/3y</a> ‼️</p>
+    <content><![CDATA[<h2 id="道阻-且长"><a href="#道阻-且长" class="headerlink" title="道阻 且长"></a>道阻 且长</h2><h2 id="不错的学习网站推荐"><a href="#不错的学习网站推荐" class="headerlink" title="不错的学习网站推荐"></a>不错的学习网站推荐</h2><p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a><br><a href="https://www.pdai.tech/">Java 全栈知识体系</a><br><a href="https://github.com/crossoverJie/JCSprout">https://github.com/crossoverJie/JCSprout</a><br><a href="https://github.com/ZhongFuCheng3y/3y">https://github.com/ZhongFuCheng3y/3y</a> ‼️<br><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU0ODMyNDk0Mw==&action=getalbum&album_id=1360108212447526913&scene=173&from_msgid=2247488558&from_itemidx=1&count=3&nolastread=1#wechat_redirect">算法图文分析</a></p>
 <h2 id="工具网站"><a href="#工具网站" class="headerlink" title="工具网站"></a>工具网站</h2><p><a href="https://www.processon.com/u/5b3adb64e4b0a8a7ffc22b90">ProcessOn</a><br><a href="https://www.slidestalk.com/">示说</a></p>
 <blockquote>
 <p>「 提供了很多优质的PPT 还有很多大厂的沙龙视屏以及材料」</p>
@@ -6303,7 +6306,11 @@ https://juejin.cn/post/6885159254764814349
   <entry>
     <title>操作系统-死锁</title>
     <url>/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E6%AD%BB%E9%94%81/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+    <content><![CDATA[<h2 id="造成死锁的原因"><a href="#造成死锁的原因" class="headerlink" title="造成死锁的原因"></a>造成死锁的原因</h2><p>当前线程拥有其他线程需要的资源，当前线程等待其他线程释放资源，线程持有资源不可剥夺，线程一直循环等待。</p>
+<h2 id="避免死锁的方法"><a href="#避免死锁的方法" class="headerlink" title="避免死锁的方法"></a>避免死锁的方法</h2><p>1、固定加锁的顺序</p>
+<p>2、尽可能缩小锁范围，减少锁粒度</p>
+<p>3、使用可释放的定时锁（申请一段时间，超时之后，放弃）</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
 <ul>
 <li><a href="https://www.jianshu.com/p/44125bb12ebf">死锁是什么？如何避免死锁？</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98">哲学家就餐问题</a></li>
@@ -6321,7 +6328,9 @@ https://juejin.cn/post/6885159254764814349
   <entry>
     <title>操作系统进程调度策略</title>
     <url>/wiki/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5/</url>
-    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+    <content><![CDATA[<h1 id="操作系统进程调度策略"><a href="#操作系统进程调度策略" class="headerlink" title="操作系统进程调度策略"></a>操作系统进程调度策略</h1><h2 id="1-什么是进程"><a href="#1-什么是进程" class="headerlink" title="1. 什么是进程"></a>1. 什么是进程</h2><p>进程是操作系统进行<strong>资源分配</strong>的基本单位，每个进程都有它自己的内存空间和系统资源。进程实现了多处理机环境下进程调度，分派，切换时，都需要花费较大的时间和空间开销；</p>
+<p>为了提升系统的执行效率，减少CPU的空转时间和调度切换的时间，以便于系统的管理，所以有了线程的概念，线程是系统进行<strong>资源调度</strong>的最小单位。一个进程包含一个或者多个线程，一个进程下的线程共享这个进程的资源。进程与进程之间的资源是不共享的，线程和线程之间的资源也是不共享的。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
 <ul>
 <li><a href="https://blog.csdn.net/qq_35642036/article/details/82809812">操作系统中的进程调度策略有哪几种</a></li>
 <li><a href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"></a></li>
@@ -7258,7 +7267,7 @@ https://juejin.cn/post/6885159254764814349
 <p>JVM规范对于垃圾收集器的应该如何实现没有任何规定，因此不同的厂商、不同版本的虚拟机所提供的垃圾收集器差别较大，这里只看HotSpot虚拟机。 就像没有最好的算法一样，垃圾收集器也没有最好，只有最合适。我们能做的就是根据具体的应用场景选择最合适的垃圾收集器。</p>
 <img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210731155230422.png" alt="image-20210731155230422" style="zoom: 33%;" />
 
-<p>上图展示了7种作用于不同分代的收集器，其中用于回收新生代的收集器包括Serial、PraNew、Parallel Scavenge，回收老年代的收集器包括Serial Old、Parallel Old、CMS，还有用于回收整个Java堆的G1收集器。不同收集器之间的连线表示它们可以搭配使用。</p>
+<p>​    上图展示了7种作用于不同分代的收集器，其中用于回收新生代的收集器包括Serial、PraNew、Parallel Scavenge，回收老年代的收集器包括Serial Old、Parallel Old、CMS，还有用于回收整个Java堆的G1收集器。不同收集器之间的连线表示它们可以搭配使用。</p>
 <h1 id="2、串行，并行和并发"><a href="#2、串行，并行和并发" class="headerlink" title="2、串行，并行和并发"></a>2、串行，并行和并发</h1><h2 id="2-1-串行"><a href="#2-1-串行" class="headerlink" title="2.1 串行"></a>2.1 串行</h2><p>计算机中的串行是用 Serial 表示。A 和 B 两个任务运行在一个 CPU 线程上，在 A 任务执行完之前不可以执行 B。即，在整个程序的运行过程中，仅存在一个运行上下文，即一个调用栈一个堆。程序会按顺序执行每个指令。</p>
 <h2 id="2-2-并行"><a href="#2-2-并行" class="headerlink" title="2.2 并行"></a>2.2 并行</h2><p>并行性指两个或两个以上事件或活动在同一时刻发生。在多道程序环境下，<strong>并行性使多个程序同一时刻可在不同 CPU 上同时执行</strong>。比如，A 和 B 两个任务可以同时运行在不同的 CPU 线程上，效率较高，但受限于 CPU 线程数，如果任务数量超过了 CPU 线程数，那么每个线程上的任务仍然是顺序执行的。</p>
 <h2 id="2-3-并发"><a href="#2-3-并发" class="headerlink" title="2.3 并发"></a>2.3 并发</h2><p>并发指多个线程在宏观(相对于较长的时间区间而言)上表现为同时执行，而实际上是轮流穿插着执行，<strong>并发的实质是一个物理 CPU 在若干道程序之间多路复用</strong>，其目的是提高有限物理资源的运行效率。 并发与并行串行并不是互斥的概念，如果是在一个CPU线程上启用并发，那么自然就还是串行的，而如果在多个线程上启用并发，那么程序的执行就可以是既并发又并行的。</p>
@@ -8292,6 +8301,8 @@ https://juejin.cn/post/6885159254764814349
     <title>Java并发编程之ConcurrentHashMap实现原理</title>
     <url>/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BConcurrentHashMap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</url>
     <content><![CDATA[<h1 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h1><p>Map应该是我们平时开发过程中除了List使用的第二频繁的数据结构了吧，我们都知道HashMap无法在多线程环境下保证安全，那我们可以使用什么来代替HashMap呢，有两个选择，HashTable和ConcurrentHashMap,由于HashTable的性能相对比较低，我们一般都使用ConcurrentHashMap来代替HashMap。</p>
+<img src="/Users/gaolei/Library/Application Support/typora-user-images/image-20210819174036440.png" alt="image-20210819174036440" style="zoom: 33%;" />
+
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="HashTable-amp-HashMap"><a href="#HashTable-amp-HashMap" class="headerlink" title="HashTable&amp;HashMap"></a>HashTable&amp;HashMap</h3><p><code>HashTable</code>的<code>put</code>, <code>get</code>,<code>remove</code>等方法是通过<code>synchronized</code>来修饰保证其线程安全性的。</p>
 <p><code>HashTable</code>是 不允许key跟value为null的。</p>
 <p>问题是<code>synchronized</code>是个关键字级别的==重量锁==，在get数据的时候任何写入操作都不允许。相对来说性能不好。</p>
@@ -8380,6 +8391,7 @@ https://juejin.cn/post/6885159254764814349
 <p><a href="https://juejin.cn/post/6871793103020556295">https://juejin.cn/post/6871793103020556295</a></p>
 <p><a href="https://juejin.cn/post/6844903641866846222">https://juejin.cn/post/6844903641866846222</a></p>
 <p><a href="https://juejin.cn/post/6844903602423595015">https://juejin.cn/post/6844903602423595015</a></p>
+<p><a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484161&idx=1&sn=6f52fb1f714f3ffd2f96a5ee4ebab146&chksm=ebd74200dca0cb16288db11f566cb53cafc580e08fe1c570e0200058e78676f527c014ffef41&scene=21###wechat_redirect">ConcurrentHashMap基于JDK1.8</a></p>
 ]]></content>
       <tags>
         <tag>多线程</tag>
@@ -8527,6 +8539,83 @@ https://juejin.cn/post/6885159254764814349
 ]]></content>
       <tags>
         <tag>Apache Flink</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring-事务隔离</title>
+    <url>/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://juejin.cn/post/6854573219916021767">https://juejin.cn/post/6854573219916021767</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>kafka-基础知识</title>
+    <url>/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    <content><![CDATA[<h2 id="kafka是什么"><a href="#kafka是什么" class="headerlink" title="kafka是什么"></a>kafka是什么</h2><h2 id="kafka运行时架构"><a href="#kafka运行时架构" class="headerlink" title="kafka运行时架构"></a>kafka运行时架构</h2><h2 id="kafka为什么能承载高并发"><a href="#kafka为什么能承载高并发" class="headerlink" title="kafka为什么能承载高并发"></a>kafka为什么能承载高并发</h2><h2 id="kafka的确认机制是什么"><a href="#kafka的确认机制是什么" class="headerlink" title="kafka的确认机制是什么"></a>kafka的确认机制是什么</h2><h2 id="kafka如何保证消息准确"><a href="#kafka如何保证消息准确" class="headerlink" title="kafka如何保证消息准确"></a>kafka如何保证消息准确</h2><p>kafka会丢消息吗？</p>
+<p>kafka会重复消费消息吗</p>
+<p>幂等性</p>
+<h2 id="消息顺序消费问题"><a href="#消息顺序消费问题" class="headerlink" title="消息顺序消费问题"></a>消息顺序消费问题</h2><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzU4NzA3MTc5Mg==&mid=2247484387&idx=1&sn=5bb2ba58776e65f53b091a4bcdb73755&chksm=fdf0ebbcca8762aadc359066ecd70274fa23ee846f9ba9114017402dcbed415f25f97d3020a6&token=1131755397&lang=zh_CN&scene=21#wechat_redirect">kafka基础知识 - yyy</a></p>
+]]></content>
+      <tags>
+        <tag>kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL性能调优</title>
+    <url>/wiki/MySQL%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</url>
+    <content><![CDATA[<h5 id="1、使用【-覆盖索引-】避免回表锁造成的时间消耗"><a href="#1、使用【-覆盖索引-】避免回表锁造成的时间消耗" class="headerlink" title="1、使用【 覆盖索引 】避免回表锁造成的时间消耗"></a>1、使用【 覆盖索引 】避免回表锁造成的时间消耗</h5><p>1、查询语句的时候避免使用select * </p>
+<p>2、创建索引添加适当的列避免回表</p>
+<h5 id="2、使用【-联合索引-】区分度比较高的列放到前面"><a href="#2、使用【-联合索引-】区分度比较高的列放到前面" class="headerlink" title="2、使用【 联合索引 】区分度比较高的列放到前面"></a>2、使用【 联合索引 】区分度比较高的列放到前面</h5><p>注意联合索引的最左匹配原则</p>
+<h5 id="3、对索引进行函数计算或者表达式计算会导致索引失效-🔒"><a href="#3、对索引进行函数计算或者表达式计算会导致索引失效-🔒" class="headerlink" title="3、对索引进行函数计算或者表达式计算会导致索引失效 🔒"></a>3、对索引进行函数计算或者表达式计算会导致索引失效 🔒</h5><h5 id="4、利用子查询优化超多分页场景"><a href="#4、利用子查询优化超多分页场景" class="headerlink" title="4、利用子查询优化超多分页场景"></a>4、利用子查询优化超多分页场景</h5><h5 id="5、explain命令查询执行计划-show-profile查询执行的性能消耗"><a href="#5、explain命令查询执行计划-show-profile查询执行的性能消耗" class="headerlink" title="5、explain命令查询执行计划 show profile查询执行的性能消耗"></a>5、explain命令查询执行计划 show profile查询执行的性能消耗</h5><p><a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484461&idx=2&sn=5469534e2f370aba86c3a24a2ff52b70&chksm=ebd7452cdca0cc3ad456d695a78f48e72c245f85b4afb210fb7b62218e89785d964d72ec4891&token=620000779&lang=zh_CN&scene=21###wechat_redirect">面试前必须知道的MySQL命令【expalin】 -3y</a></p>
+<h5 id="6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间"><a href="#6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间" class="headerlink" title="6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间"></a>6、在事务开始后，事务内尽可能只操作数据库，减少锁持有时间</h5><h5 id="7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch"><a href="#7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch" class="headerlink" title="7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch"></a>7、尽量避免字符串查询，如果允许的话可以使用Elasticsearch</h5><h5 id="8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据"><a href="#8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据" class="headerlink" title="8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据"></a>8、如果优化都做了还是查询的很慢，可以做一些聚合表，线上的业务直接查聚合之后的数据</h5><h5 id="9、读写瓶颈问题"><a href="#9、读写瓶颈问题" class="headerlink" title="9、读写瓶颈问题"></a>9、读写瓶颈问题</h5><p>9.1 如果是单库的情况下，可以考虑读写分离，提升读/写的性能</p>
+<p>9.2 主从结构下还是存在瓶颈的话，可以考虑分库分表</p>
+<p>注意 分库分表下的id尽量保证递增</p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL中的锁🔒</title>
+    <url>/wiki/MySQL%E4%B8%AD%E7%9A%84%E9%94%81%F0%9F%94%92/</url>
+    <content><![CDATA[<p>乐观锁和悲观锁</p>
+<h3 id="表锁和行锁"><a href="#表锁和行锁" class="headerlink" title="表锁和行锁"></a>表锁和行锁</h3><blockquote>
+<p><strong>表锁</strong>： 开销小，加锁快；不会出现死锁；锁定力度大，发生锁冲突概率高，并发度最低</p>
+</blockquote>
+<p>表锁按照数据操作可以分成两种：</p>
+<ul>
+<li>表读锁（Table Read Lock）</li>
+<li>表写锁（Table Write Lock</li>
+</ul>
+<p>读读不阻塞：当前用户在读数据，其他的用户也在读数据，不会加锁</p>
+<p>读写阻塞：当前用户在读数据，其他的用户<strong>不能修改当前用户读的数据</strong>，会加锁！</p>
+<p>写写阻塞：当前用户在修改数据，其他的用户<strong>不能修改当前用户正在修改的数据</strong>，会加锁！</p>
+<blockquote>
+<p><strong>行锁</strong>： 开销大，加锁慢；会出现死锁；锁定粒度小，发生锁冲突的概率低，并发度高</p>
+</blockquote>
+<p>InnoDB实现了以下<strong>两种</strong>类型的行锁。</p>
+<ul>
+<li><p>共享锁（S锁）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。</p>
+</li>
+<li><p>也叫做<strong>读锁</strong>：读锁是<strong>共享</strong>的，多个客户可以<strong>同时读取同一个</strong>资源，但<strong>不允许其他客户修改</strong>。</p>
+</li>
+<li><p>排他锁（X锁)：允许获得排他锁的事务更新数据，阻止其他事务取得相同数据集的共享读锁和排他写锁。</p>
+</li>
+<li><p>也叫做<strong>写锁</strong>：写锁是排他的，<strong>写锁会阻塞其他的写锁和读锁</strong>。</p>
+</li>
+</ul>
+<p>另外，<strong>为了允许行锁和表锁共存，实现多粒度锁机制</strong>，InnoDB还有两种内部使用的意向锁（Intention Locks），这两种意向锁都是<strong>表锁</strong>：</p>
+<ul>
+<li>意向共享锁（IS）：事务打算给数据行加行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁。</li>
+<li>意向排他锁（IX）：事务打算给数据行加行排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁。</li>
+<li>意向锁也是数据库隐式帮我们做了，<strong>不需要程序员操心</strong>！</li>
+</ul>
+<p>⚠️ <strong>InnoDB行锁和表锁都支持</strong>！<font color=red><strong>MyISAM只支持表锁</strong>！</font></p>
+<h3 id="innoDB什么时候会使用到行锁？"><a href="#innoDB什么时候会使用到行锁？" class="headerlink" title="innoDB什么时候会使用到行锁？"></a>innoDB什么时候会使用到行锁？</h3><p>InnoDB只有通过<strong>索引条件</strong>检索数据<strong>才使用行级锁</strong>，否则，InnoDB将使用<strong>表锁</strong></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484721&idx=1&sn=410dea1863ba823bec802769e1e6fe8a&chksm=ebd74430dca0cd265a9a91dcb2059e368f43a25f3de578c9dbb105e1fba0947e1fd0b9c2f4ef&token=1676899695&lang=zh_CN###rd">数据库两大神器【索引和锁】</a></p>
+<p><a href="https://geekibli.github.io/wiki/mysql%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">基于数据表乐观锁实现分布式锁</a></p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
 </search>

@@ -175,6 +175,8 @@
   <!-- Article START -->
   <article class="post-article">
     <section class="markdown-content"><h1 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h1><p>Map应该是我们平时开发过程中除了List使用的第二频繁的数据结构了吧，我们都知道HashMap无法在多线程环境下保证安全，那我们可以使用什么来代替HashMap呢，有两个选择，HashTable和ConcurrentHashMap,由于HashTable的性能相对比较低，我们一般都使用ConcurrentHashMap来代替HashMap。</p>
+<img src="/Users/gaolei/Library/Application Support/typora-user-images/image-20210819174036440.png" alt="image-20210819174036440" style="zoom: 33%;" />
+
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="HashTable-amp-HashMap"><a href="#HashTable-amp-HashMap" class="headerlink" title="HashTable&amp;HashMap"></a>HashTable&amp;HashMap</h3><p><code>HashTable</code>的<code>put</code>, <code>get</code>,<code>remove</code>等方法是通过<code>synchronized</code>来修饰保证其线程安全性的。</p>
 <p><code>HashTable</code>是 不允许key跟value为null的。</p>
 <p>问题是<code>synchronized</code>是个关键字级别的==重量锁==，在get数据的时候任何写入操作都不允许。相对来说性能不好。</p>
@@ -263,6 +265,7 @@
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6871793103020556295">https://juejin.cn/post/6871793103020556295</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903641866846222">https://juejin.cn/post/6844903641866846222</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903602423595015">https://juejin.cn/post/6844903602423595015</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484161&idx=1&sn=6f52fb1f714f3ffd2f96a5ee4ebab146&chksm=ebd74200dca0cb16288db11f566cb53cafc580e08fe1c570e0200058e78676f527c014ffef41&scene=21###wechat_redirect">ConcurrentHashMap基于JDK1.8</a></p>
 </section>
     <!-- Tags START -->
     
