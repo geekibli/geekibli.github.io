@@ -168,6 +168,115 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Flink-UDF函数类</a>
+      </h2>
+      <p class="article-date">August 12, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          函数类比如说我们常用的MapFunction，FilterFunction，ProcessFunction等，每一步操作都基本上都对应一个Function。
+12345678910public static class MyFlatMapper implements FlatMapFunct ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Flink-到底支持多少种数据类型</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Flink支持所有的Java和Scala基础数据类型以及其包装类型
+支持Tuple元组类型，Flink在Java API中定义了很多Tuple的实现类，从Tuple0 ~ Tuple25类型
+Scala样例类 case class，对应Java中的POJO类对象(必须提供无参构造方法 get ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Flink-如何读取数据源（集合｜文件｜自定义｜Kafka等）</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          读取文件这里是以txt文件为例，实现WordCount，其他文件类型同理。
+12345678910111213141516171819202122232425 public static void main(String[] args) throws Exception &#123;     ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E7%AE%97%E5%AD%90%E9%83%BD%E5%9C%A8%E8%BF%99/">Flink-你所知道的算子都在这</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          好了，看到这的话，Apache Flink基础概念啥的都应该了解差不多了吧，我们几天就See一下，平时用到的StreamApi中各式各样的算子都有什么，然后，我们搞点Demo试一下。
+📒 我也是边学边实现一些Demo,这样呢可以方便自己理解，形成体系以后也应该能帮到别人快速学习吧。
+这就是 ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E7%AE%97%E5%AD%90%E9%83%BD%E5%9C%A8%E8%BF%99/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">Flink-核心之Windows窗口</a>
+      </h2>
+      <p class="article-date">August 10, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          什么是窗口
+窗口分配器有几种
+窗口如何实现增量计算和全量计算
+
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">设计模式之美-门面模式</a>
       </h2>
       <p class="article-date">August 7, 2021</p>
@@ -276,114 +385,6 @@ Component 抽象构件
         
       </div>
       <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">设计模式之美-策略模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          策略模式策略模式（Strategy Pattern）也叫做政策模式（Policy Pattern）,它是将定义的算法封装起来，让它们之间可以相互替换，从而让算法的变化不影响到使用算法的用户；它属于行为型模式。可以在一定程度上规避if-else/switch等策略模式使用的面向对象的继承和多态 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">设计模式之美-桥接模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          桥接模式（Bridge Pattern）桥接模式也称为桥梁模式，接口（Integer）模式或者柄体（Handle and Body）模式，是将抽象部分和它的具体实现部分分离，是它们都可以独立地变化；
-通过组合的方式建立两个类之间的联系，而不是继承； 桥接模式属于结构型模式；  
-继承一般来作 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/">设计模式之美-建造者模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          建造者模式 建造者模式（Builder Pattern）将一个复杂的对象的构建过程与它的表示，使得同样的构建过程可以创建出不同的表示。 建造者模式属于创建型模式；
-对于用户而言，使用建造者模式只需要指定需要创建的类型就可以获取对象，创建的过程以及细节不需要了解，根据建造者模式的定义，可以简单 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">设计模式之美-工厂模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          1. 简单工厂模式简单工厂模式是指有一个工厂对象决定创建出哪一个产品类的实例；属于创建型模式，但它不属于GOF 23种设计模式。
-UML类图
-组成要素1、一个抽象产品类2、具体产品类3、一个工厂  
-肥宅喜爱的各种快乐水（产品接口）
-123public interface Kls &#123 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/">设计模式之美-原型模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          原型模式原型模式（Prototype Pattern）指原型实例指定创建对象的种类，并且通过复制这些原型创建新的对象，属于创建型模式；
-原型模式的核心在于复制原型对象。以系统中已存在的一个对象为原型，直接基于内存二进制流进行复制，不需要再精力耗时的对象初始化过程（不调用构造函数），性能提升很 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
 

@@ -168,6 +168,119 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          现象
+
+
+配置文件如下：
+123456789101112131415dataSourceKey: defaultDS        # 源数据源的key, 对应上面配置的srcDataSources中的值destination: example            # cannal的ins ...
+        
+      </div>
+      <a class="more" href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          测试常见分析器GET /_analyze
+1234&#123;  &quot;analyzer&quot;: &quot;standard&quot;,  &quot;text&quot;: &quot;Oredr it now from Amazon  #fun #girlpower #f ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch-analyzer/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          问题记录123456789101112132021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to impo ...
+        
+      </div>
+      <a class="more" href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          canal adapter 报错信息123456789101112131415161718192021222021-07-06 12:46:31.959 [http-nio-8081-exec-2] INFO  o.a.catalina.core.ContainerBase.[Tomcat] ...
+        
+      </div>
+      <a class="more" href="/wiki/field-name-is-null-or-empty/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Elasticsearch 支持如下简单域类型：
+
+字符串: string （es7之后编程text）
+整数 : byte, short, integer, long
+浮点数: float, double
+布尔型: boolean
+日期: date
+
+查看索引的mappingGET /gb/ ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a>
       </h2>
       <p class="article-date">July 5, 2021</p>
@@ -271,111 +384,6 @@ path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdis
         
       </div>
       <a class="more" href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          创建索引12345678910111213141516171819202122232425262728293031PUT customer&#123;  &quot;mappings&quot;:&#123;      &quot;properties&quot;:&#123;        ...
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          cat API集群健康状态GET _cat/health?v&amp;pretty
-12epoch      timestamp cluster        status node.total node.data shards pri relo init unassign pending_ ...
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          首先安装elk推荐大家到elasic中文社区去下载 👉 【传送】⚠️ elastcisearch | logstash | kibana 的版本最好保持一直，否则会出现很多坑的，切记！
-安装ELK的步骤这里就不做介绍了，可以查看 👉 【TODO】
-下载安装canal-adaptercan ...
-        
-      </div>
-      <a class="more" href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          开启binlog[mysqld]log-bin=mysql-bin #添加这一行就okbinlog-format=ROW #选择row模式server_id=1 #配置mysql replaction需要定义，不能和canal的slaveId重复  
-查看binlog状态mysql&gt;  ...
-        
-      </div>
-      <a class="more" href="/wiki/binlog%E9%85%8D%E7%BD%AE/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          binlog相关命令mysql&gt; show variables like ‘binlog_format’;
-12345+---------------+-------+| Variable_name | Value |+---------------+-------+| binlog_ ...
-        
-      </div>
-      <a class="more" href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
     </article>
   
 

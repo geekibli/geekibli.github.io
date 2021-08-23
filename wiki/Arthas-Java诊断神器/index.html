@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Arthas-Java诊断神器 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Arthas-Java诊断神器</h2>
+  <p class="post-date">2021-08-20</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="Arthas-Java诊断神器"><a href="#Arthas-Java诊断神器" class="headerlink" title="Arthas-Java诊断神器"></a>Arthas-Java诊断神器</h2><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820172620815.png" alt="image-20210820172620815" style="zoom:50%;"/>
+
+<p>官方文档地址 👉    <a target="_blank" rel="noopener" href="https://arthas.aliyun.com/doc/index.html#">https://arthas.aliyun.com/doc/index.html#</a></p>
+<h3 id="1-安装arthas"><a href="#1-安装arthas" class="headerlink" title="1. 安装arthas"></a>1. 安装arthas</h3><p><code>wget https://arthas.aliyun.com/arthas-boot.jar </code></p>
+<p><code>java -jar arthas-boot.jar --target-ip 0.0.0.0</code></p>
+<p>如果你的机器没有任何java进程在运行，会提示如下错误 👇</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820165717792.png" alt="image-20210820165717792"></p>
+<p><strong>正常启动如下：</strong></p>
+<p>⚠️ 由于我们仅仅启动了一个java进程，所有这里就只有一个。输入1回车即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820165953801.png" alt="image-20210820165953801"></p>
+<p><strong>42423就是我们的java进程号</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820170112574.png" alt="image-20210820170112574"></p>
+<h3 id="2-查看JVM信息"><a href="#2-查看JVM信息" class="headerlink" title="2. 查看JVM信息"></a>2. 查看JVM信息</h3><h4 id="2-1-sysprop"><a href="#2-1-sysprop" class="headerlink" title="2.1 sysprop"></a>2.1 sysprop</h4><p><code>sysprop</code> 可以打印所有的System Properties信息。</p>
+<p>也可以指定单个key： <code>sysprop java.version</code></p>
+<p>也可以通过<code>grep</code>来过滤： <code>sysprop | grep user</code></p>
+<p>可以设置新的value： <code>sysprop testKey testValue</code></p>
+<h4 id="2-2-sysenv"><a href="#2-2-sysenv" class="headerlink" title="2.2 sysenv"></a>2.2 sysenv</h4><p><code>sysenv</code> 命令可以获取到环境变量。和<code>sysprop</code>命令类似。</p>
+<h4 id="2-3-jvm"><a href="#2-3-jvm" class="headerlink" title="2.3 jvm"></a>2.3 jvm</h4><p><code>jvm</code> 命令会打印出<code>JVM</code>的各种详细信息。</p>
+<h4 id="2-4-dashboard"><a href="#2-4-dashboard" class="headerlink" title="2.4 dashboard"></a>2.4 dashboard</h4><p><code>dashboard</code> 命令可以查看当前系统的实时数据面板。</p>
+<p>输入 <code>Q</code> 或者 <code>Ctrl+C</code> 可以退出dashboard命令。</p>
+<h3 id="3-查看线程相关"><a href="#3-查看线程相关" class="headerlink" title="3. 查看线程相关"></a>3. 查看线程相关</h3><h4 id="3-1-查看线程列表"><a href="#3-1-查看线程列表" class="headerlink" title="3.1 查看线程列表"></a>3.1 查看线程列表</h4><p><code>thread</code> </p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820163125277.png" alt="image-20210820163125277"></p>
+<h4 id="3-2-查看线程栈信息"><a href="#3-2-查看线程栈信息" class="headerlink" title="3.2 查看线程栈信息"></a>3.2 <strong>查看线程栈信息</strong></h4><p><code>thread 18</code> </p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820163518891.png" alt="image-20210820163518891"></p>
+<h4 id="3-3-查看5秒内的CPU使用率top-n线程栈"><a href="#3-3-查看5秒内的CPU使用率top-n线程栈" class="headerlink" title="3.3 查看5秒内的CPU使用率top n线程栈"></a>3.3 查看5秒内的CPU使用率top n线程栈</h4><p><code>thread -n 3 -i 5000 </code></p>
+<h4 id="3-4-查找线程是否有阻塞"><a href="#3-4-查找线程是否有阻塞" class="headerlink" title="3.4 查找线程是否有阻塞"></a>3.4 查找线程是否有阻塞</h4><p><code>thread -b</code></p>
+<h3 id="4-sc-sm-查看已加载的类"><a href="#4-sc-sm-查看已加载的类" class="headerlink" title="4. sc/sm 查看已加载的类"></a>4. sc/sm 查看已加载的类</h3><p>下面介绍Arthas里查找已加载类的命令。</p>
+<h3 id="4-1-sc-查找到所有JVM已经加载到的类"><a href="#4-1-sc-查找到所有JVM已经加载到的类" class="headerlink" title="4.1 sc 查找到所有JVM已经加载到的类"></a>4.1 sc 查找到<strong>所有JVM已经加载到的类</strong></h3><p>如果搜索的是接口，还会搜索所有的实现类。比如查看所有的<code>Filter</code>实现类：</p>
+<p><code>sc javax.servlet.Filter</code></p>
+<p>通过<code>-d</code>参数，可以打印出类加载的具体信息，很方便查找类加载问题。</p>
+<p><code>sc -d javax.servlet.Filter</code></p>
+<p><code>sc</code>支持通配，比如搜索所有的<code>StringUtils</code>：</p>
+<p><code>sc *StringUtils</code></p>
+<h3 id="4-2-sm-查找类的具体函数"><a href="#4-2-sm-查找类的具体函数" class="headerlink" title="4.2 sm 查找类的具体函数"></a>4.2 sm 查找类的<strong>具体函数</strong></h3><p><code>sm java.math.RoundingMode</code></p>
+<p>通过<code>-d</code>参数可以打印函数的具体属性：</p>
+<p><code>sm -d java.math.RoundingMode</code></p>
+<p>也可以查找特定的函数，比如查找构造函数：</p>
+<p><code>sm java.math.RoundingMode &lt;init&gt;</code></p>
+<h3 id="5-Jad反编译"><a href="#5-Jad反编译" class="headerlink" title="5. Jad反编译"></a>5. Jad反编译</h3><p>可以通过 <code>jad</code> 命令来反编译代码：</p>
+<p><code>jad com.example.demo.arthas.user.UserController</code></p>
+<p>通过<code>--source-only</code>参数可以只打印出在反编译的源代码：</p>
+<p><code>jad --source-only com.example.demo.arthas.user.UserController</code></p>
+<h3 id="6-Ognl动态代码"><a href="#6-Ognl动态代码" class="headerlink" title="6. Ognl动态代码"></a>6. Ognl动态代码</h3><p>在Arthas里，有一个单独的<code>ognl</code>命令，可以动态执行代码。</p>
+<h4 id="6-1-调用static函数"><a href="#6-1-调用static函数" class="headerlink" title="6.1 调用static函数"></a>6.1 调用static函数</h4><p><code>ognl &#39;@java.lang.System@out.println(&quot;hello ognl&quot;)&#39;</code></p>
+<p>可以检查<code>Terminal</code>里的进程输出，可以发现打印出了<code>hello ognl</code>。</p>
+<h4 id="6-2-查找UserController的ClassLoader"><a href="#6-2-查找UserController的ClassLoader" class="headerlink" title="6.2 查找UserController的ClassLoader"></a>6.2 查找UserController的ClassLoader</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sc -d com.example.demo.arthas.user.UserController | grep classLoaderHash</span><br><span class="line"><span class="meta">$</span><span class="bash"> sc -d com.example.demo.arthas.user.UserController | grep classLoaderHash</span></span><br><span class="line"> classLoaderHash   1be6f5c3</span><br></pre></td></tr></table></figure>
+
+<p>注意hashcode是变化的，需要先查看当前的ClassLoader信息，提取对应ClassLoader的hashcode。</p>
+<p>如果你使用<code>-c</code>，你需要手动输入hashcode：<code>-c &lt;hashcode&gt;</code></p>
+<p><code>$ ognl -c 1be6f5c3 @com.example.demo.arthas.user.UserController@logger</code></p>
+<p>对于只有唯一实例的ClassLoader可以通过<code>--classLoaderClass</code>指定class name，使用起来更加方便：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ognl --classLoaderClass org.springframework.boot.loader.LaunchedURLClassLoader  @org.springframework.boot.SpringApplication@logger</span><br><span class="line">@Slf4jLocationAwareLog[</span><br><span class="line">    FQCN=@String[org.apache.commons.logging.LogAdapter<span class="variable">$Slf4jLocationAwareLog</span>],</span><br><span class="line">    name=@String[org.springframework.boot.SpringApplication],</span><br><span class="line">    logger=@Logger[Logger[org.springframework.boot.SpringApplication]],</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><code>--classLoaderClass</code> 的值是ClassLoader的类名，只有匹配到唯一的ClassLoader实例时才能工作，目的是方便输入通用命令，而<code>-c &lt;hashcode&gt;</code>是动态变化的。</p>
+<h4 id="6-3-获取静态类的静态字段"><a href="#6-3-获取静态类的静态字段" class="headerlink" title="6.3 获取静态类的静态字段"></a>6.3 获取静态类的静态字段</h4><p>获取<code>UserController</code>类里的<code>logger</code>字段：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ognl --classLoaderClass org.springframework.boot.loader.LaunchedURLClassLoader @com.example.demo.arthas.user.UserController@logger</span><br></pre></td></tr></table></figure>
+
+<p>还可以通过<code>-x</code>参数控制返回值的展开层数。比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ognl --classLoaderClass org.springframework.boot.loader.LaunchedURLClassLoader -x 2 @com.example.demo.arthas.user.UserController@logger</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-4-执行多行表达式，赋值给临时变量，返回一个List"><a href="#6-4-执行多行表达式，赋值给临时变量，返回一个List" class="headerlink" title="6.4 执行多行表达式，赋值给临时变量，返回一个List"></a>6.4 执行多行表达式，赋值给临时变量，返回一个List</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ognl &#x27;#value1=@System@getProperty(&quot;java.home&quot;), #value2=@System@getProperty(&quot;java.runtime.name&quot;), &#123;#value1, #value2&#125;&#x27;</span><br><span class="line">$ ognl &#x27;#value1=@System@getProperty(&quot;java.home&quot;), #value2=@System@getProperty(&quot;java.runtime.name&quot;), &#123;#value1, #value2&#125;&#x27;</span><br><span class="line">@ArrayList[</span><br><span class="line">    @String[/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/jre],</span><br><span class="line">    @String[Java(TM) SE Runtime Environment],</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-5-更多"><a href="#6-5-更多" class="headerlink" title="6.5 更多"></a>6.5 更多</h4><p>在Arthas里<code>ognl</code>表达式是很重要的功能，在很多命令里都可以使用<code>ognl</code>表达式。</p>
+<p>一些更复杂的用法，可以参考：</p>
+<ul>
+<li>OGNL特殊用法请参考：<a target="_blank" rel="noopener" href="https://github.com/alibaba/arthas/issues/71">https://github.com/alibaba/arthas/issues/71</a></li>
+<li>OGNL表达式官方指南：<a target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-ognl/language-guide.html">https://commons.apache.org/proper/commons-ognl/language-guide.html</a></li>
+</ul>
+<h3 id="7-Watch查看命令"><a href="#7-Watch查看命令" class="headerlink" title="7. Watch查看命令"></a>7. Watch查看命令</h3><h4 id="7-1-如何使用"><a href="#7-1-如何使用" class="headerlink" title="7.1 如何使用"></a>7.1 如何使用</h4><p><code>watch com.example.demo.arthas.user.UserController * &#39;&#123;params, throwExp&#125;&#39;</code></p>
+<p>执行完之后，会阻塞，此时如果有请求进来，发生一场的话，就会看到异常信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820171343673.png" alt="image-20210820171343673"></p>
+<p>如果想把获取到的结果展开，可以用<code>-x</code>参数：</p>
+<p><code>watch com.example.demo.arthas.user.UserController * &#39;&#123;params, throwExp&#125;&#39; -x 2</code></p>
+<h4 id="7-2-返回值表达式"><a href="#7-2-返回值表达式" class="headerlink" title="7.2 返回值表达式"></a>7.2 返回值表达式</h4><p>在上面的例子里，第三个参数是<code>返回值表达式</code>，它实际上是一个<code>ognl</code>表达式，它支持一些内置对象：</p>
+<ul>
+<li>loader</li>
+<li>clazz</li>
+<li>method</li>
+<li>target</li>
+<li>params</li>
+<li>returnObj</li>
+<li>throwExp</li>
+<li>isBefore</li>
+<li>isThrow</li>
+<li>isReturn</li>
+</ul>
+<p>你可以利用这些内置对象来组成不同的表达式。比如返回一个数组：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch com.example.demo.arthas.user.UserController * &#x27;&#123;params[0], target, returnObj&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>更多参考： <a target="_blank" rel="noopener" href="https://arthas.aliyun.com/doc/advice-class.html">https://arthas.aliyun.com/doc/advice-class.html</a></p>
+<h4 id="7-3-条件表达式"><a href="#7-3-条件表达式" class="headerlink" title="7.3 条件表达式"></a>7.3 条件表达式</h4><p><code>watch</code>命令支持在第4个参数里写条件表达式，比如：</p>
+<p><code>watch com.example.demo.arthas.user.UserController * returnObj &#39;params[0] &gt; 100&#39;</code></p>
+<p>当访问 <code>localhost:80/user/1</code>时，<code>watch</code>命令没有输出</p>
+<p>当访问<code>localhost:80/user/101</code>时，<code>watch</code>会打印出结果。</p>
+<h4 id="7-4-当异常时捕获"><a href="#7-4-当异常时捕获" class="headerlink" title="7.4 当异常时捕获"></a>7.4 当异常时捕获</h4><p><code>watch</code>命令支持<code>-e</code>选项，表示只捕获抛出异常时的请求：</p>
+<p><code>watch com.example.demo.arthas.user.UserController * &quot;&#123;params[0],throwExp&#125;&quot; -e</code></p>
+<h4 id="7-5-按照耗时进行过滤"><a href="#7-5-按照耗时进行过滤" class="headerlink" title="7.5 按照耗时进行过滤"></a>7.5 按照耗时进行过滤</h4><p>watch命令支持按请求耗时进行过滤，比如：</p>
+<p><code>watch com.example.demo.arthas.user.UserController * &#39;&#123;params, returnObj&#125;&#39; &#39;#cost&gt;200&#39;</code></p>
+<h3 id="8-热更新代码"><a href="#8-热更新代码" class="headerlink" title="8. 热更新代码"></a>8. 热更新代码</h3><p>下面介绍通过<code>jad</code>/<code>mc</code>/<code>redefine</code> 命令实现动态更新代码的功能。</p>
+<p>目前，访问 <a target="_blank" rel="noopener" href="http://localhost/user/0">http://localhost/user/0</a> ，会返回500异常：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http:<span class="comment">//localhost/user/0</span></span><br><span class="line">&#123;<span class="string">&quot;timestamp&quot;</span>:<span class="number">1550223186170</span>,<span class="string">&quot;status&quot;</span>:<span class="number">500</span>,<span class="string">&quot;error&quot;</span>:<span class="string">&quot;Internal Server Error&quot;</span>,<span class="string">&quot;exception&quot;</span>:<span class="string">&quot;java.lang.IllegalArgumentException&quot;</span>,<span class="string">&quot;message&quot;</span>:<span class="string">&quot;id &lt; 1&quot;</span>,<span class="string">&quot;path&quot;</span>:<span class="string">&quot;/user/0&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面通过热更新代码，修改这个逻辑。</p>
+<h4 id="8-1-jad反编译UserController"><a href="#8-1-jad反编译UserController" class="headerlink" title="8.1 jad反编译UserController"></a>8.1 jad反编译UserController</h4><p><strong>在arthas中执行jad命令 👇</strong></p>
+<p><code>jad --source-only com.example.demo.arthas.user.UserController &gt; /tmp/UserController.java</code></p>
+<p>jad反编译的结果保存在 <code>/tmp/UserController.java</code>文件里了。</p>
+<p>在【 机器 】上然后用vim来编辑<code>/tmp/UserController.java</code>：</p>
+<p><code>vim /tmp/UserController.java</code></p>
+<p>比如当 user id 小于1时，也正常返回，不抛出异常：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(value=&#123;&quot;/user/&#123;id&#125;&quot;&#125;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">findUserById</span><span class="params">(<span class="meta">@PathVariable</span> Integer id)</span> </span>&#123;</span><br><span class="line">    logger.info(<span class="string">&quot;id: &#123;&#125;&quot;</span>, (Object)id);</span><br><span class="line">    <span class="keyword">if</span> (id != <span class="keyword">null</span> &amp;&amp; id &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> User(id, <span class="string">&quot;name&quot;</span> + id);</span><br><span class="line">        <span class="comment">// throw new IllegalArgumentException(&quot;id &lt; 1&quot;);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> User(id.intValue(), <span class="string">&quot;name&quot;</span> + id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-2-sc查找加载UserController的ClassLoader"><a href="#8-2-sc查找加载UserController的ClassLoader" class="headerlink" title="8.2 sc查找加载UserController的ClassLoader"></a>8.2 sc查找加载UserController的ClassLoader</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sc -d *UserController | grep classLoaderHash</span><br><span class="line">$ sc -d *UserController | grep classLoaderHash</span><br><span class="line"> classLoaderHash   1be6f5c3</span><br></pre></td></tr></table></figure>
+
+<p>可以发现是 <code>springbootLaunchedURLClassLoader@1be6f5c3</code> 加载的。</p>
+<p>记下classLoaderHash，后面需要使用它。在这里，它是 <code>1be6f5c3</code>。</p>
+<h4 id="8-3-mc编译java文件"><a href="#8-3-mc编译java文件" class="headerlink" title="8.3 mc编译java文件"></a>8.3 mc编译java文件</h4><p>编译java文件，类似于javac。</p>
+<p>保存好<code>/tmp/UserController.java</code>之后，使用<code>mc</code>(Memory Compiler)命令来编译，并且通过<code>-c</code>或者<code>--classLoaderClass</code>参数指定ClassLoader：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mc --classLoaderClass org.springframework.boot.loader.LaunchedURLClassLoader /tmp/UserController.java -d /tmp</span><br><span class="line">$ mc --classLoaderClass org.springframework.boot.loader.LaunchedURLClassLoader /tmp/UserController.java -d /tmp</span><br><span class="line">Memory compiler output:</span><br><span class="line">/tmp/com/example/demo/arthas/user/UserController.class</span><br><span class="line">Affect(row-cnt:1) cost in 346 ms</span><br></pre></td></tr></table></figure>
+
+<p>也可以通过<code>mc -c &lt;classLoaderHash&gt; /tmp/UserController.java -d /tmp</code>，使用<code>-c</code>参数指定ClassLoaderHash:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mc -c 1be6f5c3 /tmp/UserController.java -d /tmp</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820172201737.png" alt="image-20210820172201737"></p>
+<h4 id="8-4-redefine加载class文件"><a href="#8-4-redefine加载class文件" class="headerlink" title="8.4 redefine加载class文件"></a>8.4 redefine加载class文件</h4><p>再使用<code>redefine</code>命令重新加载新编译好的<code>UserController.class</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redefine /tmp/com/example/demo/arthas/user/UserController.class</span><br><span class="line">$ redefine /tmp/com/example/demo/arthas/user/UserController.class</span><br><span class="line">redefine success, size: 1</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-5-热修改代码结果"><a href="#8-5-热修改代码结果" class="headerlink" title="8.5 热修改代码结果"></a>8.5 热修改代码结果</h4><p><code>redefine</code>成功之后，再次访问 <code>localhost:80/user/0</code> ，结果是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;id&quot;: 0,</span><br><span class="line">  &quot;name&quot;: &quot;name0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-Exit-Stop"><a href="#9-Exit-Stop" class="headerlink" title="9. Exit/Stop"></a>9. Exit/Stop</h3><h4 id="9-1-reset"><a href="#9-1-reset" class="headerlink" title="9.1 reset"></a>9.1 reset</h4><p>Arthas在 watch/trace 等命令时，实际上是修改了应用的字节码，插入增强的代码。显式执行 <code>reset</code> 命令，可以清除掉这些增强代码。</p>
+<h4 id="9-2-退出Arthas"><a href="#9-2-退出Arthas" class="headerlink" title="9.2 退出Arthas"></a>9.2 退出Arthas</h4><p>用 <code>exit</code> 或者 <code>quit</code> 命令可以退出Arthas。</p>
+<p>退出Arthas之后，还可以再次用 <code>java -jar arthas-boot.jar</code> 来连接。</p>
+<h4 id="9-3-彻底退出Arthas"><a href="#9-3-彻底退出Arthas" class="headerlink" title="9.3 彻底退出Arthas"></a>9.3 彻底退出Arthas</h4><p><code>exit/quit</code>命令只是退出当前session，arthas server还在目标进程中运行。</p>
+<p>想完全退出Arthas，可以执行 <code>stop</code> 命令。</p>
+<h3 id="10-arthas-boot支持的参数"><a href="#10-arthas-boot支持的参数" class="headerlink" title="10. arthas-boot支持的参数"></a>10. arthas-boot支持的参数</h3><p><code>arthas-boot.jar</code> 支持很多参数，可以执行 <code>java -jar arthas-boot.jar -h</code> 来查看。</p>
+<h4 id="10-1-允许外部访问"><a href="#10-1-允许外部访问" class="headerlink" title="10.1 允许外部访问"></a>10.1 允许外部访问</h4><p>默认情况下， arthas server侦听的是 <code>127.0.0.1</code> 这个IP，如果希望远程可以访问，可以使用<code>--target-ip</code>的参数。</p>
+<p><code>java -jar arthas-boot.jar --target-ip</code></p>
+<h4 id="10-2-列出所有的版本"><a href="#10-2-列出所有的版本" class="headerlink" title="10.2 列出所有的版本"></a>10.2 列出所有的版本</h4><p><code>java -jar arthas-boot.jar --versions</code></p>
+<p>使用指定版本：</p>
+<p><code>java -jar arthas-boot.jar --use-version 3.1.0</code></p>
+<h4 id="10-3-只侦听Telnet端口，不侦听HTTP端口"><a href="#10-3-只侦听Telnet端口，不侦听HTTP端口" class="headerlink" title="10.3 只侦听Telnet端口，不侦听HTTP端口"></a>10.3 只侦听Telnet端口，不侦听HTTP端口</h4><p><code>java -jar arthas-boot.jar --telnet-port 9999 --http-port -1</code></p>
+<h4 id="10-4-打印运行的详情"><a href="#10-4-打印运行的详情" class="headerlink" title="10.4 打印运行的详情"></a>10.4 打印运行的详情</h4><p><code>java -jar arthas-boot.jar -v</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820164916567.png" alt="image-20210820164916567"></p>
+<h3 id="11-Web-Console"><a href="#11-Web-Console" class="headerlink" title="11. Web Console"></a>11. Web Console</h3><p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210820173816512.png" alt="image-20210820173816512"></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Linux" >
+    <span class="tag-code">Linux</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/LeetCode-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/">
+        <span class="nav-arrow">← </span>
+        
+          LeetCode-只出现一次的数字
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Arthas-Java%E8%AF%8A%E6%96%AD%E7%A5%9E%E5%99%A8"><span class="toc-nav-text">Arthas-Java诊断神器</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-%E5%AE%89%E8%A3%85arthas"><span class="toc-nav-text">1. 安装arthas</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-%E6%9F%A5%E7%9C%8BJVM%E4%BF%A1%E6%81%AF"><span class="toc-nav-text">2. 查看JVM信息</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-1-sysprop"><span class="toc-nav-text">2.1 sysprop</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-2-sysenv"><span class="toc-nav-text">2.2 sysenv</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-3-jvm"><span class="toc-nav-text">2.3 jvm</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#2-4-dashboard"><span class="toc-nav-text">2.4 dashboard</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-%E6%9F%A5%E7%9C%8B%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3"><span class="toc-nav-text">3. 查看线程相关</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-1-%E6%9F%A5%E7%9C%8B%E7%BA%BF%E7%A8%8B%E5%88%97%E8%A1%A8"><span class="toc-nav-text">3.1 查看线程列表</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-2-%E6%9F%A5%E7%9C%8B%E7%BA%BF%E7%A8%8B%E6%A0%88%E4%BF%A1%E6%81%AF"><span class="toc-nav-text">3.2 查看线程栈信息</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-3-%E6%9F%A5%E7%9C%8B5%E7%A7%92%E5%86%85%E7%9A%84CPU%E4%BD%BF%E7%94%A8%E7%8E%87top-n%E7%BA%BF%E7%A8%8B%E6%A0%88"><span class="toc-nav-text">3.3 查看5秒内的CPU使用率top n线程栈</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#3-4-%E6%9F%A5%E6%89%BE%E7%BA%BF%E7%A8%8B%E6%98%AF%E5%90%A6%E6%9C%89%E9%98%BB%E5%A1%9E"><span class="toc-nav-text">3.4 查找线程是否有阻塞</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-sc-sm-%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%B1%BB"><span class="toc-nav-text">4. sc&#x2F;sm 查看已加载的类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-1-sc-%E6%9F%A5%E6%89%BE%E5%88%B0%E6%89%80%E6%9C%89JVM%E5%B7%B2%E7%BB%8F%E5%8A%A0%E8%BD%BD%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="toc-nav-text">4.1 sc 查找到所有JVM已经加载到的类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-2-sm-%E6%9F%A5%E6%89%BE%E7%B1%BB%E7%9A%84%E5%85%B7%E4%BD%93%E5%87%BD%E6%95%B0"><span class="toc-nav-text">4.2 sm 查找类的具体函数</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-Jad%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="toc-nav-text">5. Jad反编译</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-Ognl%E5%8A%A8%E6%80%81%E4%BB%A3%E7%A0%81"><span class="toc-nav-text">6. Ognl动态代码</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6-1-%E8%B0%83%E7%94%A8static%E5%87%BD%E6%95%B0"><span class="toc-nav-text">6.1 调用static函数</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6-2-%E6%9F%A5%E6%89%BEUserController%E7%9A%84ClassLoader"><span class="toc-nav-text">6.2 查找UserController的ClassLoader</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6-3-%E8%8E%B7%E5%8F%96%E9%9D%99%E6%80%81%E7%B1%BB%E7%9A%84%E9%9D%99%E6%80%81%E5%AD%97%E6%AE%B5"><span class="toc-nav-text">6.3 获取静态类的静态字段</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6-4-%E6%89%A7%E8%A1%8C%E5%A4%9A%E8%A1%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E8%B5%8B%E5%80%BC%E7%BB%99%E4%B8%B4%E6%97%B6%E5%8F%98%E9%87%8F%EF%BC%8C%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AAList"><span class="toc-nav-text">6.4 执行多行表达式，赋值给临时变量，返回一个List</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#6-5-%E6%9B%B4%E5%A4%9A"><span class="toc-nav-text">6.5 更多</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-Watch%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4"><span class="toc-nav-text">7. Watch查看命令</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-1-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-nav-text">7.1 如何使用</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-2-%E8%BF%94%E5%9B%9E%E5%80%BC%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-nav-text">7.2 返回值表达式</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-3-%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-nav-text">7.3 条件表达式</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-4-%E5%BD%93%E5%BC%82%E5%B8%B8%E6%97%B6%E6%8D%95%E8%8E%B7"><span class="toc-nav-text">7.4 当异常时捕获</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-5-%E6%8C%89%E7%85%A7%E8%80%97%E6%97%B6%E8%BF%9B%E8%A1%8C%E8%BF%87%E6%BB%A4"><span class="toc-nav-text">7.5 按照耗时进行过滤</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-%E7%83%AD%E6%9B%B4%E6%96%B0%E4%BB%A3%E7%A0%81"><span class="toc-nav-text">8. 热更新代码</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#8-1-jad%E5%8F%8D%E7%BC%96%E8%AF%91UserController"><span class="toc-nav-text">8.1 jad反编译UserController</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#8-2-sc%E6%9F%A5%E6%89%BE%E5%8A%A0%E8%BD%BDUserController%E7%9A%84ClassLoader"><span class="toc-nav-text">8.2 sc查找加载UserController的ClassLoader</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#8-3-mc%E7%BC%96%E8%AF%91java%E6%96%87%E4%BB%B6"><span class="toc-nav-text">8.3 mc编译java文件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#8-4-redefine%E5%8A%A0%E8%BD%BDclass%E6%96%87%E4%BB%B6"><span class="toc-nav-text">8.4 redefine加载class文件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#8-5-%E7%83%AD%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%9C"><span class="toc-nav-text">8.5 热修改代码结果</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#9-Exit-Stop"><span class="toc-nav-text">9. Exit&#x2F;Stop</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#9-1-reset"><span class="toc-nav-text">9.1 reset</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#9-2-%E9%80%80%E5%87%BAArthas"><span class="toc-nav-text">9.2 退出Arthas</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#9-3-%E5%BD%BB%E5%BA%95%E9%80%80%E5%87%BAArthas"><span class="toc-nav-text">9.3 彻底退出Arthas</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#10-arthas-boot%E6%94%AF%E6%8C%81%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-nav-text">10. arthas-boot支持的参数</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#10-1-%E5%85%81%E8%AE%B8%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE"><span class="toc-nav-text">10.1 允许外部访问</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#10-2-%E5%88%97%E5%87%BA%E6%89%80%E6%9C%89%E7%9A%84%E7%89%88%E6%9C%AC"><span class="toc-nav-text">10.2 列出所有的版本</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#10-3-%E5%8F%AA%E4%BE%A6%E5%90%ACTelnet%E7%AB%AF%E5%8F%A3%EF%BC%8C%E4%B8%8D%E4%BE%A6%E5%90%ACHTTP%E7%AB%AF%E5%8F%A3"><span class="toc-nav-text">10.3 只侦听Telnet端口，不侦听HTTP端口</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#10-4-%E6%89%93%E5%8D%B0%E8%BF%90%E8%A1%8C%E7%9A%84%E8%AF%A6%E6%83%85"><span class="toc-nav-text">10.4 打印运行的详情</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#11-Web-Console"><span class="toc-nav-text">11. Web Console</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/Arthas-Java诊断神器/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
