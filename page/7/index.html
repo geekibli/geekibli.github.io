@@ -168,6 +168,97 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Java-锁消除和锁膨胀</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          锁消除和锁粗化锁消除 （lock eliminate）1234public void add(String str1,String str2)&#123;    StringBuffer sb = new StringBuffer();    sb.append(str1).append(s ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          锁升级使用JOL查看加锁之后的对象信息12345678public static void main(String[] args) &#123;        Object object = new Object();        System.out.println(ClassLayou ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/JVM-strace/">JVM-strace</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          strace 命令查看操作系统日志strace -ff -o out java ***.class
+-ff : 跟踪进程下所有线程用到的系统命令-o : 将跟踪的操作系统日志输出
+
+下面查看JDK1.8下，BIO模式都有哪些系统命令的执行
+
+1234567891011121314151617 ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-strace/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#IO" >
+    <span class="tag-code">IO</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          NIO核心组件 - ChannelSocketChannel 和 ServerSocketChannel学习此部分可以对比Socket和ServerSocket
+服务端代码
+12345678910111213141516171819202122232425262728293031323334 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Java-NIO核心组件--selector</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -311,102 +402,6 @@ jstack用于生成java虚拟机当前时刻的线程快照。线程快照是当�
         
       </div>
       <a class="more" href="/wiki/JVM-jstack/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">JVM-类加载机制</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          类加载机制1. 类加载机制具体流程
-
-Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。
-1.1 Loading（载入）
- JVM 在该阶段的主要目的是将字节码从不同的数据源（可能是 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-jmap/">JVM-jmap</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          jmap命令jmap是一个多功能的命令。它可以生成 java 程序的 dump 文件， 也可以查看堆内对象示例的统计信息、查看 ClassLoader 的信息以及 finalizer 队列。
-jmap -heap pid123456789101112131415161718192021222 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-jmap/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">SpringBean循环依赖</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Spring" >
-    <span class="tag-code">Spring</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Spring Bean 循环依赖为什么会存在循环依赖
-
-如上图👆所示，A对象的一个属性是B,B对象的一个属性是A,而Spring中的bean默认情况下都是单例的，所以这两个Bean就产生了循环依赖的问题！
-
-那么循环依赖的问题出现在什么情况呢
-
-想一下属性赋值的方式有几种呢？
-
-构造器赋 ...
-        
-      </div>
-      <a class="more" href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Spring加载配置文件原理</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Spring" >
-    <span class="tag-code">Spring</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Spring如何加载配置文件到应用程序加载Xml文件配置，获取对象
-xml文件
-
-123456789101112&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http ...
-        
-      </div>
-      <a class="more" href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
 

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Web开发基础-Servlet | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Web开发基础-Servlet</h2>
+  <p class="post-date">2021-08-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="1、什么是servlet"><a href="#1、什么是servlet" class="headerlink" title="1、什么是servlet"></a>1、什么是servlet</h2><p><strong>什么是Serlvet？</strong></p>
+<p>Servlet其实就是一个<strong>遵循Servlet开发的java类</strong>。Serlvet是<strong>由服务器调用的</strong>，<strong>运行在服务器端</strong>。</p>
+<p>我们编写java程序想要在网上实现 聊天、发帖、这样一些的交互功能，<strong>普通的java技术是非常难完成的</strong>。sun公司就提供了Serlvet这种技术供我们使用。</p>
+<h2 id="2、servlet生命周期"><a href="#2、servlet生命周期" class="headerlink" title="2、servlet生命周期"></a>2、servlet生命周期</h2><p><strong>Servlet生命周期可分为5个步骤</strong></p>
+<ol>
+<li><strong>加载Servlet</strong>。当Tomcat第一次访问Servlet的时候，<strong>Tomcat会负责创建Servlet的实例</strong></li>
+<li><strong>初始化</strong>。当Servlet被实例化后，Tomcat会<strong>调用init()方法初始化这个对象</strong></li>
+<li><strong>处理服务</strong>。当浏览器<strong>访问Servlet</strong>的时候，Servlet <strong>会调用service()方法处理请求</strong></li>
+<li><strong>销毁</strong>。当Tomcat关闭时或者检测到Servlet要从Tomcat删除的时候会自动调用destroy()方法，<strong>让该实例释放掉所占的资源</strong>。一个Servlet如果长时间不被使用的话，也会被Tomcat自动销毁</li>
+<li><strong>卸载</strong>。当Servlet调用完destroy()方法后，等待垃圾回收。如果<strong>有需要再次使用这个Servlet，会重新调用init()方法进行初始化操作</strong>。</li>
+</ol>
+<ul>
+<li>简单总结：<strong>只要访问Servlet，service()就会被调用。init()只有第一次访问Servlet的时候才会被调用。 destroy()只有在Tomcat关闭的时候才会被调用。</strong></li>
+</ul>
+<h2 id="3、servlet调用流程"><a href="#3、servlet调用流程" class="headerlink" title="3、servlet调用流程"></a>3、servlet调用流程</h2><p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210824161820602.png" alt="image-20210824161820602"></p>
+<h2 id="4、Servlet是单例的"><a href="#4、Servlet是单例的" class="headerlink" title="4、Servlet是单例的"></a>4、Servlet是单例的</h2><h3 id="4-1-为什么Servlet是单例的"><a href="#4-1-为什么Servlet是单例的" class="headerlink" title="4.1 为什么Servlet是单例的"></a>4.1 为什么Servlet是单例的</h3><p><strong>浏览器多次对Servlet的请求</strong>，一般情况下，<strong>服务器只创建一个Servlet对象</strong>，也就是说，Servlet对象<strong>一旦创建了</strong>，就会<strong>驻留在内存中，为后续的请求做服务，直到服务器关闭</strong>。</p>
+<h3 id="4-2-每次访问请求对象和响应对象都是新的"><a href="#4-2-每次访问请求对象和响应对象都是新的" class="headerlink" title="4.2 每次访问请求对象和响应对象都是新的"></a>4.2 每次访问请求对象和响应对象都是新的</h3><p>对于<strong>每次访问请求</strong>，Servlet引擎都会<strong>创建一个新的HttpServletRequest请求对象和一个新的HttpServletResponse响应对象</strong>，然后将这两<strong>个对象作为参数传递给它调用的Servlet的service()方法</strong>，<strong>service方法再根据请求方式分别调用doXXX方法</strong>。</p>
+<h3 id="4-3-线程安全问题"><a href="#4-3-线程安全问题" class="headerlink" title="4.3 线程安全问题"></a>4.3 线程安全问题</h3><p>当多个用户访问Servlet的时候，<strong>服务器会为每个用户创建一个线程</strong>。<strong>当多个用户并发访问Servlet共享资源的时候就会出现线程安全问题</strong>。</p>
+<p>原则：</p>
+<ol>
+<li>如果一个<strong>变量需要多个用户共享</strong>，则应当在访问该变量的时候，<strong>加同步机制synchronized (对象){}</strong></li>
+<li>如果一个变量<strong>不需要共享</strong>，则<strong>直接在 doGet() 或者 doPost()定义</strong>.这样不会存在线程安全问题</li>
+</ol>
+<h2 id="5、ServletConfig对象"><a href="#5、ServletConfig对象" class="headerlink" title="5、ServletConfig对象"></a>5、ServletConfig对象</h2><h3 id="5-1-ServletConfig对象有什么用？"><a href="#5-1-ServletConfig对象有什么用？" class="headerlink" title="5.1 ServletConfig对象有什么用？"></a>5.1 ServletConfig对象有什么用？</h3><blockquote>
+<p>通过此对象可以读取web.xml中配置的初始化参数。</p>
+</blockquote>
+<p>现在问题来了，<strong>为什么我们要把参数信息放到web.xml文件中呢</strong>？我们可以直接在程序中都可以定义参数信息，<strong>搞到web.xml文件中又有什么好处呢</strong>？</p>
+<p>好处就是：<strong>能够让你的程序更加灵活</strong>【更换需求，更改配置文件web.xml即可，程序代码不用改】</p>
+<h3 id="5-2-获取web-xml文件配置的参数信息"><a href="#5-2-获取web-xml文件配置的参数信息" class="headerlink" title="5.2 获取web.xml文件配置的参数信息"></a>5.2 获取web.xml文件配置的参数信息</h3><p>为Demo1这个Servlet配置一个参数，参数名是name，值是zhongfucheng</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>zhongfucheng.web.Demo1<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">init-param</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>name<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>zhongfucheng<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Demo1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/Demo1<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在Servlet中获取ServletConfig对象，通过ServletConfig对象获取在web.xml文件配置的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ServletConfig config = <span class="keyword">this</span>.getServletConfig();</span><br><span class="line">String name = config.getInitParameter(<span class="string">&quot;name&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6、ServletContext对象"><a href="#6、ServletContext对象" class="headerlink" title="6、ServletContext对象"></a>6、ServletContext对象</h2><h3 id="6-1-什么是ServletContext对象？"><a href="#6-1-什么是ServletContext对象？" class="headerlink" title="6.1 什么是ServletContext对象？"></a>6.1 什么是ServletContext对象？</h3><p>当Tomcat启动的时候，就会创建一个ServletContext对象。它<strong>代表着当前web站点</strong></p>
+<h3 id="6-2-ServletContext有什么用？"><a href="#6-2-ServletContext有什么用？" class="headerlink" title="6.2 ServletContext有什么用？"></a>6.2 ServletContext有什么用？</h3><ol>
+<li>ServletContext既然代表着当前web站点，那么<strong>所有Servlet都共享着一个ServletContext对象</strong>，所以<strong>Servlet之间可以通过ServletContext实现通讯</strong>。</li>
+<li>ServletConfig获取的是配置的是单个Servlet的参数信息，<strong>ServletContext可以获取的是配置整个web站点的参数信息</strong></li>
+<li><strong>利用ServletContext读取web站点的资源文件</strong></li>
+<li>实现Servlet的转发【用ServletContext转发不多，主要用request转发】</li>
+</ol>
+<h2 id="7、什么是会话技术"><a href="#7、什么是会话技术" class="headerlink" title="7、什么是会话技术"></a>7、什么是会话技术</h2><blockquote>
+<p>基本概念: 指用户开一个浏览器，<strong>访问一个网站,只要不关闭该浏览器，不管该用户点击多少个超链接，访问多少资源，直到用户关闭浏览器，整个这个过程我们称为一次会话</strong>.</p>
+</blockquote>
+<h3 id="7-1-什么是Cookie"><a href="#7-1-什么是Cookie" class="headerlink" title="7.1 什么是Cookie"></a>7.1 什么是Cookie</h3><blockquote>
+<p>Cookie是由W3C组织提出，最早由netscape社区发展的一种机制</p>
+</blockquote>
+<ul>
+<li>网页之间的<strong>交互是通过HTTP协议传输数据的，</strong>而Http协议是<strong>无状态的协议</strong>。无状态的协议是什么意思呢？<strong>一旦数据提交完后，浏览器和服务器的连接就会关闭，再次交互的时候需要重新建立新的连接</strong>。</li>
+<li>服务器无法确认用户的信息，于是乎，W3C就提出了：<strong>给每一个用户都发一个通行证，无论谁访问的时候都需要携带通行证，这样服务器就可以从通行证上确认用户的信息</strong>。通行证就是Cookie</li>
+</ul>
+<h4 id="7-11-Cookie的流程"><a href="#7-11-Cookie的流程" class="headerlink" title="7.11 Cookie的流程"></a>7.11 Cookie的流程</h4><p>浏览器访问服务器，<strong>如果服务器需要记录该用户的状态，就使用response向浏览器发送一个Cookie，浏览器会把Cookie保存起来。当浏览器再次访问服务器的时候，浏览器会把请求的网址连同Cookie一同交给服务器</strong>。</p>
+<h4 id="7-1-2-Cookie-API"><a href="#7-1-2-Cookie-API" class="headerlink" title="7.1.2 Cookie API"></a>7.1.2 Cookie API</h4><ul>
+<li>Cookie类用于创建一个Cookie对象</li>
+<li>response接口中定义了一个addCookie方法，它用于在其响应头中增加一个相应的Set-Cookie头字段</li>
+<li>request接口中定义了一个getCookies方法，它用于获取客户端提交的Cookie</li>
+</ul>
+<p><strong>常用的Cookie方法：</strong></p>
+<ul>
+<li>public Cookie(String name,String value)</li>
+<li>setValue与getValue方法</li>
+<li>setMaxAge与getMaxAge方法</li>
+<li>setPath与getPath方法</li>
+<li>setDomain与getDomain方法</li>
+<li>getName方法</li>
+</ul>
+<h4 id="7-1-3-cookie使用方式"><a href="#7-1-3-cookie使用方式" class="headerlink" title="7.1.3 cookie使用方式"></a>7.1.3 cookie使用方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">response.setContentType(<span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">Cookie cookie = <span class="keyword">new</span> Cookie(<span class="string">&quot;username&quot;</span>, <span class="string">&quot;zhongfucheng&quot;</span>);</span><br><span class="line">cookie.setMaxAge(<span class="number">1000</span>);</span><br><span class="line">response.addCookie(cookie);</span><br><span class="line">response.getWriter().write(<span class="string">&quot;我已经向浏览器发送了一个Cookie&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-1-4-Cookie不可跨域名性"><a href="#7-1-4-Cookie不可跨域名性" class="headerlink" title="7.1.4 Cookie不可跨域名性"></a>7.1.4 Cookie不可跨域名性</h4><ul>
+<li>很多人在初学的时候可能有一个疑问：在访问Servlet的时候浏览器<strong>是不是把所有的Cookie都带过去给服务器</strong>，<strong>会不会修改了别的网站的Cookie</strong></li>
+<li>答案是否定的。Cookie具有不可跨域名性。浏览器判断<strong>一个网站是否能操作另一个网站的Cookie的依据是域名</strong>。所以一般来说，<strong>当我访问baidu的时候，浏览器只会把baidu颁发的Cookie带过去，而不会带上google的Cookie。</strong></li>
+</ul>
+<h4 id="7-1-5-Cookie的有效期"><a href="#7-1-5-Cookie的有效期" class="headerlink" title="7.1.5 Cookie的有效期"></a>7.1.5 Cookie的有效期</h4><p><strong>Cookie的有效期是通过setMaxAge()来设置的</strong>。</p>
+<ul>
+<li>如果MaxAge为<strong>正数</strong>，<strong>浏览器会把Cookie写到硬盘中，只要还在MaxAge秒之前，登陆网站时该Cookie就有效</strong>【不论关闭了浏览器还是电脑】</li>
+<li>如果MaxAge为<strong>负数</strong>，<strong>Cookie是临时性的，仅在本浏览器内有效</strong>，关闭浏览器Cookie就失效了，Cookie不会写到硬盘中。Cookie默认值就是-1。这也就为什么在我第一个例子中，如果我没设置Cookie的有效期，在硬盘中就找不到对应的文件。</li>
+<li>如果MaxAge为<strong>0</strong>，则表示<strong>删除该Cookie</strong>。Cookie机制没有提供删除Cookie对应的方法，把MaxAge设置为0等同于删除Cookie</li>
+</ul>
+<h4 id="7-1-6-Cookie的域名"><a href="#7-1-6-Cookie的域名" class="headerlink" title="7.1.6 Cookie的域名"></a>7.1.6 Cookie的域名</h4><p>Cookie的<strong>domain属性决定运行访问Cookie的域名。domain的值规定为“.域名”</strong></p>
+<p>Cookie的隐私安全机制决定Cookie是不可跨域名的。也就是说<a target="_blank" rel="noopener" href="http://www.baidu.com和www.google.com之间的cookie是互不交接的.**即使是同一级域名,不同二级域名也不能交接**./">www.baidu.com和www.google.com之间的Cookie是互不交接的。**即使是同一级域名，不同二级域名也不能交接**。</a></p>
+<h3 id="7-2-什么是Session"><a href="#7-2-什么是Session" class="headerlink" title="7.2 什么是Session"></a>7.2 什么是Session</h3><p>Session 是另一种记录浏览器状态的机制。不同的是Cookie保存在浏览器中，Session保存在服务器中。用户使用浏览器访问服务器的时候，服务器把用户的信息以某种的形式记录在服务器，这就是Session。</p>
+<h4 id="7-2-1-为什么要使用Session技术？"><a href="#7-2-1-为什么要使用Session技术？" class="headerlink" title="7.2.1 为什么要使用Session技术？"></a>7.2.1 为什么要使用Session技术？</h4><p><strong>Session比Cookie使用方便，Session可以解决Cookie解决不了的事情【Session可以存储对象，Cookie只能存储字符串。】。</strong></p>
+<h4 id="7-2-2-Session-API"><a href="#7-2-2-Session-API" class="headerlink" title="7.2.2 Session API"></a>7.2.2 Session API</h4><ul>
+<li>long getCreationTime();【获取Session被创建时间】</li>
+<li><strong>String getId();【获取Session的id】</strong></li>
+<li>long getLastAccessedTime();【返回Session最后活跃的时间】</li>
+<li>ServletContext getServletContext();【获取ServletContext对象】</li>
+<li><strong>void setMaxInactiveInterval(int var1);【设置Session超时时间】</strong></li>
+<li><strong>int getMaxInactiveInterval();【获取Session超时时间】</strong></li>
+<li><strong>Object getAttribute(String var1);【获取Session属性</strong>】</li>
+<li>Enumeration getAttributeNames();【获取Session所有的属性名】</li>
+<li><strong>void setAttribute(String var1, Object var2);【设置Session属性】</strong></li>
+<li><strong>void removeAttribute(String var1);【移除Session属性】</strong></li>
+<li><strong>void invalidate();【销毁该Session】</strong></li>
+<li>boolean isNew();【该Session是否为新的】</li>
+</ul>
+<h4 id="7-2-3-session作为域对象"><a href="#7-2-3-session作为域对象" class="headerlink" title="7.2.3 session作为域对象"></a>7.2.3 session作为域对象</h4><p>Session有着request和ServletContext类似的方法。其实<strong>Session也是一个域对象</strong>。Session作为一种记录浏览器状态的机制，<strong>只要Session对象没有被销毁，Servlet之间就可以通过Session对象实现通讯</strong></p>
+<p>一般来讲，当我们要存进的是<strong>用户级别的数据就用Session</strong>，那什么是用户级别呢？<strong>只要浏览器不关闭，希望数据还在，就使用Session来保存</strong>。</p>
+<h4 id="7-2-4-session生命周期"><a href="#7-2-4-session生命周期" class="headerlink" title="7.2.4 session生命周期"></a>7.2.4 session生命周期</h4><p><strong>Session的生命周期和有效期</strong></p>
+<ul>
+<li><p>Session在用户<strong>第一次访问服务器Servlet，jsp等动态资源就会被自动创建，Session对象保存在内存里</strong>，这也就为什么上面的例子可以<strong>直接使用request对象获取得到Session对象</strong>。</p>
+</li>
+<li><p>如果访问HTML,IMAGE等静态资源Session不会被创建。</p>
+</li>
+<li><p>Session生成后，只要用户继续访问，服务器就会更新Session的最后访问时间，无论<strong>是否对Session进行读写，服务器都会认为Session活跃了一次</strong>。</p>
+</li>
+<li><p>由于会有越来越多的用户访问服务器，因此Session也会越来越多。<strong>为了防止内存溢出，服务器会把长时间没有活跃的Session从内存中删除，这个时间也就是Session的超时时间</strong>。</p>
+</li>
+<li><p>Session的超时时间默认是30分钟，有三种方式可以对Session的超时时间进行修改</p>
+<p>1、修改tomcat的web.xml</p>
+<p>2、修改项目的web.xml</p>
+<p>3、<code>httpSession.setMaxInactiveInterval(60);</code></p>
+</li>
+</ul>
+<h3 id="7-3-Session和Cookie的区别"><a href="#7-3-Session和Cookie的区别" class="headerlink" title="7.3 Session和Cookie的区别"></a>7.3 Session和Cookie的区别</h3><ul>
+<li><p><strong>从存储方式上比较</strong></p>
+</li>
+<li><ul>
+<li>Cookie只能存储字符串，如果要存储非ASCII字符串还要对其编码。</li>
+<li>Session可以存储任何类型的数据，可以把Session看成是一个容器</li>
+</ul>
+</li>
+<li><p><strong>从隐私安全上比较</strong></p>
+</li>
+<li><ul>
+<li><strong>Cookie存储在浏览器中，对客户端是可见的</strong>。信息容易泄露出去。如果使用Cookie，最好将Cookie加密</li>
+<li><strong>Session存储在服务器上，对客户端是透明的</strong>。不存在敏感信息泄露问题。</li>
+</ul>
+</li>
+<li><p><strong>从有效期上比较</strong></p>
+</li>
+<li><ul>
+<li>Cookie保存在硬盘中，只需要设置maxAge属性为比较大的正整数，即使关闭浏览器，Cookie还是存在的</li>
+<li><strong>Session的保存在服务器中，设置maxInactiveInterval属性值来确定Session的有效期。并且Session依赖于名为JSESSIONID的Cookie，该Cookie默认的maxAge属性为-1。如果关闭了浏览器，该Session虽然没有从服务器中消亡，但也就失效了。</strong></li>
+</ul>
+</li>
+<li><p><strong>从对服务器的负担比较</strong></p>
+</li>
+<li><ul>
+<li>Session是保存在服务器的，每个用户都会产生一个Session，如果是并发访问的用户非常多，是不能使用Session的，Session会消耗大量的内存。</li>
+<li>Cookie是保存在客户端的。不占用服务器的资源。像baidu、Sina这样的大型网站，一般都是使用Cookie来进行会话跟踪。</li>
+</ul>
+</li>
+<li><p><strong>从浏览器的支持上比较</strong></p>
+</li>
+<li><ul>
+<li>如果浏览器禁用了Cookie，那么Cookie是无用的了！</li>
+<li>如果浏览器禁用了Cookie，Session可以通过URL地址重写来进行会话跟踪。</li>
+</ul>
+</li>
+<li><p><strong>从跨域名上比较</strong></p>
+</li>
+<li><ul>
+<li>Cookie可以设置domain属性来实现跨域名</li>
+<li>Session只在当前的域名内有效，不可跨域名</li>
+</ul>
+</li>
+</ul>
+<h2 id="8、forward和redirect的区别"><a href="#8、forward和redirect的区别" class="headerlink" title="8、forward和redirect的区别"></a>8、forward和redirect的区别</h2><h3 id="8-1-实际发生位置不同，地址栏不同"><a href="#8-1-实际发生位置不同，地址栏不同" class="headerlink" title="8.1 实际发生位置不同，地址栏不同"></a>8.1 <strong>实际发生位置不同，地址栏不同</strong></h3><p>1、转发是发生在服务器的<br>2、转发是由服务器进行跳转的，细心的朋友会发现，在转发的时候，浏览器的地址栏是没有发生变化的，在我访问Servlet111的时候，即使跳转到了Servlet222的页面，浏览器的地址还是Servlet111的。也就是说浏览器是不知道该跳转的动作，转发是对浏览器透明的。通过上面的转发时序图我们也可以发现，实现转发只是一次的http请求，一次转发中request和response对象都是同一个。这也解释了，为什么可以使用request作为域对象进行Servlet之间的通讯。<br>3、重定向是发生在浏览器的 - 重定向是由浏览器进行跳转的，进行重定向跳转的时候，浏览器的地址会发生变化的。曾经介绍过：实现重定向的原理是由response的状态码和Location头组合而实现的。这是由浏览器进行的页面跳转实现重定向会发出两个http请求，request域对象是无效的，因为它不是同一个request对象</p>
+<h3 id="8-2-用法不同"><a href="#8-2-用法不同" class="headerlink" title="8.2 用法不同"></a>8.2 用法不同</h3><p>很多人都搞不清楚转发和重定向的时候，资源地址究竟怎么写。有的时候要把应用名写上，有的时候不用把应用名写上。很容易把人搞晕。记住一个原则： <strong>给服务器用的直接从资源名开始写，给浏览器用的要把应用名写上</strong></p>
+<p><code>request.getRequestDispatcher(&quot;/资源名 URI&quot;).forward(request,response)</code><br>转发时”/“代表的是本应用程序的根目录【zhongfucheng】<br><code>response.send(&quot;/web应用/资源名 URI&quot;); </code><br>重定向时”/“代表的是webapps目录  </p>
+<h3 id="8-3-能够去往的URL的范围不一样"><a href="#8-3-能够去往的URL的范围不一样" class="headerlink" title="8.3 能够去往的URL的范围不一样"></a>8.3 能够去往的URL的范围不一样</h3><p>转发是服务器跳转只能去往当前web应用的资源<br>重定向是服务器跳转，可以去往任何的资源</p>
+<h3 id="8-4-传递数据的类型不同"><a href="#8-4-传递数据的类型不同" class="headerlink" title="8.4 传递数据的类型不同"></a>8.4 传递数据的类型不同</h3><p>转发的request对象可以传递各种类型的数据，包括对象<br>重定向只能传递字符串</p>
+<h3 id="8-5-跳转的时间不同"><a href="#8-5-跳转的时间不同" class="headerlink" title="8.5 跳转的时间不同"></a>8.5 跳转的时间不同</h3><p>转发时：执行到跳转语句时就会立刻跳转<br>重定向：整个页面执行完之后才执行跳转</p>
+<p><strong>那么转发(forward)和重定向(redirect)使用哪一个？</strong></p>
+<p>根据上面说明了转发和重定向的区别也可以很容易概括出来<strong>。转发是带着转发前的请求的参数的。重定向是新的请求</strong>。</p>
+<h3 id="8-6-典型的应用场景："><a href="#8-6-典型的应用场景：" class="headerlink" title="8.6 典型的应用场景："></a>8.6 典型的应用场景：</h3><ol>
+<li>转发: 访问 Servlet 处理业务逻辑，然后 forward 到 jsp 显示处理结果，浏览器里 URL 不变</li>
+<li>重定向: 提交表单，处理成功后 redirect 到另一个 jsp，防止表单重复提交，浏览器里 URL 变了</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484755&idx=7&sn=fb35232f3c15e2b4336498ac9f8804f1&chksm=ebd74452dca0cd44942721a159088a2f286d4e5c5f2bcdc7e264f0dccc8f9928d66858e475d4###rd">Servlet第六篇【Session介绍、API、生命周期、应用、与Cookie区别】(修订版)</a></p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">
+        <span class="nav-arrow">← </span>
+        
+          服务发现的基本原理
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/Redis-Key%E8%BF%87%E6%9C%9F%E7%9B%91%E5%90%AC%E5%99%A8/">
+        
+          Redis-Key过期监听器
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFservlet"><span class="toc-nav-text">1、什么是servlet</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2%E3%80%81servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-nav-text">2、servlet生命周期</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3%E3%80%81servlet%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="toc-nav-text">3、servlet调用流程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4%E3%80%81Servlet%E6%98%AF%E5%8D%95%E4%BE%8B%E7%9A%84"><span class="toc-nav-text">4、Servlet是单例的</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-1-%E4%B8%BA%E4%BB%80%E4%B9%88Servlet%E6%98%AF%E5%8D%95%E4%BE%8B%E7%9A%84"><span class="toc-nav-text">4.1 为什么Servlet是单例的</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-2-%E6%AF%8F%E6%AC%A1%E8%AE%BF%E9%97%AE%E8%AF%B7%E6%B1%82%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%93%8D%E5%BA%94%E5%AF%B9%E8%B1%A1%E9%83%BD%E6%98%AF%E6%96%B0%E7%9A%84"><span class="toc-nav-text">4.2 每次访问请求对象和响应对象都是新的</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-nav-text">4.3 线程安全问题</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5%E3%80%81ServletConfig%E5%AF%B9%E8%B1%A1"><span class="toc-nav-text">5、ServletConfig对象</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-1-ServletConfig%E5%AF%B9%E8%B1%A1%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-nav-text">5.1 ServletConfig对象有什么用？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-2-%E8%8E%B7%E5%8F%96web-xml%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E7%9A%84%E5%8F%82%E6%95%B0%E4%BF%A1%E6%81%AF"><span class="toc-nav-text">5.2 获取web.xml文件配置的参数信息</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6%E3%80%81ServletContext%E5%AF%B9%E8%B1%A1"><span class="toc-nav-text">6、ServletContext对象</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-1-%E4%BB%80%E4%B9%88%E6%98%AFServletContext%E5%AF%B9%E8%B1%A1%EF%BC%9F"><span class="toc-nav-text">6.1 什么是ServletContext对象？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-2-ServletContext%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="toc-nav-text">6.2 ServletContext有什么用？</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%9A%E8%AF%9D%E6%8A%80%E6%9C%AF"><span class="toc-nav-text">7、什么是会话技术</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-1-%E4%BB%80%E4%B9%88%E6%98%AFCookie"><span class="toc-nav-text">7.1 什么是Cookie</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-11-Cookie%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-nav-text">7.11 Cookie的流程</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-1-2-Cookie-API"><span class="toc-nav-text">7.1.2 Cookie API</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-1-3-cookie%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-nav-text">7.1.3 cookie使用方式</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-1-4-Cookie%E4%B8%8D%E5%8F%AF%E8%B7%A8%E5%9F%9F%E5%90%8D%E6%80%A7"><span class="toc-nav-text">7.1.4 Cookie不可跨域名性</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-1-5-Cookie%E7%9A%84%E6%9C%89%E6%95%88%E6%9C%9F"><span class="toc-nav-text">7.1.5 Cookie的有效期</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-1-6-Cookie%E7%9A%84%E5%9F%9F%E5%90%8D"><span class="toc-nav-text">7.1.6 Cookie的域名</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-2-%E4%BB%80%E4%B9%88%E6%98%AFSession"><span class="toc-nav-text">7.2 什么是Session</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-2-1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Session%E6%8A%80%E6%9C%AF%EF%BC%9F"><span class="toc-nav-text">7.2.1 为什么要使用Session技术？</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-2-2-Session-API"><span class="toc-nav-text">7.2.2 Session API</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-2-3-session%E4%BD%9C%E4%B8%BA%E5%9F%9F%E5%AF%B9%E8%B1%A1"><span class="toc-nav-text">7.2.3 session作为域对象</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#7-2-4-session%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-nav-text">7.2.4 session生命周期</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-3-Session%E5%92%8CCookie%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-nav-text">7.3 Session和Cookie的区别</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#8%E3%80%81forward%E5%92%8Credirect%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-nav-text">8、forward和redirect的区别</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-1-%E5%AE%9E%E9%99%85%E5%8F%91%E7%94%9F%E4%BD%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%EF%BC%8C%E5%9C%B0%E5%9D%80%E6%A0%8F%E4%B8%8D%E5%90%8C"><span class="toc-nav-text">8.1 实际发生位置不同，地址栏不同</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-2-%E7%94%A8%E6%B3%95%E4%B8%8D%E5%90%8C"><span class="toc-nav-text">8.2 用法不同</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-3-%E8%83%BD%E5%A4%9F%E5%8E%BB%E5%BE%80%E7%9A%84URL%E7%9A%84%E8%8C%83%E5%9B%B4%E4%B8%8D%E4%B8%80%E6%A0%B7"><span class="toc-nav-text">8.3 能够去往的URL的范围不一样</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-4-%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE%E7%9A%84%E7%B1%BB%E5%9E%8B%E4%B8%8D%E5%90%8C"><span class="toc-nav-text">8.4 传递数据的类型不同</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-5-%E8%B7%B3%E8%BD%AC%E7%9A%84%E6%97%B6%E9%97%B4%E4%B8%8D%E5%90%8C"><span class="toc-nav-text">8.5 跳转的时间不同</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#8-6-%E5%85%B8%E5%9E%8B%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="toc-nav-text">8.6 典型的应用场景：</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/Web开发基础-Servlet/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

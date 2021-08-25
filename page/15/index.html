@@ -168,6 +168,94 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          多字段映射首先要做的事情就是对我们的字段索引两次：一次使用词干模式以及一次非词干模式。为了做到这点，采用 multifields 来实现，已经在 multifields 有所介绍：
+DELETE /my_index  
+1234567891011121314151617181920PUT / ...
+        
+      </div>
+      <a class="more" href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。
+📒 📒 📒
+
+multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：best_fields 、 most_fields 和 cross_fields  ...
+        
+      </div>
+      <a class="more" href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          假设有个网站允许用户搜索博客的内容，以下面两篇博客内容文档为例：
+1234567891011PUT /my_index/my_type/1&#123;    &quot;title&quot;: &quot;Quick brown rabbits&quot;,    &quot;body&q ...
+        
+      </div>
+      <a class="more" href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          在讨论更复杂的 多字段搜索 之前，让我们先快速解释一下为什么只在主分片上 创建测试索引 。
+用户会时不时的抱怨无法按相关度排序并提供简短的重现步骤：用户索引了一些文档，运行一个简单的查询，然后发现明显低相关度的结果出现在高相关度结果之上。
+为了理解为什么会这样，可以设想，我们在两个主分片上创 ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a>
       </h2>
       <p class="article-date">July 6, 2021</p>
@@ -299,91 +387,6 @@
         
       </div>
       <a class="more" href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。  
-例如，假设我们有两个文档，每个文档的 content 域包含如下内容：  
-The quick brown fox j ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          和 SQL 使用 LIMIT 关键字返回单个 page 结果的方法相同，Elasticsearch 接受 from 和 size 参数：
-size显示应该返回的结果数量，默认是 10from显示应该跳过的初始结果数量，默认是 0如果每页展示 5 条结果，可以用下面方式请求得到 1 到 3 页 ...
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          如果不对某一特殊的索引或者类型做限制，就会搜索集群中的所有文档。Elasticsearch 转发搜索请求到每一个主分片或者副本分片，汇集查询出的前10个结果，并且返回给我们。
-然而，经常的情况下，你想在一个或多个特殊的索引并且在一个或者多个特殊的类型中进行搜索。我们可以通过在URL中指定特殊 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          虽然Elasticsearch仅需要很少的配置，但有许多设置需要手动配置，并且在进入生产之前绝对必须进行配置。
-path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdiscovery.zen.p ...
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">Read more</a>
     </article>
   
 

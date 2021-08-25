@@ -168,6 +168,91 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。  
+例如，假设我们有两个文档，每个文档的 content 域包含如下内容：  
+The quick brown fox j ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          和 SQL 使用 LIMIT 关键字返回单个 page 结果的方法相同，Elasticsearch 接受 from 和 size 参数：
+size显示应该返回的结果数量，默认是 10from显示应该跳过的初始结果数量，默认是 0如果每页展示 5 条结果，可以用下面方式请求得到 1 到 3 页 ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          如果不对某一特殊的索引或者类型做限制，就会搜索集群中的所有文档。Elasticsearch 转发搜索请求到每一个主分片或者副本分片，汇集查询出的前10个结果，并且返回给我们。
+然而，经常的情况下，你想在一个或多个特殊的索引并且在一个或者多个特殊的类型中进行搜索。我们可以通过在URL中指定特殊 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          虽然Elasticsearch仅需要很少的配置，但有许多设置需要手动配置，并且在进入生产之前绝对必须进行配置。
+path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdiscovery.zen.p ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a>
       </h2>
       <p class="article-date">July 5, 2021</p>
@@ -290,100 +375,6 @@
         
       </div>
       <a class="more" href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-
-
-官方地址请戳👉 【传送】 
-
-Apache Flink is a framework and distributed processing engine for stateful computations over unbounded and bounded data streams ...
-        
-      </div>
-      <a class="more" href="/wiki/flink%E7%AE%80%E4%BB%8B/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Flink运行时组件
-JobManager (作业管理器) JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的职责：它决定何时调度下一个 task（或一组 task）、对完成的 task 或执行失败做出反应、协调 checkpoint、并且协调从失败中恢复等等。这个 ...
-        
-      </div>
-      <a class="more" href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          拥塞避免拥塞控制的慢启动是以指数方式快速的通过试探来扩大拥塞窗口的，但是一旦发生网络丢包，则肯定是很多报文段都会都是，因为窗口时称被增长的；为了解决这种问题，需要引入– 拥塞避免
-什么是拥塞避免拥塞避免为了解决慢启动下，当拥塞窗口超出网络带宽时发生的大量丢包问题，它提出一个「慢启动阈值」的概 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          TCP断开连接四次挥手
-
-
-开始客户端和服务端都是处理【established】状态
-客户端发送「FIN」报文之后，进入FIN-WAIT-1状态
-服务端收到客户端的FIN之后，恢复一个ACK，同时进入CLOSE_WAIT状态
-客户端接收到ACK之后，进入到FIN-WAIT-2状态
-服务端接着 ...
-        
-      </div>
-      <a class="more" href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">Read more</a>
     </article>
   
 

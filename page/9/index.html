@@ -168,6 +168,102 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Redis-字符串底层原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis底层实现及原理  
+关键词
+SDS embstr 二进制安全 空间预分配
+
+String类型不同的编码方式
+使用整数存储： 只对长度小于或等于 21 字节，并且可以被解释为整数的字符串进行编码
+使用EMBSTR 编码： 尝试将 RAW 编码的字符串编码为 EMBSTR 编码，
+使用 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-overview/">Redis-overview</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis （Remote Dictionary Server）Redis简介Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。因为是纯内存操作，Redi ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-overview/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Redis-哈希表实现</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis之Hash表底层实现  
+关键词
+字段dict | 渐进式哈希 | ziplist |  哈希表
+
+字典底层结构  
+dict 字典结构体12345678typedf struct dict&#123;    dictType *type;//类型特定函数，包括一些自定义函数，这些 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-list%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Redis-list底层实现</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis List 底层实现   
+关键字
+连锁更新问题 | quicklist | ziplist | linkedlist 
+
+List底层数据结构在 3.0 版本的 Redis 中，List 类型有两种实现方式：数据结构底层采用压缩列表ziplist或linkedlist两种数据结构 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-list%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/">kafka安装与初体验</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -301,98 +397,6 @@ docker-compose  配置文件123456789mongo:    image: mongo:4.4.7 #根据需要�
         
       </div>
       <a class="more" href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">netty实现简易tomcat</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          基于Netty手写一个简易的Tomcat容器本文主要基于传统的BIO来实现一个简单的Http请求处理过程；1、Servlet请求无非就是doGet/doPost，所以我们定义抽象Servlet记忆GET/POST方法；2、基于Netty API实现CS通信；3、模拟Spring加载配置文件， ...
-        
-      </div>
-      <a class="more" href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E4%BD%8D%E8%BF%90%E7%AE%97/">Java位运算</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          在计算机中所有数据都是以二进制的形式储存的。位运算其实就是直接对在内存中的二进制数据进行操作，因此处理数据的速度非常快。在实际编程中，如果能巧妙运用位操作，完全可以达到四两拨千斤的效果，正因为位操作的这些优点，所以位操作在各大IT公司的笔试面试中一直是个热点问题。
-位操作基础基本的位操作符有 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E4%BD%8D%E8%BF%90%E7%AE%97/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E6%B3%A8%E8%A7%A3/">Java注解</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java基础之注解机制详解
-注解是JDK1.5版本开始引入的一个特性，用于对代码进行说明，可以对包、类、接口、字段、方法参数、局部变量等进行注解。它是框架学习和设计者必须掌握的基础。
-
-注解基础注解是JDK1.5版本开始引入的一个特性，用于对代码进行说明，可以对包、类、接口、字段、方法参数、 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E6%B3%A8%E8%A7%A3/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E6%B3%9B%E5%9E%8B/">Java泛型</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java泛型1、泛型定义
-使用泛型机制编写的程序代码要比那些杂乱地使用Object变量，然后在进行强制类型转换的代码具有更好的安全性和可读性。  –《Java核心技术》  
-
-泛型是在编译时期作用的；
-泛型变量使用大写形式，在Java库中，一般使用变量E表示集合的元素类型，K和V表示表的关键 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E6%B3%9B%E5%9E%8B/">Read more</a>
     </article>
   
 

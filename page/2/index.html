@@ -168,6 +168,89 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/MySQL%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">MySQL性能调优</a>
+      </h2>
+      <p class="article-date">August 19, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          1、使用【 覆盖索引 】避免回表锁造成的时间消耗1、查询语句的时候避免使用select * 
+2、创建索引添加适当的列避免回表
+2、使用【 联合索引 】区分度比较高的列放到前面注意联合索引的最左匹配原则
+3、对索引进行函数计算或者表达式计算会导致索引失效 🔒4、利用子查询优化超多分页场景5 ...
+        
+      </div>
+      <a class="more" href="/wiki/MySQL%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">kafka-基础知识</a>
+      </h2>
+      <p class="article-date">August 18, 2021</p>
+      
+        
+  <a href="/tags#kafka" >
+    <span class="tag-code">kafka</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          kafka是什么kafka运行时架构kafka为什么能承载高并发kafka的确认机制是什么kafka如何保证消息准确kafka会丢消息吗？
+kafka会重复消费消息吗
+幂等性
+消息顺序消费问题参考资料kafka基础知识 - yyy
+
+        
+      </div>
+      <a class="more" href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Spring-事务隔离</a>
+      </h2>
+      <p class="article-date">August 18, 2021</p>
+      
+      <div class="article-summary">
+        
+          参考资料https://juejin.cn/post/6854573219916021767
+
+        
+      </div>
+      <a class="more" href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Flink-物理分区函数</a>
+      </h2>
+      <p class="article-date">August 12, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Flink提供的8种分区函数GlobalPartitioner该分区器会将所有的数据都发送到下游的某个算子实例(subtask id = 0)
+12345678910111213//  数据会被分发到下游算子的第一个实例中进行处理    public static void global() ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Flink-UDF函数类</a>
       </h2>
       <p class="article-date">August 12, 2021</p>
@@ -295,96 +378,6 @@ Facade 门面类12345678910111213141516public class Facade &#123;    ...
         
       </div>
       <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式之美-适配器模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          适配器模式适配器模式（Adapter Pattern）又叫做变压器模式，它的功能是将一个类的接口变成客户端所期望的另一个接口，从而使得原本因接口不匹配而导致无法在一起工作的两个类能够在一起工作，属于结构性设计模式的一种；
-在软件开发的过程中，基本上任何问题都可以通过一个中间层解决。适配器模式 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">设计模式之美-责任链模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          责任链模式责任链模式（Chain of Responsibility Patter）是将链中的每一个节点看成是一个对象，每个节点处理的请求均不相同，并且内部自动维护下一个节点对象。当一个请求从链的头部发出时，会沿着链的路径一次传递给每一个节点对象，直到有节点处理这个请求为止；责任链模式属于行 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">设计模式之美-观察者模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          观察者模式观察者模式指多个对象间存在一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。这种模式有时又称作发布-订阅模式、模型-视图模式，它是对象行为型模式。
-属于行为型模式
-类图  
-
-ISubject12345678public interface I ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式之美-装饰器模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          装饰器模式（Decorator Pattern）装饰器模式也叫做包装模式，是指在不改变原有对象的基础上，将功能附加到对象上，提供比继承更有弹性的替代方案（扩展原有对象的功能），强调一点是基于已有对象的功能增强；装饰器模式属于结构性模式;
-装饰器类图  
-
-
-Component 抽象构件
-定义 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
 

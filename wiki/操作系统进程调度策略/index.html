@@ -10,7 +10,7 @@
   
   <title>
     
-      操作系统进程调度策略 | GeekIBLi
+      操作系统-进程调度策略 | GeekIBLi
     
   </title>
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -165,7 +165,7 @@
 </header>
 
     <div id="article-banner">
-  <h2>操作系统进程调度策略</h2>
+  <h2>操作系统-进程调度策略</h2>
   <p class="post-date">2021-07-20</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
@@ -174,22 +174,96 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h1 id="操作系统进程调度策略"><a href="#操作系统进程调度策略" class="headerlink" title="操作系统进程调度策略"></a>操作系统进程调度策略</h1><h2 id="1-什么是进程"><a href="#1-什么是进程" class="headerlink" title="1. 什么是进程"></a>1. 什么是进程</h2><p>进程是操作系统进行<strong>资源分配</strong>的基本单位，每个进程都有它自己的内存空间和系统资源。进程实现了多处理机环境下进程调度，分派，切换时，都需要花费较大的时间和空间开销；</p>
+    <section class="markdown-content"><h1 id="操作系统-进程调度策略"><a href="#操作系统-进程调度策略" class="headerlink" title="操作系统-进程调度策略"></a>操作系统-进程调度策略</h1><h2 id="1-什么是进程"><a href="#1-什么是进程" class="headerlink" title="1. 什么是进程"></a>1. 什么是进程</h2><p>进程是操作系统进行<strong>资源分配</strong>的基本单位，每个进程都有它自己的内存空间和系统资源。进程实现了多处理机环境下进程调度，分派，切换时，都需要花费较大的时间和空间开销；</p>
 <p>为了提升系统的执行效率，减少CPU的空转时间和调度切换的时间，以便于系统的管理，所以有了线程的概念，线程是系统进行<strong>资源调度</strong>的最小单位。一个进程包含一个或者多个线程，一个进程下的线程共享这个进程的资源。进程与进程之间的资源是不共享的，线程和线程之间的资源也是不共享的。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<h2 id="2-什么是进程调度算法"><a href="#2-什么是进程调度算法" class="headerlink" title="2.什么是进程调度算法"></a>2.什么是进程调度算法</h2><p>当CPU有很多任务需要处理时，由于资源有限，不可能同时执行所有的作业和任务，这就需要确定一个规则来确定任务的执行顺序，这种方式或者规则被称为调度算法。</p>
+<p><strong>进程有三种状态</strong></p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35642036/article/details/82809812">操作系统中的进程调度策略有哪几种</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%93%B2%E5%AD%A6%E5%AE%B6%E5%B0%B1%E9%A4%90%E9%97%AE%E9%A2%98"></a></li>
+<li>运行态（running）： 正在占用CPU资源，正在运行中</li>
+<li>就绪态（ready）：进程具备运行条件，等待系统分配CPU来运行</li>
+<li>态阻塞 （wait）: 进程不具备运行条件，正在等待某个时间的完成</li>
 </ul>
-</blockquote>
+<p>所谓进程调度，就是<strong>从进程的就绪队列（阻塞）中按照一定的算法选择一个进程并将 CPU 分配给它运行</strong>，以实现进程的并发执行。这是操作系统中最基本（最低级）的一种调度，在一般的操作系统中都必须配置进程调度。 进程调度的频率很高，一般几十毫秒一次。</p>
+<h2 id="3、进程调度算法分类"><a href="#3、进程调度算法分类" class="headerlink" title="3、进程调度算法分类"></a>3、进程调度算法分类</h2><p>进程调度算法分为两种：</p>
+<ul>
+<li>抢占式调度：系统会按照进程的优先级高低来进行调度，进程之间可以插队，适合分时和实时OS</li>
+<li>非抢占式调度：系统按照进程先到先服务的方式调度，进程之间不能插队，简单，系统开销较小。</li>
+</ul>
+<h2 id="4、调度算法介绍"><a href="#4、调度算法介绍" class="headerlink" title="4、调度算法介绍"></a>4、调度算法介绍</h2><h3 id="4-1-先来先服务算法FCFS"><a href="#4-1-先来先服务算法FCFS" class="headerlink" title="4.1 先来先服务算法FCFS"></a>4.1 先来先服务算法FCFS</h3><p>按照作业提交或进程变为<strong>就绪状态的先后次序,分派CPU；</strong><br>当前作业或进程占用CPU，直到执行完或阻塞，才出让CPU(非抢占方式)。<br>在作业或进程唤醒后(如I/O完成)，<strong>并不立即恢复执行，通常等到当前作业或进程出让CPU。</strong>是最简单的算法。</p>
+<p>在进程调度中采用FCFS算法时，则每次调度是从就绪队列中选择一个最先进入该队列的进程，为之分配处理机，使之投入运行。该进程一直运行到完成或发生某事件而阻塞后才放弃处理机</p>
+<p>FCFS算法属于非抢占（剥夺）调度算法，这种算法比较简单，能够保证不会出现饥饿现象，但是，如果很多长时间作业先到达，后面大部分是短时间作业，这种方式对于后面的短时间任务不太友好。</p>
+<h3 id="4-2-短进程-作业优先算法SJF"><a href="#4-2-短进程-作业优先算法SJF" class="headerlink" title="4.2 短进程/作业优先算法SJF"></a>4.2 短进程/作业优先算法SJF</h3><p>短作业(进程)优先调度算法SJ(P)F，是指对短作业或短进程优先调度的算法。它们可以分别用于作业调度和进程调度。短作业优先(SJF)的调度算法是从后备队列中选择一个或若干个估计运行时间最短的作业，将它们调入内存运行。而短进程优先(SPF)调度算法则是从就绪队列中选出一个估计运行时间最短的进程，将处理机分配给它，使它立即执行并一直执行到完成，或发生某事件而被阻塞放弃处理机时再重新调度。</p>
+<p>1)优点</p>
+<ul>
+<li>1)<strong>比FCFS改善平均周转时间和平均带权周转时间，缩短作业的等待时间；假定所有任务同时到达，平均等待时间最短。</strong></li>
+<li>2)<strong>提高系统的吞吐量</strong>。</li>
+</ul>
+<p>2)缺点</p>
+<ul>
+<li>1)<strong>对长作业非常不利</strong>，可能长时间得不到执行；长作业可能被饿死。</li>
+<li>2)<strong>未能依据作业的紧迫程度来划分执行的优先级</strong>。</li>
+<li>3)难以准确估计作业(进程)的执行时间，<strong>从而影响调度性能</strong>。</li>
+</ul>
+<h3 id="4-3-最高响应比优先算法HRN"><a href="#4-3-最高响应比优先算法HRN" class="headerlink" title="4.3 最高响应比优先算法HRN"></a>4.3 最高响应比优先算法HRN</h3><p>FCFS方式只考虑每个作业的等待时间而未考虑执行时间的长短，而SJF方式只考虑执行时间而未考虑等待时间的长短。<br>因此，这两种调度算法在某些极端情况下会带来某些不便。<br>HRN调度策略同时考虑每个作业的<strong>等待时间长短和估计需要的执行时间长短，从中选出响应比最高的作业投入执行。</strong></p>
+<p>(1)优点</p>
+<ul>
+<li>1)同时到达任务，短者优先。等待时间相等时，服务时间越短，优先级越高，符合SJF思想。</li>
+<li>2)长作业随等待时间增加响应比增加。服务时间相等时，等待时间越长，优先级越高。对于长作业，只要其等待时间足够长，也能获得处理机。</li>
+</ul>
+<p>(2)缺点</p>
+<ul>
+<li>1)吞吐量降低。这种算法是介于FCFS和SJF之间的一种折中算法。由于长作业也有机会投入运行，在同一时间内处理的作业数显然要少于SJF法，从而采用HRN方式时其吞吐量将小于采用SJF法时的吞吐量。</li>
+<li>2)系统开销增加。原因在于每次调度前要计算响应比。</li>
+</ul>
+<h3 id="4-4-最高优先数算法"><a href="#4-4-最高优先数算法" class="headerlink" title="4.4 最高优先数算法"></a>4.4 最高优先数算法</h3><p>在进程调度中，每次调度时，<strong>系统把处理机分配给就绪队列中优先数最高的进程</strong>。它又分为两种：<strong>非抢占式优先数算法和抢占式优先数算法。</strong></p>
+<ul>
+<li>在非抢占式优先数算法下，系统一旦把处理机分配给就绪队列中优先数最高的进程后，<strong>这个进程就会一直运行，直到完成或发生某事件使它放弃处理机</strong>，这时系统才能重新将处理机分配给就绪队列中的另一个优先数最高的进程。</li>
+<li>在抢占式优先数算法下，系统先将处理机分配给就绪队列中优先数最高的进程度让它运行，但在运行的过程中，<strong>如果出现另一个优先数比它高的进程，它就要立即停止，并将处理机分配给新的高优先数进程。</strong></li>
+<li>在抢占式优先数算法下会麻烦一些。</li>
+</ul>
+<h3 id="4-5-时间片轮转调度算法"><a href="#4-5-时间片轮转调度算法" class="headerlink" title="4.5 时间片轮转调度算法"></a>4.5 时间片轮转调度算法</h3><p>轮转(Round Robin，RR)调度算法是<strong>让每个进程在就绪队列中的等待时间与享受服务的时间成正比例</strong>。该算法适用于分时系统</p>
+<p><strong>每个进程所享受的CPU处理时间都是一致的</strong>。</p>
+<p>过程：</p>
+<ol>
+<li>将系统中所有的就绪进程按照FCFS原则，排成一个队列。</li>
+<li>每次调度时将CPU分派给队首进程，让其执行一个时间片。时间片的长度从几个ms到几百ms。</li>
+<li>在一个时间片结束时，发生时钟中断。</li>
+<li>调度程序据此暂停当前进程的执行，将其送到就绪队列的末尾，并通过上下文切换执行当前的队首进程。</li>
+<li>进程可以未使用完一个时间片，就出让CPU，如进程阻塞时。</li>
+</ol>
+<h3 id="4-6-最短剩余时间优先算法"><a href="#4-6-最短剩余时间优先算法" class="headerlink" title="4.6 最短剩余时间优先算法"></a>4.6 <strong>最短剩余时间优先算法</strong></h3><p>最短剩余时间优先(Shortest Remaining Time Next，SRTN)调度算法<strong>多用于剥夺式的调度中。</strong><br>在进程调度中，每次调度时，系统把处理机分配<strong>给就绪队列中运行完所需时间最短的进程。</strong><br>最短剩余时间优先算法<strong>也可用于不剥夺式调度方式中，此时退化为短作业优先算法</strong>。</p>
+<p><strong>也就是短作业优先算法的升级版，只不过它是抢占式的。</strong></p>
+<h3 id="4-7-多级反馈排队算法"><a href="#4-7-多级反馈排队算法" class="headerlink" title="4.7 多级反馈排队算法"></a>4.7 多级反馈排队算法</h3><ul>
+<li><strong>设置多个就绪队列，分别赋予不同的优先级，如逐级降低，队列1的优先级最高。</strong>每个队列执行时间片的长度也不同，规定优先级越低则时间片越长，如逐级加倍。</li>
+<li>新进程进入内存后，先投入队列1的末尾，按FCFS算法调度；若按队列1一个时间片未能执行完，则降低投入到队列2的末尾，同样按FCFS算法调度；如此下去，降低到最后的队列，则按“时间片轮转”算法调度直到完成。</li>
+<li>仅当较高优先级的队列为空，才调度较低优先级的队列中的进程执行。如果进程执行时有新进程进入较高优先级的队列，则抢先执行新进程，并把被抢先的进程投入原队列的末尾。</li>
+</ul>
+<h3 id="4-8-系统算法使用场景"><a href="#4-8-系统算法使用场景" class="headerlink" title="4.8 系统算法使用场景"></a>4.8 系统算法使用场景</h3><p>批处理系统、分时系统和实时系统中，各采用哪几种进程（作业）调度算法？<br><strong>批处理系统常用调度算法：</strong><br>①、先来先服务：FCFS<br>②、最短作业优先<br>③、最短剩余时间优先<br>④、响应比最高者优先</p>
+<p><strong>分时系统调度算法：</strong><br>①、轮转调度<br>②、优先级调度<br>③、多级队列调度<br>④、彩票调度</p>
+<p><strong>实时系统调度算法：</strong><br>①、单比率调度<br>②、限期调度<br>③、最少裕度法</p>
+<h2 id="5、操作算法性能指标"><a href="#5、操作算法性能指标" class="headerlink" title="5、操作算法性能指标"></a>5、操作算法性能指标</h2><h3 id="5-1-CPU利用率"><a href="#5-1-CPU利用率" class="headerlink" title="5.1 CPU利用率"></a>5.1 CPU利用率</h3><p>CPU忙碌时间占总时间的比例</p>
+<h3 id="5-2-系统吞吐量"><a href="#5-2-系统吞吐量" class="headerlink" title="5.2 系统吞吐量"></a>5.2 系统吞吐量</h3><p>系统吞吐量 = 作业完成量 / 完成时间</p>
+<p>利用尽可能少的时间处理尽可能多的作业；</p>
+<h3 id="5-3-周转时间"><a href="#5-3-周转时间" class="headerlink" title="5.3 周转时间"></a>5.3 周转时间</h3><p>周转时间 = 完成时间 - 到达时间点</p>
+<p>平均周转时间 = 周转时间和 / 作业数</p>
+<p>带权周转时间 = 周转时间 / 作业实际运行时间， 这个时间肯定大于等于1，并且数值越小，说明算法越好。</p>
+<p>平均带权周转时间 = 带权周转时间和 / 作业数</p>
+<p><strong>从作业被提交到系统到作业完成所经历的时间都有哪些部分？</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210824203248712.png" alt="image-20210824203248712"></p>
+<h3 id="5-4-等待时间"><a href="#5-4-等待时间" class="headerlink" title="5.4 等待时间"></a>5.4 等待时间</h3><p>等待处理机时间之和： 等待时间 = 周转时间 - 运行时间（- IO时间）</p>
+<p>这个等待时间越大，说明算法越差，作业需要考虑等待高级调度的时间，而进程是不需要的。</p>
+<h3 id="5-5-响应时间"><a href="#5-5-响应时间" class="headerlink" title="5.5 响应时间"></a>5.5 响应时间</h3><p>从提交请求到产生首次响应的时间</p>
+<h3 id="5-6-饥饿"><a href="#5-6-饥饿" class="headerlink" title="5.6 饥饿"></a>5.6 饥饿</h3><p>进程或作业长时间得不到服务，这种现象称之为“饥饿”</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35642036/article/details/82809812">操作系统中的进程调度策略有哪几种</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35642036/article/details/82809812">https://blog.csdn.net/qq_35642036/article/details/82809812</a></p>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#linux" >
-    <span class="tag-code">linux</span>
+  <a href="/tags#操作系统" >
+    <span class="tag-code">操作系统</span>
   </a>
 
       </div>
@@ -243,7 +317,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5"><span class="toc-nav-text">操作系统进程调度策略</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%9B%E7%A8%8B"><span class="toc-nav-text">1. 什么是进程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AD%96%E7%95%A5"><span class="toc-nav-text">操作系统-进程调度策略</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%9B%E7%A8%8B"><span class="toc-nav-text">1. 什么是进程</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-nav-text">2.什么是进程调度算法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3%E3%80%81%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB"><span class="toc-nav-text">3、进程调度算法分类</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4%E3%80%81%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="toc-nav-text">4、调度算法介绍</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-1-%E5%85%88%E6%9D%A5%E5%85%88%E6%9C%8D%E5%8A%A1%E7%AE%97%E6%B3%95FCFS"><span class="toc-nav-text">4.1 先来先服务算法FCFS</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-2-%E7%9F%AD%E8%BF%9B%E7%A8%8B-%E4%BD%9C%E4%B8%9A%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95SJF"><span class="toc-nav-text">4.2 短进程&#x2F;作业优先算法SJF</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-%E6%9C%80%E9%AB%98%E5%93%8D%E5%BA%94%E6%AF%94%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95HRN"><span class="toc-nav-text">4.3 最高响应比优先算法HRN</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-%E6%9C%80%E9%AB%98%E4%BC%98%E5%85%88%E6%95%B0%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.4 最高优先数算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-%E6%97%B6%E9%97%B4%E7%89%87%E8%BD%AE%E8%BD%AC%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.5 时间片轮转调度算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-6-%E6%9C%80%E7%9F%AD%E5%89%A9%E4%BD%99%E6%97%B6%E9%97%B4%E4%BC%98%E5%85%88%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.6 最短剩余时间优先算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-7-%E5%A4%9A%E7%BA%A7%E5%8F%8D%E9%A6%88%E6%8E%92%E9%98%9F%E7%AE%97%E6%B3%95"><span class="toc-nav-text">4.7 多级反馈排队算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-8-%E7%B3%BB%E7%BB%9F%E7%AE%97%E6%B3%95%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-nav-text">4.8 系统算法使用场景</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5%E3%80%81%E6%93%8D%E4%BD%9C%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-nav-text">5、操作算法性能指标</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-1-CPU%E5%88%A9%E7%94%A8%E7%8E%87"><span class="toc-nav-text">5.1 CPU利用率</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-2-%E7%B3%BB%E7%BB%9F%E5%90%9E%E5%90%90%E9%87%8F"><span class="toc-nav-text">5.2 系统吞吐量</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-3-%E5%91%A8%E8%BD%AC%E6%97%B6%E9%97%B4"><span class="toc-nav-text">5.3 周转时间</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-4-%E7%AD%89%E5%BE%85%E6%97%B6%E9%97%B4"><span class="toc-nav-text">5.4 等待时间</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-5-%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4"><span class="toc-nav-text">5.5 响应时间</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-6-%E9%A5%A5%E9%A5%BF"><span class="toc-nav-text">5.6 饥饿</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol></li></ol>
     
   </div>
 </aside>
