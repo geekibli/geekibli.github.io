@@ -168,6 +168,170 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%90%9E%E6%87%82%E7%BA%BF%E7%A8%8B%E6%B1%A0-1/">Java并发编程之搞懂线程池</a>
+      </h2>
+      <p class="article-date">August 4, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          ThreadPool1. 为什么存在线程池1.1 降低资源消耗通过复用已存在的线程和降低线程关闭的次数来尽可能降低系统性能损耗；（享元模式）
+1.2 提升系统响应速度通过复用线程，省去创建线程的过程，因此整体上提升了系统的响应速度；
+1.3 提高线程的可管理性线程是稀缺资源，如果无限制的创建 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%90%9E%E6%87%82%E7%BA%BF%E7%A8%8B%E6%B1%A0-1/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BBlocking-Queue/">Java并发编程之Blocking Queue</a>
+      </h2>
+      <p class="article-date">August 3, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Blocking QueueA blocking queue is a queue that blocks when you try to dequeue from it and the queue is empty, or if you try to enqueue items to it ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BBlocking-Queue/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6/">Java并发编程之中断机制</a>
+      </h2>
+      <p class="article-date">August 3, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          中断机制Java语言提供一种机制来试图“终止”一些特殊的线程，比如一下空转的线程一直消耗系统资源，可以使用中断的方式来停止这一类的线程，这就是Java中断机制。
+1、中断注意的地方1、Java中线程间是协作式，而非抢占式. 调用一个线程的interrupt() 方法中断一个线程，并不是强行关 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCondition%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82/">Java并发编程之Condition机制底层</a>
+      </h2>
+      <p class="article-date">August 3, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Lock框架中的Condition机制还是看一下之前ReentrantLock中调用condition方法的流程图 👇
+
+
+
+
+任何一个java对象都天然继承于Object类，在线程间实现通信的往往会应用到Object的几个方法，比如wait(),wait(long timeout),wa ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCondition%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ReetrantLock/">Java并发编程之深入理解ReentrantLock</a>
+      </h2>
+      <p class="article-date">August 2, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          ReentrantLockReentrantLock重入锁，是实现Lock接口的一个类，也是在实际编程中使用频率很高的一个锁，支持重入性，表示能够对共享资源能够重复加锁，即当前线程获取该锁再次获取不会被阻塞
+加锁操作支持重入性，表示能够对共享资源能够重复加锁，即当前线程获取该锁再次获取不会被 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ReetrantLock/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BAQS%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%8E%9F%E7%90%86/">Java并发编程之AQS底层实现与原理</a>
+      </h2>
+      <p class="article-date">August 2, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          AQS锁限时等待是如何实现的？
+公平锁与非公平锁流程是怎样的？
+独占锁&amp;共享锁独占锁即只允许一个线程获取同步状态，当这个线程还没有释放同步状态时，其他线程是获取不了的，只能加入到同步队列，进行等待。
+公平锁&amp;非公平锁公平锁公平策略：在多个线程争用锁的情况下，公平策略倾向于将访 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BAQS%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/">Java并发编程系列合集</a>
+      </h2>
+      <p class="article-date">August 2, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Lock框架继承关系图
+
+
+
+知识清单
+Java多线程与并发基础
+Java内存模型
+深入理解同步锁-synchronized关键字
+synchronized实现原理概述
+深入理解volatile关键字
+深入理解final关键字
+深入理解并发编程之Blocking Queue
+深入理解并发编程 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/JVM-%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8/">JVM-垃圾收集器</a>
       </h2>
       <p class="article-date">July 31, 2021</p>
@@ -250,177 +414,6 @@ JVM规范对于垃圾收集器的应该如何实现没有任何规定，因此�
         
       </div>
       <a class="more" href="/wiki/JVM-%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">JVM-内存结构</a>
-      </h2>
-      <p class="article-date">July 30, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          作为程序员，最常接触到Java虚拟机的部分应该是内存结构这一部分了，同样这一部分的内容很多，面试也是最常被问到的。虽然JDK已经发布了16版本，但是国内大部分企业都还在使用JDK8。 今天学习一下虚拟机的运行时数据区的组成和各个组件的功能。
-
-
-JDK8官方网站文档链接 – 》 JDK
-运行 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">JVM-深入理解Java虚拟机</a>
-      </h2>
-      <p class="article-date">July 30, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          JVM结构图
-知识清单
-Java内存结构 
-Java对象创建
-Java内存模型
-类加载机制
-垃圾回收机制
-垃圾收集器
-虚拟机调优
-
-学习资料JAVA虚拟机概述Java虚拟机（JVM）工作原理推荐收藏系列：一文理解JVM虚拟机（内存、垃圾回收、性能优化）解决面试中遇到问题Java虚拟机内存管理 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/">Java并发编程-深入理解volatile</a>
-      </h2>
-      <p class="article-date">July 29, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          volatile特性正确理解volatile
-
-多级cache结构 -&gt; 缓存一致性协议（MESI）-&gt; store buffer和invalidate queue -&gt; 内存屏障
-
-可见性volatile的可见性依赖于Java内存模型。 可以参见之前的文章  👉 Jav ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">Java-synchronized关键字剖析</a>
-      </h2>
-      <p class="article-date">July 29, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          之前写过一篇关于synchronized关键字的文章，是当时听马士兵老师的公开课时记录的一些关键笔记📒 链接🔗
-下面我们还是要学习和总结一下synchronized
-synchronized 特性
-有序性as-if-serial
-
-不管编译器和CPU如何重排序，必须保证在单线程情况下程序 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">分布式-秒杀系统设计</a>
-      </h2>
-      <p class="article-date">July 29, 2021</p>
-      
-        
-  <a href="/tags#分布式" >
-    <span class="tag-code">分布式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          秒杀系统的挑战高并发秒杀活动的特点就是短时间内聚集大量请求瞬时到达服务端，此时数据库已经无法支撑如此大数据量的请求了。单个的数据库QPS仅有几百，你可能会想，那我是不是可以部署一个数据库集群呢，在数据库集群前使用Nginx分发，将负载平均分摊到每一个数据库不就可以了吗。这种方式一定程度上是可 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">JVM-Xms,Xmx和Xss</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-
-性能调优参数Xms，Xmx，Xss的含义-Xss规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。
--Xms表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量，JAV ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">JVM-自定义类加载器</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          如何自定义类加载器为什么要自定义加载器
-原因：1、存放在自定义路径上的类，需要通过自定义类加载器去加载。【注意：AppClassLoader加载classpath下的类】2、类不一定从文件中加载，也可能从网络中的流中加载，这就需要自定义加载器去实现加密解密。3、可以定义类的实现机制，实现类的 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">Read more</a>
     </article>
   
 

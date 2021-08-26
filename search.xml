@@ -869,6 +869,7 @@
 <li>数组类的可见性与他的组件类型的可见性一致，如果组件类型不是引用类型，那数组类的可见性将默认为 public。</li>
 </ol>
 <p>内存中实例的 java.lang.Class 对象存在方法区中。作为程序访问方法区中这些类型数据的外部接口。<br>加载阶段与连接阶段的部分内容是交叉进行的，但是开始时间保持先后顺序。</p>
+<p>java agent发生在加载环节，用来增强字节码。</p>
 <h3 id="1-2-Verification（验证）"><a href="#1-2-Verification（验证）" class="headerlink" title="1.2 Verification（验证）"></a>1.2 Verification（验证）</h3><p>JVM 会在该阶段对二进制字节流进行校验，只有符合 JVM 字节码规范的才能被 JVM 正确执行。该阶段是保证 JVM 安全的重要屏障，下面是一些主要的检查。</p>
 <h5 id="1-2-1-文件格式验证"><a href="#1-2-1-文件格式验证" class="headerlink" title="1.2.1 文件格式验证"></a>1.2.1 文件格式验证</h5><ol>
 <li>是否以魔数 0xCAFEBABE 开头</li>
@@ -917,6 +918,13 @@
 <h3 id="1-5-Initialization（初始化）"><a href="#1-5-Initialization（初始化）" class="headerlink" title="1.5 Initialization（初始化）"></a>1.5 Initialization（初始化）</h3><p>该阶段是类加载过程的最后一步。在准备阶段，类变量已经被赋过默认初始值，而在初始化阶段，类变量将被赋值为代码期望赋的值。换句话说，初始化阶段是执行类构造器方法的过程。</p>
 <p>oh，no，上面这段话说得很抽象，不好理解，对不对，我来举个例子。</p>
 <p><code>String cmower = new String(&quot;沉默王二&quot;);</code><br>上面这段代码使用了 new 关键字来实例化一个字符串对象，那么这时候，就会调用 String 类的构造方法对 cmower 进行实例化。</p>
+<p><font color=blue><strong>面试题，什么时候后触发初始化</strong></font></p>
+<p>1、创建类的实例的时候，new一个对象</p>
+<p>2、访问某个类或接口的静态变量，或者对该静态变量赋值</p>
+<p>3、调用类的静态方法</p>
+<p>4、反射</p>
+<p>5、初始化某个类的子类，则其父类也会被初始化</p>
+<p>6、Java虚拟机启动时被标记为启动类的类</p>
 <h2 id="2-双亲委派机制"><a href="#2-双亲委派机制" class="headerlink" title="2. 双亲委派机制"></a>2. 双亲委派机制</h2><p>聊完类加载过程，就不得不聊聊类加载器。</p>
 <h3 id="2-1-什么是类加载"><a href="#2-1-什么是类加载" class="headerlink" title="2.1 什么是类加载"></a>2.1 什么是类加载</h3><img src="https://cdn.jsdelivr.net/gh/code-xiaozhuang/image@main/gao/image-20210730171408574.png" alt="image-20210730171408574" style="zoom:50%;" />
 
@@ -943,6 +951,10 @@
 <h2 id="4-双亲委派如何破坏"><a href="#4-双亲委派如何破坏" class="headerlink" title="4. 双亲委派如何破坏"></a>4. 双亲委派如何破坏</h2><p>线程上下文加载器</p>
 <p><a href="https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">https://enfangzhong.github.io/2019/12/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B9%8B%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/</a></p>
 <p><a href="https://www.cnblogs.com/joemsu/p/9310226.html#_caption_2">https://www.cnblogs.com/joemsu/p/9310226.html#_caption_2</a></p>
+<h2 id="5、类卸载发生在什么时候"><a href="#5、类卸载发生在什么时候" class="headerlink" title="5、类卸载发生在什么时候"></a>5、类卸载发生在什么时候</h2><p>同时满足一下三种情况 👇</p>
+<p>1、该类的所有实例都已经被回收，也就是说堆中不存在该类的任何实例</p>
+<p>2、加载该类的ClassLoader已经被回收</p>
+<p>3、该类对应的java.lang.Class对象没有任何地方被引用，无法在任何地方通过反射访问类的方法</p>
 ]]></content>
       <categories>
         <category>Develop Lan</category>
@@ -5544,15 +5556,24 @@
   <entry>
     <title>mysql常用命令</title>
     <url>/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="binlog相关命令"><a href="#binlog相关命令" class="headerlink" title="binlog相关命令"></a>binlog相关命令</h2><p>mysql&gt; show variables like ‘binlog_format’;</p>
+    <content><![CDATA[<h2 id="binlog相关命令"><a href="#binlog相关命令" class="headerlink" title="binlog相关命令"></a>binlog相关命令</h2><p><code>mysql&gt; show variables like &#39;binlog_format&#39;;</code></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| binlog_format | ROW   |</span><br><span class="line">+---------------+-------+</span><br></pre></td></tr></table></figure>
-<p>show variables like ‘log_bin’;</p>
+<p><code>show variables like &#39;log_bin&#39;;</code></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| log_bin       | ON    |</span><br><span class="line">+---------------+-------+</span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="用户-amp-权限"><a href="#用户-amp-权限" class="headerlink" title="用户&amp;权限"></a>用户&amp;权限</h2><h3 id="创建用户并授权"><a href="#创建用户并授权" class="headerlink" title="创建用户并授权"></a>创建用户并授权</h3><p>root用户登录： mysql -u root -p 然后输入密码<br>创建用户： <code>create user &#39;yjuser&#39;@&#39;%&#39; identified by &#39;u-bx.com&#39;;</code><br>授权用户只读权限： <code>grant SELECT on mirror.* to &#39;yjuser&#39;@&#39;%&#39; IDENTIFIED by &#39;u-bx.com&#39;;</code><br>刷新权限：<code>flush privileges;</code></p>
 <h3 id="查看当前用户"><a href="#查看当前用户" class="headerlink" title="查看当前用户"></a>查看当前用户</h3><p><code>select User();</code></p>
+<h3 id="Mac下配置文件"><a href="#Mac下配置文件" class="headerlink" title="Mac下配置文件"></a>Mac下配置文件</h3><p>首先，查看mysql读取配置文件的默认顺序</p>
+<p><code>mysqld --help --verbose | more </code><br>查看帮助，下翻，会看到表示配置文件默认读取顺序，如下：</p>
+<p>Default options are read from the following files in the given order:<br><code>/etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf</code><br>通常，这些位置上没有配置文件，所以需要创建文件，用下面的命令查找一个样例文件</p>
+<p><code>ls $(brew --prefix mysql)/support-files/my-* </code><br>找到后，将这个配置文件拷贝到第一个默认读取目录下，用如下命令：</p>
+<p><code>cp /usr/local/opt/mysql/support-files/my-default.cnf /etc/my.cnf</code> 或者</p>
+<p><code>cp /usr/local/mysql/support-files/my-default.cnf /etc/my.cnf</code> 看你mysql的位置</p>
+<p>然后，按需修改 <code>my.cnf</code> 文件。</p>
+<p>修改完成后，需要重新启动mysql服务</p>
+<p>brew services start mysql (启动)<br>brew services stop mysql (停止)<br>brew services restart mysql(重启)</p>
 ]]></content>
       <categories>
         <category>DataBase</category>
@@ -9180,6 +9201,384 @@ https://juejin.cn/post/6885159254764814349
 ]]></content>
       <tags>
         <tag>Redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL系列合集</title>
+    <url>/wiki/MySQL%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="技术目录"><a href="#技术目录" class="headerlink" title="技术目录"></a>技术目录</h3><p>MySQL基础知识</p>
+<p>MySQL系统架构</p>
+<p>QueryCache是什么，为什么MySQL8废弃了？</p>
+<p>MySQL支持的存储引擎（InnoDB&amp;MyISAM）</p>
+<p>InnoDB底层结构以及原理</p>
+<p>MySQL事务级别以及实现原理</p>
+<p>MySQL性能调优</p>
+<p>MySQL支持的索引</p>
+<p>MySQL中的各种锁你都知道吗</p>
+<p>为什么有MVCC，解决了什么问题</p>
+<p>数据库主从原理以及实现</p>
+<p>分库分表原理以及实战</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://github.com/AobingJava/JavaFamily">https://github.com/AobingJava/JavaFamily</a></p>
+<h3 id="优美结构图"><a href="#优美结构图" class="headerlink" title="优美结构图"></a>优美结构图</h3><p><a href="https://www.processon.com/mindmap/6127055f6376896024deffae">https://www.processon.com/mindmap/6127055f6376896024deffae</a></p>
+<p><a href="https://www.processon.com/view/5e4a00f7e4b0369b9163d2c8?fromnew=1">https://www.processon.com/view/5e4a00f7e4b0369b9163d2c8?fromnew=1</a></p>
+<p><a href="https://www.processon.com/view/60af54f21e08531e9c899e74?fromnew=1">https://www.processon.com/view/60af54f21e08531e9c899e74?fromnew=1</a></p>
+<p><a href="https://www.processon.com/view/60c167ac0e3e7468f4c4de93?fromnew=1">https://www.processon.com/view/60c167ac0e3e7468f4c4de93?fromnew=1</a></p>
+<p><a href="https://www.processon.com/view/609bd4041e08533e429e6a42?fromnew=1">https://www.processon.com/view/609bd4041e08533e429e6a42?fromnew=1</a></p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL-存储引擎</title>
+    <url>/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/</url>
+    <content><![CDATA[<h1 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h1><p><strong>MySQL支持很多种存储引擎 👇</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210825143434715.png" style="zoom:50%;" />
+
+<p><font color=blue> <strong>有一个面试题：存储引擎是数据库级别的还是数据表级别的？</strong></font></p>
+<p>看上图应该就知道了吧！ <strong>数据表</strong>级别的</p>
+<h2 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h2><p>InnoDB 是 MySQL 默认的事务型存储引擎，只要在需要它不支持的特性时，才考虑使用其他存储引擎。</p>
+<p>InnoDB 采用 <strong>MVCC 来支持高并发</strong>，并且实现了四个标准隔离级别(未提交读、提交读、可重复读、可串行化)。其默认级别时可重复读（REPEATABLE READ），在可重复读级别下，通过 MVCC + Next-Key Locking 防止幻读。</p>
+<p>主索引是<strong>聚簇索引</strong>，在索引中保存了数据，从而避免直接读取磁盘，因此对主键查询有很高的性能。</p>
+<p>InnoDB 内部做了很多优化，包括从磁盘读取数据时采用的<strong>可预测性读</strong>（局部性原理），能够自动在内存中创建 hash 索引以加速读操作的自适应哈希索引，以及能够加速插入操作的插入缓冲区等。</p>
+<p>InnoDB 支持真正的在线热备份，MySQL 其他的存储引擎不支持在线热备份，要获取一致性视图需要停止对所有表的写入，而在读写混合的场景中，停止写入可能也意味着停止读取。</p>
+<p>支持行级锁，间隙锁。</p>
+<h2 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h2><p>设计简单，数据以紧密格式存储。对于只读数据，或者表比较小、可以容忍修复操作，则依然可以使用它。</p>
+<p>提供了大量的特性，包括<strong>压缩表、空间数据索引</strong>等。</p>
+<p>不支持事务。</p>
+<p>不支持行级锁，只能对整张表加锁，读取时会对需要读到的所有表加共享锁，写入时则对表加排它锁。但在表有读取操作的同时，也可以往表中插入新的记录，这被称为并发插入（CONCURRENT INSERT）。</p>
+<p>可以手工或者自动执行检查和修复操作，但是和事务恢复以及崩溃恢复不同，可能导致一些数据丢失，而且修复操作是非常慢的。</p>
+<p>如果指定了 DELAY_KEY_WRITE 选项，在每次修改执行完成时，不会立即将修改的索引数据写入磁盘，而是会写到内存中的键缓冲区，只有在清理键缓冲区或者关闭表的时候才会将对应的索引块写入磁盘。这种方式可以极大的提升写入性能，但是在数据库或者主机崩溃时会造成索引损坏，需要执行修复操作。</p>
+<h3 id="InnoDB-和-MyISAM-的比较"><a href="#InnoDB-和-MyISAM-的比较" class="headerlink" title="InnoDB 和 MyISAM 的比较"></a>InnoDB 和 MyISAM 的比较</h3><ul>
+<li>事务：InnoDB 是事务型的，可以使用 Commit 和 Rollback 语句。</li>
+<li>并发：MyISAM 只支持表级锁，而 InnoDB 还支持行级锁。</li>
+<li>外键：InnoDB 支持外键。</li>
+<li>备份：InnoDB 支持在线热备份。</li>
+<li>崩溃恢复：MyISAM 崩溃后发生损坏的概率比 InnoDB 高很多，而且恢复的速度也更慢。</li>
+<li>索引：InnoDB支持聚簇索引，MyISAM支持非聚簇索引</li>
+<li>其它特性：MyISAM 支持压缩表和空间数据索引。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210825144111190.png" alt="image-20210825144111190"></p>
+<p>由上图可以看出，InnoDB的叶子节点存储的是数据，而MyISAM的叶子节点存放的是数据所在的地址。</p>
+<p>InnoDB是通过B+树结构对主键创建索引，然后叶子节点中存储记录，如果没有主键，则会选择一个唯一键，如果也没有唯一键，则会自动生成一个6位数的row_id作为主键</p>
+<p>如果创建索引的键是其他字段，那么叶子节点中存储的是该记录的主键，通过主键索引找到对应的记录，此过程称之为回表。</p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL-索引</title>
+    <url>/wiki/MySQL-%E7%B4%A2%E5%BC%95/</url>
+    <content><![CDATA[<h1 id="MySQL中支持的索引"><a href="#MySQL中支持的索引" class="headerlink" title="MySQL中支持的索引"></a>MySQL中支持的索引</h1><p>之前问过存储引擎是数据库层面的还是数据表层面的？</p>
+<p>那么现在也同样问一个问题，索引是存储引擎层面的还是服务器层面实现的？答案是存储引擎层面的。 </p>
+<h2 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h2><p>官方介绍索引是帮助MySQL高效获取数据的数据结构。更通俗的说，数据库索引好比是一本书前面的目录，能加快数据库的查询速度。</p>
+<p>一般来说索引本身也很大，不可能全部存储在内存中，因此索引往往是存储在磁盘上的文件中的（可能存储在单独的索引文件中，也可能和数据一起存储在数据文件中）。</p>
+<p>我们通常所说的索引，包括聚集索引、覆盖索引、组合索引、前缀索引、唯一索引等，没有特别说明，默认都是使用B+树结构组织（多路搜索树，并不一定是二叉的）的索引。</p>
+<h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><h3 id="优势："><a href="#优势：" class="headerlink" title="优势："></a>优势：</h3><p>1、可以提高数据检索的效率，降低数据库的IO成本，类似于书的目录。</p>
+<p>2、通过索引列对数据进行排序，降低数据排序的成本，降低了CPU的消耗。</p>
+<p>3、被索引的列会自动进行排序，包括【单列索引】和【组合索引】，只是组合索引的排序要复杂一些。如果按照索引列的顺序进行排序，对应order by语句来说，效率就会提高很多。</p>
+<h3 id="劣势："><a href="#劣势：" class="headerlink" title="劣势："></a>劣势：</h3><p>1、索引会占据磁盘空间</p>
+<p>2、索引虽然会提高查询效率，但是会降低更新表的效率。比如每次对表进行增删改操作，MySQL不仅要保存数据，还有保存或者更新对应的索引文件。</p>
+<p><font color=blue>一个表最多可以创建多少个索引？</font> 16个</p>
+<h2 id="索引的类型"><a href="#索引的类型" class="headerlink" title="索引的类型"></a>索引的类型</h2><h3 id="主键索引"><a href="#主键索引" class="headerlink" title="主键索引"></a>主键索引</h3><p>索引列中的值必须是唯一的，不允许有空值。InnoDB下强烈推荐使用数值类型的自增主键。这个和b+数的排序有关。</p>
+<h3 id="普通索引"><a href="#普通索引" class="headerlink" title="普通索引"></a>普通索引</h3><p>MySQL中基本索引类型，没有什么限制，允许在定义索引的列中插入重复值和空值。</p>
+<h3 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a>唯一索引</h3><p>索引列中的值必须是唯一的，但是允许为空值。</p>
+<h3 id="全文索引"><a href="#全文索引" class="headerlink" title="全文索引"></a>全文索引</h3><p>只能在文本类型CHAR,VARCHAR,TEXT类型字段上创建全文索引。字段长度比较大时，如果创建普通索引，在进行like模糊查询时效率比较低，这时可以创建全文索引。MyISAM和InnoDB中都可以使用全文索引。</p>
+<h3 id="空间索引"><a href="#空间索引" class="headerlink" title="空间索引"></a>空间索引</h3><p>MySQL在5.7之后的版本支持了空间索引，而且支持OpenGIS几何数据模型。MySQL在空间索引这方面遵循OpenGIS几何数据模型规则。</p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>在文本类型如CHAR,VARCHAR,TEXT类列上创建索引时，可以指定索引列的长度，但是数值类型不能指定。</p>
+<h3 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h3><p>组合索引的使用，需要遵循最左前缀匹配原则（最左匹配原则）。一般情况下在条件允许的情况下使用组合索引替代多个单列索引使用。</p>
+<h3 id="聚簇索引（聚集索引）"><a href="#聚簇索引（聚集索引）" class="headerlink" title="聚簇索引（聚集索引）"></a>聚簇索引（聚集索引）</h3><p>在MyISAM存储引擎中，主键索引上存储的是数据在磁盘上的地址。</p>
+<p>在InnoDB存储引擎中，主键索引上存储的就是整行数据。</p>
+<h3 id="辅助索引"><a href="#辅助索引" class="headerlink" title="辅助索引"></a>辅助索引</h3><p>在MyISAM存储引擎中，辅助索引其实和主键索引一样，也是存储的数据的磁盘地址。区别在主键索引的键值必须唯一，而辅助索引的键值可以重复。</p>
+<p>在InnoDB存储引擎中，辅助索引存储的是数据的主键。查到主键之后，在根据主键值查找主键索引上存储的数据。</p>
+<p>这会发生一种现象叫<strong>回表</strong>，会增加性能消耗，解决这种问题的方法就是 <strong>覆盖索引</strong>，也就是把要查询的字段也添加到索引中。</p>
+<h3 id="跳跃索引"><a href="#跳跃索引" class="headerlink" title="跳跃索引"></a>跳跃索引</h3><p>一般情况下，如果表users有复合索引idx_status_create_time，我们都知道，单独用create_time去查询，MySQL优化器是不走索引，所以还需要再创建一个单列索引idx_create_time。用过Oracle的同学都知道，是可以走索引跳跃扫描（Index Skip Scan），在MySQL 8.0也实现Oracle类似的索引跳跃扫描，在优化器选项也可以看到skip_scan=on。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="operator">|</span> optimizer_switch             <span class="operator">|</span>use_invisible_indexes<span class="operator">=</span>off,skip_scan<span class="operator">=</span><span class="keyword">on</span>,hash_join<span class="operator">=</span><span class="keyword">on</span> <span class="operator">|</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>适合复合索引前导列唯一值少，后导列唯一值多的情况，如果前导列唯一值变多了，则MySQL CBO不会选择索引跳跃扫描，取决于索引列的数据分表情况。</strong></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> explain <span class="keyword">select</span> id, user_id，status, phone <span class="keyword">from</span> users <span class="keyword">where</span> create_time <span class="operator">&gt;=</span><span class="string">&#x27;2021-01-02 23:01:00&#x27;</span> <span class="keyword">and</span> create_time <span class="operator">&lt;=</span> <span class="string">&#x27;2021-01-03 23:01:00&#x27;</span>;</span><br><span class="line"><span class="operator">+</span><span class="comment">----+-------------+-------+------------+------+---------------+------+---------+------+--------+----------+----</span></span><br><span class="line"><span class="operator">|</span> id <span class="operator">|</span> select_type <span class="operator">|</span> <span class="keyword">table</span> <span class="operator">|</span> partitions <span class="operator">|</span> type <span class="operator">|</span> possible_keys <span class="operator">|</span> key  <span class="operator">|</span> key_len <span class="operator">|</span> <span class="keyword">ref</span>  <span class="operator">|</span> <span class="keyword">rows</span>   <span class="operator">|</span> filtered <span class="operator">|</span> Extra       <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">----+-------------+-------+------------+------+---------------+------+---------+------+--------+----------+----</span></span><br><span class="line"><span class="operator">|</span>  <span class="number">1</span> <span class="operator">|</span> SIMPLE      <span class="operator">|</span> users <span class="operator">|</span> <span class="keyword">NULL</span>       <span class="operator">|</span> <span class="keyword">range</span>  <span class="operator">|</span> idx_status_create_time          <span class="operator">|</span> idx_status_create_time <span class="operator">|</span> <span class="keyword">NULL</span>    <span class="operator">|</span> <span class="keyword">NULL</span> <span class="operator">|</span> <span class="number">15636</span> <span class="operator">|</span>    <span class="number">11.11</span> <span class="operator">|</span> <span class="keyword">Using</span> <span class="keyword">where</span>; <span class="keyword">Using</span> index <span class="keyword">for</span> <span class="keyword">skip</span> scan<span class="operator">|</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以通过 <code>optimizer_switch=&#39;skip_scan=off&#39;</code>来关闭索引跳跃扫描特性。</p>
+<h2 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B Tree"></a>B Tree</h2><p>B树有什么特点呢？</p>
+<p>1、所有的键值分布在整棵树上面</p>
+<p>2、搜索有可能在非叶子节点结束，在关键字全集内做一次查找，性能接近于二分查找</p>
+<p>3、每个节点最多拥有m个子树，根节点至少有2个子树，分支节点至少拥有m / 2个子树（除根节点和叶子节点都是分支节点）</p>
+<p>4、所有叶子节点都在同一层，每个节点最多可以有m - 1个key，并且按照升序排序</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210825145448549.png" alt="image-20210825145448549"></p>
+<p>B Tree 指的是 Balance Tree，也就是平衡树，平衡树是一颗查找树，并且所有叶子节点位于同一层。</p>
+<h3 id="图例说明"><a href="#图例说明" class="headerlink" title="图例说明"></a>图例说明</h3><p>1、每个节点占据一个磁盘块，一个节点上有两个升序排序的关键字K和三个指向子树节点的指针P，指针P存储子节点所在的磁盘块的地址。</p>
+<p>2、两个关键字K划分三个范围域对应三个指针指向子树的数据范围</p>
+<h3 id="查找关键字的过程"><a href="#查找关键字的过程" class="headerlink" title="查找关键字的过程"></a>查找关键字的过程</h3><p>1、根据根节点查找磁盘块1，读入到内存（第一次磁盘IO）</p>
+<p>2、比较关键字K22在（K25，K50）区间，找到磁盘块1的P2指针</p>
+<p>3、根据磁盘块1的P2指针找到磁盘块3，读到内存（第二次磁盘IO）</p>
+<p>4、继续比较K32,锁定在K30,K38之间，找到磁盘3的P2指针</p>
+<p>5、根据磁盘块2的P2指针锁定磁盘块8，读到内存（第三次磁盘IO）</p>
+<p>6、在磁盘块8的关键字列表中找到关键字K32</p>
+<h3 id="B树的缺点"><a href="#B树的缺点" class="headerlink" title="B树的缺点"></a>B树的缺点</h3><p>1、每个节点都存储key和数据，而数据一般又会占用相对较多的空间，这样导致每个节点锁存储的关键字数量较少，最终导致树的高度比较高</p>
+<p>2、当数据量较大的时候，由于树的高度比较深，造成查询的性能极差</p>
+<h2 id="B-Tree-1"><a href="#B-Tree-1" class="headerlink" title="B+Tree"></a>B+Tree</h2><p><strong>思考一下问题🤔</strong></p>
+<p>为什么MySQL使用B+Tree这种数据结构来作为索引结构呢？</p>
+<p>为什么不使用二叉树呢？为什么不使用B Tree呢？</p>
+<h3 id="B-树的特点"><a href="#B-树的特点" class="headerlink" title="B+树的特点"></a>B+树的特点</h3><p><strong>B+ Tree 是 B 树的一种变形，它是基于 B Tree 和叶子节点顺序访问指针进行实现，通常用于数据库和操作系统的文件系统中。</strong></p>
+<p>1、B+ 树有两种类型的节点：内部节点（也称索引节点）和叶子节点，内部节点就是非叶子节点，内部节点不存储数据，只存储索引，相对于B树，每个节点可以存储更多的节点。这样可以大大降低树的高度，同时把数据范围数据都存在叶子节点。</p>
+<p>2、内部节点中的 key 都按照从小到大的顺序排列，对于内部节点中的一个 key，左子树中的所有 key 都小于它，右子树中的 key 都大于等于它，叶子节点的记录也是按照从小到大排列的。</p>
+<p>3、叶子节点两两指针互相链接（符合磁盘的预读特性），顺序查询性能更高。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210825150633224.png" alt="image-20210825150633224"></p>
+<h3 id="B-树的优点"><a href="#B-树的优点" class="headerlink" title="B+树的优点"></a>B+树的优点</h3><ul>
+<li>因为不再需要进行全表扫描，只需要对树进行搜索即可，所以查找速度快很多。</li>
+<li>因为 B+ Tree 的有序性，所以除了用于查找，还可以用于排序和分组。</li>
+<li>可以指定多个列作为索引列，多个索引列共同组成键。</li>
+<li>适用于全键值、键值范围和键前缀查找，其中键前缀查找只适用于最左前缀查找。如果不是按照索引列的顺序进行查找，则无法使用索引。</li>
+</ul>
+<h2 id="哈希索引"><a href="#哈希索引" class="headerlink" title="哈希索引"></a>哈希索引</h2><p>哈希索引能以 O(1) 时间进行查找，但是失去了有序性：</p>
+<ul>
+<li>无法用于排序与分组；</li>
+<li>只支持精确查找，无法用于部分查找和范围查找。</li>
+</ul>
+<p>InnoDB 存储引擎有一个特殊的功能叫“自适应哈希索引”，当某个索引值被使用的非常频繁时，会在 B+Tree 索引之上再创建一个哈希索引，这样就让 B+Tree 索引具有哈希索引的一些优点，比如快速的哈希查找。</p>
+<h2 id="全文索引-1"><a href="#全文索引-1" class="headerlink" title="全文索引"></a>全文索引</h2><p>MyISAM 存储引擎支持全文索引，用于查找文本中的关键词，而不是直接比较是否相等。</p>
+<p>查找条件使用 MATCH AGAINST，而不是普通的 WHERE。</p>
+<p>全文索引使用倒排索引实现，它记录着关键词到其所在文档的映射。</p>
+<p>InnoDB 存储引擎在 MySQL 5.6.4 版本中也开始支持全文索引。</p>
+<h2 id="索引的优化"><a href="#索引的优化" class="headerlink" title="索引的优化"></a>索引的优化</h2><p>1、索引不支持表达式</p>
+<p>2、在需要使用多个字段作为查询条件的时候，可以使用多列索引，注意最左匹配原则</p>
+<p>3、索引列的顺序要注意，区分度大的列写在索引的前面，效率会比较高</p>
+<p>4、前缀索引，对于Blog，Text之类的大字段，必须使用前缀索引，只索引开始的部分字符，前缀长度的选取需要根据索引选择性来确定。</p>
+<p>5、覆盖索引，查询的字段尽量保存在索引，避免回表。</p>
+<h2 id="索引的优点"><a href="#索引的优点" class="headerlink" title="索引的优点"></a>索引的优点</h2><ul>
+<li>大大减少了服务器需要扫描的数据行数。</li>
+<li>帮助服务器避免进行排序和分组，以及避免创建临时表（B+Tree 索引是有序的，可以用于 ORDER BY 和 GROUP BY 操作。临时表主要是在排序和分组过程中创建，不需要排序和分组，也就不需要创建临时表）。</li>
+<li>将随机 I/O 变为顺序 I/O（B+Tree 索引是有序的，会将相邻的数据都存储在一起）。</li>
+</ul>
+<h2 id="索引的使用条件"><a href="#索引的使用条件" class="headerlink" title="索引的使用条件"></a>索引的使用条件</h2><ul>
+<li>对于非常小的表、大部分情况下简单的全表扫描比建立索引更高效；</li>
+<li>对于中到大型的表，索引就非常有效；</li>
+<li>但是对于特大型的表，建立和维护索引的代价将会随之增长。这种情况下，需要用到一种技术可以直接区分出需要查询的一组数据，而不是一条记录一条记录地匹配，例如可以使用分区技术。</li>
+</ul>
+<p><strong>为什么对于非常小的表，大部分情况下简单的全表扫描比建立索引更高效？</strong></p>
+<p>如果一个表比较小，那么显然直接遍历表比走索引要快（因为需要回表）。</p>
+<p>⚠️注：首先，要注意这个答案隐含的条件是查询的数据不是索引的构成部分，否也不需要回表操作。其次，查询条件也不是主键，否则可以直接从聚簇索引中拿到数据。</p>
+<p><a href="https://mp.weixin.qq.com/s/faOaXRQM8p0kwseSHaMCbg">https://mp.weixin.qq.com/s/faOaXRQM8p0kwseSHaMCbg</a></p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL-InnoDB架构</title>
+    <url>/wiki/MySQL-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E7%BA%A7%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Innodb架构"><a href="#Innodb架构" class="headerlink" title="Innodb架构"></a>Innodb架构</h1><p>存储引擎是MySQL非常重要的组成部分，它直接影响了一个数据库的性能，是MySQL的绝对核心。</p>
+<p>下面是InnoDB的结构图 👇</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826101756286.png" alt="image-20210826101756286"></p>
+<p>从上面第二张图可以看到，InnoDB 主要分为两大块：</p>
+<ul>
+<li>InnoDB In-Memory Structures</li>
+<li>InnoDB On-Disk Structures</li>
+</ul>
+<p>内存和磁盘，让我们先从内存开始。</p>
+<h2 id="In-Memory-Structures内存模块"><a href="#In-Memory-Structures内存模块" class="headerlink" title="In-Memory Structures内存模块"></a>In-Memory Structures内存模块</h2><h3 id="Buffer-Pool"><a href="#Buffer-Pool" class="headerlink" title="Buffer Pool"></a>Buffer Pool</h3><p>正如之前提到的，<font color=blue>MySQL 不会直接去修改磁盘的数据，因为这样做太慢了</font>，MySQL 会先改内存，然后记录 redo log，等有空了再刷磁盘，如果内存里没有数据，就去磁盘 load。</p>
+<p>而这些数据存放的地方，就是 Buffer Pool。</p>
+<p>我们平时开发时，会用 redis 来做缓存，缓解数据库压力，其实 MySQL 自己也做了一层类似缓存的东西。</p>
+<p>MySQL 是以「页」（page）为单位从磁盘读取数据的，Buffer Pool 里的数据也是如此，实际上，Buffer Pool 是<code>a linked list of pages</code>，一个以页为元素的链表。</p>
+<p>为什么是链表？因为和缓存一样，它也需要一套淘汰算法来管理数据。Buffer Pool 采用基于 LRU（least recently used） 的算法来管理内存。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826102246153.png" alt="image-20210826102246153"></p>
+<p><strong>B+树中一个节点为一页或页的倍数最为合适</strong>。为什么呢？</p>
+<p>因为如果一个节点的大小小于1页，那么读取这个节点的时候其实也会读出1页，造成资源的浪费。</p>
+<p>如果一个节点的大小大于1页，比如1.2页，那么读取这个节点的时候会读出2页，也会造成资源的浪费。</p>
+<p>所以为了不造成浪费，所以最后把一个节点的大小控制在1页、2页、3页、4页等倍数页大小最为合适。</p>
+<ul>
+<li><strong>各个数据页</strong>可以组成一个<strong>双向链表</strong></li>
+<li>而<strong>每个数据页中的记录</strong>又可以组成一个<strong>单向</strong>链表</li>
+<li>每个数据页都会为存储在它里边儿的记录生成一个<strong>页目录</strong>，在通过<strong>主键</strong>查找某条记录的时候可以在页目录中使用<strong>二分法快速定位</strong>到对应的槽，然后再遍历该槽对应分组中的记录即可快速找到指定的记录</li>
+<li>以<strong>其他列</strong>(非主键)作为搜索条件：只能从最小记录开始<strong>依次遍历单链表中的每条记录</strong>。</li>
+</ul>
+<p>所以说，如果我们写 select * from user where username=’小明’ 这样没有进行任何优化的sql语句，默认会这样做：</p>
+<ul>
+<li>定位到记录所在的页</li>
+<li>需要遍历双向链表，找到所在的页</li>
+<li>从所在的页内中查找相应的记录</li>
+<li> 由于不是根据主键查询，只能遍历所在页的单链表了</li>
+</ul>
+<h3 id="Change-Buffer"><a href="#Change-Buffer" class="headerlink" title="Change Buffer"></a><strong>Change Buffer</strong></h3><p>change buffer存放在Buffer Pool中。</p>
+<p>上面提到过，如果内存里没有对应「页」的数据，MySQL 就会去把数据从磁盘里 load 出来，如果每次需要的「页」都不同，或者不是相邻的「页」，那么每次 MySQL 都要去 load，这样就很慢了。</p>
+<p>于是如果 MySQL 发现你要修改的页，不在内存里，就把你要对页的修改，先记到一个叫 Change Buffer 的地方，同时记录 redo log，然后再慢慢把数据 load 到内存，load 过来后，再把 Change Buffer 里记录的修改，应用到内存（Buffer Pool）中，这个动作叫做 <strong>merge</strong>；而把内存数据刷到磁盘的动作，叫 <strong>purge</strong>：</p>
+<ul>
+<li><strong>merge：Change Buffer -&gt; Buffer Pool</strong></li>
+<li><strong>purge：Buffer Pool -&gt; Disk</strong></li>
+</ul>
+<h3 id="Adaptive-Hash-Index"><a href="#Adaptive-Hash-Index" class="headerlink" title="Adaptive Hash Index"></a><strong>Adaptive Hash Index</strong></h3><p>MySQL 索引，不管是在磁盘里，还是被 load 到内存后，都是 B+ 树，B+ 树的查找次数取决于树的深度。你看，数据都已经放到内存了，还不能“一下子”就找到它，还要“几下子”，这空间牺牲的是不是不太值得？</p>
+<p>尤其是那些频繁被访问的数据，每次过来都要走 B+ 树来查询，这时就会想到，我用一个指针把数据的位置记录下来不就好了？</p>
+<p>这就是「自适应哈希索引」（Adaptive Hash Index）。自适应，顾名思义，MySQL 会自动评估使用自适应索引是否值得，如果观察到建立哈希索引可以提升速度，则建立。</p>
+<h3 id="Redo-log-buffer"><a href="#Redo-log-buffer" class="headerlink" title="Redo log buffer"></a>Redo log buffer</h3><p>Redo log buffer里面存储了数据修改所产生的redo log。</p>
+<h2 id="On-Disk-Structures-磁盘模块"><a href="#On-Disk-Structures-磁盘模块" class="headerlink" title="On-Disk Structures 磁盘模块"></a>On-Disk Structures 磁盘模块</h2><p>磁盘里有什么呢？除了表结构定义和索引，还有一些为了高性能和高可靠而设计的角色，比如 redo log、undo log、Change Buffer，以及 Doublewrite Buffer 等等.</p>
+<h3 id="Tablespaces表空间"><a href="#Tablespaces表空间" class="headerlink" title="Tablespaces表空间"></a><strong>Tablespaces表空间</strong></h3><p>Tablespaces 分为五种：</p>
+<ul>
+<li>The System Tablespace</li>
+<li>File-Per-Table Tablespaces</li>
+<li>General Tablespace</li>
+<li>Undo Tablespaces</li>
+<li>Temporary Tablespaces</li>
+</ul>
+<p>其中，我们平时创建的表的数据，可以存放到 The System Tablespace 、File-Per-Table Tablespaces、General Tablespace 三者中的任意一个地方，具体取决于你的配置和创建表时的 sql 语句。</p>
+<h3 id="Doublewrite-Buffer"><a href="#Doublewrite-Buffer" class="headerlink" title="Doublewrite Buffer"></a><strong>Doublewrite Buffer</strong></h3><p><strong>如果说 Change Buffer 是提升性能，那么 Doublewrite Buffer 就是保证数据页的可靠性。</strong></p>
+<p>怎么理解呢？</p>
+<p>前面提到过，MySQL 以「页」为读取和写入单位，一个「页」里面有多行数据，写入数据时，MySQL 会先写内存中的页，然后再刷新到磁盘中的页。</p>
+<p>这时问题来了，假设在某一次从内存刷新到磁盘的过程中，一个「页」刷了一半，突然操作系统或者 MySQL 进程奔溃了，这时候，内存里的页数据被清除了，而磁盘里的页数据，刷了一半，处于一个中间状态，不尴不尬，可以说是一个「不完整」，甚至是「坏掉的」的页。</p>
+<p>有同学说，不是有 Redo Log 么？其实这个时候 Redo Log 也已经无力回天，Redo Log 是要在磁盘中的页数据是正常的、没有损坏的情况下，才能把磁盘里页数据 load 到内存，然后应用 Redo Log。而如果磁盘中的页数据已经损坏，是无法应用 Redo Log 的。</p>
+<p>所以，MySQL 在刷数据到磁盘之前，要先把数据写到另外一个地方，也就是 Doublewrite Buffer，写完后，再开始写磁盘。Doublewrite Buffer 可以理解为是一个备份（recovery），万一真的发生 crash，就可以利用 Doublewrite Buffer 来修复磁盘里的数据。</p>
+<h3 id="Insert-Buffer"><a href="#Insert-Buffer" class="headerlink" title="Insert Buffer"></a>Insert Buffer</h3><p>对于主键顺序插入的数据，插入速度很快，因为数据页的存放是按照主键顺序存放的。但是对于非聚集的且不是唯一的索引，数据的插入不是连续的，所以需要离散的访问非聚集索引页，随机读取的存在会导致插入操作性能下降。</p>
+<p>MySQL 的插入缓冲，在非聚集索引的插入或更新时，不直接插入到索引页，而是先判断插入的非聚集索引页是否在缓冲池中，若在，则直接插入；如果不在，不会去读数据，而是先放入到一个insert buffer对象中，然后再以一定的频率和情况进行 insert buffer 和 辅助索引页子节点合并操作，这是通常能将多个插入合并到一个操作中，这就大大提高了对于非聚集索引插入的性能。</p>
+<h3 id="使用Insert-Buffer的场景"><a href="#使用Insert-Buffer的场景" class="headerlink" title="使用Insert Buffer的场景"></a>使用Insert Buffer的场景</h3><p>1、索引是辅助索引</p>
+<p>2、索引不是唯一的</p>
+<p>因为在插入时，数据库并不去查找插入记录的唯一性，否则就需要离散的读取数据，这使 insert buffer 失去了意义。</p>
+<h3 id="风险点"><a href="#风险点" class="headerlink" title="风险点"></a>风险点</h3><p>如果数据库宕机时还有大量的缓存没合并到实际的索引中去，恢复这些数据可能需要很长的时间</p>
+<h3 id="flush-neighbor-page"><a href="#flush-neighbor-page" class="headerlink" title="flush neighbor page"></a>flush neighbor page</h3><p>当刷新一个脏页时，Innodb存储引擎会 检测该页所在区的所有页，如果是脏页，那么一起进行刷新</p>
+<h2 id="innodb-fast-shutdown参数"><a href="#innodb-fast-shutdown参数" class="headerlink" title="innodb_fast_shutdown参数"></a>innodb_fast_shutdown参数</h2><p>innodb_fast_shutdown参数有三个值 如下👇</p>
+<p>0 表示mysql数据库关闭时，innodb需要完成所有的full purge 和 merge insert buffer，并将所有的脏页刷新会磁盘。耗时长</p>
+<p>1 默认值，表示不需要完成 full purge 和 merge insert buffer 操作，但是在缓冲池中的一些数据还是会刷新会磁盘。</p>
+<p>2 表示不完成 full purge 和 merge insert buffer 操作，也不刷新脏页，而是将日志都写入日志。这样不会有任何的事务丢失，但是下次数据库启动时，需要进行恢复操作</p>
+<h2 id="后台线程"><a href="#后台线程" class="headerlink" title="后台线程"></a>后台线程</h2><p>InnoDB 是多线程模型，不同的后台线程处理不同的任务。</p>
+<h3 id="Master-Thread"><a href="#Master-Thread" class="headerlink" title="Master Thread"></a>Master Thread</h3><p>核心线程，负责将缓冲池中的数据异步刷新到磁盘，保证数据的一致性，包括脏页的刷新、合并插入缓冲、Undo页的回收。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826112203051.png" alt="image-20210826112203051"></p>
+<h3 id="IO-Thread"><a href="#IO-Thread" class="headerlink" title="IO Thread"></a>IO Thread</h3><p>InnoDB 使用AIO处理IO请求，提高数据库性能，IO Thread负责这些请求的回调。</p>
+<p>IO Thread 包括write/read/insert buffer/log io thread</p>
+<h3 id="Purge-Thread"><a href="#Purge-Thread" class="headerlink" title="Purge Thread"></a>Purge Thread</h3><p>事务被提交后，其使用的undolog可能不再需要，需要 purge thread来回收已经使用并分配的undo页</p>
+<h3 id="Page-Cleaner-Thread"><a href="#Page-Cleaner-Thread" class="headerlink" title="Page Cleaner Thread"></a>Page Cleaner Thread</h3><p>减轻原Master Thrad 的工作及对于用户查询线程的阻塞，进一步提供InnoDB存储引擎的性能</p>
+<h2 id="checkpoint"><a href="#checkpoint" class="headerlink" title="checkpoint"></a>checkpoint</h2><h3 id="什么是checkpoint"><a href="#什么是checkpoint" class="headerlink" title="什么是checkpoint"></a>什么是checkpoint</h3><p>页面操作先在内存缓冲区，再刷新到磁盘，如果刷新磁盘时发生的宕机，那么数据将丢失。为了解决这个文件，当前事务数据库普遍使用 write ahead log策略，即事务提交时，先写重做日志，再修改页。这样即使宕机，也可以通过重做日志来完成数据的恢复。但是重做日志没有redis的redo功能，对于运行时间较长或者提交较大的重做日志恢复是非常耗时的，所以需要 CheckPoint 解决</p>
+<h3 id="Checkpoint-解决的问题"><a href="#Checkpoint-解决的问题" class="headerlink" title="Checkpoint 解决的问题"></a>Checkpoint 解决的问题</h3><p>1、缓冲池不够用时 ，将脏页刷新到磁盘</p>
+<p>2、重做日志不可用时，刷新脏页</p>
+<p>3、数据库只需要到checkpoint后的日志进行恢复，缩短数据库的恢复时间</p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MySQL-基本架构及原理</title>
+    <url>/wiki/MySQL-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826115314566.png" alt="image-20210826115314566"></p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用了那么久MySQL，我竟然不知道ICP</title>
+    <url>/wiki/MySQL-%E7%B4%A2%E5%BC%95%E6%9D%A1%E4%BB%B6%E4%B8%8B%E6%8E%A8ICP/</url>
+    <content><![CDATA[<h1 id="用了那么久MySQL，我竟然不知道ICP"><a href="#用了那么久MySQL，我竟然不知道ICP" class="headerlink" title="用了那么久MySQL，我竟然不知道ICP"></a>用了那么久MySQL，我竟然不知道ICP</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>开启ICP，如果部分WHERE条件能使用索引中的字段，MySQL Server 会把这部分下推到存储引擎层，存储引擎通过索引过滤，把满足的行从表中读取出。ICP能减少引擎层访问基表的次数和MySQL Server 访问存储引擎的次数。</p>
+<p>ICP 优化的全称是 Index Condition Pushdown Optimization 。</p>
+<p>ICP 优化适用于 MySQL 利用索引从表里检索数据的场景。</p>
+<hr>
+<p>经过学习了ICP之后我大概对ICP有了初步的理解 👇</p>
+<h3 id="关闭ICP情况下的查询流程"><a href="#关闭ICP情况下的查询流程" class="headerlink" title="关闭ICP情况下的查询流程"></a>关闭ICP情况下的查询流程</h3><p>禁用ICP，存储引擎会通过遍历索引定位基表中的行，然后返回给MySQL Server层，再去为这些数据行进行WHERE后的条件的过滤。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826183031500.png" alt="image-20210826183031500"></p>
+<h3 id="开启ICP之后的执行流程"><a href="#开启ICP之后的执行流程" class="headerlink" title="开启ICP之后的执行流程"></a>开启ICP之后的执行流程</h3><p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826183050694.png" alt="image-20210826183050694"></p>
+<p>一开始我对于 <strong>ICP只能使用于二级索引，而不能用于主键索引</strong>这一限制不太理解。那是因为我没有该明白ICP到底是干什么的？</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210826171730637.png" alt="image-20210826171730637"></p>
+<p>我们这边用一些别人的图方便理解。</p>
+<p><strong>ICP能减少引擎层访问基表的次数和MySQL Server 访问存储引擎的次数。</strong></p>
+<p>这是ICP的关键目的，为什么能减少引擎对于基表的访问呢？因为ICP在引擎层执行了额外的过滤和筛选，使得大量的无效数据查询基表。</p>
+<p>因为是二级索引，需要根据主键id去获取到整行的数据。</p>
+<hr>
+<h2 id="ICP-原理"><a href="#ICP-原理" class="headerlink" title="ICP 原理"></a>ICP 原理</h2><p>以 InnoDB 表为例。</p>
+<p>在不启用 ICP 的情况下利用二级索引查找数据的过程：</p>
+<ol>
+<li>用二级索引查找数据的主键；</li>
+<li>用主键回表读取完整的行记录；</li>
+<li>利用 where 语句的条件对行记录进行过滤。</li>
+</ol>
+<p>启用 ICP 的情况下利用二级索引查找数据的过程为：</p>
+<ol>
+<li>用二级索引查找数据的主键；</li>
+<li>如果二级索引记录的元组里的列出现在 where 条件里，那么对元组进行过滤；</li>
+<li>对索引元组的主键回表读取完整的行记录；</li>
+<li>利用 where 语句的剩余条件对行记录进行过滤；</li>
+</ol>
+<p>ICP 适用的一个隐含前提是二级索引必须是组合索引、且在使用索引进行扫描时只能采用最左前缀匹配原则。组合索引后面的列出现在 where 条件里，因此可以先过滤索引元组、从而减少回表读的数量。</p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>对于组合索引 <code>INDEX (zipcode, lastname, firstname)</code>，下面的 SQL 根据最左前缀原则，只能使用到索引的第一列 <code>zipcode</code>，索引的另一列 <code>lastname</code> 出现在 where 条件里，可以采用 ICP 对索引的元组进行过滤，即应用 <code>lastname LIKE &#39;%etrunia%&#39;</code> 条件；然后再回表读取完成的行记录，再对行记录应用 <code>address LIKE &#39;%Main Street%&#39;</code> 条件。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> people</span><br><span class="line"><span class="keyword">WHERE</span> zipcode<span class="operator">=</span><span class="string">&#x27;95054&#x27;</span></span><br><span class="line"><span class="keyword">AND</span> lastname <span class="keyword">LIKE</span> <span class="string">&#x27;%etrunia%&#x27;</span></span><br><span class="line"><span class="keyword">AND</span> address <span class="keyword">LIKE</span> <span class="string">&#x27;%Main Street%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="ICP使用限制"><a href="#ICP使用限制" class="headerlink" title="ICP使用限制"></a>ICP使用限制</h3><p>1 当sql需要全表访问时,ICP的优化策略可用于range, ref, eq_ref, ref_or_null 类型的访问数据方法 。</p>
+<p>2 支持InnoDB和MyISAM表。</p>
+<p>3 ICP只能用于二级索引，不能用于主索引。</p>
+<p>4 并非全部where条件都可以用ICP筛选。<br>  如果where条件的字段不在索引列中,还是要读取整表的记录到server端做where过滤。</p>
+<p>5 ICP的加速效果取决于在存储引擎内通过ICP筛选掉的数据的比例。</p>
+<p>6 5.6 版本的不支持分表的ICP 功能，5.7 版本的开始支持。</p>
+<p>7 当sql 使用覆盖索引时，不支持ICP 优化方法。</p>
+<h2 id="如何查看是否开启了ICP"><a href="#如何查看是否开启了ICP" class="headerlink" title="如何查看是否开启了ICP"></a>如何查看是否开启了ICP</h2><p><code>show variables like &#39;optimizer_switch&#39;;</code></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">index_merge<span class="operator">=</span><span class="keyword">on</span>,index_merge_union<span class="operator">=</span><span class="keyword">on</span>,index_merge_sort_union<span class="operator">=</span><span class="keyword">on</span>,index_merge_intersection<span class="operator">=</span><span class="keyword">on</span>,engine_condition_pushdown<span class="operator">=</span><span class="keyword">on</span>,index_condition_pushdown<span class="operator">=</span><span class="keyword">on</span>,mrr<span class="operator">=</span><span class="keyword">on</span>,mrr_cost_based<span class="operator">=</span><span class="keyword">on</span>,block_nested_loop<span class="operator">=</span><span class="keyword">on</span>,batched_key_access<span class="operator">=</span>off,materialization<span class="operator">=</span><span class="keyword">on</span>,semijoin<span class="operator">=</span><span class="keyword">on</span>,loosescan<span class="operator">=</span><span class="keyword">on</span>,firstmatch<span class="operator">=</span><span class="keyword">on</span>,duplicateweedout<span class="operator">=</span><span class="keyword">on</span>,subquery_materialization_cost_based<span class="operator">=</span><span class="keyword">on</span>,use_index_extensions<span class="operator">=</span><span class="keyword">on</span>,condition_fanout_filter<span class="operator">=</span><span class="keyword">on</span>,derived_merge<span class="operator">=</span><span class="keyword">on</span>,use_invisible_indexes<span class="operator">=</span>off,skip_scan<span class="operator">=</span><span class="keyword">on</span>,hash_join<span class="operator">=</span><span class="keyword">on</span>,subquery_to_derived<span class="operator">=</span>off,prefer_ordering_index<span class="operator">=</span><span class="keyword">on</span>,hypergraph_optimizer<span class="operator">=</span>off,derived_condition_pushdown<span class="operator">=</span><span class="keyword">on</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是二级索引"><a href="#什么是二级索引" class="headerlink" title="什么是二级索引"></a>什么是二级索引</h2><h3 id="1、一级索引"><a href="#1、一级索引" class="headerlink" title="1、一级索引"></a>1、一级索引</h3><p>索引和数据存储在一起，都存储在同一个B+tree中的叶子节点。一般主键索引都是一级索引。</p>
+<h3 id="2、二级索引"><a href="#2、二级索引" class="headerlink" title="2、二级索引"></a>2、二级索引</h3><p>二级索引树的叶子节点存储的是主键而不是数据。也就是说，在找到索引后，得到对应的主键，再回到一级索引中找主键对应的数据记录。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="https://mp.weixin.qq.com/s/ygvuP35B_sJAlBHuuEJhfg">https://mp.weixin.qq.com/s/ygvuP35B_sJAlBHuuEJhfg</a></p>
+<p><a href="https://mp.weixin.qq.com/s/Vv1gNLh1aLCLDJfEYXvr-g">https://mp.weixin.qq.com/s/Vv1gNLh1aLCLDJfEYXvr-g</a></p>
+<p><a href="https://blog.51cto.com/qhd2004/1870996?source=drt">https://blog.51cto.com/qhd2004/1870996?source=drt</a></p>
+<p><a href="https://blog.csdn.net/thesprit/article/details/112989674">二级索引检索过程</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/137647823">https://zhuanlan.zhihu.com/p/137647823</a></p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一文搞懂高并发性能指标：QPS、TPS、RT、吞吐量</title>
+    <url>/wiki/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%9AQPS%E3%80%81TPS%E3%80%81RT%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F/</url>
+    <content><![CDATA[<h2 id="QPS"><a href="#QPS" class="headerlink" title="QPS"></a>QPS</h2><p>Queries Per Second意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。</p>
+<p>互联网中，作为域名系统服务器的机器的性能经常用每秒查询率来衡量。</p>
+<p>原理：每天80%的访问集中在20%的时间里，这20%时间叫做峰值时间。</p>
+<p>公式：( 总PV数 * 80% ) / ( 每天秒数 * 20% ) = 峰值时间每秒请求数(QPS) 。</p>
+<p>PV（page view）即页面浏览量，通常是衡量一个网络新闻频道或网站甚至一条网络新闻的主要指标。网页浏览数是评价网站流量最常用的指标之一，简称为PV。</p>
+<p>机器：峰值时间每秒QPS / 单台机器的QPS = 需要的机器 。</p>
+<p>每天300w PV 的在单台机器上，这台机器需要多少QPS？</p>
+<p><code>( 3000000 * 0.8 ) / (86400 * 0.2 ) = 139 (QPS)。</code></p>
+<p>一般需要达到139QPS，因为是峰值。(200万pv才有100峰值qps)</p>
+<h2 id="TPS"><a href="#TPS" class="headerlink" title="TPS"></a>TPS</h2><p>TPS：Transactions Per Second（每秒传输的事务处理个数），即服务器每秒处理的事务数。</p>
+<p>TPS包括一条消息入和一条消息出，加上一次用户数据库访问。（业务TPS = CAPS × 每个呼叫平均TPS）</p>
+<p>一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</p>
+<p>一般的，评价系统性能均以每秒钟完成的技术交易的数量来衡量。系统整体处理能力取决于处理能力最低模块的TPS值。</p>
+<h2 id="RT（响应时长）"><a href="#RT（响应时长）" class="headerlink" title="RT（响应时长）"></a>RT（响应时长）</h2><p>响应时间：执行一个请求从开始到最后收到响应数据所花费的总体时间,即从客户端发起请求到收到服务器响应结果的时间。</p>
+<p>响应时间RT(Response-time)，是一个系统最重要的指标之一，它的数值大小直接反应了系统的快慢。</p>
+<p>直观上看，这个指标与人对软件性能的主观感受是非常一致的，因为它完整地记录了整个计算机系统处理请求的时间。</p>
+<p>由于一个系统通常会提供许多功能，而不同功能的处理逻辑也千差万别，因而不同功能的响应时间也不尽相同，甚至同一功能在不同输入数据的情况下响应时间也不相同。</p>
+<p>所以，在讨论一个系统的响应时间时，人们通常是指该系统所有功能的平均时间或者所有功能的最大响应时间。当然，往往也需要对每个或每组功能讨论其平均响应时间和最大响应时间。</p>
+<p>对于单机的没有并发操作的应用系统而言，人们普遍认为响应时间是一个合理且准确的性能指标。需要指出的是，响应时间的绝对值并不能直接反映软件的性能的高低，软件性能的高低实际上取决于用户对该响应时间的接受程度。</p>
+<p>对于一个游戏软件来说，响应时间小于100毫秒应该是不错的，响应时间在1秒左右可能属于勉强可以接受，如果响应时间达到3秒就完全难以接受了。而对于编译系统来说，完整编译一个较大规模软件的源代码可能需要几十分钟甚至更长时间，但这些响应时间对于用户来说都是可以接受的</p>
+<h2 id="Load（系统负载）"><a href="#Load（系统负载）" class="headerlink" title="Load（系统负载）"></a>Load（系统负载）</h2><p>Linux的Load(系统负载)，是一个让新手不太容易了解的概念。load的就是一定时间内计算机有多少个active_tasks，也就是说是计算机的任务执行队列的长度，cpu计算的队列。</p>
+<p>top/uptime等工具默认会显示1分钟、5分钟、15分钟的平均Load。</p>
+<p>具体来说，平均Load是指，在特定的一段时间内统计的正在CPU中运行的(R状态)、正在等待CPU运行的、处于不可中断睡眠的(D状态)的任务数量的平均值。</p>
+<p>最后，说一下CPU使用率和Load的关系吧。如果主要是CPU密集型的程序在运行(If CPU utilization is near 100 percent (user + nice + system), the workload sampled is CPU-bound.)，</p>
+<p>那么CPU利用率高，Load一般也会比较高。而I/O密集型的程序在运行，</p>
+<p>可能看到CPU的%user, %system都不高，%iowait可能会有点高，这时的Load通常比较高。</p>
+<p>同理，程序读写慢速I/O设备(如磁盘、NFS)比较多时，Load可能会比较高，而CPU利用率不一定高。这种情况，还经常发生在系统内存不足并开始使用swap的时候，Load一般会比较高，而CPU使用率并不高。</p>
+<h2 id="PV"><a href="#PV" class="headerlink" title="PV"></a>PV</h2><p>页面访问次数：Page View</p>
+<h3 id="UV"><a href="#UV" class="headerlink" title="UV"></a>UV</h3><p>访客数（去重复）：Unique Visitor</p>
+<h2 id="并发数"><a href="#并发数" class="headerlink" title="并发数"></a>并发数</h2><p>并发数是指系统同时能处理的请求数量，这个也是反应了系统的负载能力。</p>
+<h2 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h2><p>系统的吞吐量（承压能力）与request对CPU的消耗、外部接口、IO等等紧密关联。单个request 对CPU消耗越高，外部系统接口、IO速度越慢，系统吞吐能力越低，反之越高。</p>
+<p>系统吞吐量几个重要参数：QPS（TPS）、并发数、响应时间。</p>
+<ol>
+<li>QPS（TPS）：（Query Per Second）每秒钟request/事务 数量</li>
+<li>并发数： 系统同时处理的request/事务数</li>
+<li>响应时间： 一般取平均响应时间</li>
+</ol>
+<p>理解了上面三个要素的意义之后，就能推算出它们之间的关系：</p>
+<ul>
+<li><strong>QPS（TPS）= 并发数/平均响应时间</strong></li>
+<li><strong>并发数 = QPS*平均响应时间</strong></li>
+</ul>
+<h2 id="最佳线程数、QPS、RT"><a href="#最佳线程数、QPS、RT" class="headerlink" title="最佳线程数、QPS、RT"></a>最佳线程数、QPS、RT</h2><p><strong>1、单线程QPS公式：QPS=1000ms/RT</strong><br>对同一个系统而言，支持的线程数越多，QPS越高。假设一个RT是80ms,则可以很容易的计算出QPS,QPS = 1000/80 = 12.5<br>多线程场景，如果把服务端的线程数提升到2，那么整个系统的QPS则为 2*（1000/80） = 25, 可见QPS随着线程的增加而线性增长，那QPS上不去就加线程呗，听起来很有道理，公司也说的通，但是往往现实并非如此。</p>
+<p><strong>2、最佳线程数量</strong><br>刚好消耗完服务器的瓶颈资源的临界线程数，公式如下<br>最佳线程数量=（（线程等待时间+线程cpu时间）/ 线程cpu时间）* cpu数量<br>特性：</p>
+<ul>
+<li>在达到最佳线程数的时候，线程数量继续递增，则QPS不变，而响应时间变长，持续递增线程数量，则QPS开始下降。</li>
+<li>每个系统都有其最佳线程数量，但是不同状态下，最佳线程数量是会变化的。</li>
+<li>瓶颈资源可以是CPU,可以是内存，可以是锁资源，IO资源：超过最佳线程数-导致资源的竞争，超过最佳线程数-响应时间递增。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>高并发</tag>
+        <tag>性能指标</tag>
       </tags>
   </entry>
 </search>

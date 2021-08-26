@@ -174,15 +174,24 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="binlog相关命令"><a href="#binlog相关命令" class="headerlink" title="binlog相关命令"></a>binlog相关命令</h2><p>mysql&gt; show variables like ‘binlog_format’;</p>
+    <section class="markdown-content"><h2 id="binlog相关命令"><a href="#binlog相关命令" class="headerlink" title="binlog相关命令"></a>binlog相关命令</h2><p><code>mysql&gt; show variables like &#39;binlog_format&#39;;</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| binlog_format | ROW   |</span><br><span class="line">+---------------+-------+</span><br></pre></td></tr></table></figure>
-<p>show variables like ‘log_bin’;</p>
+<p><code>show variables like &#39;log_bin&#39;;</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---------------+-------+</span><br><span class="line">| Variable_name | Value |</span><br><span class="line">+---------------+-------+</span><br><span class="line">| log_bin       | ON    |</span><br><span class="line">+---------------+-------+</span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="用户-amp-权限"><a href="#用户-amp-权限" class="headerlink" title="用户&amp;权限"></a>用户&amp;权限</h2><h3 id="创建用户并授权"><a href="#创建用户并授权" class="headerlink" title="创建用户并授权"></a>创建用户并授权</h3><p>root用户登录： mysql -u root -p 然后输入密码<br>创建用户： <code>create user &#39;yjuser&#39;@&#39;%&#39; identified by &#39;u-bx.com&#39;;</code><br>授权用户只读权限： <code>grant SELECT on mirror.* to &#39;yjuser&#39;@&#39;%&#39; IDENTIFIED by &#39;u-bx.com&#39;;</code><br>刷新权限：<code>flush privileges;</code></p>
 <h3 id="查看当前用户"><a href="#查看当前用户" class="headerlink" title="查看当前用户"></a>查看当前用户</h3><p><code>select User();</code></p>
+<h3 id="Mac下配置文件"><a href="#Mac下配置文件" class="headerlink" title="Mac下配置文件"></a>Mac下配置文件</h3><p>首先，查看mysql读取配置文件的默认顺序</p>
+<p><code>mysqld --help --verbose | more </code><br>查看帮助，下翻，会看到表示配置文件默认读取顺序，如下：</p>
+<p>Default options are read from the following files in the given order:<br><code>/etc/my.cnf /etc/mysql/my.cnf /usr/local/etc/my.cnf ~/.my.cnf</code><br>通常，这些位置上没有配置文件，所以需要创建文件，用下面的命令查找一个样例文件</p>
+<p><code>ls $(brew --prefix mysql)/support-files/my-* </code><br>找到后，将这个配置文件拷贝到第一个默认读取目录下，用如下命令：</p>
+<p><code>cp /usr/local/opt/mysql/support-files/my-default.cnf /etc/my.cnf</code> 或者</p>
+<p><code>cp /usr/local/mysql/support-files/my-default.cnf /etc/my.cnf</code> 看你mysql的位置</p>
+<p>然后，按需修改 <code>my.cnf</code> 文件。</p>
+<p>修改完成后，需要重新启动mysql服务</p>
+<p>brew services start mysql (启动)<br>brew services stop mysql (停止)<br>brew services restart mysql(重启)</p>
 </section>
     <!-- Tags START -->
     
@@ -244,7 +253,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#binlog%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="toc-nav-text">binlog相关命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%94%A8%E6%88%B7-amp-%E6%9D%83%E9%99%90"><span class="toc-nav-text">用户&amp;权限</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E6%8E%88%E6%9D%83"><span class="toc-nav-text">创建用户并授权</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7"><span class="toc-nav-text">查看当前用户</span></a></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#binlog%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="toc-nav-text">binlog相关命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E7%94%A8%E6%88%B7-amp-%E6%9D%83%E9%99%90"><span class="toc-nav-text">用户&amp;权限</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E6%8E%88%E6%9D%83"><span class="toc-nav-text">创建用户并授权</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7"><span class="toc-nav-text">查看当前用户</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Mac%E4%B8%8B%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-nav-text">Mac下配置文件</span></a></li></ol></li></ol>
     
   </div>
 </aside>
