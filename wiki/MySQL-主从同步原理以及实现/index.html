@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      MySQL-主从同步原理以及实现 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>MySQL-主从同步原理以及实现</h2>
+  <p class="post-date">2021-08-27</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h2><p>我们在平时工作中，使用最多的数据库就是 <code>MySQL</code> 了，随着业务的增加，如果单单靠一台服务器的话，负载过重，就容易造成<strong>宕机</strong>。</p>
+<p>这样我们保存在 MySQL 数据库的数据就会丢失，那么该怎么解决呢？</p>
+<p>其实在 MySQL 本身就自带有一个主从复制的功能，可以帮助我们实现<strong>负载均衡和读写分离</strong>。</p>
+<p>对于主服务器（Master）来说，主要负责写，从服务器（Slave）主要负责读，这样的话，就会大大减轻压力，从而提高效率。</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210827173121932.png" alt="image-20210827173121932" style="zoom:33%;" />
+
+
+
+<p>MySQL 的主从复制工作过程大致如下：</p>
+<ol>
+<li>从库生成<strong>两个线程</strong>，一个 I/O 线程，一个 SQL 线程；</li>
+<li>I/O 线程去请求主库的 binlog，并将得到的 binlog 日志<strong>写到</strong> relay log(中继日志) 文件中；</li>
+<li>主库会<strong>生成</strong>一个 log dump 线程，用来给从库 I/O 线程传 binlog；</li>
+<li>SQL 线程会读取 relay log 文件中的日志，并<strong>解析</strong>成具体操作，来实现主从的操作一致，而最终数据一致；</li>
+</ol>
+<h4 id="请求流程"><a href="#请求流程" class="headerlink" title="请求流程"></a>请求流程</h4><p>MySQL 建立请求的主从的详细流程如下：</p>
+<ol>
+<li>当从服务器连接主服务器时，主服务器会创建一个 log dump 线程，用于发送 binlog 的内容。在读取 binlog 的内容的操作中，会对象主节点上的 binlog <strong>加锁</strong>，当读取完成并发送给从服务器后解锁。</li>
+<li>当从节点上执行 <code>start slave</code> 命令之后，从节点会创建一个 IO 线程用来连接主节点，请求主库中<strong>更新</strong>binlog。IO 线程接收主节点 binlog dump 进程发来的更新之后，保存到 relay-log 中。</li>
+<li>从节点 SQL 线程负责读取 realy-log 中的内容，<strong>解析</strong>成具体的操作执行，最终保证主从数据的一致性。</li>
+</ol>
+<h2 id="主从同步实现"><a href="#主从同步实现" class="headerlink" title="主从同步实现"></a>主从同步实现</h2><p>我这里实现了一主一从。数据库版本都是用的MySQL5.8。</p>
+<h3 id="设置主库"><a href="#设置主库" class="headerlink" title="设置主库"></a>设置主库</h3><h4 id="设置配置文件"><a href="#设置配置文件" class="headerlink" title="设置配置文件"></a>设置配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log-bin=mysql-bin #添加这一行就ok</span><br><span class="line">binlog-format=ROW #选择row模式</span><br><span class="line">server_id=1 #配置mysql replaction需要定义</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建同步用户"><a href="#创建同步用户" class="headerlink" title="创建同步用户"></a>创建同步用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 创建用户</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;repl&#x27;</span>@<span class="string">&#x27;*&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;repl&#x27;</span>;</span><br><span class="line"></span><br><span class="line"># 授权，只授予复制和客户端访问权限</span><br><span class="line"><span class="keyword">grant</span> replication slave <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;repl&#x27;</span>@<span class="string">&#x27;*&#x27;</span>;#分配权限</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看binlog状态"><a href="#查看binlog状态" class="headerlink" title="查看binlog状态"></a>查看binlog状态</h4><p><code>SHOW MASTER STATUS;</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210827170105244.png" alt="image-20210827170105244"></p>
+<p>Position一开始同步之前是在 2729 位置。</p>
+<h3 id="配置从库Slave"><a href="#配置从库Slave" class="headerlink" title="配置从库Slave"></a>配置从库Slave</h3><h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log-bin=mysql-bin #添加这一行就ok</span><br><span class="line">binlog-format=ROW #选择row模式</span><br><span class="line">server_id=2 </span><br></pre></td></tr></table></figure>
+
+<h4 id="设置同步信息"><a href="#设置同步信息" class="headerlink" title="设置同步信息"></a>设置同步信息</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CHANGE MASTER <span class="keyword">TO</span> MASTER_HOST<span class="operator">=</span><span class="string">&#x27;123.56.77.177&#x27;</span>, </span><br><span class="line">        MASTER_USER<span class="operator">=</span><span class="string">&#x27;repl&#x27;</span>, </span><br><span class="line">        MASTER_PASSWORD<span class="operator">=</span><span class="string">&#x27;repl&#x27;</span>,</span><br><span class="line">        MASTER_LOG_FILE<span class="operator">=</span><span class="string">&#x27;binlog.000001&#x27;</span>, </span><br><span class="line">        MASTER_LOG_POS<span class="operator">=</span><span class="number">2729</span>, </span><br><span class="line">        Master_Port <span class="operator">=</span> <span class="number">3306</span>;</span><br></pre></td></tr></table></figure>
+
+<p>执行这个SQL必须是在 <code>slave not running</code> 状态下可以运行，可以 <code>stop slave</code>命令来停止slave。</p>
+<h4 id="启动slave"><a href="#启动slave" class="headerlink" title="启动slave"></a>启动slave</h4><p><code>mysql&gt;start slave;</code></p>
+<h4 id="查看slave状态"><a href="#查看slave状态" class="headerlink" title="查看slave状态"></a>查看slave状态</h4><p><code>mysql&gt; show slave status\G</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210827170515304.png" alt="image-20210827170515304"></p>
+<p>⚠️ 只有当 <code>Slave_IO_Running: Yes</code> 和 <code>Slave_SQL_Running: Yes</code> 同时是 yes的时候，才可以进行同步。</p>
+<h4 id="Slave-IO-Running-No-可能的原因"><a href="#Slave-IO-Running-No-可能的原因" class="headerlink" title="Slave_IO_Running: No 可能的原因"></a>Slave_IO_Running: No 可能的原因</h4><p>1、端口不同</p>
+<p><code>ping ip</code> 如果是docker启动的mysql的话，需要退出docker来测试端口。</p>
+<p><code>telnet ip port</code></p>
+<p>2、没有权限</p>
+<p><code>grant replication slave, replication client on *.* to  &#39;repl&#39;@&#39;%&#39;;</code></p>
+<p>3、binlog文件写错</p>
+<p>可以查看 <code> Last_IO_Error</code> 的错误提示，我这里遇到一个错误，主库binlog文件是binlog.000001 ，但是我直接粘贴别人博客的时候，没有注意，博客上面写的是mysql-bin.000001。</p>
+<h2 id="同步效果测试"><a href="#同步效果测试" class="headerlink" title="同步效果测试"></a>同步效果测试</h2><h4 id="分三个步骤测试"><a href="#分三个步骤测试" class="headerlink" title="分三个步骤测试"></a>分三个步骤测试</h4><p><strong>1、测试数据库</strong></p>
+<p><strong>2、测试表</strong></p>
+<p><strong>3、测试表数据</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210827171817248.png" alt="image-20210827171817248" style="zoom:50%;" />
+
+
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>主从同步的类型 （异步 同步 半同步 延迟）</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6967224081410162696">https://juejin.cn/post/6967224081410162696</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/Docker%E5%AE%89%E8%A3%85MySQL/">
+        <span class="nav-arrow">← </span>
+        
+          Docker安装MySQL
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/MySQL-ShardingJDBC%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%AE%9E%E6%88%98/">
+        
+          MySQL-ShardingJDBC分库分表实战
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-nav-text">主从复制的原理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B"><span class="toc-nav-text">请求流程</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E5%AE%9E%E7%8E%B0"><span class="toc-nav-text">主从同步实现</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%BB%E5%BA%93"><span class="toc-nav-text">设置主库</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-nav-text">设置配置文件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E5%88%9B%E5%BB%BA%E5%90%8C%E6%AD%A5%E7%94%A8%E6%88%B7"><span class="toc-nav-text">创建同步用户</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8Bbinlog%E7%8A%B6%E6%80%81"><span class="toc-nav-text">查看binlog状态</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%E9%85%8D%E7%BD%AE%E4%BB%8E%E5%BA%93Slave"><span class="toc-nav-text">配置从库Slave</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-nav-text">修改配置文件</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%90%8C%E6%AD%A5%E4%BF%A1%E6%81%AF"><span class="toc-nav-text">设置同步信息</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E5%90%AF%E5%8A%A8slave"><span class="toc-nav-text">启动slave</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E6%9F%A5%E7%9C%8Bslave%E7%8A%B6%E6%80%81"><span class="toc-nav-text">查看slave状态</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Slave-IO-Running-No-%E5%8F%AF%E8%83%BD%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-nav-text">Slave_IO_Running: No 可能的原因</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%90%8C%E6%AD%A5%E6%95%88%E6%9E%9C%E6%B5%8B%E8%AF%95"><span class="toc-nav-text">同步效果测试</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#%E5%88%86%E4%B8%89%E4%B8%AA%E6%AD%A5%E9%AA%A4%E6%B5%8B%E8%AF%95"><span class="toc-nav-text">分三个步骤测试</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/MySQL-主从同步原理以及实现/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
