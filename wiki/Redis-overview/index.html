@@ -182,6 +182,7 @@
 <h3 id="（3）队列"><a href="#（3）队列" class="headerlink" title="（3）队列"></a>（3）队列</h3><p>Redis 在内存存储引擎领域的一大优点是提供 list 和 set 操作，这使得 Redis 能作为一个很好的消息队<br>列平台来使用。Redis 作为队列使用的操作，就类似于本地程序语言（如 Python）对 list 的 push/pop<br>操作。<br>如果你快速的在 Google 中搜索“Redis queues”，你马上就能找到大量的开源项目，这些项目的目的就是<br>利用 Redis 创建非常好的后端工具，以满足各种队列需求。例如，Celery 有一个后台就是使用 Redis 作<br>为 broker，你可以从这里去查看。</p>
 <h3 id="（4）排行榜-计数器"><a href="#（4）排行榜-计数器" class="headerlink" title="（4）排行榜/计数器"></a>（4）排行榜/计数器</h3><p>Redis 在内存中对数字进行递增或递减的操作实现的非常好。集合（Set）和有序集合（Sorted Set）也<br>使得我们在执行这些操作的时候变的非常简单，Redis 只是正好提供了这两种数据结构。<br>所以，我们要从排序集合中获取到排名最靠前的 10 个用户–我们称之为“user_scores”，我们只需要像下<br>面一样执行即可：<br>当然，这是假定你是根据你用户的分数做递增的排序。如果你想返回用户及用户的分数，你需要这样执<br>行：<br>ZRANGE user_scores 0 10 WITHSCORESAgora Games 就是一个很好的例子，用 Ruby 实现的，它的排行榜就是使用 Redis 来存储数据的，你可<br>以在这里看到。<br>###（5）发布/订阅<br>最后（但肯定不是最不重要的）是 Redis 的发布/订阅功能。发布/订阅的使用场景确实非常多。我已看见<br>人们在社交网络连接中使用，还可作为基于发布/订阅的脚本触发器，甚至用 Redis 的发布/订阅功能来建<br>立聊天系统！</p>
 <h3 id="Redis-常见的性能问题和解决方案"><a href="#Redis-常见的性能问题和解决方案" class="headerlink" title="Redis 常见的性能问题和解决方案"></a>Redis 常见的性能问题和解决方案</h3><p>1、master 最好不要做持久化工作，如 RDB 内存快照和 AOF 日志文件<br>2、如果数据比较重要，某个 slave 开启 AOF 备份，策略设置成每秒同步一次<br>3、为了主从复制的速度和连接的稳定性，master 和 Slave 最好在一个局域网内<br>4、尽量避免在压力大得主库上增加从库<br>5、主从复制不要采用网状结构，尽量是线性结构，Master&lt;–Slave1&lt;—-Slave2 ….  </p>
+<h3 id="Redis为什么这么快"><a href="#Redis为什么这么快" class="headerlink" title="Redis为什么这么快"></a>Redis为什么这么快</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/EjDeypra_d9Tfsn-WkJZdw">https://mp.weixin.qq.com/s/EjDeypra_d9Tfsn-WkJZdw</a></p>
 </section>
     <!-- Tags START -->
     
@@ -238,15 +239,6 @@
   </article>
   <!-- Article END -->
   <!-- Catalog START -->
-  
-    <aside class="catalog-container">
-  <div class="toc-main">
-    <strong class="toc-title">Catalog</strong>
-    
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Redis-%EF%BC%88Remote-Dictionary-Server%EF%BC%89"><span class="toc-nav-text">Redis （Remote Dictionary Server）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Redis%E7%AE%80%E4%BB%8B"><span class="toc-nav-text">Redis简介</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Redis-%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E5%8F%8A%E9%AA%8C%E8%AF%81%E5%AF%86%E7%A0%81%EF%BC%9F"><span class="toc-nav-text">Redis 如何设置密码及验证密码？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Redis-%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%95%B0%E6%8D%AE%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="toc-nav-text">Redis 有哪几种数据淘汰策略？</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Redis-%E6%9C%89%E5%93%AA%E4%BA%9B%E9%80%82%E5%90%88%E7%9A%84%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="toc-nav-text">Redis 有哪些适合的场景？</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%EF%BC%881%EF%BC%89%E4%BC%9A%E8%AF%9D%E7%BC%93%E5%AD%98%EF%BC%88Session-Cache%EF%BC%89"><span class="toc-nav-text">（1）会话缓存（Session Cache）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%EF%BC%882%EF%BC%89%E5%85%A8%E9%A1%B5%E7%BC%93%E5%AD%98%EF%BC%88FPC%EF%BC%89"><span class="toc-nav-text">（2）全页缓存（FPC）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%EF%BC%883%EF%BC%89%E9%98%9F%E5%88%97"><span class="toc-nav-text">（3）队列</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#%EF%BC%884%EF%BC%89%E6%8E%92%E8%A1%8C%E6%A6%9C-%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-nav-text">（4）排行榜&#x2F;计数器</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Redis-%E5%B8%B8%E8%A7%81%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-nav-text">Redis 常见的性能问题和解决方案</span></a></li></ol></li></ol></li></ol>
-    
-  </div>
-</aside>
   
   <!-- Catalog END -->
 </main>

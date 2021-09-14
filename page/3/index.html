@@ -168,9 +168,35 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL%E4%B8%AD%E7%9A%84%E9%94%81%F0%9F%94%92/">MySQL中的锁🔒</a>
+        <a href="/wiki/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%9AQPS%E3%80%81TPS%E3%80%81RT%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F/">一文搞懂高并发性能指标：QPS、TPS、RT、吞吐量</a>
       </h2>
-      <p class="article-date">August 19, 2021</p>
+      <p class="article-date">August 26, 2021</p>
+      
+        
+  <a href="/tags#高并发" >
+    <span class="tag-code">高并发</span>
+  </a>
+
+  <a href="/tags#性能指标" >
+    <span class="tag-code">性能指标</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          QPSQueries Per Second意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。
+互联网中，作为域名系统服务器的机器的性能经常用每秒查询率来衡量。
+原理：每天80%的访问集中在20%的时间里，这20%时间叫做峰 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%9AQPS%E3%80%81TPS%E3%80%81RT%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/MySQL-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%8E%9F%E7%90%86/">MySQL-基本架构及原理</a>
+      </h2>
+      <p class="article-date">August 26, 2021</p>
       
         
   <a href="/tags#MySQL" >
@@ -180,27 +206,18 @@
       
       <div class="article-summary">
         
-          乐观锁和悲观锁
-表锁和行锁
-表锁： 开销小，加锁快；不会出现死锁；锁定力度大，发生锁冲突概率高，并发度最低
+          
 
-表锁按照数据操作可以分成两种：
-
-表读锁（Table Read Lock）
-表写锁（Table Write Lock
-
-读读不阻塞：当前用户在读数据，其他的用户也在读数据，不会加锁
- ...
         
       </div>
-      <a class="more" href="/wiki/MySQL%E4%B8%AD%E7%9A%84%E9%94%81%F0%9F%94%92/">Read more</a>
+      <a class="more" href="/wiki/MySQL-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">MySQL性能调优</a>
+        <a href="/wiki/MySQL-%E7%B4%A2%E5%BC%95%E6%9D%A1%E4%BB%B6%E4%B8%8B%E6%8E%A8ICP/">用了那么久MySQL，我竟然不知道ICP</a>
       </h2>
-      <p class="article-date">August 19, 2021</p>
+      <p class="article-date">August 26, 2021</p>
       
         
   <a href="/tags#MySQL" >
@@ -210,182 +227,175 @@
       
       <div class="article-summary">
         
-          1、使用【 覆盖索引 】避免回表锁造成的时间消耗1、查询语句的时候避免使用select * 
-2、创建索引添加适当的列避免回表
-2、使用【 联合索引 】区分度比较高的列放到前面注意联合索引的最左匹配原则
-3、对索引进行函数计算或者表达式计算会导致索引失效 🔒4、利用子查询优化超多分页场景5 ...
+          用了那么久MySQL，我竟然不知道ICP概述开启ICP，如果部分WHERE条件能使用索引中的字段，MySQL Server 会把这部分下推到存储引擎层，存储引擎通过索引过滤，把满足的行从表中读取出。ICP能减少引擎层访问基表的次数和MySQL Server 访问存储引擎的次数。
+ICP 优化 ...
         
       </div>
-      <a class="more" href="/wiki/MySQL%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">Read more</a>
+      <a class="more" href="/wiki/MySQL-%E7%B4%A2%E5%BC%95%E6%9D%A1%E4%BB%B6%E4%B8%8B%E6%8E%A8ICP/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">kafka-基础知识</a>
+        <a href="/wiki/MySQL-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E7%BA%A7%E5%8E%9F%E7%90%86/">MySQL-InnoDB架构</a>
       </h2>
-      <p class="article-date">August 18, 2021</p>
+      <p class="article-date">August 26, 2021</p>
       
         
-  <a href="/tags#kafka" >
-    <span class="tag-code">kafka</span>
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
   </a>
 
       
       <div class="article-summary">
         
-          kafka是什么kafka运行时架构kafka为什么能承载高并发kafka的确认机制是什么kafka如何保证消息准确kafka会丢消息吗？
-kafka会重复消费消息吗
-幂等性
-消息顺序消费问题参考资料kafka基础知识 - yyy
+          Innodb架构存储引擎是MySQL非常重要的组成部分，它直接影响了一个数据库的性能，是MySQL的绝对核心。
+下面是InnoDB的结构图 👇
 
+从上面第二张图可以看到，InnoDB 主要分为两大块：
+
+InnoDB In-Memory Structures
+InnoDB On-Disk  ...
         
       </div>
-      <a class="more" href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Read more</a>
+      <a class="more" href="/wiki/MySQL-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E7%BA%A7%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Spring-事务隔离</a>
+        <a href="/wiki/MySQL-%E7%B4%A2%E5%BC%95/">MySQL-索引</a>
       </h2>
-      <p class="article-date">August 18, 2021</p>
-      
-      <div class="article-summary">
-        
-          参考资料https://juejin.cn/post/6854573219916021767
-
-        
-      </div>
-      <a class="more" href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Flink-物理分区函数</a>
-      </h2>
-      <p class="article-date">August 12, 2021</p>
+      <p class="article-date">August 25, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
   </a>
 
       
       <div class="article-summary">
         
-          Flink提供的8种分区函数GlobalPartitioner该分区器会将所有的数据都发送到下游的某个算子实例(subtask id = 0)
-12345678910111213//  数据会被分发到下游算子的第一个实例中进行处理    public static void global() ...
+          MySQL中支持的索引之前问过存储引擎是数据库层面的还是数据表层面的？
+那么现在也同样问一个问题，索引是存储引擎层面的还是服务器层面实现的？答案是存储引擎层面的。 
+什么是索引官方介绍索引是帮助MySQL高效获取数据的数据结构。更通俗的说，数据库索引好比是一本书前面的目录，能加快数据库的查询 ...
         
       </div>
-      <a class="more" href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Read more</a>
+      <a class="more" href="/wiki/MySQL-%E7%B4%A2%E5%BC%95/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Flink-UDF函数类</a>
+        <a href="/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">MySQL-存储引擎</a>
       </h2>
-      <p class="article-date">August 12, 2021</p>
+      <p class="article-date">August 25, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
   </a>
 
       
       <div class="article-summary">
         
-          函数类比如说我们常用的MapFunction，FilterFunction，ProcessFunction等，每一步操作都基本上都对应一个Function。
-12345678910public static class MyFlatMapper implements FlatMapFunct ...
+          存储引擎MySQL支持很多种存储引擎 👇
+
+
+ 有一个面试题：存储引擎是数据库级别的还是数据表级别的？
+看上图应该就知道了吧！ 数据表级别的
+InnoDBInnoDB 是 MySQL 默认的事务型存储引擎，只要在需要它不支持的特性时，才考虑使用其他存储引擎。
+InnoDB 采用 MVCC  ...
         
       </div>
-      <a class="more" href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Read more</a>
+      <a class="more" href="/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Flink-到底支持多少种数据类型</a>
+        <a href="/wiki/MySQL%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/">MySQL系列合集</a>
       </h2>
-      <p class="article-date">August 11, 2021</p>
+      <p class="article-date">August 25, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
   </a>
 
       
       <div class="article-summary">
         
-          Flink支持所有的Java和Scala基础数据类型以及其包装类型
-支持Tuple元组类型，Flink在Java API中定义了很多Tuple的实现类，从Tuple0 ~ Tuple25类型
-Scala样例类 case class，对应Java中的POJO类对象(必须提供无参构造方法 get ...
+          技术目录MySQL基础知识
+MySQL系统架构
+QueryCache是什么，为什么MySQL8废弃了？
+MySQL支持的存储引擎（InnoDB&amp;MyISAM）
+InnoDB底层结构以及原理
+MySQL事务级别以及实现原理
+MySQL性能调优
+SQL调优总结
+MySQL支持的索引
+My ...
         
       </div>
-      <a class="more" href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more</a>
+      <a class="more" href="/wiki/MySQL%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Flink-如何读取数据源（集合｜文件｜自定义｜Kafka等）</a>
+        <a href="/wiki/Redis-Key%E8%BF%87%E6%9C%9F%E7%9B%91%E5%90%AC%E5%99%A8/">Redis-Key过期监听器</a>
       </h2>
-      <p class="article-date">August 11, 2021</p>
+      <p class="article-date">August 25, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
   </a>
 
       
       <div class="article-summary">
         
-          读取文件这里是以txt文件为例，实现WordCount，其他文件类型同理。
-12345678910111213141516171819202122232425 public static void main(String[] args) throws Exception &#123;     ...
+          背景有一个需求，我在某平台发布了一片文章，需要判断这片文章在发布之后，10min，30min，1h，3h，1d，3d时间点的点赞数量和关注数量，但是呢，平台没有提供信息统计的功能，那么只能我定期去查看。
+那么如何实现这个功能或者需求呢？
+当时首先想到的是定时任务轮训，这种方式其实比较简单，就 ...
         
       </div>
-      <a class="more" href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Read more</a>
+      <a class="more" href="/wiki/Redis-Key%E8%BF%87%E6%9C%9F%E7%9B%91%E5%90%AC%E5%99%A8/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Flink-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E7%AE%97%E5%AD%90%E9%83%BD%E5%9C%A8%E8%BF%99/">Flink-你所知道的算子都在这</a>
+        <a href="/wiki/Web%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80-Servlet/">Web开发基础-Servlet</a>
       </h2>
-      <p class="article-date">August 11, 2021</p>
+      <p class="article-date">August 24, 2021</p>
+      
+      <div class="article-summary">
+        
+          1、什么是servlet什么是Serlvet？
+Servlet其实就是一个遵循Servlet开发的java类。Serlvet是由服务器调用的，运行在服务器端。
+我们编写java程序想要在网上实现 聊天、发帖、这样一些的交互功能，普通的java技术是非常难完成的。sun公司就提供了Serlve ...
+        
+      </div>
+      <a class="more" href="/wiki/Web%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80-Servlet/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">服务发现的基本原理</a>
+      </h2>
+      <p class="article-date">August 24, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#服务发现" >
+    <span class="tag-code">服务发现</span>
   </a>
 
       
       <div class="article-summary">
         
-          好了，看到这的话，Apache Flink基础概念啥的都应该了解差不多了吧，我们几天就See一下，平时用到的StreamApi中各式各样的算子都有什么，然后，我们搞点Demo试一下。
-📒 我也是边学边实现一些Demo,这样呢可以方便自己理解，形成体系以后也应该能帮到别人快速学习吧。
-这就是 ...
-        
-      </div>
-      <a class="more" href="/wiki/Flink-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E7%AE%97%E5%AD%90%E9%83%BD%E5%9C%A8%E8%BF%99/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">Flink-核心之Windows窗口</a>
-      </h2>
-      <p class="article-date">August 10, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          什么是窗口
-窗口分配器有几种
-窗口如何实现增量计算和全量计算
+          参考资料https://juejin.cn/post/6844903580999090183
+使用Consul做服务发现的若干姿势
+注册中心篇（三）：Consul 服务发现的底层实现
 
         
       </div>
-      <a class="more" href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">Read more</a>
+      <a class="more" href="/wiki/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
 

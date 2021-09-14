@@ -168,231 +168,222 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">netty实现简易RPC调用</a>
+        <a href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Spring加载配置文件原理</a>
       </h2>
-      <p class="article-date">July 27, 2021</p>
+      <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
   </a>
 
       
       <div class="article-summary">
         
-          基于Netty手写一个RPC简易远程调用    
-抽象协议12345678910111213141516171819202122@Datapublic class InvokerProtocol implements Serializable &#123;    // 基于二进制流调用协议  ...
+          Spring如何加载配置文件到应用程序加载Xml文件配置，获取对象
+xml文件
+
+123456789101112&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http ...
         
       </div>
-      <a class="more" href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">Read more</a>
+      <a class="more" href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">netty实现简易tomcat</a>
+        <a href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Spring梳理启动脉络</a>
       </h2>
-      <p class="article-date">July 27, 2021</p>
+      <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
   </a>
 
       
       <div class="article-summary">
         
-          基于Netty手写一个简易的Tomcat容器本文主要基于传统的BIO来实现一个简单的Http请求处理过程；1、Servlet请求无非就是doGet/doPost，所以我们定义抽象Servlet记忆GET/POST方法；2、基于Netty API实现CS通信；3、模拟Spring加载配置文件， ...
+          Spring是如何启动的Spring最大的核心就是Bean容器；容器： 从对象创建，使用和销毁全部由容器帮我们控制，用户仅仅使用就可以。
+两大核心
+IOC 控制反转
+AOP 面向切面编程
+
+思考：我们是如何使用Spring的呢？
+
+ 加入从配置文件中加载bean 我们猜想一下大致流程是怎样的 ...
         
       </div>
-      <a class="more" href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">Read more</a>
+      <a class="more" href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java%E4%BD%8D%E8%BF%90%E7%AE%97/">Java位运算</a>
+        <a href="/wiki/Spring-Overview/"></a>
       </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          在计算机中所有数据都是以二进制的形式储存的。位运算其实就是直接对在内存中的二进制数据进行操作，因此处理数据的速度非常快。在实际编程中，如果能巧妙运用位操作，完全可以达到四两拨千斤的效果，正因为位操作的这些优点，所以位操作在各大IT公司的笔试面试中一直是个热点问题。
-位操作基础基本的位操作符有 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E4%BD%8D%E8%BF%90%E7%AE%97/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E6%B3%A8%E8%A7%A3/">Java注解</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java基础之注解机制详解
-注解是JDK1.5版本开始引入的一个特性，用于对代码进行说明，可以对包、类、接口、字段、方法参数、局部变量等进行注解。它是框架学习和设计者必须掌握的基础。
-
-注解基础注解是JDK1.5版本开始引入的一个特性，用于对代码进行说明，可以对包、类、接口、字段、方法参数、 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E6%B3%A8%E8%A7%A3/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E6%B3%9B%E5%9E%8B/">Java泛型</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java泛型1、泛型定义
-使用泛型机制编写的程序代码要比那些杂乱地使用Object变量，然后在进行强制类型转换的代码具有更好的安全性和可读性。  –《Java核心技术》  
-
-泛型是在编译时期作用的；
-泛型变量使用大写形式，在Java库中，一般使用变量E表示集合的元素类型，K和V表示表的关键 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E6%B3%9B%E5%9E%8B/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%8F%8D%E5%B0%84/">Java反射</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java反射
-反向探知，在程序运行是动态的获取类的相关属性这种动态获取类的内容以及动态调用对象的方法和获取属性的机制，叫做java反射机制；
-
-反射的优缺点
-优点增加了程序的灵活性，避免的固有逻辑写死到程序中代码简介，提高程序的复用性
-
-
-缺点相比于直接调用，反射有比较大的性能消耗内部暴露和 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%8F%8D%E5%B0%84/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/">Java并发编程之同步锁</a>
-      </h2>
-      <p class="article-date">July 26, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
+      <p class="article-date">July 28, 2021</p>
       
       <div class="article-summary">
         
           
+title: Spring-Overviewtoc: truedate: 2021-07-28 17:32:41tags: Spring
+categories: [Spring Family , Spring Framework]SpringThe Spring Framework pro ...
         
       </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%90%8C%E6%AD%A5%E9%94%81/">Read more</a>
+      <a class="more" href="/wiki/Spring-Overview/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/">Java多线程之ThreadLocal</a>
+        <a href="/wiki/mysql%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">mysql乐观锁实现分布式锁</a>
       </h2>
-      <p class="article-date">July 26, 2021</p>
+      <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
   </a>
 
       
       <div class="article-summary">
         
-          ThreadLocalMap结构
-
-ThreadLocal底层实际上是依赖ThreadLocalMap来实现数据存储的，而ThreadLocalMap并不是真正的Map结构，它是基于ThreadLocalMap类中的内部类Entry类型的数组来实现。
-123456789 static cla ...
+          基于数据表乐观锁实现分布式锁整体的实际思路要实现分布式锁，最简单的方式可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。当我们要锁住某个方法或资源的时候，我们就在该表中增加一条记录，想要释放锁的时候就删除这条记录。  
+基于数据表实现分布式锁的几个要点1、这把锁依赖数据库的可用性， ...
         
       </div>
-      <a class="more" href="/wiki/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BThreadLocal/">Read more</a>
+      <a class="more" href="/wiki/mysql%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">基础面试题目</a>
+        <a href="/wiki/mybatis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/"></a>
       </h2>
-      <p class="article-date">July 26, 2021</p>
+      <p class="article-date">July 28, 2021</p>
+      
+      <div class="article-summary">
+        
+          
+title: mybatis配置文件解析toc: truedate: 2021-07-28 17:05:46tags: mybatiscategories: [Spring Family]
+
+Mybatis配置文件12345678910111213141516171819202122232 ...
+        
+      </div>
+      <a class="more" href="/wiki/mybatis%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">mybatis-工作原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
+  <a href="/tags#mybatis" >
+    <span class="tag-code">mybatis</span>
   </a>
 
       
       <div class="article-summary">
         
-          1.String不可变String 对象的不可变性
-了解了 String 对象的实现后，你有没有发现在实现代码中 String 类被 final 关键字修饰了，而且变量 char 数组也被 final 修饰了。
-我们知道类被 final 修饰代表该类不可继承，而 char[] 被 final ...
+          Mybatis工作原理Mybatis整体框架  
+工作原理解析  
+1）读取MyBatis配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。
+
+读取配置文件将mybatis-config.xml转 ...
         
       </div>
-      <a class="more" href="/wiki/%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">Read more</a>
+      <a class="more" href="/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/">面向对象特征</a>
+        <a href="/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/">Redis-缓存穿透、击穿和雪崩</a>
       </h2>
-      <p class="article-date">July 26, 2021</p>
+      <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
   </a>
 
       
       <div class="article-summary">
         
-          封装封装是保证软件部件具有优良的模块性的基础，封装的目标就是实现软件内部的“高内聚、低耦合”。防止程序相互依赖而带来的变动影响。在面向对象的编程语言中，对象是封装的最基本单位，面向对象的封装比传统语言的封装更为清晰、也更为有力，面向对象的封装就是把描述一个对象的属性和行为的代码封装在一个“模 ...
+          缓存击穿，穿透和雪崩背景首先说一下为什么会写这片文章，因为这个对我来说是印象非常深刻的，那是还在实习的时候，当时接了一个任务（其实就是练手的），大致需求是写一个白名单，然后有一个功能对白名单开放。因为是新功能，需要在部分地区试点，如果没有问题才会放开到全国城市运行。就是这么一个小的功能，让当 ...
         
       </div>
-      <a class="more" href="/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%89%B9%E5%BE%81/">Read more</a>
+      <a class="more" href="/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Redis-字符串底层原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis底层实现及原理  
+关键词
+SDS embstr 二进制安全 空间预分配
+
+String类型不同的编码方式
+使用整数存储： 只对长度小于或等于 21 字节，并且可以被解释为整数的字符串进行编码
+使用EMBSTR 编码： 尝试将 RAW 编码的字符串编码为 EMBSTR 编码，
+使用 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-overview/">Redis-overview</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis （Remote Dictionary Server）Redis简介Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。因为是纯内存操作，Redi ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-overview/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Redis-哈希表实现</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis之Hash表底层实现  
+关键词
+字段dict | 渐进式哈希 | ziplist |  哈希表
+
+字典底层结构  
+dict 字典结构体12345678typedf struct dict&#123;    dictType *type;//类型特定函数，包括一些自定义函数，这些 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Read more</a>
     </article>
   
 

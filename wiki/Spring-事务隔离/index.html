@@ -174,9 +174,90 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6854573219916021767">https://juejin.cn/post/6854573219916021767</a></p>
+    <section class="markdown-content"><p>如何使用Spring来对程序进行事务控制和管理？</p>
+<p>事务控制一般是在哪一层（controller? Service? Dao?） service</p>
+<p>事务控制有几种方式？</p>
+<h2 id="事务控制分类"><a href="#事务控制分类" class="headerlink" title="事务控制分类"></a>事务控制分类</h2><h3 id="编程式事务"><a href="#编程式事务" class="headerlink" title="编程式事务"></a>编程式事务</h3><p><strong>自己手动控制事务，就叫做编程式事务控制。</strong></p>
+<ul>
+<li><p>Jdbc代码：</p>
+</li>
+<li><ul>
+<li>Conn.setAutoCommite(false);  // 设置手动控制事务</li>
+</ul>
+</li>
+<li><p>Hibernate代码：</p>
+</li>
+<li><ul>
+<li>Session.beginTransaction();   // 开启一个事务</li>
+</ul>
+</li>
+<li><p><strong>【细粒度的事务控制： 可以对指定的方法、指定的方法的某几行添加事务控制】</strong></p>
+</li>
+<li><p><strong>(比较灵活，但开发起来比较繁琐： 每次都要开启、提交、回滚.)</strong></p>
+</li>
+<li><p>人为控制容易产生难以控制的问题</p>
+</li>
+</ul>
+<h3 id="声明式事务"><a href="#声明式事务" class="headerlink" title="声明式事务"></a>声明式事务</h3><h3 id="TransactionDefinition事务属性"><a href="#TransactionDefinition事务属性" class="headerlink" title="TransactionDefinition事务属性"></a><strong>TransactionDefinition</strong>事务属性</h3><h4 id="事务传播类型"><a href="#事务传播类型" class="headerlink" title="事务传播类型"></a>事务传播类型</h4><h5 id="1、TransactionDefinition-PROPAGATION-REQUIRED"><a href="#1、TransactionDefinition-PROPAGATION-REQUIRED" class="headerlink" title="1、TransactionDefinition.PROPAGATION_REQUIRED"></a>1、<strong>TransactionDefinition.PROPAGATION_REQUIRED</strong></h5><p>使用的最多的一个事务传播行为，我们平时经常使用的<code>@Transactional</code>注解默认使用就是这个事务传播行为。<font color=blue>如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。</font>也就是说：</p>
+<ol>
+<li>如果外部方法没有开启事务的话，<code>Propagation.REQUIRED</code>修饰的内部方法会新开启自己的事务，且开启的事务相互独立，互不干扰。</li>
+<li>如果外部方法开启事务并且被<code>Propagation.REQUIRED</code>的话，所有<code>Propagation.REQUIRED</code>修饰的内部方法和外部方法均属于同一事务 ，只要一个方法回滚，整个事务均回滚。</li>
+</ol>
+<blockquote>
+<p>如果内部方法的事务也开启<code>Propagation.REQUIRED</code>, 并且抛出异常，不管外层方法是否catch异常，整个外层方法都会回滚</p>
+</blockquote>
+<h5 id="2、TransactionDefinition-PROPAGATION-REQUIRES-NEW"><a href="#2、TransactionDefinition-PROPAGATION-REQUIRES-NEW" class="headerlink" title="2、TransactionDefinition.PROPAGATION_REQUIRES_NEW"></a><strong>2、TransactionDefinition.PROPAGATION_REQUIRES_NEW</strong></h5><p>创建一个新的事务，如果当前存在事务，则把当前事务挂起。也就是说不管外部方法是否开启事务，<code>Propagation.REQUIRES_NEW</code>修饰的内部方法会新开启自己的事务，且开启的事务相互独立，互不干扰。</p>
+<h5 id="3、TransactionDefinition-PROPAGATION-NESTED"><a href="#3、TransactionDefinition-PROPAGATION-NESTED" class="headerlink" title="3、TransactionDefinition.PROPAGATION_NESTED:"></a>3、<strong>TransactionDefinition.PROPAGATION_NESTED</strong>:</h5><p>如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于<code>TransactionDefinition.PROPAGATION_REQUIRED</code>。也就是说：</p>
+<ol>
+<li>在外部方法未开启事务的情况下<code>Propagation.NESTED</code>和<code>Propagation.REQUIRED</code>作用相同，修饰的内部方法都会新开启自己的事务，且开启的事务相互独立，互不干扰。</li>
+<li>如果外部方法开启事务的话，<code>Propagation.NESTED</code>修饰的内部方法属于外部事务的子事务，外部主事务回滚的话，子事务也会回滚，而内部子事务可以单独回滚而不影响外部主事务和其他子事务。</li>
+</ol>
+<h5 id="4、TransactionDefinition-PROPAGATION-MANDATORY"><a href="#4、TransactionDefinition-PROPAGATION-MANDATORY" class="headerlink" title="4、TransactionDefinition.PROPAGATION_MANDATORY"></a>4、<strong>TransactionDefinition.PROPAGATION_MANDATORY</strong></h5><p>如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）</p>
+<p><strong>若是错误的配置以下 3 种事务传播行为，事务将不会发生回滚，这里不对照案例讲解了，使用的很少。</strong></p>
+<h5 id="5、TransactionDefinition-PROPAGATION-SUPPORTS"><a href="#5、TransactionDefinition-PROPAGATION-SUPPORTS" class="headerlink" title="**5、TransactionDefinition.PROPAGATION_SUPPORTS"></a>**5、TransactionDefinition.PROPAGATION_SUPPORTS</h5><p>如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。</p>
+<h5 id="6、TransactionDefinition-PROPAGATION-NOT-SUPPORTED"><a href="#6、TransactionDefinition-PROPAGATION-NOT-SUPPORTED" class="headerlink" title="6、TransactionDefinition.PROPAGATION_NOT_SUPPORTED"></a>6、TransactionDefinition.PROPAGATION_NOT_SUPPORTED</h5><p>以非事务方式运行，如果当前存在事务，则把当前事务挂起。</p>
+<h5 id="7、TransactionDefinition-PROPAGATION-NEVER"><a href="#7、TransactionDefinition-PROPAGATION-NEVER" class="headerlink" title="7、TransactionDefinition.PROPAGATION_NEVER"></a>7、TransactionDefinition.PROPAGATION_NEVER</h5><p>以非事务方式运行，如果当前存在事务，则抛出异常。</p>
+<h4 id="Isolation事务隔离级别"><a href="#Isolation事务隔离级别" class="headerlink" title="Isolation事务隔离级别"></a>Isolation事务隔离级别</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Isolation</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> DEFAULT(TransactionDefinition.ISOLATION_DEFAULT),</span><br><span class="line"></span><br><span class="line"> READ_UNCOMMITTED(TransactionDefinition.ISOLATION_READ_UNCOMMITTED),</span><br><span class="line"></span><br><span class="line"> READ_COMMITTED(TransactionDefinition.ISOLATION_READ_COMMITTED),</span><br><span class="line"></span><br><span class="line"> REPEATABLE_READ(TransactionDefinition.ISOLATION_REPEATABLE_READ),</span><br><span class="line"></span><br><span class="line"> SERIALIZABLE(TransactionDefinition.ISOLATION_SERIALIZABLE);</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line"> Isolation(<span class="keyword">int</span> value) &#123;</span><br><span class="line">  <span class="keyword">this</span>.value = value;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong><code>TransactionDefinition.ISOLATION_DEFAULT</code></strong> :使用后端数据库默认的隔离级别，MySQL 默认采用的 <code>REPEATABLE_READ</code> 隔离级别 Oracle 默认采用的 <code>READ_COMMITTED</code> 隔离级别.</p>
+<p><strong><code>TransactionDefinition.ISOLATION_READ_UNCOMMITTED</code></strong> :最低的隔离级别，使用这个隔离级别很少，因为它允许读取尚未提交的数据变更，<strong>可能会导致脏读、幻读或不可重复读</strong></p>
+<p><strong><code>TransactionDefinition.ISOLATION_READ_COMMITTED</code></strong> : 允许读取并发事务已经提交的数据，<strong>可以阻止脏读，但是幻读或不可重复读仍有可能发生</strong></p>
+<p><strong><code>TransactionDefinition.ISOLATION_REPEATABLE_READ</code></strong> : 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，<strong>可以阻止脏读和不可重复读，但幻读仍有可能发生。</strong></p>
+<p><strong><code>TransactionDefinition.ISOLATION_SERIALIZABLE</code></strong> : 最高的隔离级别，完全服从 ACID 的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，<strong>该级别可以防止脏读、不可重复读以及幻读</strong>。但是这将严重影响程序的性能。通常情况下也不会用到该级别。</p>
+<h4 id="事务超时时间"><a href="#事务超时时间" class="headerlink" title="事务超时时间"></a>事务超时时间</h4><p>所谓事务超时，就是指一个事务所允许执行的最长时间，如果超过该时间限制但事务还没有完成，则自动回滚事务。在 <code>TransactionDefinition</code> 中以 int 的值来表示超时时间，其单位是秒，默认值为-1。</p>
+<h4 id="事务只读属性"><a href="#事务只读属性" class="headerlink" title="事务只读属性"></a>事务只读属性</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.springframework.transaction;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.lang.Nullable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TransactionDefinition</span> </span>&#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">// 返回是否为只读事务，默认值为 false</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isReadOnly</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于只有读取数据查询的事务，可以指定事务类型为 readonly，即只读事务。只读事务不涉及数据的修改，数据库会提供一些优化手段，适合用在有多条数据库查询操作的方法中。</p>
+<p>很多人就会疑问了，为什么我一个数据查询操作还要启用事务支持呢？</p>
+<p>拿 MySQL 的 innodb 举例子，根据官网 <a href="https://link.juejin.cn/?target=https://dev.mysql.com/doc/refman/5.7/en/innodb-autocommit-commit-rollback.html">dev.mysql.com/doc/refman/…</a> 描述：</p>
+<blockquote>
+<p>“</p>
+<p>MySQL 默认对每一个新建立的连接都启用了<code>autocommit</code>模式。在该模式下，每一个发送到 MySQL 服务器的<code>sql</code>语句都会在一个单独的事务中进行处理，执行结束后会自动提交事务，并开启一个新的事务。</p>
+</blockquote>
+<p>但是，如果你给方法加上了<code>Transactional</code>注解的话，这个方法执行的所有<code>sql</code>会被放在一个事务中。如果声明了只读事务的话，数据库就会去优化它的执行，并不会带来其他的什么收益。</p>
+<p>如果不加<code>Transactional</code>，每条<code>sql</code>会开启一个单独的事务，中间被其它事务改了数据，都会实时读取到最新值。</p>
+<p>分享一下关于事务只读属性，其他人的解答：</p>
+<ol>
+<li>如果你一次执行单条查询语句，则没有必要启用事务支持，数据库默认支持 SQL 执行期间的读一致性；</li>
+<li>如果你一次执行多条查询语句，例如统计查询，报表查询，在这种场景下，多条查询 SQL 必须保证整体的读一致性，否则，在前条 SQL 查询之后，后条 SQL 查询之前，数据被其他用户改变，则该次整体的统计查询将会出现读数据不一致的状态，此时，应该启用事务支持</li>
+</ol>
+<h4 id="rollback事务回滚规则"><a href="#rollback事务回滚规则" class="headerlink" title="rollback事务回滚规则"></a>rollback事务回滚规则</h4><p><code>@Transactional(rollbackFor= MyException.class)</code> 发生如下异常时，触发事务回滚。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247483965&idx=1&sn=2cd6c1530e3f81ca5ad35335755ed287&chksm=ebd7433cdca0ca2a70cb8419306eb9b3ccaa45b524ddc5ea549bf88cf017d6e5c63c45f62c6e&scene=21###wechat_redirect">Spring DAO模块知识</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IglQITCkmx7Lpz60QOW7HA">https://mp.weixin.qq.com/s/IglQITCkmx7Lpz60QOW7HA</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904160005996552">https://juejin.cn/post/6844904160005996552</a></p>
 </section>
     <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
+  </a>
+
+      </div>
     
     <!-- Tags END -->
     <!-- NAV START -->
@@ -222,15 +303,6 @@
   </article>
   <!-- Article END -->
   <!-- Catalog START -->
-  
-    <aside class="catalog-container">
-  <div class="toc-main">
-    <strong class="toc-title">Catalog</strong>
-    
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-nav-text">参考资料</span></a></li></ol>
-    
-  </div>
-</aside>
   
   <!-- Catalog END -->
 </main>

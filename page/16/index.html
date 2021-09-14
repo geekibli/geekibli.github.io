@@ -168,35 +168,51 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/apache-flink-overview/">apache-flink-overview</a>
+        <a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 14, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#git" >
+    <span class="tag-code">git</span>
   </a>
 
       
       <div class="article-summary">
         
-          
-
-学习初衷推荐系统数据需要实时处理，使用Apache Flink实时计算用户数据，分析用户行为，达到实时业务数据分析和实现业务相关推荐；
-学习资料
-ashiamd.github.io
-尚硅谷2021最新Java版Flink 武老师清华硕士，原IBM-CDL负责人
-Apache Flink® ...
+          初始化本地仓库git initgit add README.mdgit commit -m &quot;first commit&quot;git branch -M mastergit remote add origin git@github.com:XXXXXgit push -u or ...
         
       </div>
-      <a class="more" href="/wiki/apache-flink-overview/">Read more</a>
+      <a class="more" href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a>
+        <a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 13, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          用户｜权限chmod：修改权限命令。一般用+号添加权限，-号删除权限，x代表执行权限，r代表读取权限，w代表写入权限，常见写法比如chmod +x 文件名 添加执行权限。
+还有另外一种写法，使用数字来授权，因为r=4，w=2，x=1，平时执行命令chmod 777 文件名这就是最高权限了。
+ ...
+        
+      </div>
+      <a class="more" href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -206,19 +222,22 @@ Apache Flink® ...
       
       <div class="article-summary">
         
-          多字段映射首先要做的事情就是对我们的字段索引两次：一次使用词干模式以及一次非词干模式。为了做到这点，采用 multifields 来实现，已经在 multifields 有所介绍：
-DELETE /my_index  
-1234567891011121314151617181920PUT / ...
+          参考资料
+
+learnku.com
+
+
+
         
       </div>
-      <a class="more" href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">Read more</a>
+      <a class="more" href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a>
+        <a href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">统计去重数据 (近似度量)</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -228,20 +247,18 @@ DELETE /my_index
       
       <div class="article-summary">
         
-          multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。
-📒 📒 📒
-
-multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：best_fields 、 most_fields 和 cross_fields  ...
+          cardinality用法常用写法如下👇curl -X GET &quot;localhost:9200/cars/transactions/_search?pretty&quot; -H &#39;Content-Type: application/json&#39; -d&#39;
+1 ...
         
       </div>
-      <a class="more" href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">Read more</a>
+      <a class="more" href="/wiki/%E7%BB%9F%E8%AE%A1%E5%8E%BB%E9%87%8D%E6%95%B0%E6%8D%AE/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a>
+        <a href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">多桶排序</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -251,18 +268,18 @@ multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解�
       
       <div class="article-summary">
         
-          假设有个网站允许用户搜索博客的内容，以下面两篇博客内容文档为例：
-1234567891011PUT /my_index/my_type/1&#123;    &quot;title&quot;: &quot;Quick brown rabbits&quot;,    &quot;body&q ...
+          多值桶（ terms 、 histogram 和 date_histogram ）动态生成很多桶。 Elasticsearch 是如何决定这些桶展示给用户的顺序呢？
+默认的，桶会根据 doc_count 降序排列。这是一个好的默认行为，因为通常我们想要找到文档中与查询条件相关的最大值：售价、 ...
         
       </div>
-      <a class="more" href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">Read more</a>
+      <a class="more" href="/wiki/%E5%A4%9A%E6%A1%B6%E6%8E%92%E5%BA%8F/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a>
+        <a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -272,19 +289,18 @@ multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解�
       
       <div class="article-summary">
         
-          在讨论更复杂的 多字段搜索 之前，让我们先快速解释一下为什么只在主分片上 创建测试索引 。
-用户会时不时的抱怨无法按相关度排序并提供简短的重现步骤：用户索引了一些文档，运行一个简单的查询，然后发现明显低相关度的结果出现在高相关度结果之上。
-为了理解为什么会这样，可以设想，我们在两个主分片上创 ...
+          过滤和聚合聚合范围限定还有一个自然的扩展就是过滤。因为聚合是在查询结果范围内操作的，任何可以适用于查询的过滤器也可以应用在聚合上。
+过滤如果我们想找到售价在 $10,000 美元之上的所有汽车同时也为这些车计算平均售价， 可以简单地使用一个 constant_score 查询和 filter ...
         
       </div>
-      <a class="more" href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">Read more</a>
+      <a class="more" href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a>
+        <a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -294,21 +310,23 @@ multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解�
       
       <div class="article-summary">
         
-          现象
+          参考资料
 
 
-配置文件如下：
-123456789101112131415dataSourceKey: defaultDS        # 源数据源的key, 对应上面配置的srcDataSources中的值destination: example            # cannal的ins ...
+
+
+
+
         
       </div>
-      <a class="more" href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">Read more</a>
+      <a class="more" href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a>
+        <a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -318,18 +336,19 @@ multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解�
       
       <div class="article-summary">
         
-          测试常见分析器GET /_analyze
-1234&#123;  &quot;analyzer&quot;: &quot;standard&quot;,  &quot;text&quot;: &quot;Oredr it now from Amazon  #fun #girlpower #f ...
+          两层嵌套在我们使用不同的嵌套方案时，聚合的力量才能真正得以显现。 在前例中，我们已经看到如何将一个度量嵌入桶中，它的功能已经十分强大了。
+但真正令人激动的分析来自于将桶嵌套进 另外一个桶 所能得到的结果。 现在，我们想知道每个颜色的汽车制造商的分布：
+GET /cars/transactio ...
         
       </div>
-      <a class="more" href="/wiki/elasticsearch-analyzer/">Read more</a>
+      <a class="more" href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a>
+        <a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -339,17 +358,23 @@ multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解�
       
       <div class="article-summary">
         
-          问题记录123456789101112132021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to impo ...
+          桶桶 简单来说就是满足特定条件的文档的集合：
+
+一个雇员属于 男性 桶或者 女性 桶
+奥尔巴尼属于 纽约 桶
+日期2014-10-28属于 十月 桶当聚合开始被执行，每个文档里面的值通过计算来决定符合哪个桶的条件。如果匹配到，文档将放入相应的桶并接着进行聚合操作。
+
+桶也可以被嵌套在其他桶里 ...
         
       </div>
-      <a class="more" href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Read more</a>
+      <a class="more" href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a>
+        <a href="/wiki/elasticsearch-overview/">elasticsearch-overview</a>
       </h2>
-      <p class="article-date">July 6, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -359,38 +384,16 @@ multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解�
       
       <div class="article-summary">
         
-          canal adapter 报错信息123456789101112131415161718192021222021-07-06 12:46:31.959 [http-nio-8081-exec-2] INFO  o.a.catalina.core.ContainerBase.[Tomcat] ...
+          学习资料
+ https://www.codingdict.com/
+ https://elasticsearch.cn/
+ https://www.elastic.co/guide/en/
+ 铭毅天下
+
+
         
       </div>
-      <a class="more" href="/wiki/field-name-is-null-or-empty/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Elasticsearch 支持如下简单域类型：
-
-字符串: string （es7之后编程text）
-整数 : byte, short, integer, long
-浮点数: float, double
-布尔型: boolean
-日期: date
-
-查看索引的mappingGET /gb/ ...
-        
-      </div>
-      <a class="more" href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">Read more</a>
+      <a class="more" href="/wiki/elasticsearch-overview/">Read more</a>
     </article>
   
 

@@ -168,9 +168,63 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Java-synchronzied底层原理</a>
+        <a href="/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">JVM-内存结构</a>
       </h2>
-      <p class="article-date">July 28, 2021</p>
+      <p class="article-date">July 30, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          作为程序员，最常接触到Java虚拟机的部分应该是内存结构这一部分了，同样这一部分的内容很多，面试也是最常被问到的。虽然JDK已经发布了16版本，但是国内大部分企业都还在使用JDK8。 今天学习一下虚拟机的运行时数据区的组成和各个组件的功能。
+
+
+JDK8官方网站文档链接 – 》 JDK
+运行 ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">JVM-深入理解Java虚拟机</a>
+      </h2>
+      <p class="article-date">July 30, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          JVM结构图
+知识清单
+Java内存结构 
+Java对象创建
+Java内存模型
+类加载机制
+垃圾回收机制
+垃圾收集器
+虚拟机调优
+
+学习资料JAVA虚拟机概述Java虚拟机（JVM）工作原理推荐收藏系列：一文理解JVM虚拟机（内存、垃圾回收、性能优化）解决面试中遇到问题Java虚拟机内存管理 ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/">Java并发编程-深入理解volatile</a>
+      </h2>
+      <p class="article-date">July 29, 2021</p>
       
         
   <a href="/tags#多线程" >
@@ -180,21 +234,21 @@
       
       <div class="article-summary">
         
-          synchronzied底层原理synchronzied四个层级实现
-Java代码 通过添加synchronzied给对象或者方法或者代码块
-字节码层级通过一组 MONITORENTER/MONITOREXIT指令
-JVM层级：锁升级过程
-汇编执行通过 lock comxchg指令保证原子操 ...
+          volatile特性正确理解volatile
+
+多级cache结构 -&gt; 缓存一致性协议（MESI）-&gt; store buffer和invalidate queue -&gt; 内存屏障
+
+可见性volatile的可见性依赖于Java内存模型。 可以参见之前的文章  👉 Jav ...
         
       </div>
-      <a class="more" href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Read more</a>
+      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3volatile/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Java-锁消除和锁膨胀</a>
+        <a href="/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">Java-synchronized关键字剖析</a>
       </h2>
-      <p class="article-date">July 28, 2021</p>
+      <p class="article-date">July 29, 2021</p>
       
         
   <a href="/tags#多线程" >
@@ -204,35 +258,67 @@ JVM层级：锁升级过程
       
       <div class="article-summary">
         
-          锁消除和锁粗化锁消除 （lock eliminate）1234public void add(String str1,String str2)&#123;    StringBuffer sb = new StringBuffer();    sb.append(str1).append(s ...
+          之前写过一篇关于synchronized关键字的文章，是当时听马士兵老师的公开课时记录的一些关键笔记📒 链接🔗
+下面我们还是要学习和总结一下synchronized
+synchronized 特性
+有序性as-if-serial
+
+不管编译器和CPU如何重排序，必须保证在单线程情况下程序 ...
         
       </div>
-      <a class="more" href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Read more</a>
+      <a class="more" href="/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a>
+        <a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">分布式-秒杀系统设计</a>
       </h2>
-      <p class="article-date">July 28, 2021</p>
+      <p class="article-date">July 29, 2021</p>
       
         
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
+  <a href="/tags#分布式" >
+    <span class="tag-code">分布式</span>
   </a>
 
       
       <div class="article-summary">
         
-          锁升级使用JOL查看加锁之后的对象信息12345678public static void main(String[] args) &#123;        Object object = new Object();        System.out.println(ClassLayou ...
+          秒杀系统的挑战高并发秒杀活动的特点就是短时间内聚集大量请求瞬时到达服务端，此时数据库已经无法支撑如此大数据量的请求了。单个的数据库QPS仅有几百，你可能会想，那我是不是可以部署一个数据库集群呢，在数据库集群前使用Nginx分发，将负载平均分摊到每一个数据库不就可以了吗。这种方式一定程度上是可 ...
         
       </div>
-      <a class="more" href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Read more</a>
+      <a class="more" href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/JVM-strace/">JVM-strace</a>
+        <a href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">JVM-Xms,Xmx和Xss</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+
+性能调优参数Xms，Xmx，Xss的含义-Xss规定了每个线程虚拟机栈及堆栈的大小，一般情况下，256k是足够的，此配置将会影响此进程中并发线程数的大小。
+-Xms表示初始化JAVA堆的大小及该进程刚创建出来的时候，他的专属JAVA堆的大小，一旦对象容量超过了JAVA堆的初始容量，JAV ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/JVM-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">JVM-自定义类加载器</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
       
@@ -244,165 +330,82 @@ JVM层级：锁升级过程
       
       <div class="article-summary">
         
-          strace 命令查看操作系统日志strace -ff -o out java ***.class
--ff : 跟踪进程下所有线程用到的系统命令-o : 将跟踪的操作系统日志输出
-
-下面查看JDK1.8下，BIO模式都有哪些系统命令的执行
-
-1234567891011121314151617 ...
+          如何自定义类加载器为什么要自定义加载器
+原因：1、存放在自定义路径上的类，需要通过自定义类加载器去加载。【注意：AppClassLoader加载classpath下的类】2、类不一定从文件中加载，也可能从网络中的流中加载，这就需要自定义加载器去实现加密解密。3、可以定义类的实现机制，实现类的 ...
         
       </div>
-      <a class="more" href="/wiki/JVM-strace/">Read more</a>
+      <a class="more" href="/wiki/JVM-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a>
+        <a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">分布式-一致性哈希算法</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
+  <a href="/tags#分布式" >
+    <span class="tag-code">分布式</span>
   </a>
 
       
       <div class="article-summary">
         
-          NIO核心组件 - ChannelSocketChannel 和 ServerSocketChannel学习此部分可以对比Socket和ServerSocket
-服务端代码
-12345678910111213141516171819202122232425262728293031323334 ...
+          一致性哈希算法一致性哈希算法(Consistent Hashing Algorithm)是一种分布式算法，常用于负载均衡。Memcached client也选择这种算法，解决将key-value均匀分配到众多Memcached server上的问题。它可以取代传统的取模操作，解决了取模操作无 ...
         
       </div>
-      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Read more</a>
+      <a class="more" href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Java-NIO核心组件--selector</a>
+        <a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-CAP%E7%90%86%E8%AE%BA/">分布式-CAP理论</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
+  <a href="/tags#分布式" >
+    <span class="tag-code">分布式</span>
   </a>
 
       
       <div class="article-summary">
         
-          多路复用器select1、select选择器会告诉客户端哪些连接有数据要读取，但是读取的操作还是用户自己触发的，这种叫做「同步」
-123456789101112131415161718192021222324252627282930313233343536373839404142434445 ...
+          CAP 原则CAP原则又称CAP定理，指的是在一个分布式系统中，一致性（Consistency）、可用性（Availability）、分区容错性（Partition tolerance）。CAP原则的精髓就是要么AP，要么CP，要么AC，但是不存在CAP。
+
+
+
+一致性（C）：在分布式系统中 ...
         
       </div>
-      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Read more</a>
+      <a class="more" href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-CAP%E7%90%86%E8%AE%BA/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Java-NIO核心组件--buffer</a>
+        <a href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Mysql-事务特性与实现原理</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
       
         
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
   </a>
 
       
       <div class="article-summary">
         
-          Buffer 读写NIO之BufferBuffer作为NIO三大核心组件之一，本质上是一块可以写入数据，以及从中读取数据的内存，实际上也是一个byte[]数据,只是在NIO中被封装成了NIO Buffer对象并提供了一组方法来访问这个内存块。
-下面是一个简单的Demo123456789101 ...
+          MySQL事务特性与实现原理1. 事务特性
+原子性(Atomicity)
+
+事务中的所有操作作为一个整体像原子一样不可分割，要么全部成功,要么全部失败。
+
+一致性(Consistency)
+
+事务的执行结果必须使数据库从一个一致性状态到另一个一致性状态。一致性状态是指:1.系统的状态满足数据 ...
         
       </div>
-      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-NIO/">Java-NIO</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Java NIO
-Java NIO 对于Java BIO的优化
-
-Java 非阻塞IO
-及时不使用线程池，也可以处理多个客户端请求
-
-12345678910111213141516171819202122232425262728293031323334353637383940public s ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-NIO/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/">Java-传统的BIO</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          传统的BIOSocket 和 ServerSocket1234567891011121314151617public static void main(String[] args) throws IOException &#123;       ServerSocket serverSock ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-jstat/">JVM-jstat</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          jstatjstat是一个简单的实用工具，在JDK中存在，用于提供与JVM性能相关的统计信息，例如垃圾收集，编译活动。 jstat的主要优势在于，它可以在运行JVM且无需任何先决条件的情况下动态捕获这些指标。 这是什么意思？ 例如，如果要捕获与垃圾回收相关的统计信息，则需要在启动JVM之前传 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-jstat/">Read more</a>
+      <a class="more" href="/wiki/Mysql-%E4%BA%8B%E5%8A%A1%E7%89%B9%E6%80%A7%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Read more</a>
     </article>
   
 

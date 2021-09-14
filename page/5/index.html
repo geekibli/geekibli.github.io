@@ -168,7 +168,137 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">设计模式之美-单例模式</a>
+        <a href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Flink-物理分区函数</a>
+      </h2>
+      <p class="article-date">August 12, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Flink提供的8种分区函数GlobalPartitioner该分区器会将所有的数据都发送到下游的某个算子实例(subtask id = 0)
+12345678910111213//  数据会被分发到下游算子的第一个实例中进行处理    public static void global() ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Flink-UDF函数类</a>
+      </h2>
+      <p class="article-date">August 12, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          函数类比如说我们常用的MapFunction，FilterFunction，ProcessFunction等，每一步操作都基本上都对应一个Function。
+12345678910public static class MyFlatMapper implements FlatMapFunct ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Flink-到底支持多少种数据类型</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Flink支持所有的Java和Scala基础数据类型以及其包装类型
+支持Tuple元组类型，Flink在Java API中定义了很多Tuple的实现类，从Tuple0 ~ Tuple25类型
+Scala样例类 case class，对应Java中的POJO类对象(必须提供无参构造方法 get ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Flink-如何读取数据源（集合｜文件｜自定义｜Kafka等）</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          读取文件这里是以txt文件为例，实现WordCount，其他文件类型同理。
+12345678910111213141516171819202122232425 public static void main(String[] args) throws Exception &#123;     ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E7%AE%97%E5%AD%90%E9%83%BD%E5%9C%A8%E8%BF%99/">Flink-你所知道的算子都在这</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          好了，看到这的话，Apache Flink基础概念啥的都应该了解差不多了吧，我们几天就See一下，平时用到的StreamApi中各式各样的算子都有什么，然后，我们搞点Demo试一下。
+📒 我也是边学边实现一些Demo,这样呢可以方便自己理解，形成体系以后也应该能帮到别人快速学习吧。
+这就是 ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E7%AE%97%E5%AD%90%E9%83%BD%E5%9C%A8%E8%BF%99/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">Flink-核心之Windows窗口</a>
+      </h2>
+      <p class="article-date">August 10, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          什么是窗口
+窗口分配器有几种
+窗口如何实现增量计算和全量计算
+
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E6%A0%B8%E5%BF%83%E4%B9%8BWindows%E7%AA%97%E5%8F%A3/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">设计模式之美-门面模式</a>
       </h2>
       <p class="article-date">August 7, 2021</p>
       
@@ -180,16 +310,17 @@
       
       <div class="article-summary">
         
-          单例模式概念单例模式：指一个类在任何情况下都绝对只有一个实例，并提供一个全局访问点（getInstance方法）。大概实现就是隐藏其构造方法，单例模式属于创建型模式。一些实际的应用场景比如，DBpool, ServletContext,ServletConfig等
-单例模式写法饿汉式单例在单 ...
+          门面模式门面模式又叫做外观模式，提供统一的一个接口，用来访问子系统中的一群接口；门面模式定义了一个高层接口，让子系统更容易使用；门面模式属于结构型模式；  
+类图  
+Facade 门面类12345678910111213141516public class Facade &#123;    ...
         
       </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">Read more</a>
+      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">设计模式之美-享元模式</a>
+        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式之美-适配器模式</a>
       </h2>
       <p class="article-date">August 7, 2021</p>
       
@@ -201,185 +332,55 @@
       
       <div class="article-summary">
         
-          享元模式（Flyweight Pattern）前言在面向对象程序设计过程中，有时会面临要创建大量相同或相似对象实例的问题。创建那么多的对象将会耗费很多的系统资源，它是系统性能提高的一个瓶颈。  
-定义享元模式，又称为轻量级模式，运用共享技术来有效地支持大量细粒度对象的复用。它通过共享已经存在 ...
+          适配器模式适配器模式（Adapter Pattern）又叫做变压器模式，它的功能是将一个类的接口变成客户端所期望的另一个接口，从而使得原本因接口不匹配而导致无法在一起工作的两个类能够在一起工作，属于结构性设计模式的一种；
+在软件开发的过程中，基本上任何问题都可以通过一个中间层解决。适配器模式 ...
         
       </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">Read more</a>
+      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BConcurrentHashMap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Java并发编程之ConcurrentHashMap实现原理</a>
+        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">设计模式之美-责任链模式</a>
       </h2>
-      <p class="article-date">August 5, 2021</p>
+      <p class="article-date">August 7, 2021</p>
       
         
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
+  <a href="/tags#设计模式" >
+    <span class="tag-code">设计模式</span>
   </a>
 
       
       <div class="article-summary">
         
-          ConcurrentHashMapMap应该是我们平时开发过程中除了List使用的第二频繁的数据结构了吧，我们都知道HashMap无法在多线程环境下保证安全，那我们可以使用什么来代替HashMap呢，有两个选择，HashTable和ConcurrentHashMap,由于HashTable的 ...
+          责任链模式责任链模式（Chain of Responsibility Patter）是将链中的每一个节点看成是一个对象，每个节点处理的请求均不相同，并且内部自动维护下一个节点对象。当一个请求从链的头部发出时，会沿着链的路径一次传递给每一个节点对象，直到有节点处理这个请求为止；责任链模式属于行 ...
         
       </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BConcurrentHashMap%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Read more</a>
+      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCountDownLatch%E5%B7%A5%E5%85%B7/">Java并发编程之CountDownLatch工具</a>
+        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">设计模式之美-观察者模式</a>
       </h2>
-      <p class="article-date">August 4, 2021</p>
+      <p class="article-date">August 7, 2021</p>
       
         
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
+  <a href="/tags#设计模式" >
+    <span class="tag-code">设计模式</span>
   </a>
 
       
       <div class="article-summary">
         
-          CountDownLatch你要问什么是CountDownLatch? 那我可有的说了。
-之前干活的时候，有很多处理数据的任务，但是呢，数据量很大，写的java脚本执行下来肯定会比较慢，那怎么办呢，想起来刚毕业那会，有个同事写了一个并发调用的工具，当时感觉碉堡了。
-当我查看这个工具的具体实现 ...
+          观察者模式观察者模式指多个对象间存在一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。这种模式有时又称作发布-订阅模式、模型-视图模式，它是对象行为型模式。
+属于行为型模式
+类图  
+
+ISubject12345678public interface I ...
         
       </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCountDownLatch%E5%B7%A5%E5%85%B7/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%90%9E%E6%87%82%E7%BA%BF%E7%A8%8B%E6%B1%A0-1/">Java并发编程之搞懂线程池</a>
-      </h2>
-      <p class="article-date">August 4, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          ThreadPool1. 为什么存在线程池1.1 降低资源消耗通过复用已存在的线程和降低线程关闭的次数来尽可能降低系统性能损耗；（享元模式）
-1.2 提升系统响应速度通过复用线程，省去创建线程的过程，因此整体上提升了系统的响应速度；
-1.3 提高线程的可管理性线程是稀缺资源，如果无限制的创建 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%90%9E%E6%87%82%E7%BA%BF%E7%A8%8B%E6%B1%A0-1/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BBlocking-Queue/">Java并发编程之Blocking Queue</a>
-      </h2>
-      <p class="article-date">August 3, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Blocking QueueA blocking queue is a queue that blocks when you try to dequeue from it and the queue is empty, or if you try to enqueue items to it ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BBlocking-Queue/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6/">Java并发编程之中断机制</a>
-      </h2>
-      <p class="article-date">August 3, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          中断机制Java语言提供一种机制来试图“终止”一些特殊的线程，比如一下空转的线程一直消耗系统资源，可以使用中断的方式来停止这一类的线程，这就是Java中断机制。
-1、中断注意的地方1、Java中线程间是协作式，而非抢占式. 调用一个线程的interrupt() 方法中断一个线程，并不是强行关 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E4%B8%AD%E6%96%AD%E6%9C%BA%E5%88%B6/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCondition%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82/">Java并发编程之Condition机制底层</a>
-      </h2>
-      <p class="article-date">August 3, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Lock框架中的Condition机制还是看一下之前ReentrantLock中调用condition方法的流程图 👇
-
-
-
-
-任何一个java对象都天然继承于Object类，在线程间实现通信的往往会应用到Object的几个方法，比如wait(),wait(long timeout),wa ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BCondition%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ReetrantLock/">Java并发编程之深入理解ReentrantLock</a>
-      </h2>
-      <p class="article-date">August 2, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          ReentrantLockReentrantLock重入锁，是实现Lock接口的一个类，也是在实际编程中使用频率很高的一个锁，支持重入性，表示能够对共享资源能够重复加锁，即当前线程获取该锁再次获取不会被阻塞
-加锁操作支持重入性，表示能够对共享资源能够重复加锁，即当前线程获取该锁再次获取不会被 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3ReetrantLock/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BAQS%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%8E%9F%E7%90%86/">Java并发编程之AQS底层实现与原理</a>
-      </h2>
-      <p class="article-date">August 2, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          AQS锁限时等待是如何实现的？
-公平锁与非公平锁流程是怎样的？
-独占锁&amp;共享锁独占锁即只允许一个线程获取同步状态，当这个线程还没有释放同步状态时，其他线程是获取不了的，只能加入到同步队列，进行等待。
-公平锁&amp;非公平锁公平锁公平策略：在多个线程争用锁的情况下，公平策略倾向于将访 ...
-        
-      </div>
-      <a class="more" href="/wiki/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8BAQS%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E4%B8%8E%E5%8E%9F%E7%90%86/">Read more</a>
+      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
 

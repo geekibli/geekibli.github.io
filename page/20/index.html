@@ -168,24 +168,266 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%90%88%E9%9B%86/">2021年后端大厂-算法面试合集</a>
+        <a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a>
       </h2>
-      <p class="article-date">January 1, 2021</p>
+      <p class="article-date">July 4, 2021</p>
       
         
-  <a href="/tags#面试题" >
-    <span class="tag-code">面试题</span>
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
   </a>
 
       
       <div class="article-summary">
         
-          算法类利用堆求 TopK 问题及其应用案例解决思路https://juejin.cn/post/6963096695333158926
-https://juejin.cn/post/6844903831487152135
+          TCP断开连接四次挥手
 
+
+开始客户端和服务端都是处理【established】状态
+客户端发送「FIN」报文之后，进入FIN-WAIT-1状态
+服务端收到客户端的FIN之后，恢复一个ACK，同时进入CLOSE_WAIT状态
+客户端接收到ACK之后，进入到FIN-WAIT-2状态
+服务端接着 ...
         
       </div>
-      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%90%88%E9%9B%86/">Read more</a>
+      <a class="more" href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          快速重传和快速恢复快速重传
+d 为何会接收到以个失序数据段？ 
+
+
+若报文丢失，将会产生连续的失序ACK段 
+若网络路径与设备导致数据段失序，将会产生少量的失序ACK段
+若报文重复，将会产生少量的失序ACK段
+
+
+
+
+当发送端发送pkt0是正常的，由于滑动窗口为满，发送方可以继续发送pkt1 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景；
+全局思考
+
+拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          如何减少小报文提升网络效率每一个TCP报文段都包含20字节的IP头部和20字节的TCP首部，如果报文段的数据部分很少的话，网络效率会很差；
+SWS(Silly Window syndrome) 糊涂窗口综合症
+
+如上图👆所示场景，在之前的滑动窗口已经了解过，随着服务端处理连接数据能力越来越 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          滑动窗口
+之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口
+
+发送端窗口滑动窗口按照传输数据方向分为两种，发送端窗口和接收端窗口；下面先看一下发送端窗口👇：
+
+
+上图分为四个部分：
+
+已发送并 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？
+
+什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">TCP超时与重传</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          背景
+
+如上图👆所示，设备A向设备B发送消息，消息在网络中会由于各种各样的问题导致丢失，那么该如何解决上述问题呢？
+采用定时器重传
+PAR：Positive Acknowledgment with Retransmission
+
+
+
+最简单的思路是在发送方设置「 定时器 」：
+
+当设备A发 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E4%BC%A0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">TCP最大报文段（MSS）</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          MSS产生的背景我们都知道TCP协议是运输在传输层的协议，它是面向【字节流】的传输协议；它的上层，应用层传输的数据是无限制的，但是它的下层也就是网络层和链路层由于路由等转发设备有内存等限制是不可能无限制传输任何大小的报文的，它们一定会限制报文的长度，因此 TCP协议要完成的工作是将从应用层接 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E6%9C%80%E5%A4%A7%E6%8A%A5%E6%96%87%E6%AE%B5%EF%BC%88MSS%EF%BC%89/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">TCP三次握手</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          握手🤝的目的
+同步Sequence序列号
+初始化序列号ISN （Inital Sequence Number）
+
+
+交换TCP通讯的参数
+比如最大报文段参数（MSS）、窗口比例因子（Window）、选择性确认（SACK）、制定校验和算法；
+
+
+
+三次握手握手过程
+
+TCP三次握手的大致流程 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E5%A4%B4%E9%83%A8/">TCP头部</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          带着问题学习
+如何校验报文段是否损坏？ 如何CRC校验
+seq和ack是如何计算的？ 
+tcp校验位都有那些？ 6个 分别是什么含义？
+tcp如何计算首部长度？ 偏移量
+TCP Retransmission 重传？ 
+tcp spurious retransmission 又是什么呢？ 
+t ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E5%A4%B4%E9%83%A8/">Read more</a>
     </article>
   
 
@@ -195,7 +437,7 @@ https://juejin.cn/post/6844903831487152135
     <a href="/page/19/"><span class="page-arrow">← </span>Prev</a>
   
   
-    <a class="unvisible" href="/">Next <span class="page-arrow">→</span></a>
+    <a href="/page/21/">Next<span class="page-arrow"> →</span></a>
   
 </div>
   

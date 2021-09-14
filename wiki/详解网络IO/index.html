@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      详解网络IO | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>详解网络IO</h2>
+  <p class="post-date">2021-09-10</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学习思路可以是网络IO的演变过程，从【阻塞io】到【非阻塞io】然后到【多路复用】，后续还有【异步io】</p>
+<h2 id="1-阻塞io"><a href="#1-阻塞io" class="headerlink" title="1. 阻塞io"></a>1. 阻塞io</h2><p>应用程序进行 recvfrom 系统调用时将阻塞在此调用，直到该套接字上有数据并且复制到用户空间缓冲区。该模式一般配合多线程使用，</p>
+<p>应用进程每接收一个连接，为此连接创建一个线程来处理该连接上的读写以及业务处理。</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210910160418632.png" alt="image-20210910160418632" style="zoom:50%;" />
+
+<p><strong>缺点</strong>：如果套接字上没有数据，进程将一直阻塞。这时其他套接字上有数据也不能进行及时处理。</p>
+<p>如果是多线程方式，除非连接关闭否则线程会一直存在，而线程的创建、维护和销毁非常消耗资源，所以能建立的连接数量非常有限。</p>
+<h2 id="2-非阻塞io"><a href="#2-非阻塞io" class="headerlink" title="2. 非阻塞io"></a>2. 非阻塞io</h2><p>应用进程调用recefrom函数之后，不等待内核数据准备完成，而是不断轮训（注意这里是用户进程不断轮训，会有用户态到内核态的切换，性能损耗比较严重）</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210910160610025.png" alt="image-20210910160610025" style="zoom:50%;" />
+
+
+
+<p><strong>优点</strong>：代码编写相对简单，进程不会阻塞，可以在同一线程中处理所有连接。</p>
+<p><strong>缺点</strong>：需要频繁的轮询，比较耗CPU，在并发量很大的时候将花费大量时间在没有任何数据的连接上轮询。所以该模型只在专门提供某种功能的系统中才会出现。</p>
+<h2 id="3-io复用"><a href="#3-io复用" class="headerlink" title="3. io复用"></a>3. io复用</h2><p>应用进程阻塞于 <strong>select/poll/epoll</strong> 等系统函数等待某个连接变成可读（有数据过来），再调用 recvfrom 从连接上读取数据。虽然此模式也会阻塞在 select/poll/epoll 上，但与阻塞IO 模型不同它阻塞在等待多个连接上有读（写）事件的发生，明显提高了效率且增加了单线程/单进程中并行处理多连接的可能。</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210910160743784.png" alt="image-20210910160743784" style="zoom:50%;" />
+
+<p><strong>优点</strong>：统一管理连接，不一定采用多线程的方式，同时也不需要轮询。只需要阻塞于 select 即可，可以同时管理多个连接。</p>
+<p><strong>缺点</strong>：当 select/poll/epoll 管理的连接数过少时，这种模型将退化成阻塞 IO 模型。并且还多了一次系统调用：一次 select/poll/epoll 一次 recvfrom。</p>
+<h3 id="3-1-select"><a href="#3-1-select" class="headerlink" title="3.1 select"></a>3.1 select</h3><p>1、句柄上限- 默认打开的FD有限制,1024个。</p>
+<p>2、重复初始化-每次调用 select()，需要把 fd 集合从用户态拷贝到内核态，内核进行遍历。</p>
+<p>3、逐个排查所有FD状态效率不高。</p>
+<h3 id="3-2-poll"><a href="#3-2-poll" class="headerlink" title="3.2 poll"></a>3.2 poll</h3><p>poll和select相比在本质上变化不大，只是poll没有了select方式的最大文件描述符数量的限制。</p>
+<p>缺点：逐个排查所有FD状态效率不高。</p>
+<h3 id="3-3-epoll"><a href="#3-3-epoll" class="headerlink" title="3.3 epoll"></a>3.3 epoll</h3><p><font color=blue>没有fd个数限制，用户态拷贝到内核态只需要一次，使用事件通知机制来触发。通过epoll_ctl注册fd，一旦fd就绪就会通过callback回调机制来激活对应fd，进行相关的I/O操作。</font></p>
+<p>epoll对文件描述符的操作有两种模式：<strong>LT（level trigger）</strong>和<strong>ET（edge trigger）</strong>。LT模式是默认模式，LT模式与ET模式的区别如下：</p>
+<p><strong>LT模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，`应用程序可以不立即</p>
+<p>处理该事件`。下次调用epoll_wait时，会再次响应应用程序并通知此事件。</p>
+<p><strong>ET模式</strong>：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，`应用程序必须立即处</p>
+<p>理该事件`。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。</p>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>跨平台，Linux 支持最好。</li>
+<li>底层实现复杂。</li>
+<li>同步。</li>
+</ul>
+<h3 id="3-4-select-poll-epoll之间的区别"><a href="#3-4-select-poll-epoll之间的区别" class="headerlink" title="3.4 select/poll/epoll之间的区别"></a>3.4 select/poll/epoll之间的区别</h3><p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210910161725824.png" alt="image-20210910161725824"></p>
+<h2 id="4-信号驱动io"><a href="#4-信号驱动io" class="headerlink" title="4. 信号驱动io"></a>4. 信号驱动io</h2><p>应用进程创建 SIGIO 信号处理程序，此程序可处理连接上数据的读写和业务处理。并向操作系统安装此信号，进程可以往下执行。当内核数据准备好会向应用进程发送信号，触发信号处理程序的执</p>
+<p>行。再在信号处理程序中进行 recvfrom 和业务处理。</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210910161310686.png" alt="image-20210910161310686" style="zoom:50%;" />
+
+<p><strong>优点：</strong>非阻塞</p>
+<p><strong>缺点：</strong>在前一个通知信号没被处理的情况下，后一个信号来了也不能被处理。所以在信号量大</p>
+<p>的时候会导致后面的信号不能被及时感知。</p>
+<h2 id="5-异步io"><a href="#5-异步io" class="headerlink" title="5. 异步io"></a>5. 异步io</h2><p>应用进程通过 aio_read 告知内核启动某个操作，在整个操作完成之后内核再通知应用进程，包括把</p>
+<p>数据从内核空间拷贝到用户空间。</p>
+<p><font color=blue><strong>信号驱动 IO 是内核通知我们何时可以启动一个 IO 操作，而异步 IO 模型是由内核通知我们 IO 操作何时完成</strong></font>。</p>
+<img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210910161126217.png" alt="image-20210910161126217" style="zoom:50%;" />
+
+<p><strong><font color=green>注：前 4 种模型都是带有阻塞部分的，有的阻塞在等待数据准备好，有的阻塞在从内核空间拷贝数据到用户空间(信号量io)。而这种模型应用进程从调用 aio_read 到数据被拷贝到用户空间，不用任何阻塞，所以该种模式叫异步 IO 模型。</font></strong></p>
+<p><strong>优点</strong>：没有任何阻塞，充分利用系统内核将 IO 操作与计算逻辑并行。</p>
+<p><strong>缺点</strong>：编程复杂、操作系统支持不好。目前只有 windows 下的 iocp 实现了真正的 AIO。linux </p>
+<p>下在 2.6 版本中才引入，目前并不完善，所以 Linux 下一般采用多路复用模型。</p>
+<h2 id="6-Reactor-和-Proactor"><a href="#6-Reactor-和-Proactor" class="headerlink" title="6. Reactor 和 Proactor"></a>6. Reactor 和 Proactor</h2><p>Reactor 是<font color=blue><strong>非阻塞同步网络模式，感知的是就绪可读写事件</strong></font>。在每次  感知到有事件发生（比如可读就绪事件）后，就需要应用进程主动调用 read 方法来完成数据的读  取，也就是要应用进程主动将 socket 接收缓存中的数据读到应用进程内存中，这个过程是同步的，  读取完数据后应用进程才能处理数据。</p>
+<p>Proactor 是<font color=blue><strong>异步网络模式， 感知的是已完成的读写事件</strong></font>。在发起异步读写请求时，需要传入数据缓冲区的地址（用来存放结果数据）等信息，这样系统内核才可以自动帮我们把数据的读写工作完成，<font color=green><strong>这里的读写工作全程由操作系统来做，并不需</strong></font>要像 Reactor 那样还需要应用进程主动发起 read/write 来读写数据**</font>，操作系统完成读写工作后，就会通知应用进程直接处理数据。</p>
+<p>因此，<font color=blue><strong>Reactor 可以理解为「来了事件操作系统通知应用进程，让应用进程来处理」</strong></font>，而 <font color=green> **Proactor 可以理解为「来了事件操作系统来处理，处理完再通知应用进程」</font>。这里的「事件」就是有新连接、有数据可读、有数据可写的这些 I/O 事件这里的「处理」包含从驱动读取到内核以及从内核读取到用户空间。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/20210910173232.png">  </p>
+<p>可参见 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/px6-YnPEUCEqYIp_YHhDzg">https://mp.weixin.qq.com/s/px6-YnPEUCEqYIp_YHhDzg</a>    </p>
+<h2 id="7-参考资料"><a href="#7-参考资料" class="headerlink" title="7. 参考资料"></a>7. 参考资料</h2><blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/x-AZQO5uiuu5svIvScotzA">「网络IO套路」当时就靠它追到女友</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904200141438984">彻底理解 IO多路复用</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903678227267597">看完这个，Java IO从此不在难</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904048198451214">从操作系统层面理解Linux下的网络IO模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903728718462990#heading-8">五种IO模型介绍和对比</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903812738596878#heading-3">服务器网络编程之 IO 模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.processon.com/view/5f1e369ee0b34d54dacc18b9?fromnew=1">网络编程与高效IO</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6979761228251922469">高性能网络IO模式Reactor</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903488170786824#heading-15">Linux IO模式及 select、poll、epoll详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzUxODAzNDg4NQ==&mid=2247489558&idx=1&sn=7a96604032d28b8843ca89cb8c129154&scene=21#wechat_redirect">这次答应我，一举拿下 I/O 多路复用！</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/px6-YnPEUCEqYIp_YHhDzg">原来 8 张图，就能学废 Reactor 和 Proactor</a></li>
+</ul>
+</blockquote>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#网络IO" >
+    <span class="tag-code">网络IO</span>
+  </a>
+
+  <a href="/tags#epoll" >
+    <span class="tag-code">epoll</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/Netty%E5%9F%BA%E7%A1%80/">
+        <span class="nav-arrow">← </span>
+        
+          Netty基础
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/%E6%9D%A5%E8%87%AATCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%81%B5%E9%AD%82%E6%8B%B7%E9%97%AE/">
+        
+          来自TCP协议的灵魂拷问
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/详解网络IO/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

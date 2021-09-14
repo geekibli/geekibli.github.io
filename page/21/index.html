@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link active">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link mobile-active">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <main class="app-body">
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">TCP协议</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          TCP协议学习笔记📒
+下面是本人在学习TCP协议的过程中，记录的笔记，按照学习的过程从前到后整理在这里！可能会有很多的知识没有罗列，只是记录的大概框架，如果有问题或错误，欢迎指正！
+
+
+1、TCP报文头部2、TCP三次握手3、TCP最大报文段（MSS）4、TCP超时与重传5、RTO重传计时 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP%E5%8D%8F%E8%AE%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/index/">Welcome to GeekIBLi</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+      <div class="article-summary">
+        
+          道阻 且长不错的学习网站推荐掘金 博客https://www.codingdict.com/极客时间ashiamd.github.io字节跳动后端面试题集知乎 Java快速进阶通道To Be Top Javaer - Java工程师成神之路Div-wangJava 全栈知识体系https:/ ...
+        
+      </div>
+      <a class="more" href="/wiki/index/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-Spring/">2021年后端大厂-Spring</a>
+      </h2>
+      <p class="article-date">January 9, 2021</p>
+      
+        
+  <a href="/tags#面试题" >
+    <span class="tag-code">面试题</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          spring支持几种bean scope？Spring bean 支持 5 种 scope： 
+Singleton - 每个 Spring IoC 容器仅有一个单实例。
+Prototype - 每次请求都会产生一个新的实例。
+Request - 每一次 HTTP 请求都会产生一个新的实例，并 ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-Spring/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E5%90%88%E9%9B%86/">2021年后端大厂面试题合集</a>
+      </h2>
+      <p class="article-date">January 7, 2021</p>
+      
+      <div class="article-summary">
+        
+          
+记录2021年各互联网大厂面试问题以及答案链接，达到快速复习效果
+
+面试题合集《我们一起进大厂》https://aobing.blog.csdn.net/category_9424379.html
+1、Spring面试题1、Spring启动流程
+https://aobing.blog.cs ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E5%90%88%E9%9B%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">2021年后端大厂-计算机网络</a>
+      </h2>
+      <p class="article-date">January 1, 2021</p>
+      
+        
+  <a href="/tags#面试题" >
+    <span class="tag-code">面试题</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          计算机网络
+面试合集链接优秀简历模板及计算机网络八股文
+面试题目为什么需要TCP协议？TCP 是面向连接的、可靠的、基于字节流的传输层通信协议。
+IP 层是「不可靠」的，它不保证网络包的交付、不保证网络包的按序交付、也不保证网络包中的数据的完整性。
+因为 TCP 是一个工作在传输层的可靠数据 ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-MySQL/">2021年后端大厂-MySQL</a>
+      </h2>
+      <p class="article-date">January 1, 2021</p>
+      
+        
+  <a href="/tags#面试题" >
+    <span class="tag-code">面试题</span>
+  </a>
+
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+没有别的目的，就是为了快速复习
+
+Mysql面试合集什么是回表https://blog.csdn.net/xuyw10000/article/details/95971218
+https://juejin.cn/post/6844904062329028621
+覆盖索引的一个优化办法是将要 ...
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-MySQL/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%90%88%E9%9B%86/">2021年后端大厂-算法面试合集</a>
+      </h2>
+      <p class="article-date">January 1, 2021</p>
+      
+        
+  <a href="/tags#面试题" >
+    <span class="tag-code">面试题</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          算法类利用堆求 TopK 问题及其应用案例解决思路https://juejin.cn/post/6963096695333158926
+https://juejin.cn/post/6844903831487152135
+
+        
+      </div>
+      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%90%88%E9%9B%86/">Read more</a>
+    </article>
+  
+
+  
+    <div class="guide-pager">
+  
+    <a href="/page/20/"><span class="page-arrow">← </span>Prev</a>
+  
+  
+    <a class="unvisible" href="/">Next <span class="page-arrow">→</span></a>
+  
+</div>
+  
+</main>
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>

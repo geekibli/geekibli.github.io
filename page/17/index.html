@@ -168,9 +168,9 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a>
+        <a href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">关于 Elasticsearch 内存占用及分配</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 8, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -180,19 +180,22 @@
       
       <div class="article-summary">
         
-          分析包含下面的过程：
-首先，将一块文本分成适合于倒排索引的独立的 词条 ，之后，将这些词条统一化为标准格式以提高它们的“可搜索性”，或者 recall分析器执行上面的工作。 分析器 实际上是将三个功能封装到了一个包里：
-字符过滤器首先，字符串按顺序通过每个 字符过滤器 。他们的任务是在分词前 ...
+          Elasticsearch 和 Lucene 对内存使用情况： 
+
+
+
+Elasticsearch 限制的内存大小是 JAVA 堆空间的大小，不包括Lucene 缓存倒排索引数据空间。
+Lucene 中的 倒排索引 segments 存储在文件中，为提高访问速度，都会把它加载到内存中，从而提 ...
         
       </div>
-      <a class="more" href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">Read more</a>
+      <a class="more" href="/wiki/%E5%85%B3%E4%BA%8E-Elasticsearch-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%8F%8A%E5%88%86%E9%85%8D/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a>
+        <a href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">cross-fields跨字段查询</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 7, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -202,19 +205,23 @@
       
       <div class="article-summary">
         
-          Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。  
-例如，假设我们有两个文档，每个文档的 content 域包含如下内容：  
-The quick brown fox j ...
+          参考资料
+
+Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » cross-fields 跨字段查询
+
+
+
+
         
       </div>
-      <a class="more" href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">Read more</a>
+      <a class="more" href="/wiki/cross-fields%E8%B7%A8%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a>
+        <a href="/wiki/copy-to%E5%8F%82%E6%95%B0/">copy_to参数</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 7, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -224,18 +231,23 @@ The quick brown fox j ...
       
       <div class="article-summary">
         
-          和 SQL 使用 LIMIT 关键字返回单个 page 结果的方法相同，Elasticsearch 接受 from 和 size 参数：
-size显示应该返回的结果数量，默认是 10from显示应该跳过的初始结果数量，默认是 0如果每页展示 5 条结果，可以用下面方式请求得到 1 到 3 页 ...
+          参考资料
+
+Elasticsearch: 权威指南 » 深入搜索 » 多字段搜索 » 自定义 _all 字段
+Docs » Mapping parameters（映射参数） » Mapping(映射) » copy_to（合并参数）
+
+
+
         
       </div>
-      <a class="more" href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
+      <a class="more" href="/wiki/copy-to%E5%8F%82%E6%95%B0/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a>
+        <a href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">字符串排序与多字段</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 7, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -245,18 +257,94 @@ size显示应该返回的结果数量，默认是 10from显示应该跳过的初
       
       <div class="article-summary">
         
-          如果不对某一特殊的索引或者类型做限制，就会搜索集群中的所有文档。Elasticsearch 转发搜索请求到每一个主分片或者副本分片，汇集查询出的前10个结果，并且返回给我们。
-然而，经常的情况下，你想在一个或多个特殊的索引并且在一个或者多个特殊的类型中进行搜索。我们可以通过在URL中指定特殊 ...
+          被解析的字符串字段也是多值字段， 但是很少会按照你想要的方式进行排序。如果你想分析一个字符串，如 fine old art ， 这包含 3 项。我们很可能想要按第一项的字母排序，然后按第二项的字母排序，诸如此类，但是 Elasticsearch 在排序过程中没有这样的信息。
+你可以使用 mi ...
         
       </div>
-      <a class="more" href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">Read more</a>
+      <a class="more" href="/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%A4%9A%E5%AD%97%E6%AE%B5/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">elasticsearch重要配置</a>
+        <a href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">推荐系统-Overview</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 7, 2021</p>
+      
+        
+  <a href="/tags#推荐系统" >
+    <span class="tag-code">推荐系统</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          博客资料
+深度解析京东个性化推荐系统演进史  
+用 Mahout 和 Elasticsearch 实现推荐系统
+美团推荐算法实践
+58同城推荐系统设计与实现
+微博推荐系统的架构演进之路
+Flink 在小红书推荐系统中的应用
+小红书大数据在推荐系统中的应用
+快看漫画个性化推荐探索与实践
+数据仓 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          下面演示如何通过admin页面提交任务 👇
+准备task jar1234567891011121314151617181920public class StreamWordCount &#123;      public static void main(String[] args) th ...
+        
+      </div>
+      <a class="more" href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/apache-flink-overview/">apache-flink-overview</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+
+学习初衷推荐系统数据需要实时处理，使用Apache Flink实时计算用户数据，分析用户行为，达到实时业务数据分析和实现业务相关推荐；
+学习资料
+ashiamd.github.io
+尚硅谷2021最新Java版Flink 武老师清华硕士，原IBM-CDL负责人
+Apache Flink® ...
+        
+      </div>
+      <a class="more" href="/wiki/apache-flink-overview/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a>
+      </h2>
+      <p class="article-date">July 6, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -266,18 +354,19 @@ size显示应该返回的结果数量，默认是 10from显示应该跳过的初
       
       <div class="article-summary">
         
-          虽然Elasticsearch仅需要很少的配置，但有许多设置需要手动配置，并且在进入生产之前绝对必须进行配置。
-path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdiscovery.zen.p ...
+          多字段映射首先要做的事情就是对我们的字段索引两次：一次使用词干模式以及一次非词干模式。为了做到这点，采用 multifields 来实现，已经在 multifields 有所介绍：
+DELETE /my_index  
+1234567891011121314151617181920PUT / ...
         
       </div>
-      <a class="more" href="/wiki/elasticsearch%E9%87%8D%E8%A6%81%E9%85%8D%E7%BD%AE/">Read more</a>
+      <a class="more" href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">elasticsearch操作索引</a>
+        <a href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">multi_match 查询</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -287,17 +376,20 @@ path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdis
       
       <div class="article-summary">
         
-          创建索引12345678910111213141516171819202122232425262728293031PUT customer&#123;  &quot;mappings&quot;:&#123;      &quot;properties&quot;:&#123;        ...
+          multi_match 查询为能在多个字段上反复执行相同查询提供了一种便捷方式。
+📒 📒 📒
+
+multi_match 多匹配查询的类型有多种，其中的三种恰巧与 了解我们的数据 中介绍的三个场景对应，即：best_fields 、 most_fields 和 cross_fields  ...
         
       </div>
-      <a class="more" href="/wiki/elasticsearch%E6%93%8D%E4%BD%9C%E7%B4%A2%E5%BC%95/">Read more</a>
+      <a class="more" href="/wiki/multi-match-%E6%9F%A5%E8%AF%A2/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">elasticsearch基础api</a>
+        <a href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">dis_max查询</a>
       </h2>
-      <p class="article-date">July 5, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
   <a href="/tags#elasticsearch" >
@@ -307,75 +399,11 @@ path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdis
       
       <div class="article-summary">
         
-          cat API集群健康状态GET _cat/health?v&amp;pretty
-12epoch      timestamp cluster        status node.total node.data shards pri relo init unassign pending_ ...
+          假设有个网站允许用户搜索博客的内容，以下面两篇博客内容文档为例：
+1234567891011PUT /my_index/my_type/1&#123;    &quot;title&quot;: &quot;Quick brown rabbits&quot;,    &quot;body&q ...
         
       </div>
-      <a class="more" href="/wiki/elasticsearch%E5%9F%BA%E7%A1%80cat_api/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">canal同步mysql数据到elasticsearch</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          首先安装elk推荐大家到elasic中文社区去下载 👉 【传送】⚠️ elastcisearch | logstash | kibana 的版本最好保持一直，否则会出现很多坑的，切记！
-安装ELK的步骤这里就不做介绍了，可以查看 👉 【TODO】
-下载安装canal-adaptercan ...
-        
-      </div>
-      <a class="more" href="/wiki/canal%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E5%88%B0elasticsearch/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/binlog%E9%85%8D%E7%BD%AE/">mysql配置binlog</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          开启binlog[mysqld]log-bin=mysql-bin #添加这一行就okbinlog-format=ROW #选择row模式server_id=1 #配置mysql replaction需要定义，不能和canal的slaveId重复  
-查看binlog状态mysql&gt;  ...
-        
-      </div>
-      <a class="more" href="/wiki/binlog%E9%85%8D%E7%BD%AE/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          binlog相关命令mysql&gt; show variables like &#39;binlog_format&#39;;
-12345+---------------+-------+| Variable_name | Value |+---------------+-------+| ...
-        
-      </div>
-      <a class="more" href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
+      <a class="more" href="/wiki/dis-max%E6%9F%A5%E8%AF%A2/">Read more</a>
     </article>
   
 

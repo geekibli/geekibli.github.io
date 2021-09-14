@@ -168,245 +168,223 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a>
+        <a href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">elasticsearch被破坏的相似度</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          mac 安装 flink1、执行 brew install apache-flink 命令
-123456789gaolei:/ gaolei$ brew install apache-flinkUpdating Homebrew...==&gt; Auto-updated Homebrew! ...
+          在讨论更复杂的 多字段搜索 之前，让我们先快速解释一下为什么只在主分片上 创建测试索引 。
+用户会时不时的抱怨无法按相关度排序并提供简短的重现步骤：用户索引了一些文档，运行一个简单的查询，然后发现明显低相关度的结果出现在高相关度结果之上。
+为了理解为什么会这样，可以设想，我们在两个主分片上创 ...
         
       </div>
-      <a class="more" href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">Read more</a>
+      <a class="more" href="/wiki/elasticsearch%E8%A2%AB%E7%A0%B4%E5%9D%8F%E7%9A%84%E7%9B%B8%E4%BC%BC%E5%BA%A6/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a>
+        <a href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">canal同步es后部分字段为null</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          
+          现象
 
 
-官方地址请戳👉 【传送】 
-
-Apache Flink is a framework and distributed processing engine for stateful computations over unbounded and bounded data streams ...
+配置文件如下：
+123456789101112131415dataSourceKey: defaultDS        # 源数据源的key, 对应上面配置的srcDataSources中的值destination: example            # cannal的ins ...
         
       </div>
-      <a class="more" href="/wiki/flink%E7%AE%80%E4%BB%8B/">Read more</a>
+      <a class="more" href="/wiki/canal%E5%90%8C%E6%AD%A5es%E5%90%8E%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5%E4%B8%BAnull/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Flink 运行时架构</a>
+        <a href="/wiki/elasticsearch-analyzer/">elasticsearch-analyzer</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          Flink运行时组件
-JobManager (作业管理器) JobManager 具有许多与协调 Flink 应用程序的分布式执行有关的职责：它决定何时调度下一个 task（或一组 task）、对完成的 task 或执行失败做出反应、协调 checkpoint、并且协调从失败中恢复等等。这个 ...
+          测试常见分析器GET /_analyze
+1234&#123;  &quot;analyzer&quot;: &quot;standard&quot;,  &quot;text&quot;: &quot;Oredr it now from Amazon  #fun #girlpower #f ...
         
       </div>
-      <a class="more" href="/wiki/flink%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9E%B6%E6%9E%84/">Read more</a>
+      <a class="more" href="/wiki/elasticsearch-analyzer/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">拥塞避免</a>
+        <a href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Parameter index out of range (1 > number of parameters, which is 0).</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          拥塞避免拥塞控制的慢启动是以指数方式快速的通过试探来扩大拥塞窗口的，但是一旦发生网络丢包，则肯定是很多报文段都会都是，因为窗口时称被增长的；为了解决这种问题，需要引入– 拥塞避免
-什么是拥塞避免拥塞避免为了解决慢启动下，当拥塞窗口超出网络带宽时发生的大量丢包问题，它提出一个「慢启动阈值」的概 ...
+          问题记录123456789101112132021-07-06 12:39:31.179 [http-nio-8081-exec-2] INFO  c.a.otter.canal.client.adapter.es7x.etl.ESEtlService - start etl to impo ...
         
       </div>
-      <a class="more" href="/wiki/%E6%8B%A5%E5%A1%9E%E9%81%BF%E5%85%8D/">Read more</a>
+      <a class="more" href="/wiki/Parameter-index-out-of-range-1-number-of-parameters-which-is-0/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">TCP-四次挥手/断开连接</a>
+        <a href="/wiki/field-name-is-null-or-empty/">field name is null or empty</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 6, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          TCP断开连接四次挥手
-
-
-开始客户端和服务端都是处理【established】状态
-客户端发送「FIN」报文之后，进入FIN-WAIT-1状态
-服务端收到客户端的FIN之后，恢复一个ACK，同时进入CLOSE_WAIT状态
-客户端接收到ACK之后，进入到FIN-WAIT-2状态
-服务端接着 ...
+          canal adapter 报错信息123456789101112131415161718192021222021-07-06 12:46:31.959 [http-nio-8081-exec-2] INFO  o.a.catalina.core.ContainerBase.[Tomcat] ...
         
       </div>
-      <a class="more" href="/wiki/TCP-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B-%E6%96%AD%E5%BC%80%E8%BF%9E%E6%8E%A5/">Read more</a>
+      <a class="more" href="/wiki/field-name-is-null-or-empty/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">快速重传/快速恢复</a>
+        <a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 5, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          快速重传和快速恢复快速重传
-d 为何会接收到以个失序数据段？ 
+          Elasticsearch 支持如下简单域类型：
 
+字符串: string （es7之后编程text）
+整数 : byte, short, integer, long
+浮点数: float, double
+布尔型: boolean
+日期: date
 
-若报文丢失，将会产生连续的失序ACK段 
-若网络路径与设备导致数据段失序，将会产生少量的失序ACK段
-若报文重复，将会产生少量的失序ACK段
-
-
-
-
-当发送端发送pkt0是正常的，由于滑动窗口为满，发送方可以继续发送pkt1 ...
+查看索引的mappingGET /gb/ ...
         
       </div>
-      <a class="more" href="/wiki/%E5%BF%AB%E9%80%9F%E9%87%8D%E4%BC%A0-%E5%BF%AB%E9%80%9F%E6%81%A2%E5%A4%8D/">Read more</a>
+      <a class="more" href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a>
+        <a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 5, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景；
-全局思考
-
-拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过 ...
+          分析包含下面的过程：
+首先，将一块文本分成适合于倒排索引的独立的 词条 ，之后，将这些词条统一化为标准格式以提高它们的“可搜索性”，或者 recall分析器执行上面的工作。 分析器 实际上是将三个功能封装到了一个包里：
+字符过滤器首先，字符串按顺序通过每个 字符过滤器 。他们的任务是在分词前 ...
         
       </div>
-      <a class="more" href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">Read more</a>
+      <a class="more" href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a>
+        <a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 5, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          如何减少小报文提升网络效率每一个TCP报文段都包含20字节的IP头部和20字节的TCP首部，如果报文段的数据部分很少的话，网络效率会很差；
-SWS(Silly Window syndrome) 糊涂窗口综合症
-
-如上图👆所示场景，在之前的滑动窗口已经了解过，随着服务端处理连接数据能力越来越 ...
+          Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。  
+例如，假设我们有两个文档，每个文档的 content 域包含如下内容：  
+The quick brown fox j ...
         
       </div>
-      <a class="more" href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">Read more</a>
+      <a class="more" href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a>
+        <a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 5, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          滑动窗口
-之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口
-
-发送端窗口滑动窗口按照传输数据方向分为两种，发送端窗口和接收端窗口；下面先看一下发送端窗口👇：
-
-
-上图分为四个部分：
-
-已发送并 ...
+          和 SQL 使用 LIMIT 关键字返回单个 page 结果的方法相同，Elasticsearch 接受 from 和 size 参数：
+size显示应该返回的结果数量，默认是 10from显示应该跳过的初始结果数量，默认是 0如果每页展示 5 条结果，可以用下面方式请求得到 1 到 3 页 ...
         
       </div>
-      <a class="more" href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">Read more</a>
+      <a class="more" href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a>
+        <a href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">多索引多类型搜索</a>
       </h2>
-      <p class="article-date">July 4, 2021</p>
+      <p class="article-date">July 5, 2021</p>
       
         
-  <a href="/tags#TCP" >
-    <span class="tag-code">TCP</span>
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
   </a>
 
       
       <div class="article-summary">
         
-          
-之前的文章已经介绍了TCP超时重传的过程中使用了定时器的策略，当定时器规定时间内未收到确认报文之后，就会触发报文的重传，同时定时器复位；那么定时器超时时间（RTO Retramission Timeout）是如何计算的呢？
-
-什么是RTT？了解RTO如何计算之前，首先明确一个概念「 RTT ...
+          如果不对某一特殊的索引或者类型做限制，就会搜索集群中的所有文档。Elasticsearch 转发搜索请求到每一个主分片或者副本分片，汇集查询出的前10个结果，并且返回给我们。
+然而，经常的情况下，你想在一个或多个特殊的索引并且在一个或者多个特殊的类型中进行搜索。我们可以通过在URL中指定特殊 ...
         
       </div>
-      <a class="more" href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">Read more</a>
+      <a class="more" href="/wiki/%E5%A4%9A%E7%B4%A2%E5%BC%95%E5%A4%9A%E7%B1%BB%E5%9E%8B%E6%90%9C%E7%B4%A2/">Read more</a>
     </article>
   
 

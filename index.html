@@ -168,236 +168,253 @@
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-ShardingJDBC%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%AE%9E%E6%88%98/">MySQL-ShardingJDBC分库分表实战</a>
+        <a href="/wiki/%E5%A4%A7%E5%8E%82%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E3%80%90%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E3%80%91%E7%9A%84/">大厂是如何进行【负载均衡】的</a>
       </h2>
-      <p class="article-date">August 27, 2021</p>
+      <p class="article-date">September 13, 2021</p>
       
       <div class="article-summary">
         
-          分库分表Demo项目地址 https://github.com/geekibli/sharding-demos/
-Springboot + Sharding jdbcmaven依赖12345678910111213141516171819202122232425262728293031323 ...
+          轮训算法 随机算法
+平滑加权轮询算法
+一致性哈希算法
+最小活跃数算法
+权重随机1、存到一个list中，权重高的存多份，权重低的，存少份，具体按照权重去比
+2、把权重展示在坐标轴上，然后按照随机产生的数，在坐标轴上的分布来判断
+参考资料
+
+2021年阿里巴巴JAVA面试100道
+
+
+
+
         
       </div>
-      <a class="more" href="/wiki/MySQL-ShardingJDBC%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%AE%9E%E6%88%98/">Read more</a>
+      <a class="more" href="/wiki/%E5%A4%A7%E5%8E%82%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E3%80%90%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E3%80%91%E7%9A%84/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%AE%9E%E7%8E%B0/">MySQL-主从同步原理以及实现</a>
+        <a href="/wiki/%E6%9D%A5%E8%87%AATCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%81%B5%E9%AD%82%E6%8B%B7%E9%97%AE/">来自TCP协议的灵魂拷问</a>
       </h2>
-      <p class="article-date">August 27, 2021</p>
+      <p class="article-date">September 10, 2021</p>
       
         
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
   </a>
 
       
       <div class="article-summary">
         
-          主从复制的原理我们在平时工作中，使用最多的数据库就是 MySQL 了，随着业务的增加，如果单单靠一台服务器的话，负载过重，就容易造成宕机。
-这样我们保存在 MySQL 数据库的数据就会丢失，那么该怎么解决呢？
-其实在 MySQL 本身就自带有一个主从复制的功能，可以帮助我们实现负载均衡和读写 ...
+          1. TCP 是用来解决什么问题？2. 为什么要 TCP，IP 层实现控制不行么？之所以要提取出一个 TCP 层来实现控制是因为 IP 层涉及到的设备更多，一条数据在网络上传输需要经过很多设备，而设备之间需要靠 IP 来寻址。
+假设 IP 层实现了控制，那是不是涉及到的设备都需要关心很多事情 ...
         
       </div>
-      <a class="more" href="/wiki/MySQL-%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%AE%9E%E7%8E%B0/">Read more</a>
+      <a class="more" href="/wiki/%E6%9D%A5%E8%87%AATCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%81%B5%E9%AD%82%E6%8B%B7%E9%97%AE/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/Docker%E5%AE%89%E8%A3%85MySQL/">Docker安装MySQL</a>
+        <a href="/wiki/%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9CIO/">详解网络IO</a>
       </h2>
-      <p class="article-date">August 27, 2021</p>
+      <p class="article-date">September 10, 2021</p>
       
         
-  <a href="/tags#docker" >
-    <span class="tag-code">docker</span>
+  <a href="/tags#网络IO" >
+    <span class="tag-code">网络IO</span>
   </a>
 
-  <a href="/tags#mysql" >
-    <span class="tag-code">mysql</span>
+  <a href="/tags#epoll" >
+    <span class="tag-code">epoll</span>
   </a>
 
       
       <div class="article-summary">
         
-          linux安装dockeryum updateyum install docker
-结果启动docker时报错了 👇
-12Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.Error: ...
+          前言学习思路可以是网络IO的演变过程，从【阻塞io】到【非阻塞io】然后到【多路复用】，后续还有【异步io】
+1. 阻塞io应用程序进行 recvfrom 系统调用时将阻塞在此调用，直到该套接字上有数据并且复制到用户空间缓冲区。该模式一般配合多线程使用，
+应用进程每接收一个连接，为此连接创建 ...
         
       </div>
-      <a class="more" href="/wiki/Docker%E5%AE%89%E8%A3%85MySQL/">Read more</a>
+      <a class="more" href="/wiki/%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9CIO/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E7%AE%97%E6%B3%95-KMP%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E6%89%A9%E5%B1%95/">算法-KMP算法以及扩展</a>
+        <a href="/wiki/Netty%E5%9F%BA%E7%A1%80/">Netty基础</a>
       </h2>
-      <p class="article-date">August 26, 2021</p>
+      <p class="article-date">September 9, 2021</p>
       
         
-  <a href="/tags#算法" >
-    <span class="tag-code">算法</span>
+  <a href="/tags#NIO" >
+    <span class="tag-code">NIO</span>
   </a>
 
-  <a href="/tags#KMP" >
-    <span class="tag-code">KMP</span>
+  <a href="/tags#Netty" >
+    <span class="tag-code">Netty</span>
   </a>
 
       
       <div class="article-summary">
         
-          题目1
-“123456” 和 “345612”是不是互为旋转串
-思路：“123456123456” 判断 “345612”  是不是子串就可以了
-题目2
+          常见问题1、什么是粘包和拆包，Netty如何解决这个问题
+2、Netty中的空轮训bug是什么，如何解决这个问题？
+参考资料
 
-![image-20210826225714858](/Users/gaolei/Library/Application Support ...
+Netty（Reactor线程模型/零拷贝/空轮询）Netty（Reactor线程模型/零拷贝/空轮询）
+
+
+
+
         
       </div>
-      <a class="more" href="/wiki/%E7%AE%97%E6%B3%95-KMP%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E6%89%A9%E5%B1%95/">Read more</a>
+      <a class="more" href="/wiki/Netty%E5%9F%BA%E7%A1%80/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%9AQPS%E3%80%81TPS%E3%80%81RT%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F/">一文搞懂高并发性能指标：QPS、TPS、RT、吞吐量</a>
+        <a href="/wiki/%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF/">零拷贝技术</a>
       </h2>
-      <p class="article-date">August 26, 2021</p>
+      <p class="article-date">September 9, 2021</p>
       
         
-  <a href="/tags#高并发" >
-    <span class="tag-code">高并发</span>
+  <a href="/tags#IO" >
+    <span class="tag-code">IO</span>
   </a>
 
-  <a href="/tags#性能指标" >
-    <span class="tag-code">性能指标</span>
+  <a href="/tags#Linux" >
+    <span class="tag-code">Linux</span>
   </a>
 
       
       <div class="article-summary">
         
-          QPSQueries Per Second意思是“每秒查询率”，是一台服务器每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。
-互联网中，作为域名系统服务器的机器的性能经常用每秒查询率来衡量。
-原理：每天80%的访问集中在20%的时间里，这20%时间叫做峰 ...
+          思考问题什么是零拷贝技术？
+为什么需要零拷贝？
+零拷贝有哪些应用场景？
+什么叫做用户态到内核态切换？为什么需要两种状态的切换？
+概述传统的数据拷贝技术没有DMA的数据拷贝流程如下 👇
+用户发起read的系统调用，应用进程从用户态进入到内核态，CPU发送IO请求到磁盘，磁盘准备好数据之后发送 ...
         
       </div>
-      <a class="more" href="/wiki/%E4%B8%80%E6%96%87%E6%90%9E%E6%87%82%E9%AB%98%E5%B9%B6%E5%8F%91%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%EF%BC%9AQPS%E3%80%81TPS%E3%80%81RT%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F/">Read more</a>
+      <a class="more" href="/wiki/%E9%9B%B6%E6%8B%B7%E8%B4%9D%E6%8A%80%E6%9C%AF/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%8E%9F%E7%90%86/">MySQL-基本架构及原理</a>
+        <a href="/wiki/SpringMVC-%E6%A0%B8%E5%BF%83%E8%AE%B2%E8%A7%A3/">SpringMVC-核心讲解</a>
       </h2>
-      <p class="article-date">August 26, 2021</p>
+      <p class="article-date">September 3, 2021</p>
       
         
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
   </a>
 
       
       <div class="article-summary">
         
-          
-
+          SpringMVC属于Spring那个模块
+SpringMVC替我们做了哪些工作
+SpringMVC如何简化工作的1、请求参数不需要在手动平装到对象上了。可以直接使用@RequestBody @RequestHeader
+2、SpringMVC增强了对文件的处理 MultipartFile
+ ...
         
       </div>
-      <a class="more" href="/wiki/MySQL-%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%8E%9F%E7%90%86/">Read more</a>
+      <a class="more" href="/wiki/SpringMVC-%E6%A0%B8%E5%BF%83%E8%AE%B2%E8%A7%A3/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-%E7%B4%A2%E5%BC%95%E6%9D%A1%E4%BB%B6%E4%B8%8B%E6%8E%A8ICP/">用了那么久MySQL，我竟然不知道ICP</a>
+        <a href="/wiki/Spring-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/">Spring-核心模块及其功能</a>
       </h2>
-      <p class="article-date">August 26, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
+      <p class="article-date">September 3, 2021</p>
       
       <div class="article-summary">
         
-          用了那么久MySQL，我竟然不知道ICP概述开启ICP，如果部分WHERE条件能使用索引中的字段，MySQL Server 会把这部分下推到存储引擎层，存储引擎通过索引过滤，把满足的行从表中读取出。ICP能减少引擎层访问基表的次数和MySQL Server 访问存储引擎的次数。
-ICP 优化 ...
+          Spring CoreIOC控制反转，SpringBean
+Spring-bean
+Spring-context
+Spring-core
+Spring-expression : 表达式相关
+Spring Web主要是web开发相关，Spring MVC
+Spring DAOSpring 对j ...
         
       </div>
-      <a class="more" href="/wiki/MySQL-%E7%B4%A2%E5%BC%95%E6%9D%A1%E4%BB%B6%E4%B8%8B%E6%8E%A8ICP/">Read more</a>
+      <a class="more" href="/wiki/Spring-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E7%BA%A7%E5%8E%9F%E7%90%86/">MySQL-InnoDB架构</a>
+        <a href="/wiki/Spring-%E4%BB%80%E4%B9%88%E6%98%AFAOP/">Spring-什么是AOP</a>
       </h2>
-      <p class="article-date">August 26, 2021</p>
+      <p class="article-date">September 3, 2021</p>
       
         
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
   </a>
 
       
       <div class="article-summary">
         
-          Innodb架构存储引擎是MySQL非常重要的组成部分，它直接影响了一个数据库的性能，是MySQL的绝对核心。
-下面是InnoDB的结构图 👇
+          AOP概述Aop： aspect object programming  面向切面编程
 
-从上面第二张图可以看到，InnoDB 主要分为两大块：
+功能： 让关注点代码与业务代码分离！
+面向切面编程就是指： 对很多功能都有的重复的代码抽取，再在运行的时候往业务方法上动态植入“切面类代码”。
 
-InnoDB In-Memory Structures
-InnoDB On-Disk  ...
+举个例子，比如我们需要监控一个方法的执行时长，方法结束时 ...
         
       </div>
-      <a class="more" href="/wiki/MySQL-InnoDB%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E7%BA%A7%E5%8E%9F%E7%90%86/">Read more</a>
+      <a class="more" href="/wiki/Spring-%E4%BB%80%E4%B9%88%E6%98%AFAOP/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-%E7%B4%A2%E5%BC%95/">MySQL-索引</a>
+        <a href="/wiki/Spring-%E9%9D%A2%E8%AF%95%E5%AE%98%E9%97%AE%E9%A2%98%E4%BB%80%E4%B9%88%E6%98%AFIOC/">Spring-面试官问题什么是IOC</a>
       </h2>
-      <p class="article-date">August 25, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
+      <p class="article-date">September 3, 2021</p>
       
       <div class="article-summary">
         
-          MySQL中支持的索引之前问过存储引擎是数据库层面的还是数据表层面的？
-那么现在也同样问一个问题，索引是存储引擎层面的还是服务器层面实现的？答案是存储引擎层面的。 
-什么是索引官方介绍索引是帮助MySQL高效获取数据的数据结构。更通俗的说，数据库索引好比是一本书前面的目录，能加快数据库的查询 ...
+          1、思路1、首先明确什么是IOC，明确什么是DI，IOC和DI有什么关系
+2、说明什么是IOC之后，明确为什么需要 IOC，或者IOC的优点
+3、然后是IOC是如何实现的
+
+2、概述什么是IOCSpring IOC 解决的是 对象管理和对象依赖的问题。Spring AOP 解决的是 非业务代 ...
         
       </div>
-      <a class="more" href="/wiki/MySQL-%E7%B4%A2%E5%BC%95/">Read more</a>
+      <a class="more" href="/wiki/Spring-%E9%9D%A2%E8%AF%95%E5%AE%98%E9%97%AE%E9%A2%98%E4%BB%80%E4%B9%88%E6%98%AFIOC/">Read more</a>
     </article>
   
     <article class="article-card">
       <h2 class="article-head">
-        <a href="/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">MySQL-存储引擎</a>
+        <a href="/wiki/LeetCode-%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC%E5%8F%B7-165/">LeetCode-比较版本号(165)</a>
       </h2>
-      <p class="article-date">August 25, 2021</p>
+      <p class="article-date">September 2, 2021</p>
       
         
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
+  <a href="/tags#数组" >
+    <span class="tag-code">数组</span>
+  </a>
+
+  <a href="/tags#LeetCode" >
+    <span class="tag-code">LeetCode</span>
+  </a>
+
+  <a href="/tags#中等" >
+    <span class="tag-code">中等</span>
   </a>
 
       
       <div class="article-summary">
         
-          存储引擎MySQL支持很多种存储引擎 👇
+          https://leetcode-cn.com/problems/compare-version-numbers/
 
-
- 有一个面试题：存储引擎是数据库级别的还是数据表级别的？
-看上图应该就知道了吧！ 数据表级别的
-InnoDBInnoDB 是 MySQL 默认的事务型存储引擎，只要在需要它不支持的特性时，才考虑使用其他存储引擎。
-InnoDB 采用 MVCC  ...
+12345678910111213141516171819202122232425262728293031323334class Solution &#123;    pub ...
         
       </div>
-      <a class="more" href="/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">Read more</a>
+      <a class="more" href="/wiki/LeetCode-%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC%E5%8F%B7-165/">Read more</a>
     </article>
   
 
