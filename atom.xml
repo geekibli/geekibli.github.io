@@ -63,29 +63,6 @@
   </entry>
   
   <entry>
-    <title>理解ClassNotFoundException与NoClassDefFoundError的区别</title>
-    <link href="http://example.com/wiki/%E7%90%86%E8%A7%A3ClassNotFoundException%E4%B8%8ENoClassDefFoundError%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>http://example.com/wiki/%E7%90%86%E8%A7%A3ClassNotFoundException%E4%B8%8ENoClassDefFoundError%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-    <published>2021-09-15T07:43:20.000Z</published>
-    <updated>2021-09-15T07:43:20.567Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote><ul><li><a href=""></a></li><li><a href=""></a></li></ul></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;参考资料&quot;&gt;&lt;a href=&quot;#参考资料&quot; class=&quot;headerlink&quot; title=&quot;参考资料&quot;&gt;&lt;/a&gt;参考资料&lt;/h2&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;&quot;&gt;&lt;/a&gt;&lt;/l</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>Redis实现分布式锁</title>
     <link href="http://example.com/wiki/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
     <id>http://example.com/wiki/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</id>
@@ -270,9 +247,9 @@
     
     
     
-    <category term="IO" scheme="http://example.com/tags/IO/"/>
-    
     <category term="Linux" scheme="http://example.com/tags/Linux/"/>
+    
+    <category term="IO" scheme="http://example.com/tags/IO/"/>
     
   </entry>
   
@@ -409,9 +386,9 @@
     
     
     
-    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
     <category term="LeetCode" scheme="http://example.com/tags/LeetCode/"/>
+    
+    <category term="算法" scheme="http://example.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -476,6 +453,31 @@
     
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>Redis-持久化机制</title>
+    <link href="http://example.com/wiki/Redis-%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6/"/>
+    <id>http://example.com/wiki/Redis-%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6/</id>
+    <published>2021-08-30T07:49:04.000Z</published>
+    <updated>2021-08-31T03:20:40.523Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Redis启动加载"><a href="#Redis启动加载" class="headerlink" title="Redis启动加载"></a>Redis启动加载</h2><ul><li>优先加载AOF</li><li>其次加载RDB</li><li>如果都没有，直接启动成功，如果加载失败，则报错</li></ul><p><a href="https://juejin.cn/post/7002011542145204261?utm_source=gold_browser_extension">https://juejin.cn/post/7002011542145204261?utm_source=gold_browser_extension</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;Redis启动加载&quot;&gt;&lt;a href=&quot;#Redis启动加载&quot; class=&quot;headerlink&quot; title=&quot;Redis启动加载&quot;&gt;&lt;/a&gt;Redis启动加载&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;优先加载AOF&lt;/li&gt;
+&lt;li&gt;其次加载RDB&lt;/li&gt;
+&lt;li&gt;如果</summary>
+      
+    
+    
+    
+    
+    <category term="Redis" scheme="http://example.com/tags/Redis/"/>
     
   </entry>
   
