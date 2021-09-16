@@ -168,6 +168,143 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Java-join方法原理解析</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          join方法12345join重载方法1 join()2 join(long millis)     //参数为毫秒3 join(long millis,int nanoseconds)    //第一参数为毫秒，第二个参数为纳秒
+功能演示123456789101112131415publi ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Java内存模型</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Java内存模型
+
+什么是JMM?Java Memory Model简称JMM, 是一系列的Java虚拟机平台对开发者提供的多线程环境下的内存可见性、是否可以重排序等问题的无关具体平台的统一的保证。(可能在术语上与Java运行时内存分布有歧义，后者指堆、方法区、线程栈等内存区域)。
+ JMM ...
+        
+      </div>
+      <a class="more" href="/wiki/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Java-synchronzied底层原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          synchronzied底层原理synchronzied四个层级实现
+Java代码 通过添加synchronzied给对象或者方法或者代码块
+字节码层级通过一组 MONITORENTER/MONITOREXIT指令
+JVM层级：锁升级过程
+汇编执行通过 lock comxchg指令保证原子操 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-synchronzied%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Java-锁消除和锁膨胀</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          锁消除和锁粗化锁消除 （lock eliminate）1234public void add(String str1,String str2)&#123;    StringBuffer sb = new StringBuffer();    sb.append(str1).append(s ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-%E9%94%81%E6%B6%88%E9%99%A4%E5%92%8C%E9%94%81%E8%86%A8%E8%83%80/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          锁升级使用JOL查看加锁之后的对象信息12345678public static void main(String[] args) &#123;        Object object = new Object();        System.out.println(ClassLayou ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/JVM-strace/">JVM-strace</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          strace 命令查看操作系统日志strace -ff -o out java ***.class
+-ff : 跟踪进程下所有线程用到的系统命令-o : 将跟踪的操作系统日志输出
+
+下面查看JDK1.8下，BIO模式都有哪些系统命令的执行
+
+1234567891011121314151617 ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-strace/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -270,146 +407,6 @@ Java 非阻塞IO
         
       </div>
       <a class="more" href="/wiki/Java-NIO/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/">Java-传统的BIO</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          传统的BIOSocket 和 ServerSocket1234567891011121314151617public static void main(String[] args) throws IOException &#123;       ServerSocket serverSock ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-%E4%BC%A0%E7%BB%9F%E7%9A%84BIO/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-jstat/">JVM-jstat</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          jstatjstat是一个简单的实用工具，在JDK中存在，用于提供与JVM性能相关的统计信息，例如垃圾收集，编译活动。 jstat的主要优势在于，它可以在运行JVM且无需任何先决条件的情况下动态捕获这些指标。 这是什么意思？ 例如，如果要捕获与垃圾回收相关的统计信息，则需要在启动JVM之前传 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-jstat/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-jstack/">JVM-jstack</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          jstackjstack 功能主要分为两个功能：
-a．  针对活着的进程做本地的或远程的线程dump；
-b．  针对core文件做线程dump。
-jstack用于生成java虚拟机当前时刻的线程快照。线程快照是当前java虚拟机内每一条线程正在执行的方法堆栈的集合，生成线程快照的主要目的是定 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-jstack/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">JVM-类加载机制</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          类加载机制1. 类加载机制具体流程
-
-Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解析和初始化。这 5 个阶段一般是顺序发生的，但在动态绑定的情况下，解析阶段发生在初始化阶段之后。
-1.1 Loading（载入）
- JVM 在该阶段的主要目的是将字节码从不同的数据源（可能是 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-jmap/">JVM-jmap</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          jmap命令jmap是一个多功能的命令。它可以生成 java 程序的 dump 文件， 也可以查看堆内对象示例的统计信息、查看 ClassLoader 的信息以及 finalizer 队列。
-jmap -heap pid123456789101112131415161718192021222 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-jmap/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">SpringBean循环依赖</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Spring" >
-    <span class="tag-code">Spring</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Spring Bean 循环依赖为什么会存在循环依赖
-
-如上图👆所示，A对象的一个属性是B,B对象的一个属性是A,而Spring中的bean默认情况下都是单例的，所以这两个Bean就产生了循环依赖的问题！
-
-那么循环依赖的问题出现在什么情况呢
-
-想一下属性赋值的方式有几种呢？
-
-构造器赋 ...
-        
-      </div>
-      <a class="more" href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">Read more</a>
     </article>
   
 
