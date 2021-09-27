@@ -168,6 +168,51 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">Java-synchronized关键字剖析</a>
+      </h2>
+      <p class="article-date">July 29, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          之前写过一篇关于synchronized关键字的文章，是当时听马士兵老师的公开课时记录的一些关键笔记📒 链接🔗
+下面我们还是要学习和总结一下synchronized
+synchronized 特性
+有序性as-if-serial
+
+不管编译器和CPU如何重排序，必须保证在单线程情况下程序 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%89%96%E6%9E%90/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">分布式-秒杀系统设计</a>
+      </h2>
+      <p class="article-date">July 29, 2021</p>
+      
+        
+  <a href="/tags#分布式" >
+    <span class="tag-code">分布式</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          秒杀系统的挑战高并发秒杀活动的特点就是短时间内聚集大量请求瞬时到达服务端，此时数据库已经无法支撑如此大数据量的请求了。单个的数据库QPS仅有几百，你可能会想，那我是不是可以部署一个数据库集群呢，在数据库集群前使用Nginx分发，将负载平均分摊到每一个数据库不就可以了吗。这种方式一定程度上是可 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%88%86%E5%B8%83%E5%BC%8F-%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/JVM-Xms-Xmx%E5%92%8CXss/">JVM-Xms,Xmx和Xss</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -349,47 +394,6 @@ ABA问题ABA问题是一个线程在CAS比较值和原来是否相等的过程�
         
       </div>
       <a class="more" href="/wiki/Java-CAS%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">Java-FutureTask原理</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          FutureTaskFuture方法介绍123456789101112131415161718public interface Future&lt;V&gt; &#123;        // 取消任务 可中断的方式取消    boolean cancel(boolean mayInterr ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-FutureTask%E5%8E%9F%E7%90%86/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Java-join方法原理解析</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#多线程" >
-    <span class="tag-code">多线程</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          join方法12345join重载方法1 join()2 join(long millis)     //参数为毫秒3 join(long millis,int nanoseconds)    //第一参数为毫秒，第二个参数为纳秒
-功能演示123456789101112131415publi ...
-        
-      </div>
-      <a class="more" href="/wiki/Java-join%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/">Read more</a>
     </article>
   
 
