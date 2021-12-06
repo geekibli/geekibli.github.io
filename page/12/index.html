@@ -168,6 +168,121 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/JVM-jmap/">JVM-jmap</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          jmap命令jmap是一个多功能的命令。它可以生成 java 程序的 dump 文件， 也可以查看堆内对象示例的统计信息、查看 ClassLoader 的信息以及 finalizer 队列。
+jmap -heap pid123456789101112131415161718192021222 ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-jmap/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">SpringBean循环依赖</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Spring Bean 循环依赖为什么会存在循环依赖
+
+如上图👆所示，A对象的一个属性是B,B对象的一个属性是A,而Spring中的bean默认情况下都是单例的，所以这两个Bean就产生了循环依赖的问题！
+
+那么循环依赖的问题出现在什么情况呢
+
+想一下属性赋值的方式有几种呢？
+
+构造器赋 ...
+        
+      </div>
+      <a class="more" href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Spring加载配置文件原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Spring如何加载配置文件到应用程序加载Xml文件配置，获取对象
+xml文件
+
+123456789101112&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http ...
+        
+      </div>
+      <a class="more" href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Spring梳理启动脉络</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Spring是如何启动的Spring最大的核心就是Bean容器；容器： 从对象创建，使用和销毁全部由容器帮我们控制，用户仅仅使用就可以。
+两大核心
+IOC 控制反转
+AOP 面向切面编程
+
+思考：我们是如何使用Spring的呢？
+
+ 加入从配置文件中加载bean 我们猜想一下大致流程是怎样的 ...
+        
+      </div>
+      <a class="more" href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Spring-Overview/"></a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+      <div class="article-summary">
+        
+          
+title: Spring-Overviewtoc: truedate: 2021-07-28 17:32:41tags: Spring
+categories: [Spring Family , Spring Framework]SpringThe Spring Framework pro ...
+        
+      </div>
+      <a class="more" href="/wiki/Spring-Overview/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/mysql%E4%B9%90%E8%A7%82%E9%94%81%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">mysql乐观锁实现分布式锁</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -273,119 +388,6 @@ String类型不同的编码方式
         
       </div>
       <a class="more" href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Redis-overview/">Redis-overview</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Redis" >
-    <span class="tag-code">Redis</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Redis （Remote Dictionary Server）Redis简介Redis 本质上是一个 Key-Value 类型的内存数据库，很像 memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据 flush 到硬盘上进行保存。因为是纯内存操作，Redi ...
-        
-      </div>
-      <a class="more" href="/wiki/Redis-overview/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Redis-哈希表实现</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Redis" >
-    <span class="tag-code">Redis</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Redis之Hash表底层实现  
-关键词
-字段dict | 渐进式哈希 | ziplist |  哈希表
-
-字典底层结构  
-dict 字典结构体12345678typedf struct dict&#123;    dictType *type;//类型特定函数，包括一些自定义函数，这些 ...
-        
-      </div>
-      <a class="more" href="/wiki/Redis-%E5%93%88%E5%B8%8C%E8%A1%A8%E5%AE%9E%E7%8E%B0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Redis-list%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Redis-list底层实现</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Redis" >
-    <span class="tag-code">Redis</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Redis List 底层实现   
-关键字
-连锁更新问题 | quicklist | ziplist | linkedlist 
-
-List底层数据结构在 3.0 版本的 Redis 中，List 类型有两种实现方式：数据结构底层采用压缩列表ziplist或linkedlist两种数据结构 ...
-        
-      </div>
-      <a class="more" href="/wiki/Redis-list%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/">kafka安装与初体验</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#kafka" >
-    <span class="tag-code">kafka</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Kafka的安装安装zookeeper1brew install zookeeper
-默认端口：2181默认安装位置：/usr/local/Cellar/zookeeper配置文件位置：/usr/local/etc/zookeeper日志文件位置：/usr/local/var/log/zoo ...
-        
-      </div>
-      <a class="more" href="/wiki/kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/docker%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE/">docker整体架构图</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#docker" >
-    <span class="tag-code">docker</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Docker的总架构图
-
-docker是一个C/S模式的架构，后端是一个松耦合架构，模块各司其职。
-1、用户是使用Docker Client与Docker Daemon建立通信，并发送请求给后者。2、Docker Daemon作为Docker架构中的主体部分，首先提供Server的功能使其可 ...
-        
-      </div>
-      <a class="more" href="/wiki/docker%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE/">Read more</a>
     </article>
   
 

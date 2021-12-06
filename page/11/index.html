@@ -168,6 +168,127 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Java-锁升级过程</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#多线程" >
+    <span class="tag-code">多线程</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          锁升级使用JOL查看加锁之后的对象信息12345678public static void main(String[] args) &#123;        Object object = new Object();        System.out.println(ClassLayou ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/JVM-strace/">JVM-strace</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#JVM" >
+    <span class="tag-code">JVM</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          strace 命令查看操作系统日志strace -ff -o out java ***.class
+-ff : 跟踪进程下所有线程用到的系统命令-o : 将跟踪的操作系统日志输出
+
+下面查看JDK1.8下，BIO模式都有哪些系统命令的执行
+
+1234567891011121314151617 ...
+        
+      </div>
+      <a class="more" href="/wiki/JVM-strace/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Java-NIO核心组件--channel</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#IO" >
+    <span class="tag-code">IO</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          NIO核心组件 - ChannelSocketChannel 和 ServerSocketChannel学习此部分可以对比Socket和ServerSocket
+服务端代码
+12345678910111213141516171819202122232425262728293031323334 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-channel/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Java-NIO核心组件--selector</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#IO" >
+    <span class="tag-code">IO</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          多路复用器select1、select选择器会告诉客户端哪些连接有数据要读取，但是读取的操作还是用户自己触发的，这种叫做「同步」
+123456789101112131415161718192021222324252627282930313233343536373839404142434445 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-selector/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Java-NIO核心组件--buffer</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Java" >
+    <span class="tag-code">Java</span>
+  </a>
+
+  <a href="/tags#IO" >
+    <span class="tag-code">IO</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Buffer 读写NIO之BufferBuffer作为NIO三大核心组件之一，本质上是一块可以写入数据，以及从中读取数据的内存，实际上也是一个byte[]数据,只是在NIO中被封装成了NIO Buffer对象并提供了一组方法来访问这个内存块。
+下面是一个简单的Demo123456789101 ...
+        
+      </div>
+      <a class="more" href="/wiki/Java-NIO%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6-buffer/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Java-NIO/">Java-NIO</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -285,121 +406,6 @@ Java 的类加载过程可以分为 5 个阶段：载入、验证、准备、解
         
       </div>
       <a class="more" href="/wiki/JVM-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/JVM-jmap/">JVM-jmap</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#JVM" >
-    <span class="tag-code">JVM</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          jmap命令jmap是一个多功能的命令。它可以生成 java 程序的 dump 文件， 也可以查看堆内对象示例的统计信息、查看 ClassLoader 的信息以及 finalizer 队列。
-jmap -heap pid123456789101112131415161718192021222 ...
-        
-      </div>
-      <a class="more" href="/wiki/JVM-jmap/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">SpringBean循环依赖</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Spring" >
-    <span class="tag-code">Spring</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Spring Bean 循环依赖为什么会存在循环依赖
-
-如上图👆所示，A对象的一个属性是B,B对象的一个属性是A,而Spring中的bean默认情况下都是单例的，所以这两个Bean就产生了循环依赖的问题！
-
-那么循环依赖的问题出现在什么情况呢
-
-想一下属性赋值的方式有几种呢？
-
-构造器赋 ...
-        
-      </div>
-      <a class="more" href="/wiki/SpringBean%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Spring加载配置文件原理</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Spring" >
-    <span class="tag-code">Spring</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Spring如何加载配置文件到应用程序加载Xml文件配置，获取对象
-xml文件
-
-123456789101112&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;beans xmlns=&quot;http ...
-        
-      </div>
-      <a class="more" href="/wiki/Spring%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8E%9F%E7%90%86/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Spring梳理启动脉络</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Spring" >
-    <span class="tag-code">Spring</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Spring是如何启动的Spring最大的核心就是Bean容器；容器： 从对象创建，使用和销毁全部由容器帮我们控制，用户仅仅使用就可以。
-两大核心
-IOC 控制反转
-AOP 面向切面编程
-
-思考：我们是如何使用Spring的呢？
-
- 加入从配置文件中加载bean 我们猜想一下大致流程是怎样的 ...
-        
-      </div>
-      <a class="more" href="/wiki/Spring%E6%A2%B3%E7%90%86%E5%90%AF%E5%8A%A8%E8%84%89%E7%BB%9C/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Spring-Overview/"></a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-      <div class="article-summary">
-        
-          
-title: Spring-Overviewtoc: truedate: 2021-07-28 17:32:41tags: Spring
-categories: [Spring Family , Spring Framework]SpringThe Spring Framework pro ...
-        
-      </div>
-      <a class="more" href="/wiki/Spring-Overview/">Read more</a>
     </article>
   
 

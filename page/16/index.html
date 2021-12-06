@@ -168,6 +168,119 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">进程间通信IPC</a>
+      </h2>
+      <p class="article-date">July 20, 2021</p>
+      
+        
+  <a href="/tags#linux" >
+    <span class="tag-code">linux</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          前言1、首先是管道，管道的缺点是通信效率差，只能单向，而且不能随机读取数据
+2、解决管道的问题，可以使用消息队列，消息队列可以随机读取，比较灵活，但是消息队列其实是存放在内核中的，数据拷贝涉及到用
+户态和内核态的切换，且大数据消息效率比较差。
+3、为了解决消息队列频繁切换上下文的情况，可以使 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1IPC/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">elasticsearch统计每年每小时访问量</a>
+      </h2>
+      <p class="article-date">July 19, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          
+需求背景，要统计文章在一年的时间内，每个小时的访问情况，按照0点举例子，每个文章，一年内每一天0点的访问次数累加起来；
+
+Elasticsearch索引如下1234567891011121314151617181920212223242526272829303132333435363738 ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E7%BB%9F%E8%AE%A1%E6%AF%8F%E5%B9%B4%E6%AF%8F%E5%B0%8F%E6%97%B6%E8%AE%BF%E9%97%AE%E9%87%8F/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">elasticsearch踩坑</a>
+      </h2>
+      <p class="article-date">July 19, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          search.max_bucketsThis limit can be set by changing the [search.max_buckets] cluster level setting.]];
+123456PUT _cluster/settings&#123;  &quot;pe ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E8%B8%A9%E5%9D%91/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">python3基本数据类型</a>
+      </h2>
+      <p class="article-date">July 18, 2021</p>
+      
+        
+  <a href="/tags#Python" >
+    <span class="tag-code">Python</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Python 中的变量不需要声明。每个变量在使用前都必须赋值，变量赋值以后该变量才会被创建。
+在 Python 中，变量就是变量，它没有类型，我们所说的”类型”是变量所指的内存中对象的类型。
+等号（=）用来给变量赋值。
+等号（=）运算符左边是一个变量名,等号（=）运算符右边是存储在变量中的值 ...
+        
+      </div>
+      <a class="more" href="/wiki/python%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">python3基础语法</a>
+      </h2>
+      <p class="article-date">July 18, 2021</p>
+      
+        
+  <a href="/tags#Python" >
+    <span class="tag-code">Python</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          编码默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。 当然你也可以为源码文件指定不同的编码：# -*- coding: cp-1252 -*-
+标识符
+第一个字符必须是字母表中字母或下划线 _ 。
+标识符的其他的部分由字母、数字和下划线组成 ...
+        
+      </div>
+      <a class="more" href="/wiki/python3%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/python%E6%93%8D%E4%BD%9Celasticsearch/">python操作elasticsearch</a>
       </h2>
       <p class="article-date">July 18, 2021</p>
@@ -277,124 +390,6 @@ Linux优化关闭交换分区，防 ...
         
       </div>
       <a class="more" href="/wiki/elasticsearch%E8%B0%83%E4%BC%98%E5%AE%9E%E8%B7%B5-0/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">修改mysql表创建时间</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-修改服务器时间date -s &quot;2021-07-14 21:22:10&quot;
-
-执行DDLalter table mirror_user comment &#39;用户表&#39;;
-
-服务器时间修正ntpdate ntp1.aliyun.com
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/%E4%BF%AE%E6%94%B9mysql%E8%A1%A8%E5%88%9B%E5%BB%BA%E6%97%B6%E9%97%B4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">hutool导出excel</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-如果你仅需一个Java导出excel的工具，👇就可以满足你的临时需求，当然代码下面这么写肯定是不规范的，可以稍后完善！
-
-添加依赖123456789101112131415161718&lt;!-- https://mvnrepository.com/artifact/cn.hutool ...
-        
-      </div>
-      <a class="more" href="/wiki/hutool%E5%AF%BC%E5%87%BAexcel/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">git常用命令</a>
-      </h2>
-      <p class="article-date">July 14, 2021</p>
-      
-        
-  <a href="/tags#git" >
-    <span class="tag-code">git</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          初始化本地仓库git initgit add README.mdgit commit -m &quot;first commit&quot;git branch -M mastergit remote add origin git@github.com:XXXXXgit push -u or ...
-        
-      </div>
-      <a class="more" href="/wiki/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a>
-      </h2>
-      <p class="article-date">July 13, 2021</p>
-      
-        
-  <a href="/tags#linux" >
-    <span class="tag-code">linux</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          用户｜权限chmod：修改权限命令。一般用+号添加权限，-号删除权限，x代表执行权限，r代表读取权限，w代表写入权限，常见写法比如chmod +x 文件名 添加执行权限。
-还有另外一种写法，使用数字来授权，因为r=4，w=2，x=1，平时执行命令chmod 777 文件名这就是最高权限了。
- ...
-        
-      </div>
-      <a class="more" href="/wiki/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">段合并</a>
-      </h2>
-      <p class="article-date">July 8, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          参考资料
-
-learnku.com
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/%E6%AE%B5%E5%90%88%E5%B9%B6/">Read more</a>
     </article>
   
 

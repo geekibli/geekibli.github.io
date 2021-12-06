@@ -168,6 +168,122 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">kafka-基础知识</a>
+      </h2>
+      <p class="article-date">August 18, 2021</p>
+      
+        
+  <a href="/tags#kafka" >
+    <span class="tag-code">kafka</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          kafka是什么kafka运行时架构kafka为什么能承载高并发kafka的确认机制是什么kafka如何保证消息准确kafka会丢消息吗？
+kafka会重复消费消息吗
+幂等性
+消息顺序消费问题参考资料kafka基础知识 - yyy
+
+        
+      </div>
+      <a class="more" href="/wiki/kafka-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Spring-事务隔离</a>
+      </h2>
+      <p class="article-date">August 18, 2021</p>
+      
+        
+  <a href="/tags#Spring" >
+    <span class="tag-code">Spring</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          如何使用Spring来对程序进行事务控制和管理？
+事务控制一般是在哪一层（controller? Service? Dao?） service
+事务控制有几种方式？
+事务控制分类编程式事务自己手动控制事务，就叫做编程式事务控制。
+
+Jdbc代码：
+
+
+Conn.setAutoCommite( ...
+        
+      </div>
+      <a class="more" href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Flink-物理分区函数</a>
+      </h2>
+      <p class="article-date">August 12, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Flink提供的8种分区函数GlobalPartitioner该分区器会将所有的数据都发送到下游的某个算子实例(subtask id = 0)
+12345678910111213//  数据会被分发到下游算子的第一个实例中进行处理    public static void global() ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E7%89%A9%E7%90%86%E5%88%86%E5%8C%BA%E5%87%BD%E6%95%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Flink-UDF函数类</a>
+      </h2>
+      <p class="article-date">August 12, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          函数类比如说我们常用的MapFunction，FilterFunction，ProcessFunction等，每一步操作都基本上都对应一个Function。
+12345678910public static class MyFlatMapper implements FlatMapFunct ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-UDF%E5%87%BD%E6%95%B0%E7%B1%BB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Flink-到底支持多少种数据类型</a>
+      </h2>
+      <p class="article-date">August 11, 2021</p>
+      
+        
+  <a href="/tags#Apache Flink" >
+    <span class="tag-code">Apache Flink</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Flink支持所有的Java和Scala基础数据类型以及其包装类型
+支持Tuple元组类型，Flink在Java API中定义了很多Tuple的实现类，从Tuple0 ~ Tuple25类型
+Scala样例类 case class，对应Java中的POJO类对象(必须提供无参构造方法 get ...
+        
+      </div>
+      <a class="more" href="/wiki/Flink-%E5%88%B0%E5%BA%95%E6%94%AF%E6%8C%81%E5%A4%9A%E5%B0%91%E4%B8%AD%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Flink-%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E9%9B%86%E5%90%88%EF%BD%9C%E6%96%87%E4%BB%B6%EF%BD%9C%E8%87%AA%E5%AE%9A%E4%B9%89%EF%BD%9CKafka%E7%AD%89%EF%BC%89/">Flink-如何读取数据源（集合｜文件｜自定义｜Kafka等）</a>
       </h2>
       <p class="article-date">August 11, 2021</p>
@@ -273,117 +389,6 @@ Facade 门面类12345678910111213141516public class Facade &#123;    ...
         
       </div>
       <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">设计模式之美-责任链模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          责任链模式责任链模式（Chain of Responsibility Patter）是将链中的每一个节点看成是一个对象，每个节点处理的请求均不相同，并且内部自动维护下一个节点对象。当一个请求从链的头部发出时，会沿着链的路径一次传递给每一个节点对象，直到有节点处理这个请求为止；责任链模式属于行 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">设计模式之美-观察者模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          观察者模式观察者模式指多个对象间存在一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。这种模式有时又称作发布-订阅模式、模型-视图模式，它是对象行为型模式。
-属于行为型模式
-类图  
-
-ISubject12345678public interface I ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">设计模式之美-装饰器模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          装饰器模式（Decorator Pattern）装饰器模式也叫做包装模式，是指在不改变原有对象的基础上，将功能附加到对象上，提供比继承更有弹性的替代方案（扩展原有对象的功能），强调一点是基于已有对象的功能增强；装饰器模式属于结构性模式;
-装饰器类图  
-
-
-Component 抽象构件
-定义 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">设计模式之美-策略模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          策略模式策略模式（Strategy Pattern）也叫做政策模式（Policy Pattern）,它是将定义的算法封装起来，让它们之间可以相互替换，从而让算法的变化不影响到使用算法的用户；它属于行为型模式。可以在一定程度上规避if-else/switch等策略模式使用的面向对象的继承和多态 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">设计模式之美-桥接模式</a>
-      </h2>
-      <p class="article-date">August 7, 2021</p>
-      
-        
-  <a href="/tags#设计模式" >
-    <span class="tag-code">设计模式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          桥接模式（Bridge Pattern）桥接模式也称为桥梁模式，接口（Integer）模式或者柄体（Handle and Body）模式，是将抽象部分和它的具体实现部分分离，是它们都可以独立地变化；
-通过组合的方式建立两个类之间的联系，而不是继承； 桥接模式属于结构型模式；  
-继承一般来作 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BE%8E-%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/">Read more</a>
     </article>
   
 

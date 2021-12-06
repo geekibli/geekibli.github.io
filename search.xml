@@ -6578,10 +6578,8 @@
     <title>Welcome to GeekIBLi</title>
     <url>/wiki/index/</url>
     <content><![CDATA[<h2 id="道阻-且长"><a href="#道阻-且长" class="headerlink" title="道阻 且长"></a>道阻 且长</h2><h2 id="不错的学习网站推荐"><a href="#不错的学习网站推荐" class="headerlink" title="不错的学习网站推荐"></a>不错的学习网站推荐</h2><p><a href="https://e.juejin.cn/">掘金 博客</a><br><a href="https://www.codingdict.com/">https://www.codingdict.com/</a><br><a href="https://time.geekbang.org/">极客时间</a><br><a href="https://ashiamd.github.io/docsify-notes/#/README">ashiamd.github.io</a><br><a href="https://bytedance.feishu.cn/base/appwBhd98QJ9cpMggHc5QMVHlfd">字节跳动后端面试题集</a><br><a href="https://www.zhihu.com/column/c_1155449617721315328">知乎 Java快速进阶通道</a><br><a href="https://hollischuang.github.io/toBeTopJavaer/#/">To Be Top Javaer - Java工程师成神之路</a><br><a href="https://blog.div-wang.com/">Div-wang</a><br><a href="https://www.pdai.tech/">Java 全栈知识体系</a><br><a href="https://github.com/crossoverJie/JCSprout">https://github.com/crossoverJie/JCSprout</a><br><a href="https://github.com/ZhongFuCheng3y/3y">https://github.com/ZhongFuCheng3y/3y</a> ‼️<br><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU0ODMyNDk0Mw==&action=getalbum&album_id=1360108212447526913&scene=173&from_msgid=2247488558&from_itemidx=1&count=3&nolastread=1#wechat_redirect">算法图文分析</a><br><a href="https://laravelacademy.org/"><a href="https://laravelacademy.org/">Laravel 学院</a></a><br><a href="https://gitee.com/veal98/CS-Wiki">https://gitee.com/veal98/CS-Wiki</a><br><a href="https://github.com/Snailclimb/JavaGuide">https://github.com/Snailclimb/JavaGuide</a><br><a href="https://hadyang.com/interview/docs/basic/algo/kmp/">https://hadyang.com/interview/docs/basic/algo/kmp/</a><br><a href="https://github.com/shishan100/Java-Interview-Advanced">中华石杉-Github</a></p>
+<h2 id="人工智能"><a href="#人工智能" class="headerlink" title="人工智能"></a>人工智能</h2><p><a href="https://www.captainbed.net/blog-aflyun/">https://www.captainbed.net/blog-aflyun/</a></p>
 <h2 id="工具网站"><a href="#工具网站" class="headerlink" title="工具网站"></a>工具网站</h2><p><a href="https://www.processon.com/u/5b3adb64e4b0a8a7ffc22b90">ProcessOn</a><br><a href="https://www.slidestalk.com/">示说</a></p>
-<blockquote>
-<p>「 提供了很多优质的PPT 还有很多大厂的沙龙视屏以及材料」</p>
-</blockquote>
 <h2 id="技术团队推荐"><a href="#技术团队推荐" class="headerlink" title="技术团队推荐"></a>技术团队推荐</h2><p><a href="https://xiaomi-info.github.io/">小米信息部技术团队</a><br><a href="https://xiaomi-info.github.io/">https://xiaomi-info.github.io/</a><br><a href="https://tech.youzan.com/">有赞技术团队</a><br><a href="https://tech.meituan.com/">美团技术团队</a></p>
 <h2 id="面试题合集"><a href="#面试题合集" class="headerlink" title="面试题合集"></a>面试题合集</h2><p><a href="https://juejin.cn/post/6844904096957218823">2020年大厂Java面试前复习的正确姿势（800+面试题附答案解析）</a><br><a href="https://juejin.cn/post/6844904125939843079">Java集合面试题（总结最全面的面试题）</a><br><a href="https://mp.weixin.qq.com/s/WOIkWLsA7fyyoHPyNT7HdQ">学妹字节、蘑菇街、阿里、莉莉丝…面经 - 敖丙</a><br><a href="https://w86fskhnhi.feishu.cn/base/appcnPi0qF2EusU1Nb5Ea70lAEe?table=tblmZMOZe7OBs282&view=vew9iquA45">2021大厂面试真题合集</a><br><a href="https://snailclimb.gitee.io/javaguide-interview/">javaguide面试突击https://snailclimb.gitee.io/javaguide-interview/</a></p>
 <h2 id="友情链接"><a href="#友情链接" class="headerlink" title="友情链接"></a>友情链接</h2><p><a href="https://blog.csdn.net/weixin_43314519">https://blog.csdn.net/weixin_43314519</a></p>
@@ -9476,14 +9474,13 @@ https://juejin.cn/post/6885159254764814349
 <h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>BASE 是 Basically Available(基本可用)、Soft state(软状态)和 Eventually consistent (最终一致性)三个短语的缩写。是对CAP中AP的一个扩展</p>
 <p>基本可用:分布式系统在出现故障时，允许损失部分可用功能，保证核心功能可用。<br>软状态:允许系统中存在中间状态，这个状态不影响系统可用性，这里指的是CAP中的不一致。<br>最终一致:最终一致是指经过一段时间后，所有节点数据都将会达到一致。</p>
 <p>BASE解决了CAP中理论没有网络延迟，在BASE中用软状态和最终一致，保证了延迟后的一致性。BASE和 ACID 是相反的，它完全不同于ACID的强一致性模型，而是通过牺牲强一致性来获得可用性，并允许数据在一段时间内是不一致的，但最终达到一致状态。</p>
-<h2 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a>分布式事务解决方案</h2><h3 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a>2PC</h3><h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
-<ul>
+<h2 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a>分布式事务解决方案</h2><h3 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a>2PC</h3><h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="https://www.bilibili.com/video/BV1FJ411A7mV?from=search&seid=11114763225649816490&spm_id_from=333.337.0.0">bilibili 分布式事务详解</a></li>
 <li><a href="http://blog.itpub.net/69946034/viewspace-2671341/">微服务分布式事务4种解决方案实战</a></li>
 <li><a href="https://juejin.cn/post/6844903647197806605">再有人问你分布式事务，把这篇扔给他</a></li>
-<li><a href="https://juejin.cn/post/6844903573667446797#heading-5"></a>  </li>
+<li><a href="https://juejin.cn/post/6844903573667446797#heading-5">https://juejin.cn/post/6844903573667446797#heading-5</a>  </li>
+<li><a href="https://juejin.cn/post/7012425995634343966?utm_source=gold_browser_extension">https://juejin.cn/post/7012425995634343966?utm_source=gold_browser_extension</a></li>
 </ul>
-</blockquote>
 ]]></content>
       <categories>
         <category>分布式事务</category>
@@ -10718,6 +10715,330 @@ https://juejin.cn/post/6885159254764814349
 ]]></content>
       <tags>
         <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二分查找（迭代&amp;递归）</title>
+    <url>/wiki/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%EF%BC%88%E8%BF%AD%E4%BB%A3-%E9%80%92%E5%BD%92%EF%BC%89/</url>
+    <content><![CDATA[<p><a href="https://leetcode-cn.com/problems/binary-search/">https://leetcode-cn.com/problems/binary-search/</a></p>
+<h2 id="1-二分查找"><a href="#1-二分查找" class="headerlink" title="1. 二分查找"></a>1. 二分查找</h2><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例 1:"></a>示例 1:</h3><p>输入: <code>nums = [-1,0,3,5,9,12], target = 9</code><br>输出: 4<br>解释: 9 出现在 nums 中并且下标为 4</p>
+<h3 id="示例-2"><a href="#示例-2" class="headerlink" title="示例 2:"></a>示例 2:</h3><p>输入: <code>nums = [-1,0,3,5,9,12], target = 2</code><br>输出: -1<br>解释: 2 不存在 nums 中因此返回 -1</p>
+<p>提示：</p>
+<blockquote>
+<p>你可以假设 nums 中的所有元素是不重复的。<br>n 将在 [1, 10000]之间。<br>nums 的每个元素都将在 [-9999, 9999]之间。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/zabernism/image@main/gao/image-20210927170614830.png" alt="image-20210927170614830"></p>
+<h3 id="递归写法"><a href="#递归写法" class="headerlink" title="递归写法"></a>递归写法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">      	<span class="comment">// 注意边界</span></span><br><span class="line">        <span class="keyword">return</span> find(<span class="number">0</span>, nums.length - <span class="number">1</span>, target, nums);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> left, <span class="keyword">int</span> right, <span class="keyword">int</span> target, <span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left &lt;= right) &#123;</span><br><span class="line">          	<span class="comment">// 注意mid取值的写法，避免越界异常</span></span><br><span class="line">            <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">                <span class="keyword">return</span> find(left, mid - <span class="number">1</span>, target, nums);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">                <span class="keyword">return</span> find(mid + <span class="number">1</span>, right, target, nums);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="迭代写法"><a href="#迭代写法" class="headerlink" title="迭代写法"></a>迭代写法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left &lt;= right) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">                right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="2-查找第一个错误版本"><a href="#2-查找第一个错误版本" class="headerlink" title="2. 查找第一个错误版本"></a>2. 查找第一个错误版本</h2><p><a href="https://leetcode-cn.com/problems/first-bad-version/">leetcode278</a></p>
+<p>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。</p>
+<p>假设你有 n 个版本 [1, 2, …, n]，你想找出导致之后所有版本出错的第一个错误的版本。</p>
+<p>你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p>
+<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：n = 5, bad = 4</span><br><span class="line">输出：4</span><br><span class="line">解释：</span><br><span class="line">调用 isBadVersion(3) -&gt; false </span><br><span class="line">调用 isBadVersion(5) -&gt; true </span><br><span class="line">调用 isBadVersion(4) -&gt; true</span><br><span class="line">所以，4 是第一个错误的版本。</span><br></pre></td></tr></table></figure>
+
+<h3 id="迭代写法-1"><a href="#迭代写法-1" class="headerlink" title="迭代写法"></a>迭代写法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> <span class="keyword">extends</span> <span class="title">VersionControl</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">firstBadVersion</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> right = n;</span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">            <span class="keyword">if</span> (isBadVersion(mid)) &#123;</span><br><span class="line">                right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="3-搜索插入位置"><a href="#3-搜索插入位置" class="headerlink" title="3. 搜索插入位置"></a>3. <a href="https://leetcode-cn.com/problems/search-insert-position/">搜索插入位置</a></h2><p>Leetcode 35</p>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</p>
+<p>请必须使用时间复杂度为 O(log n) 的算法。</p>
+<h3 id="递归写法-1"><a href="#递归写法-1" class="headerlink" title="递归写法"></a>递归写法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">searchInsert</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (right - left) / <span class="number">2</span> + left;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == target) &#123;</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &gt; target) &#123;</span><br><span class="line">                right = mid - <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (nums[mid] &lt; target) &#123;</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+        <category>二分</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试知识点总结</title>
+    <url>/wiki/%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="个人整理后端面试体系"><a href="#个人整理后端面试体系" class="headerlink" title="个人整理后端面试体系"></a>个人整理后端面试体系</h1><h2 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h2><h3 id="1、Java语言基础"><a href="#1、Java语言基础" class="headerlink" title="1、Java语言基础"></a>1、Java语言基础</h3><h4 id="1-1-Java语言特性（继承-封装-多态-抽象）"><a href="#1-1-Java语言特性（继承-封装-多态-抽象）" class="headerlink" title="1.1 Java语言特性（继承 封装 多态 抽象）"></a>1.1 Java语言特性（继承 封装 多态 抽象）</h4><h4 id="1-2-基本数据类型以及线程安全问题（double、long）"><a href="#1-2-基本数据类型以及线程安全问题（double、long）" class="headerlink" title="1.2 基本数据类型以及线程安全问题（double、long）"></a>1.2 基本数据类型以及线程安全问题（double、long）</h4><h4 id="1-3-接口、抽象类、普通类"><a href="#1-3-接口、抽象类、普通类" class="headerlink" title="1.3 接口、抽象类、普通类"></a>1.3 接口、抽象类、普通类</h4><h4 id="1-4-重要关键字-static-和-final"><a href="#1-4-重要关键字-static-和-final" class="headerlink" title="1.4 重要关键字 static 和 final"></a>1.4 重要关键字 static 和 final</h4><h4 id="1-5-异常和错误"><a href="#1-5-异常和错误" class="headerlink" title="1.5 异常和错误"></a>1.5 异常和错误</h4><h4 id="1-6-泛型"><a href="#1-6-泛型" class="headerlink" title="1.6 泛型"></a>1.6 泛型</h4><h4 id="1-7-异常"><a href="#1-7-异常" class="headerlink" title="1.7 异常"></a>1.7 异常</h4><h4 id="1-8-线程安全问题"><a href="#1-8-线程安全问题" class="headerlink" title="1.8 线程安全问题"></a>1.8 线程安全问题</h4><h4 id="1-9-Java中的集合类"><a href="#1-9-Java中的集合类" class="headerlink" title="1.9 Java中的集合类"></a>1.9 Java中的集合类</h4><h3 id="2、数据结构与算法"><a href="#2、数据结构与算法" class="headerlink" title="2、数据结构与算法"></a>2、数据结构与算法</h3><h4 id="2-1-了解基本的数据结构"><a href="#2-1-了解基本的数据结构" class="headerlink" title="2.1 了解基本的数据结构"></a>2.1 了解基本的数据结构</h4><h4 id="2-2-了解常用的常考的算法及其模版"><a href="#2-2-了解常用的常考的算法及其模版" class="headerlink" title="2.2 了解常用的常考的算法及其模版"></a>2.2 了解常用的常考的算法及其模版</h4><h4 id="2-3-排序"><a href="#2-3-排序" class="headerlink" title="2.3 排序"></a>2.3 排序</h4><h4 id="2-4-二分法"><a href="#2-4-二分法" class="headerlink" title="2.4 二分法"></a>2.4 二分法</h4><h4 id="2-5"><a href="#2-5" class="headerlink" title="2.5"></a>2.5</h4><h3 id="3、计算机网络"><a href="#3、计算机网络" class="headerlink" title="3、计算机网络"></a>3、计算机网络</h3><h4 id="3-1-TCP协议相关（报文头、三次握手，超市重传，滑动窗口、拥塞避免、四次挥手）"><a href="#3-1-TCP协议相关（报文头、三次握手，超市重传，滑动窗口、拥塞避免、四次挥手）" class="headerlink" title="3.1 TCP协议相关（报文头、三次握手，超市重传，滑动窗口、拥塞避免、四次挥手）"></a>3.1 TCP协议相关（报文头、三次握手，超市重传，滑动窗口、拥塞避免、四次挥手）</h4><h4 id="3-1-Http-amp-Https相关"><a href="#3-1-Http-amp-Https相关" class="headerlink" title="3.1 Http&amp;Https相关"></a>3.1 Http&amp;Https相关</h4><p>请求方式（GET、POST、PUT、DELETE、HEADER…）<br>常见状态码（2XX、3XX、4XX、5XX…）<br>Http各个版本的差异（1.0 、1.1、2.0）<br>证书颁发过程<br>对称加密和非对称加密<br>SSL/TLS协议</p>
+<h4 id="3-3-IP协议"><a href="#3-3-IP协议" class="headerlink" title="3.3 IP协议"></a>3.3 IP协议</h4><h4 id="3-4-ICMP协议"><a href="#3-4-ICMP协议" class="headerlink" title="3.4 ICMP协议"></a>3.4 ICMP协议</h4><h3 id="4、数据库MySQL"><a href="#4、数据库MySQL" class="headerlink" title="4、数据库MySQL"></a>4、数据库MySQL</h3><h2 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h2><h3 id="1、Redis"><a href="#1、Redis" class="headerlink" title="1、Redis"></a>1、Redis</h3><h3 id="2、Kafka"><a href="#2、Kafka" class="headerlink" title="2、Kafka"></a>2、Kafka</h3><h3 id="3、Spring框架"><a href="#3、Spring框架" class="headerlink" title="3、Spring框架"></a>3、Spring框架</h3><p>4、Java虚拟机</p>
+<p>5、设计模式</p>
+<h2 id="高级篇"><a href="#高级篇" class="headerlink" title="高级篇"></a>高级篇</h2><h3 id="1、分布式事务"><a href="#1、分布式事务" class="headerlink" title="1、分布式事务"></a>1、分布式事务</h3><h3 id="2、分布式缓存"><a href="#2、分布式缓存" class="headerlink" title="2、分布式缓存"></a>2、分布式缓存</h3><h3 id="3、微服务"><a href="#3、微服务" class="headerlink" title="3、微服务"></a>3、微服务</h3><h3 id="4、RPC"><a href="#4、RPC" class="headerlink" title="4、RPC"></a>4、RPC</h3><h3 id="发散篇"><a href="#发散篇" class="headerlink" title="发散篇"></a>发散篇</h3><p>1、设计一个秒杀系统</p>
+<p>2、设计一个抢票系统 （保证高QPS和单库支撑）</p>
+<p>用户看到剩余一张票，点击购买，提示没有票了，这个问题怎么解决？</p>
+<p>3、设计一个订单系统，保证数据安全，怎么做</p>
+<p>4、海量数据寻找最值问题</p>
+<p>4.1 海量数据 （日志）找出访问最多的IP</p>
+]]></content>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Elasticsearch使用规范</title>
+    <url>/wiki/Elasticsearch%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83/</url>
+    <content><![CDATA[<h1 id="Elasticsearch使用规范"><a href="#Elasticsearch使用规范" class="headerlink" title="Elasticsearch使用规范"></a>Elasticsearch使用规范</h1><h2 id="查询规范建议"><a href="#查询规范建议" class="headerlink" title="查询规范建议"></a>查询规范建议</h2><ul>
+<li><p><strong>定义好mappings和settings</strong>，不同的数据类型查询效率不一样，建议只需做精确查询以及范围查询的字段设置为keyword类型。对于要进行全文检索的字段设置合理的分词器。</p>
+</li>
+<li><p>对于只需要查询数据结果而不需要结果的相关度计算的情况，<strong>使用filter query能大幅提升你的查询效率</strong>。例如过滤某车牌和号码。</p>
+</li>
+<li><p><strong>避免一次性取出大量的数量</strong>：Elasticsearch被设计为一个搜索引擎，这使得它非常擅长获取与查询匹配的最优文档，但是不适合用来检索与特定查询匹配的所有文档。 Elasticsearch为了避免深分页，不允许使用分页（from&amp;size）查询10000条以后的数据，如果需要这样做，请确保使用Scroll API。 （Scroll API 后来不被推荐使用 可以使用search after）</p>
+</li>
+<li><p><strong>尽量细化查询条件</strong>，查询的条件越细，查询效率越高。</p>
+</li>
+<li><p><strong>选择合适的查询类型</strong>，比如term查询效率相对会高一些。</p>
+</li>
+<li><p><strong>优化路由</strong></p>
+<p>  Elasticsearch写入文档时，文档会通过一个公式路由到一个索引中的一个分片上。默认公式如下：<br>  <code>shard_num = hash(_routing) % num_primary_shards</code><br>  _routing字段的取值，默认是_id字段，可以根据业务场景设置经常查询的字段作为路由字段。例如可以考虑将用户id、地区作为路由字段，查询时可以过滤不必要的分片，加快查询速度。</p>
+</li>
+<li><p>避免使用wildcard模糊匹配查询<br>  Elasticsearch默认支持通过*？正则表达式来做模糊匹配，数据量级别达到TB+甚至更高之后，模糊匹配查询通常会耗时比较长，甚至可能导致内存溢出，卡死乃至崩溃宕机的情况。所以数据量大的情况下，不要使用模糊匹配查询。</p>
+</li>
+<li><p>合理的配置使用index属性，analyzed和not_analyzed，根据业务需求来控制字段是否分词或不分词。只有groupby需求的字段，配置时就设置成not_analyzed,以提高查询或聚类的效率。</p>
+</li>
+<li><p>query_string或multi_match的查询字段越多，查询越慢。<br>  可以在mapping阶段，利用copy_to属性将多字段的值索引到一个新字段，multi_match时，用新的字段查询。</p>
+</li>
+<li><p><strong>日期字段的查询</strong><br>  尤其是用now的查询实际上是不存在缓存的，因此， 可以从业务的角度来考虑是否一定要用now,毕竟利用query cache是能够大大提高查询效率的。</p>
+</li>
+<li><p><strong>查询结果集的大小不能随意设置成大得离谱的值</strong><br>  如query.setSize不能设置成Integer.MAX_VALUE，<font color=red>因为ES内部需要建立一个数据结构来放指定大小的结果集数据。</font></p>
+</li>
+<li><p><strong>尽量避免使用script，万不得已需要使用的话，选择painless &amp; experssions引擎。</strong><br>  <font color=blue>一旦使用script查询，一定要注意控制返回，千万不要有死循环，因为ES没有脚本运行的超时控制，只要当前的脚本没执行完，该查询会一直阻塞。</font></p>
+</li>
+</ul>
+<h2 id="容量规划"><a href="#容量规划" class="headerlink" title="容量规划"></a>容量规划</h2><ul>
+<li><p><strong>分片(shard)容量</strong></p>
+<ul>
+<li>非日志型(搜索型、线上业务型)的shard容量在10~30GB（建议在10G）</li>
+<li>日志型的shard容量在30~100GB（建议30G）</li>
+<li>单个shard的文档个数不能超过21亿左右(Integer.MAX_VALUE - 128)<br>注：一个shard就是一个lucene分片，ES底层基于lucene实现。主分片个数一旦确定，就不可以更改。副本分片个数可以根据需要随时修改。</li>
+</ul>
+</li>
+<li><p><strong>索引(index)数量</strong><br>大索引需要拆分：增强性能，风险分散。<br>反例：一个10T的索引，例如按date查询、name查询<br>正例：index_name拆成多个index_name_${date}<br>正例：index_name按hash拆分index_name_{1,2,3,…100..}<br>提示：索引和shard数并不是越多越好，对于批量读写都会有性能下降，所以要综合考虑性能和容量规划，同时配合压力测试，不存在真正的最优解。</p>
+</li>
+<li><p><strong>节点、分片、索引</strong><br>一个节点管理的shard数不要超过200个</p>
+</li>
+</ul>
+<h2 id="配置使用规范"><a href="#配置使用规范" class="headerlink" title="配置使用规范"></a>配置使用规范</h2><ul>
+<li><p><strong>shard个数（number_of_shards）</strong><br>  primery shard ：默认数量是1<br>  replica shard数量为1： 是每个primary shard 有多少个副本分片的意思<br>  primery shard = 1 ; replica shard = 2 ; 意味着一个索引，一共存在9个shard</p>
+</li>
+<li><p><strong>refresh频率（refresh_interval）</strong><br>  ES的定位是准实时搜索引擎，该值默认是1s，表示写入后1秒后可被搜索到，所以这里的值取决于业务对实时性的要求，注意这里并不是越小越好，刷新频率高也意味着对ES的开销也大，通常业务类型在1-5s，日志型在30s-120s，如果集中导入数据可将其设置为-1，ES会自动完成数据刷新（注意完成后更改回来，否则后续会出现搜索不到数据）</p>
+</li>
+<li><p><strong>使用别名（aliases）</strong>：不要过度依赖别名功能</p>
+</li>
+<li><p><strong>慢日志（slowlog）</strong></p>
+</li>
+<li><p><strong>设置合理的routing key(默认是id)</strong><br>  id不均衡：集群容量和访问不均衡，对于分布式存储是致命的</p>
+</li>
+<li><p><strong>关闭_all</strong><br>  ES6.0已经去掉，对容量（索引过大）和性能（性能下降）都有影响。    </p>
+</li>
+<li><p><strong>避免大宽表</strong><br>  ES默认最大1000，但建议不要超过100.    </p>
+</li>
+<li><p><strong>text类型的字段不要使用聚合查询。</strong><br>  <font color=red>text类型fileddata会加大对内存的占用，如果有需求使用，建议使用keyword</font></p>
+</li>
+<li><p><strong>聚合查询避免使用过多嵌套</strong><br>  <font color=red>聚合查询的中间结果和最终结果都会在内存中进行，嵌套过多，会导致内存耗尽</font></p>
+</li>
+<li><p><strong>修改index_buffer_size的设置</strong><br>  可以设置成百分数，也可设置成具体的大小，大小可根据集群的规模做不同的设置测试。<br>　　<code>indices.memory.index_buffer_size：10%（默认）</code><br>　　<code>indices.memory.min_index_buffer_size： 48mb（默认）</code><br>　　<code>indices.memory.max_index_buffer_size</code></p>
+</li>
+<li><p><strong>修改translog相关的设置</strong></p>
+<ul>
+<li>控制数据从内存到硬盘的操作频率，以减少硬盘IO。可将sync_interval的时间设置大一些。<br>　　      <code>index.translog.sync_interval：5s(默认)</code></li>
+<li>控制tranlog数据块的大小，达到threshold大小时，才会flush到lucene索引文件。<br>  <code>index.translog.flush_threshold_size：512mb(默认)    </code></li>
+</ul>
+</li>
+<li><p><strong>_id字段的使用</strong><br>  应尽可能避免自定义_id,以避免针对ID的版本管理；建议使用ES的默认ID生成策略或使用数字类型ID做为主键    </p>
+</li>
+<li><p><strong>Cache的设置及使用</strong></p>
+<ul>
+<li>QueryCache: ES查询的时候，使用filter查询会使用query cache,如果业务场景中的过滤查询比较多，建议将querycache设置大一些，以提高查询速度。<br><code>indices.queries.cache.size： 10%（默认）</code>，可设置成百分比，也可设置成具体值，如256mb。</li>
+</ul>
+<p>  当然也可以禁用查询缓存（默认是开启）, 通过<code>index.queries.cache.enabled：false</code>设置。</p>
+<ul>
+<li>FieldDataCache:在聚类或排序时，<code>field data cache</code>会使用频繁，因此，<strong>设置字段数据缓存的大小，在聚类或排序场景较多的情形下很有必要</strong><br>  可通过<code>indices.fielddata.cache.size：30%</code>或<code>具体值10GB</code>来设置。<strong>但是如果场景或数据变更比较频繁，设置cache并不是好的做法，因为缓存加载的开销也是特别大的。</strong></li>
+<li><strong>ShardRequestCache</strong><br>查询请求发起后，每个分片会将结果返回给协调节点(Coordinating Node),由协调节点将结果整合。<br>如果有需求，可以设置开启;通过设置<strong>index.requests.cache.enable: true</strong>来开启。<br>不过，<code>shard request cache</code>只缓存<code>hits.total</code>, <code>aggregations</code>, <code>suggestions</code>类型的数据，并不会缓存hits的内容。也可以通过设置<code>indices.requests.cache.size: 1%（默认）</code>来控制缓存空间大小。    </li>
+</ul>
+</li>
+</ul>
+<h2 id="字段设计规范"><a href="#字段设计规范" class="headerlink" title="字段设计规范"></a>字段设计规范</h2><ul>
+<li><p>text和keyword的用途必须分清：分词和关键词（确定字段是否需要分词）</p>
+</li>
+<li><p>确定字段是否需要独立存储</p>
+</li>
+<li><p>字段类型不支持修改，必须谨慎。</p>
+</li>
+<li><p>对不需要进行聚合/排序的字段禁用doc_values</p>
+</li>
+<li><p>不要在text做模糊搜索：</p>
+</li>
+</ul>
+<h2 id="违规操作"><a href="#违规操作" class="headerlink" title="违规操作"></a>违规操作</h2><ul>
+<li>原则：不要忽略设计，快就是慢，坏的索引设计后患无穷.</li>
+<li>拒绝大聚合 ：ES计算都在JVM内存中完成。</li>
+<li>拒绝模糊查询：es一大杀手</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;wildcard&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;title.keyword&quot;</span>:<span class="string">&quot;*张三*&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>拒绝深度分页<br>  ES获取数据时，每次默认最多获取10000条，获取更多需要分页，但存在深度分页问题，<font color=red>一定不要使用from/Size方式，建议使用scroll或者searchAfter方式。</font> scroll会把上一次查询结果缓存一定时间（通过配置scroll=1m实现)，所以在使用scroll时一定要保证search结果集不要太大。</p>
+</li>
+<li><p>基数查询<br>尽量不要用基数查询去查询去重后的数据量大小（kibana中界面上显示是Unique Count，Distinct Count等），即少用如下的查询：</p>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;aggregations&quot;</span>: &#123;</span><br><span class="line">     <span class="attr">&quot;cardinality&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;field&quot;</span>: <span class="string">&quot;userId&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>禁止查询 indexName-*</li>
+<li>避免使用script、update_by_query、delete_by_query，对线上性能影响较大。</li>
+</ul>
+<h2 id="建议操作"><a href="#建议操作" class="headerlink" title="建议操作"></a>建议操作</h2><ul>
+<li><strong>复用预索引数据方式来提高AGG性能</strong><br>  如通过terms aggregations替代range aggregations， 如要根据年龄来分组，分组目标是:少年（14岁以下） 青年（14-28） 中年（29-50） 老年（51以上）， <font color=red>可以在索引的时候设置一个age_group字段，预先将数据进行分类</font>。从而不用按age来做range aggregations,通过age_group字段就可以了。</li>
+<li><strong>避免将不相关的数据放在同一个索引中，以避免稀疏，将这些文件放在不同的索引中往往更好。</strong></li>
+</ul>
+<h2 id="索引及字段命名规范"><a href="#索引及字段命名规范" class="headerlink" title="索引及字段命名规范"></a>索引及字段命名规范</h2><h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>索引受文件系统的限制。仅可能为小写字母，不能下划线开头。同时需遵守下列规则：</p>
+<ul>
+<li>不能包括 , /, *, ?, “, &lt;, &gt;, |, 空格, 逗号, #</li>
+<li>7.0版本之前可以使用冒号:,但不建议使用并在7.0版本之后不再支持</li>
+<li>不能以这些字符 -, _, + 开头</li>
+<li>不能包括 . 或 …</li>
+<li>长度不能超过 255 个字符</li>
+</ul>
+<p>以上这些命名限制是因为当Elasticsearch使用索引名称作为磁盘上的目录名称，这些名称必须符合不同操作系统的约定。<br>未来可能会放开这些限制，因为我们使用uuid关联索引放在磁盘上，而不使用索引名称</p>
+<h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p><font color=red>7.0版本之后不再支持类型，默认为_doc</font></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ul>
+<li>一个索引的shard数一旦确定不能改变</li>
+<li>ES不支持事务ACID特性。</li>
+<li>reindex：reindex可以实现索引的shard变更，但代价非常大：速度慢、对性能有影响，所以好的设计和规划更重要</li>
+<li>field一旦创建不能更改mapping，如果需要修改，则必须重新创建索引</li>
+</ul>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a href="http://www.javajcw.com/72.html">Elasticsearch 使用规范</a></li>
+<li><a href="https://blog.csdn.net/neweastsun/article/details/95868716">Elasticsearch索引及字段命名规范</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Elasticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构及算法-树</title>
+    <url>/wiki/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E7%AE%97%E6%B3%95-%E6%A0%91/</url>
+    <content><![CDATA[<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/wiki/draft/%E8%BF%9C%E7%A8%8B%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<h1 id="分布式架构基石-远程通信协议"><a href="#分布式架构基石-远程通信协议" class="headerlink" title="分布式架构基石-远程通信协议"></a>分布式架构基石-远程通信协议</h1><h2 id="1、什么是通信"><a href="#1、什么是通信" class="headerlink" title="1、什么是通信"></a>1、什么是通信</h2><p>常见的通信有两种：</p>
+<p>1、客户端与服务端之间的通信，通过http协议进行通信，或者服务器与服务器之间也会进行通信。</p>
+<p>2、微服务架构中，节点之间的通信，通过RPC，实现类似于单体架构中的service方法的调用。</p>
+<h2 id="2、Java中是如何进行通信呢"><a href="#2、Java中是如何进行通信呢" class="headerlink" title="2、Java中是如何进行通信呢"></a>2、Java中是如何进行通信呢</h2><p>通过socket套接字实现</p>
+<blockquote>
+<p>换行符 坑 导致提示Connection Reset (readline)</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>draft</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>一条sql是如何执行的</title>
+    <url>/wiki/%E4%B8%80%E6%9D%A1sql%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/</url>
+    <content><![CDATA[<h1 id="一条sql到底是怎么执行的？"><a href="#一条sql到底是怎么执行的？" class="headerlink" title="一条sql到底是怎么执行的？"></a>一条sql到底是怎么执行的？</h1><p>这个问题等同于： <strong>请将一下mysql的基础架构</strong></p>
+<h2 id="MySQL的逻辑架构"><a href="#MySQL的逻辑架构" class="headerlink" title="MySQL的逻辑架构"></a>MySQL的逻辑架构</h2><p>我们经常说，看一个事儿千万不 要直接陷入细节里，你应该先鸟瞰其全貌，这样能够帮助你从高维度理解问题。同样，对于 MySQL的学习也是这样。平时我们使用数据库，看到的通常都是一个整体。比如，你有个最简 单的表，表里只有一个ID字段，在执行下面这个查询语句时:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> T <span class="keyword">where</span> ID<span class="operator">=</span><span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们看到的只是输入一条语句，返回一个结果，却不知道这条语句在MySQL内部的执行过程。</p>
+<p>所以今天我想和你一起把MySQL拆解一下，看看里面都有哪些“零件”，希望借由这个拆解过程， 让你对MySQL有更深入的理解。这样当我们碰到MySQL的一些异常或者问题时，就能够直戳本 质，更为快速地定位并解决问题。</p>
+<p>下面我给出的是MySQL的基本架构示意图，从中你可以清楚地看到SQL语句在MySQL的各个功 能模块中的执行过程。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-661c52fa2ca85182e119823265a003d152b.png" alt="MySQL的逻辑架构图"></p>
+<p>大体来说，MySQL可以分为<strong>Server层</strong>和<strong>存储引擎层</strong>两部分。</p>
+<p>Server层包括<strong>连接器</strong>、<strong>查询缓存</strong>、<strong>分析器</strong>、<strong>优化器</strong>、<strong>执行器</strong>等，涵盖MySQL的大多数核心服务 功能，以及所有的内置函数(如日期、时间、数学和加密函数等)，所有跨存储引擎的功能都在 这一层实现，比如存储过程、触发器、视图等。</p>
+<p>而存储引擎层负责数据的存储和提取。其架构模式是插件式的，支持InnoDB、MyISAM、 Memory等多个存储引擎。现在最常用的存储引擎是InnoDB，它从MySQL 5.5.5版本开始成为了 默认存储引擎。</p>
+<p>也就是说，你执行create table建表的时候，如果不指定引擎类型，默认使用的就是InnoDB。不 过，你也可以通过指定存储引擎的类型来选择别的引擎，比如在create table语句中使用 <code>engine=memory</code>, 来指定使用内存引擎创建表。不同存储引擎的表数据存取方式不同，支持的功 能也不同，在后面的文章中，我们会讨论到引擎的选择。</p>
+<p>从图中不难看出，不同的存储引擎共用一个Server层 ，也就是从连接器到执行器的部分。你可 以先对每个组件的名字有个印象，接下来我会结合开头提到的那条SQL语句，带你走一遍整个执 行流程，依次看下每个组件的作用。</p>
+<h2 id="连接器"><a href="#连接器" class="headerlink" title="连接器"></a>连接器</h2><p>第一步，你会先连接到这个数据库上，这时候接待你的就是连接器。连接器负责跟客户端建立连 接、获取权限、维持和管理连接。连接命令一般是这么写的:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql <span class="operator">-</span>h$ip <span class="operator">-</span>P$port <span class="operator">-</span>u$<span class="keyword">user</span> <span class="operator">-</span>p</span><br></pre></td></tr></table></figure>
+
+<p>输完命令之后，你就需要在交互对话里面输入密码。虽然密码也可以直接跟在-p后面写在命令行 中，但这样可能会导致你的密码泄露。如果你连的是生产服务器，强烈建议你不要这么做。</p>
+<p>连接命令中的mysql是客户端工具，用来跟服务端建立连接。在完成经典的TCP握手后，连接器 就要开始认证你的身份，这个时候用的就是你输入的用户名和密码。</p>
+<ul>
+<li>如果用户名或密码不对，你就会收到一个”Access denied for user”的错误，然后客户端程序 结束执行。</li>
+<li>如果用户名密码认证通过，连接器会到权限表里面查出你拥有的权限。之后，这个连接里面 的权限判断逻辑，都将依赖于此时读到的权限。</li>
+</ul>
+<p>这就意味着，一个用户成功建立连接后，即使你用管理员账号对这个用户的权限做了修改，也不会影响已经存在连接的权限。<strong>修改完成后，只有再新建的连接才会使用新的权限设置</strong>。</p>
+<p>连接完成后，如果你没有后续的动作，这个连接就处于空闲状态，你可以在show processlist命 令中看到它。文本中这个图是show processlist的结果，其中的Command列显示为“Sleep”的这 一行，就表示现在系统里面有一个空闲连接。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-2a647e124a6b81400ac56c8602d08803a29.png"></p>
+<p>客户端如果太长时间没动静，连接器就会自动将它断开。这个时间是由参数<code>wait_timeout</code>控制 的，<strong>默认值是8小时。</strong></p>
+<p>如果在连接被断开之后，客户端再次发送请求的话，就会收到一个错误提醒: <code>Lost connection to MySQL server during query</code>。这时候如果你要继续，就需要重连，然后再执行请求了。</p>
+<p>数据库里面，长连接是指连接成功后，如果客户端持续有请求，则一直使用同一个连接。短连接 则是指每次执行完很少的几次查询就断开连接，下次查询再重新建立一个。</p>
+<p>建立连接的过程通常是比较复杂的，<font color=blue>所以我建议你在使用中要尽量减少建立连接的动作，也就是尽量使用长连接。</font></p>
+<p>但是全部使用长连接后，你可能会发现，有些时候MySQL占用内存涨得特别快，这是因为 MySQL在执行过程中临时使用的内存是管理在连接对象里面的。这些资源会在连接断开的时候才释放。所以如果长连接累积下来，可能导致内存占用太大，被系统强行杀掉(OOM)，从现 象看就是MySQL异常重启了。</p>
+<p>怎么解决这个问题呢?你可以考虑以下两种方案。</p>
+<ul>
+<li><p>定期断开长连接。使用一段时间，或者程序里面判断执行过一个占用内存的大查询后，断开 连接，之后要查询再重连。</p>
+</li>
+<li><p>如果你用的是MySQL5.7或更新版本，可以在每次执行一个比较大的操作后，通过执行 mysql_reset_connection来重新初始化连接资源。这个过程不需要重连和重新做权限验证， 但是会将连接恢复到刚刚创建完时的状态。</p>
+</li>
+</ul>
+<h2 id="查询缓存"><a href="#查询缓存" class="headerlink" title="查询缓存"></a>查询缓存</h2><p>连接建立完成后，你就可以执行select语句了。执行逻辑就会来到第二步**:查询缓存。**</p>
+<p>MySQL拿到一个查询请求后，会先到查询缓存看看，之前是不是执行过这条语句。之前执行过 的语句及其结果可能会以key-value对的形式，被直接缓存在内存中。key是查询的语句，value是 查询的结果。如果你的查询能够直接在这个缓存中找到key，那么这个value就会被直接返回给客 户端。</p>
+<p>如果语句不在查询缓存中，就会继续后面的执行阶段。执行完成后，执行结果会被存入查询缓存 中。你可以看到，如果查询命中缓存，MySQL不需要执行后面的复杂操作，就可以直接返回结 果，这个效率会很高。</p>
+<p><font color=blue>但是大多数情况下我会建议你不要使用查询缓存，为什么呢? 因为查询缓存往往弊大于利。</font></p>
+<blockquote>
+<p>查询缓存的失效非常频繁，只要有对一个表的更新，这个表上所有的查询缓存都会被清空。因此 很可能你费劲地把结果存起来，还没使用呢，就被一个更新全清空了。对于更新压力大的数据库 来说，查询缓存的命中率会非常低。除非你的业务就是有一张静态表，很长时间才会更新一次。 比如，一个系统配置表，那这张表上的查询才适合使用查询缓存。</p>
+</blockquote>
+<p>好在MySQL也提供了这种“按需使用”的方式。你可以将参数<code>query_cache_type</code>设置成 <code>DEMAND</code>，这样对于默认的SQL语句都不使用查询缓存。而对于你确定要使用查询缓存的语 句，可以用SQL_CACHE显式指定，像下面这个语句一样:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> SQL_CACHE <span class="operator">*</span> <span class="keyword">from</span> T <span class="keyword">where</span> ID<span class="operator">=</span><span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p><font color=red>需要注意的是，MySQL 8.0版本直接将查询缓存的整块功能删掉了，也就是说8.0开始彻底没有 这个功能了。</font></p>
+<h2 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h2><p>如果没有命中查询缓存，就要开始真正执行语句了。首先，<font color=blue>MySQL需要知道你要做什么</font>，因此需要对SQL语句做解析。</p>
+<p>分析器先会做“词法分析”。你输入的是由多个字符串和空格组成的一条SQL语句，MySQL需要识 别出里面的字符串分别是什么，代表什么。</p>
+<p>MySQL从你输入的”select”这个关键字识别出来，这是一个查询语句。它也要把字符串“T”识别 成“表名T”，把字符串“ID”识别成“列ID”。</p>
+<p>做完了这些识别以后，就要做“语法分析”。根据词法分析的结果，语法分析器会根据语法规则， 判断你输入的这个SQL语句是否满足MySQL语法。</p>
+<p>如果你的语句不对，就会收到<code>“You have an error in your SQL syntax”</code>的错误提醒，比如下面这个 语句select少打了开头的字母“s”。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-4b5816275605cf38dcea5964ab23bfc1e16.png"></p>
+<p><font color=red>一般语法错误会提示第一个出现错误的位置，所以你要关注的是紧接“use near”的内容。</font></p>
+<h2 id="优化器"><a href="#优化器" class="headerlink" title="优化器"></a>优化器</h2><p>经过了分析器，MySQL就知道你要做什么了。在开始执行之前，还要先经过优化器的处理。</p>
+<p>优化器是在表里面有多个索引的时候，决定使用哪个索引;或者在一个语句有多表关联(join)的时候，决定各个表的连接顺序。比如你执行下面这样的语句，这个语句是执行两个表的join:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> t1 <span class="keyword">join</span> t2 <span class="keyword">using</span>(ID)  <span class="keyword">where</span> t1.c<span class="operator">=</span><span class="number">10</span> <span class="keyword">and</span> t2.d<span class="operator">=</span><span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>既可以先从表t1里面取出c=10的记录的ID值，再根据ID值关联到表t2，再判断t2里面d的值是 否等于20。</li>
+<li>也可以先从表t2里面取出d=20的记录的ID值，再根据ID值关联到t1，再判断t1里面c的值是否 等于10。</li>
+</ul>
+<p>这两种执行方法的逻辑结果是一样的，但是执行的效率会有不同，而优化器的作用就是决定选择使用哪一个方案。</p>
+<p>优化器阶段完成后，这个语句的执行方案就确定下来了，然后进入执行器阶段。如果你还有一些 疑问，比如优化器是怎么选择索引的，有没有可能选择错等等，在后面的文章中单独展开说明优化器的内容。</p>
+<h2 id="执行器"><a href="#执行器" class="headerlink" title="执行器"></a>执行器</h2><p><font color=blue>MySQL通过分析器知道了你要做什么，通过优化器知道了该怎么做，于是就进入了执行器阶 段，开始执行语句。</font></p>
+<p>开始执行的时候，要先判断一下你对这个表T有没有执行查询的权限，如果没有，就会返回没有 权限的错误，如下所示。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; select * from T where ID=10;</span><br><span class="line"></span><br><span class="line">ERROR 1142 (42000): SELECT command denied to user &#x27;b&#x27;@&#x27;localhost&#x27; for table &#x27;T&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果有权限，就打开表继续执行。打开表的时候，执行器就会根据表的引擎定义，去使用<strong>这个引擎</strong>提供的接口。</p>
+<p>比如我们这个例子中的表T中，ID字段没有索引，那么执行器的执行流程是这样的:</p>
+<ul>
+<li>调用InnoDB引擎接口取这个表的第一行，判断ID值是不是10，如果不是则跳过，如果是则将这行存在结果集中;</li>
+<li>调用引擎接口取“下一行”，重复相同的判断逻辑，直到取到这个表的最后一行。</li>
+<li>执行器将上述遍历过程中所有满足条件的行组成的记录集作为结果集返回给客户端。</li>
+</ul>
+<p>至此，这个语句就执行完成了。 对于有索引的表，执行的逻辑也差不多。</p>
+<p>第一次调用的是“取满足条件的第一行”这个接口，之后循环取“满足条件的下一行”这个接口，这些接口都是引擎中已经定义好的。 你会在数据库的慢查询日志中看到一个rows_examined的字段，表示这个语句执行过程中扫描了多少行。</p>
+<p>这个值就是在执行器每次调用引擎获取数据行的时候累加的。<strong>在有些场景下，执行器调用一次，在引擎内部则扫描了多行，因此引擎扫描行数跟 rows_examined并不是完全相同的</strong>。我们后面会专门有一篇文章来讲存储引擎的内部机制， 里面会有详细的说明。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>我给你留一个问题吧，如果表T中没有字段k，而你执行了这个语句 select * from T where k=1, 那 肯定是会报“不存在这个列”的错误:     <code>“Unknown column ‘k’ in ‘where clause’”</code>。你觉得这个错误是 在我们上面提到的哪个阶段报出来的呢?</p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
       </tags>
   </entry>
 </search>

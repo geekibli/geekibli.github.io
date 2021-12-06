@@ -168,6 +168,117 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/LinkedHashMap%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93LRU/">LinkedHashMap实现简易LRU</a>
+      </h2>
+      <p class="article-date">September 15, 2021</p>
+      
+        
+  <a href="/tags#LRU" >
+    <span class="tag-code">LRU</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          题目 #运用你所掌握的数据结构，设计和实现一个 LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。
+获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。 写入数据 put(key,  ...
+        
+      </div>
+      <a class="more" href="/wiki/LinkedHashMap%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93LRU/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis%E6%93%8D%E4%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%EF%BC%9F/">Redis操作为什么是原子性的？</a>
+      </h2>
+      <p class="article-date">September 14, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis原则性操作对Redis来说，执行get、set以及eval等API，都是一个一个的任务，这些任务都会由Redis的线程去负责执行，任务要么执行成功，要么
+执行失败，这就是Redis的命令是原子性的原因。
+
+Redis本身提供的所有API都是原子操作，Redis中的事务其实是要保证批 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis%E6%93%8D%E4%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%EF%BC%9F/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%A4%A7%E5%8E%82%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E3%80%90%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E3%80%91%E7%9A%84/">大厂是如何进行【负载均衡】的</a>
+      </h2>
+      <p class="article-date">September 13, 2021</p>
+      
+      <div class="article-summary">
+        
+          轮训算法 随机算法
+平滑加权轮询算法
+一致性哈希算法
+最小活跃数算法
+权重随机1、存到一个list中，权重高的存多份，权重低的，存少份，具体按照权重去比
+2、把权重展示在坐标轴上，然后按照随机产生的数，在坐标轴上的分布来判断
+curl -XPUT -u elastic ‘http://loc ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%A4%A7%E5%8E%82%E6%98%AF%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E3%80%90%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E3%80%91%E7%9A%84/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E6%9D%A5%E8%87%AATCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%81%B5%E9%AD%82%E6%8B%B7%E9%97%AE/">来自TCP协议的灵魂拷问</a>
+      </h2>
+      <p class="article-date">September 10, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          1. TCP 是用来解决什么问题？2. 为什么要 TCP，IP 层实现控制不行么？之所以要提取出一个 TCP 层来实现控制是因为 IP 层涉及到的设备更多，一条数据在网络上传输需要经过很多设备，而设备之间需要靠 IP 来寻址。
+假设 IP 层实现了控制，那是不是涉及到的设备都需要关心很多事情 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E6%9D%A5%E8%87%AATCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%81%B5%E9%AD%82%E6%8B%B7%E9%97%AE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9CIO/">详解网络IO</a>
+      </h2>
+      <p class="article-date">September 10, 2021</p>
+      
+        
+  <a href="/tags#网络IO" >
+    <span class="tag-code">网络IO</span>
+  </a>
+
+  <a href="/tags#epoll" >
+    <span class="tag-code">epoll</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          前言学习思路可以是网络IO的演变过程，从【阻塞io】到【非阻塞io】然后到【多路复用】，后续还有【异步io】
+1. 阻塞io应用程序进行 recvfrom 系统调用时将阻塞在此调用，直到该套接字上有数据并且复制到用户空间缓冲区。该模式一般配合多线程使用，
+应用进程每接收一个连接，为此连接创建 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E8%AF%A6%E8%A7%A3%E7%BD%91%E7%BB%9CIO/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Netty%E5%9F%BA%E7%A1%80/">Netty基础</a>
       </h2>
       <p class="article-date">September 9, 2021</p>
@@ -288,117 +399,6 @@ Spring DAOSpring 对j ...
         
       </div>
       <a class="more" href="/wiki/Spring-%E4%BB%80%E4%B9%88%E6%98%AFAOP/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Spring-%E9%9D%A2%E8%AF%95%E5%AE%98%E9%97%AE%E9%A2%98%E4%BB%80%E4%B9%88%E6%98%AFIOC/">Spring-面试官问题什么是IOC</a>
-      </h2>
-      <p class="article-date">September 3, 2021</p>
-      
-      <div class="article-summary">
-        
-          1、思路1、首先明确什么是IOC，明确什么是DI，IOC和DI有什么关系
-2、说明什么是IOC之后，明确为什么需要 IOC，或者IOC的优点
-3、然后是IOC是如何实现的
-
-2、概述什么是IOCSpring IOC 解决的是 对象管理和对象依赖的问题。Spring AOP 解决的是 非业务代 ...
-        
-      </div>
-      <a class="more" href="/wiki/Spring-%E9%9D%A2%E8%AF%95%E5%AE%98%E9%97%AE%E9%A2%98%E4%BB%80%E4%B9%88%E6%98%AFIOC/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/LeetCode-%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC%E5%8F%B7-165/">LeetCode-比较版本号(165)</a>
-      </h2>
-      <p class="article-date">September 2, 2021</p>
-      
-        
-  <a href="/tags#数组" >
-    <span class="tag-code">数组</span>
-  </a>
-
-  <a href="/tags#LeetCode" >
-    <span class="tag-code">LeetCode</span>
-  </a>
-
-  <a href="/tags#中等" >
-    <span class="tag-code">中等</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          https://leetcode-cn.com/problems/compare-version-numbers/
-
-12345678910111213141516171819202122232425262728293031323334class Solution &#123;    pub ...
-        
-      </div>
-      <a class="more" href="/wiki/LeetCode-%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC%E5%8F%B7-165/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/LeetCode-%E7%83%AD%E5%BA%A6Top100%F0%9F%94%A5/">LeetCode-热度Top100🔥</a>
-      </h2>
-      <p class="article-date">August 31, 2021</p>
-      
-        
-  <a href="/tags#LeetCode" >
-    <span class="tag-code">LeetCode</span>
-  </a>
-
-  <a href="/tags#算法" >
-    <span class="tag-code">算法</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          挑战LeetCode热度Top100 👇https://leetcode-cn.com/problem-list/2cktkvj/
-1. 两数之和https://leetcode-cn.com/problems/two-sum/submissions/
-
-
-1234567891011121 ...
-        
-      </div>
-      <a class="more" href="/wiki/LeetCode-%E7%83%AD%E5%BA%A6Top100%F0%9F%94%A5/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Redis-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">Redis-布隆过滤器</a>
-      </h2>
-      <p class="article-date">August 31, 2021</p>
-      
-      <div class="article-summary">
-        
-          参考资料
-
-
-
-
-
-
-        
-      </div>
-      <a class="more" href="/wiki/Redis-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/">Spring-事务传播行为</a>
-      </h2>
-      <p class="article-date">August 30, 2021</p>
-      
-      <div class="article-summary">
-        
-          https://mp.weixin.qq.com/s/IglQITCkmx7Lpz60QOW7HA
-
-        
-      </div>
-      <a class="more" href="/wiki/Spring-%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA/">Read more</a>
     </article>
   
 

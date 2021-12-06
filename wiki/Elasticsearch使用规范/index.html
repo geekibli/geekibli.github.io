@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="geolei blog">
+  <meta name="keyword" content="hexo-theme">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      Elasticsearch使用规范 | GeekIBLi
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+  
+  
+    
+<script src="/js/local-search.js"></script>
+
+
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="GeekIBLi" type="application/atom+xml">
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>GeekIBLi</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+      
+        <li class="menu-item menu-item-search right-list">
+    <a role="button" class="popup-trigger">
+        <i class="fa fa-search fa-fw"></i>
+    </a>
+</li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+    
+      <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+            <span class="search-icon">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="search-input-container">
+                <input autocomplete="off" autocapitalize="off"
+                    placeholder="Please enter your keyword(s) to search." spellcheck="false"
+                    type="search" class="search-input">
+            </div>
+            <span class="popup-btn-close">
+                <i class="fa fa-times-circle"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>Elasticsearch使用规范</h2>
+  <p class="post-date">2021-11-01</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="Elasticsearch使用规范"><a href="#Elasticsearch使用规范" class="headerlink" title="Elasticsearch使用规范"></a>Elasticsearch使用规范</h1><h2 id="查询规范建议"><a href="#查询规范建议" class="headerlink" title="查询规范建议"></a>查询规范建议</h2><ul>
+<li><p><strong>定义好mappings和settings</strong>，不同的数据类型查询效率不一样，建议只需做精确查询以及范围查询的字段设置为keyword类型。对于要进行全文检索的字段设置合理的分词器。</p>
+</li>
+<li><p>对于只需要查询数据结果而不需要结果的相关度计算的情况，<strong>使用filter query能大幅提升你的查询效率</strong>。例如过滤某车牌和号码。</p>
+</li>
+<li><p><strong>避免一次性取出大量的数量</strong>：Elasticsearch被设计为一个搜索引擎，这使得它非常擅长获取与查询匹配的最优文档，但是不适合用来检索与特定查询匹配的所有文档。 Elasticsearch为了避免深分页，不允许使用分页（from&amp;size）查询10000条以后的数据，如果需要这样做，请确保使用Scroll API。 （Scroll API 后来不被推荐使用 可以使用search after）</p>
+</li>
+<li><p><strong>尽量细化查询条件</strong>，查询的条件越细，查询效率越高。</p>
+</li>
+<li><p><strong>选择合适的查询类型</strong>，比如term查询效率相对会高一些。</p>
+</li>
+<li><p><strong>优化路由</strong></p>
+<p>  Elasticsearch写入文档时，文档会通过一个公式路由到一个索引中的一个分片上。默认公式如下：<br>  <code>shard_num = hash(_routing) % num_primary_shards</code><br>  _routing字段的取值，默认是_id字段，可以根据业务场景设置经常查询的字段作为路由字段。例如可以考虑将用户id、地区作为路由字段，查询时可以过滤不必要的分片，加快查询速度。</p>
+</li>
+<li><p>避免使用wildcard模糊匹配查询<br>  Elasticsearch默认支持通过*？正则表达式来做模糊匹配，数据量级别达到TB+甚至更高之后，模糊匹配查询通常会耗时比较长，甚至可能导致内存溢出，卡死乃至崩溃宕机的情况。所以数据量大的情况下，不要使用模糊匹配查询。</p>
+</li>
+<li><p>合理的配置使用index属性，analyzed和not_analyzed，根据业务需求来控制字段是否分词或不分词。只有groupby需求的字段，配置时就设置成not_analyzed,以提高查询或聚类的效率。</p>
+</li>
+<li><p>query_string或multi_match的查询字段越多，查询越慢。<br>  可以在mapping阶段，利用copy_to属性将多字段的值索引到一个新字段，multi_match时，用新的字段查询。</p>
+</li>
+<li><p><strong>日期字段的查询</strong><br>  尤其是用now的查询实际上是不存在缓存的，因此， 可以从业务的角度来考虑是否一定要用now,毕竟利用query cache是能够大大提高查询效率的。</p>
+</li>
+<li><p><strong>查询结果集的大小不能随意设置成大得离谱的值</strong><br>  如query.setSize不能设置成Integer.MAX_VALUE，<font color=red>因为ES内部需要建立一个数据结构来放指定大小的结果集数据。</font></p>
+</li>
+<li><p><strong>尽量避免使用script，万不得已需要使用的话，选择painless &amp; experssions引擎。</strong><br>  <font color=blue>一旦使用script查询，一定要注意控制返回，千万不要有死循环，因为ES没有脚本运行的超时控制，只要当前的脚本没执行完，该查询会一直阻塞。</font></p>
+</li>
+</ul>
+<h2 id="容量规划"><a href="#容量规划" class="headerlink" title="容量规划"></a>容量规划</h2><ul>
+<li><p><strong>分片(shard)容量</strong></p>
+<ul>
+<li>非日志型(搜索型、线上业务型)的shard容量在10~30GB（建议在10G）</li>
+<li>日志型的shard容量在30~100GB（建议30G）</li>
+<li>单个shard的文档个数不能超过21亿左右(Integer.MAX_VALUE - 128)<br>注：一个shard就是一个lucene分片，ES底层基于lucene实现。主分片个数一旦确定，就不可以更改。副本分片个数可以根据需要随时修改。</li>
+</ul>
+</li>
+<li><p><strong>索引(index)数量</strong><br>大索引需要拆分：增强性能，风险分散。<br>反例：一个10T的索引，例如按date查询、name查询<br>正例：index_name拆成多个index_name_${date}<br>正例：index_name按hash拆分index_name_{1,2,3,…100..}<br>提示：索引和shard数并不是越多越好，对于批量读写都会有性能下降，所以要综合考虑性能和容量规划，同时配合压力测试，不存在真正的最优解。</p>
+</li>
+<li><p><strong>节点、分片、索引</strong><br>一个节点管理的shard数不要超过200个</p>
+</li>
+</ul>
+<h2 id="配置使用规范"><a href="#配置使用规范" class="headerlink" title="配置使用规范"></a>配置使用规范</h2><ul>
+<li><p><strong>shard个数（number_of_shards）</strong><br>  primery shard ：默认数量是1<br>  replica shard数量为1： 是每个primary shard 有多少个副本分片的意思<br>  primery shard = 1 ; replica shard = 2 ; 意味着一个索引，一共存在9个shard</p>
+</li>
+<li><p><strong>refresh频率（refresh_interval）</strong><br>  ES的定位是准实时搜索引擎，该值默认是1s，表示写入后1秒后可被搜索到，所以这里的值取决于业务对实时性的要求，注意这里并不是越小越好，刷新频率高也意味着对ES的开销也大，通常业务类型在1-5s，日志型在30s-120s，如果集中导入数据可将其设置为-1，ES会自动完成数据刷新（注意完成后更改回来，否则后续会出现搜索不到数据）</p>
+</li>
+<li><p><strong>使用别名（aliases）</strong>：不要过度依赖别名功能</p>
+</li>
+<li><p><strong>慢日志（slowlog）</strong></p>
+</li>
+<li><p><strong>设置合理的routing key(默认是id)</strong><br>  id不均衡：集群容量和访问不均衡，对于分布式存储是致命的</p>
+</li>
+<li><p><strong>关闭_all</strong><br>  ES6.0已经去掉，对容量（索引过大）和性能（性能下降）都有影响。    </p>
+</li>
+<li><p><strong>避免大宽表</strong><br>  ES默认最大1000，但建议不要超过100.    </p>
+</li>
+<li><p><strong>text类型的字段不要使用聚合查询。</strong><br>  <font color=red>text类型fileddata会加大对内存的占用，如果有需求使用，建议使用keyword</font></p>
+</li>
+<li><p><strong>聚合查询避免使用过多嵌套</strong><br>  <font color=red>聚合查询的中间结果和最终结果都会在内存中进行，嵌套过多，会导致内存耗尽</font></p>
+</li>
+<li><p><strong>修改index_buffer_size的设置</strong><br>  可以设置成百分数，也可设置成具体的大小，大小可根据集群的规模做不同的设置测试。<br>　　<code>indices.memory.index_buffer_size：10%（默认）</code><br>　　<code>indices.memory.min_index_buffer_size： 48mb（默认）</code><br>　　<code>indices.memory.max_index_buffer_size</code></p>
+</li>
+<li><p><strong>修改translog相关的设置</strong></p>
+<ul>
+<li>控制数据从内存到硬盘的操作频率，以减少硬盘IO。可将sync_interval的时间设置大一些。<br>　　      <code>index.translog.sync_interval：5s(默认)</code></li>
+<li>控制tranlog数据块的大小，达到threshold大小时，才会flush到lucene索引文件。<br>  <code>index.translog.flush_threshold_size：512mb(默认)    </code></li>
+</ul>
+</li>
+<li><p><strong>_id字段的使用</strong><br>  应尽可能避免自定义_id,以避免针对ID的版本管理；建议使用ES的默认ID生成策略或使用数字类型ID做为主键    </p>
+</li>
+<li><p><strong>Cache的设置及使用</strong></p>
+<ul>
+<li>QueryCache: ES查询的时候，使用filter查询会使用query cache,如果业务场景中的过滤查询比较多，建议将querycache设置大一些，以提高查询速度。<br><code>indices.queries.cache.size： 10%（默认）</code>，可设置成百分比，也可设置成具体值，如256mb。</li>
+</ul>
+<p>  当然也可以禁用查询缓存（默认是开启）, 通过<code>index.queries.cache.enabled：false</code>设置。</p>
+<ul>
+<li>FieldDataCache:在聚类或排序时，<code>field data cache</code>会使用频繁，因此，<strong>设置字段数据缓存的大小，在聚类或排序场景较多的情形下很有必要</strong><br>  可通过<code>indices.fielddata.cache.size：30%</code>或<code>具体值10GB</code>来设置。<strong>但是如果场景或数据变更比较频繁，设置cache并不是好的做法，因为缓存加载的开销也是特别大的。</strong></li>
+<li><strong>ShardRequestCache</strong><br>查询请求发起后，每个分片会将结果返回给协调节点(Coordinating Node),由协调节点将结果整合。<br>如果有需求，可以设置开启;通过设置<strong>index.requests.cache.enable: true</strong>来开启。<br>不过，<code>shard request cache</code>只缓存<code>hits.total</code>, <code>aggregations</code>, <code>suggestions</code>类型的数据，并不会缓存hits的内容。也可以通过设置<code>indices.requests.cache.size: 1%（默认）</code>来控制缓存空间大小。    </li>
+</ul>
+</li>
+</ul>
+<h2 id="字段设计规范"><a href="#字段设计规范" class="headerlink" title="字段设计规范"></a>字段设计规范</h2><ul>
+<li><p>text和keyword的用途必须分清：分词和关键词（确定字段是否需要分词）</p>
+</li>
+<li><p>确定字段是否需要独立存储</p>
+</li>
+<li><p>字段类型不支持修改，必须谨慎。</p>
+</li>
+<li><p>对不需要进行聚合/排序的字段禁用doc_values</p>
+</li>
+<li><p>不要在text做模糊搜索：</p>
+</li>
+</ul>
+<h2 id="违规操作"><a href="#违规操作" class="headerlink" title="违规操作"></a>违规操作</h2><ul>
+<li>原则：不要忽略设计，快就是慢，坏的索引设计后患无穷.</li>
+<li>拒绝大聚合 ：ES计算都在JVM内存中完成。</li>
+<li>拒绝模糊查询：es一大杀手</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;query&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;wildcard&quot;</span>:&#123;</span><br><span class="line">            <span class="attr">&quot;title.keyword&quot;</span>:<span class="string">&quot;*张三*&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>拒绝深度分页<br>  ES获取数据时，每次默认最多获取10000条，获取更多需要分页，但存在深度分页问题，<font color=red>一定不要使用from/Size方式，建议使用scroll或者searchAfter方式。</font> scroll会把上一次查询结果缓存一定时间（通过配置scroll=1m实现)，所以在使用scroll时一定要保证search结果集不要太大。</p>
+</li>
+<li><p>基数查询<br>尽量不要用基数查询去查询去重后的数据量大小（kibana中界面上显示是Unique Count，Distinct Count等），即少用如下的查询：</p>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;aggregations&quot;</span>: &#123;</span><br><span class="line">     <span class="attr">&quot;cardinality&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">&quot;field&quot;</span>: <span class="string">&quot;userId&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>禁止查询 indexName-*</li>
+<li>避免使用script、update_by_query、delete_by_query，对线上性能影响较大。</li>
+</ul>
+<h2 id="建议操作"><a href="#建议操作" class="headerlink" title="建议操作"></a>建议操作</h2><ul>
+<li><strong>复用预索引数据方式来提高AGG性能</strong><br>  如通过terms aggregations替代range aggregations， 如要根据年龄来分组，分组目标是:少年（14岁以下） 青年（14-28） 中年（29-50） 老年（51以上）， <font color=red>可以在索引的时候设置一个age_group字段，预先将数据进行分类</font>。从而不用按age来做range aggregations,通过age_group字段就可以了。</li>
+<li><strong>避免将不相关的数据放在同一个索引中，以避免稀疏，将这些文件放在不同的索引中往往更好。</strong></li>
+</ul>
+<h2 id="索引及字段命名规范"><a href="#索引及字段命名规范" class="headerlink" title="索引及字段命名规范"></a>索引及字段命名规范</h2><h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>索引受文件系统的限制。仅可能为小写字母，不能下划线开头。同时需遵守下列规则：</p>
+<ul>
+<li>不能包括 , /, *, ?, “, &lt;, &gt;, |, 空格, 逗号, #</li>
+<li>7.0版本之前可以使用冒号:,但不建议使用并在7.0版本之后不再支持</li>
+<li>不能以这些字符 -, _, + 开头</li>
+<li>不能包括 . 或 …</li>
+<li>长度不能超过 255 个字符</li>
+</ul>
+<p>以上这些命名限制是因为当Elasticsearch使用索引名称作为磁盘上的目录名称，这些名称必须符合不同操作系统的约定。<br>未来可能会放开这些限制，因为我们使用uuid关联索引放在磁盘上，而不使用索引名称</p>
+<h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><p><font color=red>7.0版本之后不再支持类型，默认为_doc</font></p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><ul>
+<li>一个索引的shard数一旦确定不能改变</li>
+<li>ES不支持事务ACID特性。</li>
+<li>reindex：reindex可以实现索引的shard变更，但代价非常大：速度慢、对性能有影响，所以好的设计和规划更重要</li>
+<li>field一旦创建不能更改mapping，如果需要修改，则必须重新创建索引</li>
+</ul>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.javajcw.com/72.html">Elasticsearch 使用规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/neweastsun/article/details/95868716">Elasticsearch索引及字段命名规范</a></li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#Elasticsearch" >
+    <span class="tag-code">Elasticsearch</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/wiki/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E7%AE%97%E6%B3%95-%E6%A0%91/">
+        <span class="nav-arrow">← </span>
+        
+          数据结构及算法-树
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/wiki/%E4%B8%80%E6%9D%A1sql%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/">
+        
+          一条sql是如何执行的
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- Utterances START -->
+      <div id="utterances"></div>
+      <script src="https://utteranc.es/client.js"
+        repo=""
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async></script>    
+      <!-- Utterances END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://example.com/wiki/Elasticsearch使用规范/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', '/css/images/error_icon.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== '/css/images/error_icon.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2021 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a target="_blank" rel="noopener" href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      hljs.configure({useBR: true});
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+
+<script src="/js/script.js"></script>
+
+
+  </body>
+</html>
