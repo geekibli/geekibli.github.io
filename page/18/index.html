@@ -168,6 +168,75 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">过滤和聚合</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          过滤和聚合聚合范围限定还有一个自然的扩展就是过滤。因为聚合是在查询结果范围内操作的，任何可以适用于查询的过滤器也可以应用在聚合上。
+过滤如果我们想找到售价在 $10,000 美元之上的所有汽车同时也为这些车计算平均售价， 可以简单地使用一个 constant_score 查询和 filter ...
+        
+      </div>
+      <a class="more" href="/wiki/%E8%BF%87%E6%BB%A4%E5%92%8C%E8%81%9A%E5%90%88/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">聚合 条形图</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          参考资料
+
+
+
+
+
+
+        
+      </div>
+      <a class="more" href="/wiki/%E8%81%9A%E5%90%88-%E6%9D%A1%E5%BD%A2%E5%9B%BE/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">嵌套桶</a>
+      </h2>
+      <p class="article-date">July 8, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          两层嵌套在我们使用不同的嵌套方案时，聚合的力量才能真正得以显现。 在前例中，我们已经看到如何将一个度量嵌入桶中，它的功能已经十分强大了。
+但真正令人激动的分析来自于将桶嵌套进 另外一个桶 所能得到的结果。 现在，我们想知道每个颜色的汽车制造商的分布：
+GET /cars/transactio ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%B5%8C%E5%A5%97%E6%A1%B6/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/%E8%81%9A%E5%90%88-%E9%AB%98%E7%BA%A7%E6%A6%82%E5%BF%B5/">聚合 高级概念</a>
       </h2>
       <p class="article-date">July 8, 2021</p>
@@ -343,75 +412,6 @@ Flink 在小红书推荐系统中的应用
         
       </div>
       <a class="more" href="/wiki/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-Overview/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">flink 提交任务</a>
-      </h2>
-      <p class="article-date">July 6, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          下面演示如何通过admin页面提交任务 👇
-准备task jar1234567891011121314151617181920public class StreamWordCount &#123;      public static void main(String[] args) th ...
-        
-      </div>
-      <a class="more" href="/wiki/flink-%E6%8F%90%E4%BA%A4%E4%BB%BB%E5%8A%A1/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/apache-flink-overview/">apache-flink-overview</a>
-      </h2>
-      <p class="article-date">July 6, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-
-学习初衷推荐系统数据需要实时处理，使用Apache Flink实时计算用户数据，分析用户行为，达到实时业务数据分析和实现业务相关推荐；
-学习资料
-ashiamd.github.io
-尚硅谷2021最新Java版Flink 武老师清华硕士，原IBM-CDL负责人
-Apache Flink® ...
-        
-      </div>
-      <a class="more" href="/wiki/apache-flink-overview/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">most_fields类型</a>
-      </h2>
-      <p class="article-date">July 6, 2021</p>
-      
-        
-  <a href="/tags#elasticsearch" >
-    <span class="tag-code">elasticsearch</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          多字段映射首先要做的事情就是对我们的字段索引两次：一次使用词干模式以及一次非词干模式。为了做到这点，采用 multifields 来实现，已经在 multifields 有所介绍：
-DELETE /my_index  
-1234567891011121314151617181920PUT / ...
-        
-      </div>
-      <a class="more" href="/wiki/most-fields%E7%B1%BB%E5%9E%8B/">Read more</a>
     </article>
   
 

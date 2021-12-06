@@ -168,6 +168,78 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">elasticsearch映射</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Elasticsearch 支持如下简单域类型：
+
+字符串: string （es7之后编程text）
+整数 : byte, short, integer, long
+浮点数: float, double
+布尔型: boolean
+日期: date
+
+查看索引的mappingGET /gb/ ...
+        
+      </div>
+      <a class="more" href="/wiki/elasticsearch%E6%98%A0%E5%B0%84/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">分析与分析器</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          分析包含下面的过程：
+首先，将一块文本分成适合于倒排索引的独立的 词条 ，之后，将这些词条统一化为标准格式以提高它们的“可搜索性”，或者 recall分析器执行上面的工作。 分析器 实际上是将三个功能封装到了一个包里：
+字符过滤器首先，字符串按顺序通过每个 字符过滤器 。他们的任务是在分词前 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%88%86%E6%9E%90%E4%B8%8E%E5%88%86%E6%9E%90%E5%99%A8/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">倒排索引</a>
+      </h2>
+      <p class="article-date">July 5, 2021</p>
+      
+        
+  <a href="/tags#elasticsearch" >
+    <span class="tag-code">elasticsearch</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Elasticsearch 使用一种称为 倒排索引 的结构，它适用于快速的全文搜索。一个倒排索引由文档中所有不重复词的列表构成，对于其中每个词，有一个包含它的文档列表。  
+例如，假设我们有两个文档，每个文档的 content 域包含如下内容：  
+The quick brown fox j ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/elasticsearch%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">elasticsearch分页查询</a>
       </h2>
       <p class="article-date">July 5, 2021</p>
@@ -311,73 +383,6 @@ path.data 和 path.logscluster.namenode.namebootstrap.memory_locknetwork.hostdis
         
       </div>
       <a class="more" href="/wiki/binlog%E9%85%8D%E7%BD%AE/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">mysql常用命令</a>
-      </h2>
-      <p class="article-date">July 5, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          binlog相关命令mysql&gt; show variables like &#39;binlog_format&#39;;
-12345+---------------+-------+| Variable_name | Value |+---------------+-------+| ...
-        
-      </div>
-      <a class="more" href="/wiki/mysql%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">flink简单上手</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          mac 安装 flink1、执行 brew install apache-flink 命令
-123456789gaolei:/ gaolei$ brew install apache-flinkUpdating Homebrew...==&gt; Auto-updated Homebrew! ...
-        
-      </div>
-      <a class="more" href="/wiki/flink%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/flink%E7%AE%80%E4%BB%8B/">Apache Flink</a>
-      </h2>
-      <p class="article-date">July 4, 2021</p>
-      
-        
-  <a href="/tags#Apache Flink" >
-    <span class="tag-code">Apache Flink</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          
-
-
-官方地址请戳👉 【传送】 
-
-Apache Flink is a framework and distributed processing engine for stateful computations over unbounded and bounded data streams ...
-        
-      </div>
-      <a class="more" href="/wiki/flink%E7%AE%80%E4%BB%8B/">Read more</a>
     </article>
   
 

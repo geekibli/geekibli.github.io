@@ -168,6 +168,70 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/%E4%B8%80%E6%9D%A1%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/">一条更新语句是如何执行的</a>
+      </h2>
+      <p class="article-date">December 6, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          一条更新语句是如何执行的前面我们系统了解了一个查询语句的执行流程，并介绍了执行过程中涉及的处理模块。相信你还 记得，一条查询语句的执行过程一般是经过连接器、分析器、优化器、执行器等功能模块，最后 到达存储引擎。
+那么，一条更新语句的执行流程又是怎样的呢?
+之前你可能经常听DBA同事说，MyS ...
+        
+      </div>
+      <a class="more" href="/wiki/%E4%B8%80%E6%9D%A1%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">事务隔离：为什么你改了我还看不见</a>
+      </h2>
+      <p class="article-date">December 6, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          事务隔离：为什么你改了我还看不见提到事务，你肯定不陌生，和数据库打交道的时候，我们总是会用到事务。最经典的例子就是转 账，你要给朋友小王转100块钱，而此时你的银行卡只有100块钱。
+转账过程具体到程序里会有一系列的操作，比如查询余额、做加减法、更新余额等，这些操作必 须保证是一体的，不然等 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/%E5%85%A8%E5%B1%80%E9%94%81%E5%92%8C%E8%A1%A8%E9%94%81/">全局锁和表锁：给表加个字段怎么这么多阻碍</a>
+      </h2>
+      <p class="article-date">December 6, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          全局锁和表锁：给表加个字段怎么这么多阻碍今天我要跟你聊聊MySQL的锁。数据库锁设计的初衷是处理并发问题。作为多用户共享的资 源，当出现并发访问的时候，数据库需要合理地控制资源的访问规则。而锁就是用来实现这些访问规则的重要数据结构。
+根据加锁的范围，MySQL里面的锁大致可以分成全局锁、表级 ...
+        
+      </div>
+      <a class="more" href="/wiki/%E5%85%A8%E5%B1%80%E9%94%81%E5%92%8C%E8%A1%A8%E9%94%81/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/%E4%B8%80%E6%9D%A1sql%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84/">一条sql是如何执行的</a>
       </h2>
       <p class="article-date">December 6, 2021</p>
@@ -313,86 +377,6 @@ Redis基础篇（二）高性能IO模型
         
       </div>
       <a class="more" href="/wiki/Redis-%E9%AB%98%E6%80%A7%E8%83%BDIO%E6%A8%A1%E5%9E%8B/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E5%92%8C%E6%80%9D%E6%83%B3/">基础算法分类和思想</a>
-      </h2>
-      <p class="article-date">September 15, 2021</p>
-      
-        
-  <a href="/tags#算法" >
-    <span class="tag-code">算法</span>
-  </a>
-
-  <a href="/tags#数据结构" >
-    <span class="tag-code">数据结构</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          常见的算法解题思路以及模版回溯算法可以参照下面👇文章：回溯算法套路详解  
-练习题库都是回溯算法的题目：👇https://leetcode-cn.com/tag/backtracking/problemset/  
-整理的比较不错的资源📖labuladong 的算法小抄  
-  
-整体 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E5%92%8C%E6%80%9D%E6%83%B3/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E7%90%86%E8%A7%A3ClassNotFoundException%E4%B8%8ENoClassDefFoundError%E7%9A%84%E5%8C%BA%E5%88%AB/">理解ClassNotFoundException与NoClassDefFoundError的区别</a>
-      </h2>
-      <p class="article-date">September 15, 2021</p>
-      
-        
-  <a href="/tags#JAVA" >
-    <span class="tag-code">JAVA</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          ClassNotFoundException类加载时在指定路径下没有找到类文件
-NoClassDefFoundError1、编译时存在某个类，但是运行时却找不到
-
-编译完成之后，手动删除一个类的class文件
-
-2、类根本就没有初始化成功，结果你还把它当做正常类使用，所以这事也不小，必须抛出 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E7%90%86%E8%A7%A3ClassNotFoundException%E4%B8%8ENoClassDefFoundError%E7%9A%84%E5%8C%BA%E5%88%AB/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Redis实现分布式锁</a>
-      </h2>
-      <p class="article-date">September 15, 2021</p>
-      
-        
-  <a href="/tags#Redis" >
-    <span class="tag-code">Redis</span>
-  </a>
-
-  <a href="/tags#分布式" >
-    <span class="tag-code">分布式</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          Redis实现分布式锁的种种细节1、redis分布式锁直接使用 setNx 获取锁🔒，del key 释放锁
-会造成 「 死锁 」的问题，获取锁的线程没有释放锁，进程死掉了，其他进程永远无法获取锁
-2、给锁对应的key添加过期时间不就可以解决死锁的问题了吗？
-127.0.0.1:6379& ...
-        
-      </div>
-      <a class="more" href="/wiki/Redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">Read more</a>
     </article>
   
 

@@ -168,6 +168,77 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">mybatis-工作原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#mybatis" >
+    <span class="tag-code">mybatis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Mybatis工作原理Mybatis整体框架  
+工作原理解析  
+1）读取MyBatis配置文件：mybatis-config.xml 为 MyBatis 的全局配置文件，配置了 MyBatis 的运行环境等信息，例如数据库连接信息。
+
+读取配置文件将mybatis-config.xml转 ...
+        
+      </div>
+      <a class="more" href="/wiki/mybatis-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/">Redis-缓存穿透、击穿和雪崩</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          缓存击穿，穿透和雪崩背景首先说一下为什么会写这片文章，因为这个对我来说是印象非常深刻的，那是还在实习的时候，当时接了一个任务（其实就是练手的），大致需求是写一个白名单，然后有一个功能对白名单开放。因为是新功能，需要在部分地区试点，如果没有问题才会放开到全国城市运行。就是这么一个小的功能，让当 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E5%92%8C%E9%9B%AA%E5%B4%A9/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Redis-字符串底层原理</a>
+      </h2>
+      <p class="article-date">July 28, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          Redis底层实现及原理  
+关键词
+SDS embstr 二进制安全 空间预分配
+
+String类型不同的编码方式
+使用整数存储： 只对长度小于或等于 21 字节，并且可以被解释为整数的字符串进行编码
+使用EMBSTR 编码： 尝试将 RAW 编码的字符串编码为 EMBSTR 编码，
+使用 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Redis-overview/">Redis-overview</a>
       </h2>
       <p class="article-date">July 28, 2021</p>
@@ -321,79 +392,6 @@ docker-compose  配置文件123456789mongo:    image: mongo:4.4.7 #根据需要�
         
       </div>
       <a class="more" href="/wiki/docker-compost%E5%AE%89%E8%A3%85mongodb/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E5%9F%BA%E4%BA%8EBIO%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">基于BIO实现简易tomcat</a>
-      </h2>
-      <p class="article-date">July 28, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          基于传统的BIO手写一个简易Tomcat本文主要基于传统的BIO来实现一个简单的Http请求处理过程；1、Servlet请求无非就是doGet/doPost，所以我们定义抽象Servlet记忆GET/POST方法；2、基于Socket和ServerSocket实现CS通信；3、模拟Sprin ...
-        
-      </div>
-      <a class="more" href="/wiki/%E5%9F%BA%E4%BA%8EBIO%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">netty实现简易RPC调用</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          基于Netty手写一个RPC简易远程调用    
-抽象协议12345678910111213141516171819202122@Datapublic class InvokerProtocol implements Serializable &#123;    // 基于二进制流调用协议  ...
-        
-      </div>
-      <a class="more" href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93RPC%E8%B0%83%E7%94%A8/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">netty实现简易tomcat</a>
-      </h2>
-      <p class="article-date">July 27, 2021</p>
-      
-        
-  <a href="/tags#Java" >
-    <span class="tag-code">Java</span>
-  </a>
-
-  <a href="/tags#IO" >
-    <span class="tag-code">IO</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          基于Netty手写一个简易的Tomcat容器本文主要基于传统的BIO来实现一个简单的Http请求处理过程；1、Servlet请求无非就是doGet/doPost，所以我们定义抽象Servlet记忆GET/POST方法；2、基于Netty API实现CS通信；3、模拟Spring加载配置文件， ...
-        
-      </div>
-      <a class="more" href="/wiki/netty%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93tomcat/">Read more</a>
     </article>
   
 

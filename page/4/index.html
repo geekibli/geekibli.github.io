@@ -168,6 +168,64 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/Redis-%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/">Redis-过期策略和内存淘汰策略</a>
+      </h2>
+      <p class="article-date">August 30, 2021</p>
+      
+        
+  <a href="/tags#Redis" >
+    <span class="tag-code">Redis</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          过期策略和内存淘汰策略我们在set key的时候，可以给它设置一个过期时间，比如expire key 60。指定这key60s后过期，60s后，redis是如何处理的嘛？我们先来介绍几种过期策略：
+1. 过期策略1.1 定时过期每个设置过期时间的key都需要创建一个定时器，到过期时间就会立即 ...
+        
+      </div>
+      <a class="more" href="/wiki/Redis-%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/MySQL-ShardingJDBC%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%AE%9E%E6%88%98/">MySQL-ShardingJDBC分库分表实战</a>
+      </h2>
+      <p class="article-date">August 27, 2021</p>
+      
+      <div class="article-summary">
+        
+          分库分表Demo项目地址 https://github.com/geekibli/sharding-demos/
+Springboot + Sharding jdbcmaven依赖12345678910111213141516171819202122232425262728293031323 ...
+        
+      </div>
+      <a class="more" href="/wiki/MySQL-ShardingJDBC%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%AE%9E%E6%88%98/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/MySQL-%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%AE%9E%E7%8E%B0/">MySQL-主从同步原理以及实现</a>
+      </h2>
+      <p class="article-date">August 27, 2021</p>
+      
+        
+  <a href="/tags#MySQL" >
+    <span class="tag-code">MySQL</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          主从复制的原理我们在平时工作中，使用最多的数据库就是 MySQL 了，随着业务的增加，如果单单靠一台服务器的话，负载过重，就容易造成宕机。
+这样我们保存在 MySQL 数据库的数据就会丢失，那么该怎么解决呢？
+其实在 MySQL 本身就自带有一个主从复制的功能，可以帮助我们实现负载均衡和读写 ...
+        
+      </div>
+      <a class="more" href="/wiki/MySQL-%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E5%AE%9E%E7%8E%B0/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/Docker%E5%AE%89%E8%A3%85MySQL/">Docker安装MySQL</a>
       </h2>
       <p class="article-date">August 27, 2021</p>
@@ -335,83 +393,6 @@ InnoDB On-Disk  ...
         
       </div>
       <a class="more" href="/wiki/MySQL-%E7%B4%A2%E5%BC%95/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">MySQL-存储引擎</a>
-      </h2>
-      <p class="article-date">August 25, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          存储引擎MySQL支持很多种存储引擎 👇
-
-
- 有一个面试题：存储引擎是数据库级别的还是数据表级别的？
-看上图应该就知道了吧！ 数据表级别的
-InnoDBInnoDB 是 MySQL 默认的事务型存储引擎，只要在需要它不支持的特性时，才考虑使用其他存储引擎。
-InnoDB 采用 MVCC  ...
-        
-      </div>
-      <a class="more" href="/wiki/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/MySQL%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/">MySQL系列合集</a>
-      </h2>
-      <p class="article-date">August 25, 2021</p>
-      
-        
-  <a href="/tags#MySQL" >
-    <span class="tag-code">MySQL</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          技术目录MySQL基础知识
-MySQL系统架构
-QueryCache是什么，为什么MySQL8废弃了？
-MySQL支持的存储引擎（InnoDB&amp;MyISAM）
-InnoDB底层结构以及原理
-MySQL事务级别以及实现原理
-MySQL性能调优
-SQL调优总结
-MySQL支持的索引
-My ...
-        
-      </div>
-      <a class="more" href="/wiki/MySQL%E7%B3%BB%E5%88%97%E5%90%88%E9%9B%86/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/Redis-Key%E8%BF%87%E6%9C%9F%E7%9B%91%E5%90%AC%E5%99%A8/">Redis-Key过期监听器</a>
-      </h2>
-      <p class="article-date">August 25, 2021</p>
-      
-        
-  <a href="/tags#Redis" >
-    <span class="tag-code">Redis</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          背景有一个需求，我在某平台发布了一片文章，需要判断这片文章在发布之后，10min，30min，1h，3h，1d，3d时间点的点赞数量和关注数量，但是呢，平台没有提供信息统计的功能，那么只能我定期去查看。
-那么如何实现这个功能或者需求呢？
-当时首先想到的是定时任务轮训，这种方式其实比较简单，就 ...
-        
-      </div>
-      <a class="more" href="/wiki/Redis-Key%E8%BF%87%E6%9C%9F%E7%9B%91%E5%90%AC%E5%99%A8/">Read more</a>
     </article>
   
 
