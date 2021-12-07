@@ -168,6 +168,80 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">TCP-拥塞控制之慢启动</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          由于TCP是面向字节流的传输协议，可以发送不定长的字节流数据，TCP连接发送数据时会“先天性”尝试占用整个带宽，而当所有的TCP连接都尝试占用网络带宽时，就会造成网络的堵塞，而TCP慢启动算法则是为了解决这一场景；
+全局思考
+
+拥塞控制要面向整体思考，如上👆网络拓扑图，当左边的网络节点通过 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E4%B9%8B%E6%85%A2%E5%90%AF%E5%8A%A8/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">TCP-如何减少小报文提升网络效率</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          如何减少小报文提升网络效率每一个TCP报文段都包含20字节的IP头部和20字节的TCP首部，如果报文段的数据部分很少的话，网络效率会很差；
+SWS(Silly Window syndrome) 糊涂窗口综合症
+
+如上图👆所示场景，在之前的滑动窗口已经了解过，随着服务端处理连接数据能力越来越 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%B0%8F%E6%8A%A5%E6%96%87%E6%8F%90%E5%8D%87%E7%BD%91%E7%BB%9C%E6%95%88%E7%8E%87/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
+        <a href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">TCP-滑动窗口</a>
+      </h2>
+      <p class="article-date">July 4, 2021</p>
+      
+        
+  <a href="/tags#TCP" >
+    <span class="tag-code">TCP</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          滑动窗口
+之前学习了PAR方式的TCP超时和重传，其实在考虑发送方发送数据报的同时，也应该考虑接收方对于数据的处理能力，由此引出本次学习的主题 – 滑动窗口
+
+发送端窗口滑动窗口按照传输数据方向分为两种，发送端窗口和接收端窗口；下面先看一下发送端窗口👇：
+
+
+上图分为四个部分：
+
+已发送并 ...
+        
+      </div>
+      <a class="more" href="/wiki/TCP-%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/wiki/TCP-RTO%E9%87%8D%E4%BC%A0%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E8%AE%A1%E7%AE%97/">TCP-RTO重传计数器的计算</a>
       </h2>
       <p class="article-date">July 4, 2021</p>
@@ -334,68 +408,6 @@ t ...
         
       </div>
       <a class="more" href="/wiki/index/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">面试知识点总结</a>
-      </h2>
-      <p class="article-date">January 27, 2021</p>
-      
-        
-  <a href="/tags#面试" >
-    <span class="tag-code">面试</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          个人整理后端面试体系基础篇1、Java语言基础1.1 Java语言特性（继承 封装 多态 抽象）1.2 基本数据类型以及线程安全问题（double、long）1.3 接口、抽象类、普通类1.4 重要关键字 static 和 final1.5 异常和错误1.6 泛型1.7 异常1.8 线程安全 ...
-        
-      </div>
-      <a class="more" href="/wiki/%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-Spring/">2021年后端大厂-Spring</a>
-      </h2>
-      <p class="article-date">January 9, 2021</p>
-      
-        
-  <a href="/tags#面试题" >
-    <span class="tag-code">面试题</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          spring支持几种bean scope？Spring bean 支持 5 种 scope： 
-Singleton - 每个 Spring IoC 容器仅有一个单实例。
-Prototype - 每次请求都会产生一个新的实例。
-Request - 每一次 HTTP 请求都会产生一个新的实例，并 ...
-        
-      </div>
-      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82-Spring/">Read more</a>
-    </article>
-  
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E5%90%88%E9%9B%86/">2021年后端大厂面试题合集</a>
-      </h2>
-      <p class="article-date">January 7, 2021</p>
-      
-      <div class="article-summary">
-        
-          
-记录2021年各互联网大厂面试问题以及答案链接，达到快速复习效果
-
-面试题合集《我们一起进大厂》https://aobing.blog.csdn.net/category_9424379.html
-1、Spring面试题1、Spring启动流程
-https://aobing.blog.cs ...
-        
-      </div>
-      <a class="more" href="/wiki/2021%E5%B9%B4%E5%90%8E%E7%AB%AF%E5%A4%A7%E5%8E%82%E9%9D%A2%E8%AF%95%E9%A2%98%E5%90%88%E9%9B%86/">Read more</a>
     </article>
   
 

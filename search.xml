@@ -11303,4 +11303,351 @@ https://juejin.cn/post/6885159254764814349
         <tag>MySQL</tag>
       </tags>
   </entry>
+  <entry>
+    <title>MySQL为什么有时会选错索引</title>
+    <url>/wiki/MySQL%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E6%97%B6%E4%BC%9A%E9%80%89%E9%94%99%E7%B4%A2%E5%BC%95/</url>
+    <content><![CDATA[<h1 id="MySQL为什么有时会选错索引"><a href="#MySQL为什么有时会选错索引" class="headerlink" title="MySQL为什么有时会选错索引"></a>MySQL为什么有时会选错索引</h1><p>前面我们介绍过索引，你已经知道了在MySQL中一张表其实是可以支持多个索引的。但是，你 写SQL语句的时候，并没有主动指定使用哪个索引。也就是说，使用哪个索引是由MySQL来确 定的。</p>
+<p>不知道你有没有碰到过这种情况，一条本来可以执行得很快的语句，却由于MySQL选错了索 引，而导致执行速度变得很慢?</p>
+<p>我们一起来看一个例子吧。 我们先建一个简单的表，表里有a、b两个字段，并分别建上索引:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE TABLE `t` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `a` int(11) DEFAULT NULL,</span><br><span class="line">  `b` int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `a` (`a`),</span><br><span class="line">  KEY `b` (`b`)</span><br><span class="line">) ENGINE=InnoDB;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们往表t中插入10万行记录，取值按整数递增，即:(1,1,1)，(2,2,2)，(3,3,3) 直到 (100000,100000,100000)。</p>
+<p>我是用存储过程来插入数据的，这里我贴出来方便你复现:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">delimiter ;;</span><br><span class="line">create procedure idata()</span><br><span class="line">begin</span><br><span class="line">  declare i int;</span><br><span class="line">  set i=1;</span><br><span class="line">  while(i&lt;=100000)do</span><br><span class="line">    insert into t values(i, i, i);</span><br><span class="line">    set i=i+1;</span><br><span class="line">  end while;</span><br><span class="line">end;;</span><br><span class="line">delimiter ;</span><br><span class="line">call idata();</span><br></pre></td></tr></table></figure>
+
+<p>接下来，我们分析一条SQL语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; select * from t where a between 10000 and 20000;</span><br></pre></td></tr></table></figure>
+
+<p>你一定会说，这个语句还用分析吗，很简单呀，a上有索引，肯定是要使用索引a的。 你说得没错，图1显示的就是使用explain命令看到的这条语句的执行情况。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-45dfccea9790939067fb35e26f7155fce11.png"></p>
+<p>从图1看上去，这条查询语句的执行也确实符合预期，key这个字段值是’a’，表示优化器选择了索</p>
+<p>引a。</p>
+<p>不过别急，这个案例不会这么简单。在我们已经准备好的包含了10万行数据的表上，我们再做 如下操作。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-8a91fd7aff5e63d7798db49127b6d2fd6fd.png"></p>
+<p>这里，session A的操作你已经很熟悉了，它就是开启了一个事务。随后，session B把数据都删</p>
+<p>除后，又调用了 idata这个存储过程，插入了10万行数据。</p>
+<p>这时候，session B的查询语句select * from t where a between 10000 and 20000就不会再选择索引a了。我们可以通过慢查询日志(slow log)来查看一下具体的执行情况。</p>
+<p>为了说明优化器选择的结果是否正确，我增加了一个对照，即:使用force index(a)来让优化器强</p>
+<p>制使用索引a(这部分内容，我还会在这篇文章的后半部分中提到)。 下面的三条SQL语句，就是这个实验过程。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set long_query_time=0;</span><br><span class="line">select * from t where a between 10000 and 20000; /*Q1*/</span><br><span class="line">select * from t force index(a) where a between 10000 and 20000;/*Q2*/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一句，是将慢查询日志的阈值设置为0，表示这个线程接下来的语句都会被记录入慢查询日 志中;</li>
+<li> 第二句，Q1是session B原来的查询;</li>
+<li> 第三句，Q2是加了force index(a)来和session B原来的查询语句执行情况对比。</li>
+</ul>
+<p>如图3所示是这三条SQL语句执行完成后的慢查询日志。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-6d0b7f98193f539ed902b463d2660b305b6.png"></p>
+<p>可以看到，Q1扫描了10万行，显然是走了全表扫描，执行时间是40毫秒。Q2扫描了10001行，</p>
+<p>执行了21毫秒。也就是说，我们在没有使用force index的时候，MySQL用错了索引，导致了更长的执行时间。</p>
+<p>这个例子对应的是我们平常不断地删除历史数据和新增数据的场景。这时，MySQL竟然会选错索引，是不是有点奇怪呢?今天，我们就从这个奇怪的结果说起吧。</p>
+<h2 id="优化器的逻辑"><a href="#优化器的逻辑" class="headerlink" title="优化器的逻辑"></a>优化器的逻辑</h2><p>在第一篇文章中，我们就提到过，选择索引是优化器的工作。</p>
+<p>而优化器选择索引的目的，是找到一个最优的执行方案，并用最小的代价去执行语句。在数据库里面，<strong>扫描行数是影响执行代价的因素之一</strong>。扫描的行数越少，意味着访问磁盘数据的次数越 少，消耗的CPU资源越少。</p>
+<p>当然，扫描行数并不是唯一的判断标准，<strong>优化器还会结合是否使用临时表、是否排序等因素进行综合判断。</strong></p>
+<p>我们这个简单的查询语句并没有涉及到临时表和排序，所以MySQL选错索引肯定是在判断扫描行数的时候出问题了。</p>
+<h3 id="那么，问题就是-扫描行数是怎么判断的"><a href="#那么，问题就是-扫描行数是怎么判断的" class="headerlink" title="那么，问题就是:扫描行数是怎么判断的?"></a><font color=red>那么，问题就是:扫描行数是怎么判断的?</font></h3><p> MySQL在真正开始执行语句之前，并不能精确地知道满足这个条件的记录有多少条，而只能根据统计信息来估算记录数。</p>
+<p>这个统计信息就是索引的“区分度”。显然，一个索引上不同的值越多，这个索引的区分度就越好。</p>
+<p>而一个索引上不同的值的个数，我们称之为“基数”(cardinality)。也就是说，这个基数越 大，索引的区分度越好。</p>
+<p>我们可以使用<code>show index</code>方法，看到一个索引的基数。</p>
+<p>如图4所示，就是表t的show index 的结果 。虽然这个表的每一行的三个字段值都是一样的，但是在统计信息中，这三个索引的基数值并不 同，而且其实都不准确。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-6cf5345e7c9034a3953e7f1b4227f4cc8cc.png"></p>
+<h3 id="那么，MySQL是怎样得到索引的基数的呢"><a href="#那么，MySQL是怎样得到索引的基数的呢" class="headerlink" title="那么，MySQL是怎样得到索引的基数的呢?"></a><strong>那么，MySQL是怎样得到索引的基数的呢?</strong></h3><p>这里，我给你简单介绍一下MySQL采样统计的方法。 为什么要采样统计呢?  因为把整张表取出来一行行统计，虽然可以得到精确的结果，但是代价太</p>
+<p>高了，所以只能选择“采样统计”。 采样统计的时候，InnoDB默认会选择N个数据页，统计这些页面上的不同值，得到一个平均值，然后乘以这个索引的页面数，就得到了这个索引的基数。</p>
+<p>而数据表是会持续更新的，索引统计信息也不会固定不变。所以，当变更的数据行数超过1/M的 时候，会自动触发重新做一次索引统计。</p>
+<p>在MySQL中，有两种存储索引统计的方式，可以通过设置参数innodb_stats_persistent的值来选择:</p>
+<ul>
+<li>设置为on的时候，表示统计信息会持久化存储。这时，默认的N是20，M是10。 </li>
+<li>设置为off的时候，表示统计信息只存储在内存中。这时，默认的N是8，M是16。</li>
+</ul>
+<p>由于是采样统计，所以不管N是20还是8，这个基数都是很容易不准的。 但，这还不是全部。</p>
+<p>你可以从图4中看到，这次的索引统计值(cardinality列)虽然不够精确，但大体上还是差不多 的，选错索引一定还有别的原因。</p>
+<p>其实索引统计只是一个输入，对于一个具体的语句来说，优化器还要判断，执行这个语句本身要 扫描多少行。</p>
+<p>接下来，我们再一起看看优化器预估的，这两个语句的扫描行数是多少。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-5ef0aee057f2071d38388ec66b71d8f2b01.png"></p>
+<p>rows这个字段表示的是预计扫描行数。</p>
+<p>其中，Q1的结果还是符合预期的，rows的值是104620;但是Q2的rows值是37116，偏差就大了。而图1中我们用explain命令看到的rows是只有10001行，是这个偏差误导了优化器的判断。</p>
+<p>到这里，可能你的第一个疑问不是为什么不准，而是优化器为什么放着扫描37000行的执行计划不用，却选择了扫描行数是100000的执行计划呢?</p>
+<p>这是因为，如果使用索引a，每次从索引a上拿到一个值，都要回到主键索引上查出整行数据， 这个代价优化器也要算进去的。</p>
+<p>而如果选择扫描10万行，是直接在主键索引上扫描的，没有额外的代价。 优化器会估算这两个选择的代价，从结果看来，优化器认为直接扫描主键索引更快。当然，从执行时间看来，这个选择并不是最优的。 </p>
+<blockquote>
+<p><strong>使用普通索引需要把回表的代价算进去</strong></p>
+</blockquote>
+<p>在图1执行explain的时候，也考虑了这个策略的代价 ，但图1的选择是对的。也就是说，这个策略并没有问题。 所以冤有头债有主，MySQL选错索引，这件事儿</p>
+<p>还得归咎到没能准确地判断出扫描行数。</p>
+<p>既然是统计信息不对，那就修正。<code>analyze table t</code> 命令，可以用来重新统计索引信息。</p>
+<p>我们来看 一下执行效果。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-770cd142953256e165de08dd8f0e5c2fa3b.png"></p>
+<p>所以在实践中，如果你发现explain的结果预估的rows值跟实际情况差距比较大，可以采用这个 方法来处理。</p>
+<p>其实，如果只是索引统计不准确，通过analyze命令可以解决很多问题，但是前面我们说了，优 化器可不止是看扫描行数。</p>
+<p>依然是基于这个表t，我们看看另外一个语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; select * from t where (a between 1 and 1000)  and (b between 50000 and 100000) order by b limit 1</span><br></pre></td></tr></table></figure>
+
+<p>从条件上看，这个查询没有符合条件的记录，因此会返回空集合。 在开始执行这条语句之前，你可以先设想一下，如果你来选择索引，会选择哪一个呢? </p>
+<p>为了便于分析，我们先来看一下a、b这两个索引的结构图。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-6988e9b1a37bda5f715216d0131f2face47.png"></p>
+<p>如果使用索引a进行查询，那么就是扫描索引a的前1000个值，然后取到对应的id，再到主键索</p>
+<p>引上去查出每一行，然后根据字段b来过滤。显然这样需要扫描1000行。 如果使用索引b进行查询，那么就是扫描索引b的最后50001个值，与上面的执行过程相同，也是</p>
+<p>需要回到主键索引上取值再判断，所以需要扫描50001行。</p>
+<p>所以你一定会想，如果使用索引a的话，执行速度明显会快很多。那么，下面我们就来看看到底 是不是这么一回事儿。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-bbcf622b5cb93c997f77d3bd2c25cc9796a.png"></p>
+<p>可以看到，返回结果中key字段显示，这次优化器选择了索引b，而rows字段显示需要扫描的行</p>
+<p>数是50198。 从这个结果中，你可以得到两个结论:</p>
+<ul>
+<li>扫描行数的估计值依然不准确;</li>
+<li>这个例子里MySQL又选错了索引</li>
+</ul>
+<h2 id="索引选择异常和处理"><a href="#索引选择异常和处理" class="headerlink" title="索引选择异常和处理"></a>索引选择异常和处理</h2><p>其实大多数时候优化器都能找到正确的索引，但偶尔你还是会碰到我们上面举例的这两种情况: 原本可以执行得很快的SQL语句，执行速度却比你预期的慢很多，你应该怎么办呢?</p>
+<p>一种方法是，像我们第一个例子一样，采用force index强行选择一个索引。MySQL会根据 词法解析的结果分析出可能可以使用的索引作为候选项，然后在候选列表中依次判断每个索引需 要扫描多少行。如果force index指定的索引在候选索引列表中，就直接选择这个索引，不再评估 其他索引的执行代价。</p>
+<p>我们来看看第二个例子。刚开始分析时，我们认为选择索引a会更好。现在，我们就来看看执行 效果:</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-2953174a3c3cf4fdc4d9c8f2a8975a904cd.png"></p>
+<p>可以看到，原本语句需要执行2.23秒，而当你使用force index(a)的时候，只用了0.05秒，比优化</p>
+<p>器的选择快了40多倍。<br> 也就是说，优化器没有选择正确的索引，force index起到了“矫正”的作用。 不过很多程序员不喜欢使用force index，一来这么写不优美，二来如果索引改了名字，这个语句也得改，显得很麻烦。而且如果以后迁移到别的数据库的话，这个语法还可能会不兼容。</p>
+<blockquote>
+<p>但其实使用force index最主要的问题还是变更的及时性。因为选错索引的情况还是比较少出现 的，所以开发的时候通常不会先写上force index。而是等到线上出现问题的时候，你才会再去修 改SQL语句、加上force index。但是修改之后还要测试和发布，对于生产系统来说，这个过程不够敏捷。</p>
+</blockquote>
+<p>所以，数据库的问题最好还是在数据库内部来解决。那么，在数据库里面该怎样解决呢?</p>
+<p>既然优化器放弃了使用索引a，说明a还不够合适，所以第二种方法就是，我们可以考虑修改 语句，引导MySQL使用我们期望的索引。比如，在这个例子里，显然把“orderbyblimit1”改 成 “order by b,a limit 1” ，语义的逻辑是相同的。</p>
+<p>我们来看看改之后的效果:</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-697b792f8cd9e11b702ee9c5d2b8362f152.png"></p>
+<p>之前优化器选择使用索引b，是因为它认为使用索引b可以避免排序(b本身是索引，已经是有序</p>
+<p>的了，如果选择索引b的话，不需要再做排序，只需要遍历)，所以即使扫描行数多，也判定为 代价更小。</p>
+<p>现在order by b,a 这种写法，要求按照b,a排序，就意味着使用这两个索引都需要排序。因此，扫 描行数成了影响决策的主要条件，于是此时优化器选了只需要扫描1000行的索引a。</p>
+<p>当然，这种修改并不是通用的优化手段，只是刚好在这个语句里面有limit 1，因此如果有满足条 件的记录， order by b limit 1和order by b,a limit 1 都会返回b是最小的那一行，逻辑上一致，才 可以这么做。</p>
+<p>如果你觉得修改语义这件事儿不太好，这里还有一种改法，图11是执行效果。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-bb1eee544d4ffe4a4dd3a74e15f4aa08538.png"></p>
+<p>在这个例子里，我们用limit 100让优化器意识到，使用b索引代价是很高的。其实是我们根据<strong>数据特征诱导了一下优化器</strong>，也不具备通用性。</p>
+<p><strong>第三种方法是，在有些场景下，我们可以新建一个更合适的索引，来提供给优化器做选 择，或删掉误用的索引。</strong></p>
+<p>不过，在这个例子中，我没有找到通过新增索引来改变优化器行为的方法。这种情况其实比较 少，尤其是经过DBA索引优化过的库，再碰到这个bug，找到一个更合适的索引一般比较难。</p>
+<p>如果我说还有一个方法是删掉索引b，你可能会觉得好笑。但实际上我碰到过两次这样的例子， 最终是DBA跟业务开发沟通后，发现这个优化器错误选择的索引其实根本没有必要存在，于是 就删掉了这个索引，优化器也就重新选择到了正确的索引。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>前面我们在构造第一个例子的过程中，通过session A的配合， 让session B删除数据后又重新插入了一遍数据，然后就发现explain结果中，rows字段从10001 变成37000多。</p>
+<p>而如果没有session A的配合，只是单独执行delete from t 、call idata()、explain这三句话，会看 到rows字段其实还是10000左右。你可以自己验证一下这个结果。</p>
+<p>这是为什么呢？</p>
+<p>为什么经过这个操作序列，explain的结果就不对了?这 里，我来为你分析一下原因。</p>
+<p>delete 语句删掉了所有的数据，然后再通过call idata()插入了10万行数据，看上去是覆盖了原来 的10万行。</p>
+<p>但是，<strong>session A开启了事务并没有提交，所以之前插入的10万行数据是不能删除的</strong>。这样，之前的数据每一行数据都有两个版本，旧版本是delete之前的数据，新版本是标记为deleted的数 据。</p>
+<p>这样，索引a上的数据其实就有两份。</p>
+<p>然后你会说，不对啊，主键上的数据也不能删，那没有使用force index的语句，使用explain命令 看到的扫描行数为什么还是100000左右?(潜台词，如果这个也翻倍，也许优化器还会认为选 字段a作为索引更合适)</p>
+<p>是的，不过这个是主键，主键是直接按照表的行数来估计的。而表的行数，优化器直接用的是 show table status的值。</p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>innodb是如何处理脏页的</title>
+    <url>/wiki/innodb%E6%98%AF%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E8%84%8F%E9%A1%B5%E7%9A%84/</url>
+    <content><![CDATA[<h1 id="我的mysql为什么会抖一下"><a href="#我的mysql为什么会抖一下" class="headerlink" title="我的mysql为什么会抖一下"></a>我的mysql为什么会抖一下</h1><blockquote>
+<p>innodb引擎是如何处理 <strong>脏页</strong> 的</p>
+</blockquote>
+<p>平时的工作中，不知道你有没有遇到过这样的场景，一条SQL语句，正常执行的时候特别快，但 是有时也不知道怎么回事，它就会变得特别慢，并且这样的场景很难复现，它不只随机，而且持续时间还很短。</p>
+<h2 id="你的SQL语句为什么变“慢”了"><a href="#你的SQL语句为什么变“慢”了" class="headerlink" title="你的SQL语句为什么变“慢”了"></a>你的SQL语句为什么变“慢”了</h2><p>在前面《一条SQL更新语句是如何执行的?》中，介绍了WAL机制。现在你知道了，InnoDB在处理更新语句的时候，只做了写日志这一个磁盘操作。这个日志 叫作redo log(重做日志)，也就是《孔乙己》里咸亨酒店掌柜用来记账的粉板，在更新内存写 完redo log后，就返回给客户端，本次更新成功。</p>
+<p>做下类比的话，掌柜记账的账本是数据文件，记账用的粉板是日志文件(redo log)，掌柜的记忆就是内存。</p>
+<p>掌柜总要找时间把账本更新一下，这对应的就是把内存里的数据写入磁盘的过程，术语就是 <strong>flush</strong>。在这个flush操作执行之前，孔乙己的赊账总额，其实跟掌柜手中账本里面的记录是不一 致的。因为孔乙己今天的赊账金额还只在粉板上，而账本里的记录是老的，还没把今天的赊账算进去。</p>
+<ul>
+<li><p>当内存数据页跟磁盘数据页内容不一致的时候，我们称这个内存页为“脏页”。</p>
+</li>
+<li><p>内存数据写入到磁盘后，内存和磁盘上的数据页的内容就一致了，称为“干净页”。</p>
+</li>
+</ul>
+<p><strong>不论是脏页还是干净页，都在内存中</strong>。在这个例子里，内存对应的就是掌柜的记忆。</p>
+<p>接下来，我们用一个示意图来展示一下“孔乙己赊账”的整个操作过程。假设原来孔乙己欠账10 文，这次又要赊9文。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-81108822d1cb4643a5d86440190c0790bc6.png"></p>
+<p>回到文章开头的问题，你不难想象，平时执行很快的更新操作，其实就是在写内存和日志，而</p>
+<p><strong>MySQL偶尔“抖”一下的那个瞬间，可能就是在刷脏页(flush)。</strong></p>
+<h3 id="那么，什么情况会引发数据库的flush过程呢"><a href="#那么，什么情况会引发数据库的flush过程呢" class="headerlink" title="那么，什么情况会引发数据库的flush过程呢?"></a>那么，什么情况会引发数据库的flush过程呢?</h3><p>我们还是继续用咸亨酒店掌柜的这个例子，想一想:掌柜在什么情况下会把粉板上的赊账记录改</p>
+<p>到账本上?</p>
+<h4 id="第一种场景"><a href="#第一种场景" class="headerlink" title="第一种场景"></a>第一种场景</h4><p>粉板满了，记不下了。这时候如果再有人来赊账，掌柜就只得放下手里的活 儿，将粉板上的记录擦掉一些，留出空位以便继续记账。当然在擦掉之前，他必须先将正确 的账目记录到账本中才行。</p>
+<p> 这个场景，对应的就是InnoDB的redo log写满了。这时候系统会停止所有更新操作，把 checkpoint往前推进，redo log留出空间可以继续写。我在第二讲画了一个redo log的示意 图，这里我改成环形，便于大家理解。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-4e9f7569d6266f23dd6ea7df11fd9a1bc82.png"></p>
+<p>checkpoint可不是随便往前修改一下位置就可以的。比如图2中 👆，把checkpoint位置从CP推进到CP’，就需要将两个点之间的日志(浅绿色部分)，对应的所有脏页都flush到磁盘上。之后，图 中从write pos到CP’之间就是可以再写入的redo log的区域。</p>
+<h4 id="第二种场景"><a href="#第二种场景" class="headerlink" title="第二种场景"></a>第二种场景</h4><p>这一天生意太好，要记住的事情太多，掌柜发现自己快记不住了，赶紧找出 账本把孔乙己这笔账先加进去。 </p>
+<p>这种场景，对应的就是系统内存不足。当需要新的内存页，而内存不够用的时候，就要淘汰一些数据页，空出内存给别的数据页使用。如果淘汰的是“脏页”，就要先将脏页写到磁盘。 </p>
+<p>你一定会说，这时候难道不能直接把内存淘汰掉，下次需要请求的时候，从磁盘读入数据页，然后拿redo log出来应用不就行了? 这里其实是从性能考虑的。</p>
+<p><strong>如果刷脏页一定会写盘， 就保证了每个数据页有两种状态:</strong></p>
+<ul>
+<li><p>一种是内存里存在，内存里就肯定是正确的结果，直接返回; </p>
+</li>
+<li><p>另一种是内存里没有数据，就可以肯定数据文件上是正确的结果，读入内存后返回。 这样的效率最高。</p>
+</li>
+</ul>
+<h4 id="第三种场景"><a href="#第三种场景" class="headerlink" title="第三种场景"></a>第三种场景</h4><p>生意不忙的时候，或者打烊之后。这时候柜台没事，掌柜闲着也是闲着，不 如更新账本。 </p>
+<p>这种场景，对应的就是MySQL认为系统“空闲”的时候。当然，MySQL“这家酒店”的生意好起 来可是会很快就能把粉板记满的，所以“掌柜”要合理地安排时间，即使是“生意好”的时候，也 要见缝插针地找时间，只要有机会就刷一点“脏页”。</p>
+<h4 id="第四种场景"><a href="#第四种场景" class="headerlink" title="第四种场景"></a>第四种场景</h4><p>年底了咸亨酒店要关门几天，需要把账结清一下。这时候掌柜要把所有账都 记到账本上，这样过完年重新开张的时候，就能就着账本明确账目情况了。 </p>
+<p>这种场景，对应的就是MySQL正常关闭的情况。这时候，MySQL会把内存的脏页都flush到磁 盘上，这样下次MySQL启动的时候，就可以直接从磁盘上读数据，启动速度会很快。</p>
+<h4 id="接下来，你可以分析一下上面四种场景对性能的影响。"><a href="#接下来，你可以分析一下上面四种场景对性能的影响。" class="headerlink" title="接下来，你可以分析一下上面四种场景对性能的影响。"></a>接下来，你可以分析一下上面四种场景对性能的影响。</h4><p>其中，第三种情况是属于MySQL空闲时的操作，这时系统没什么压力，而第四种场景是数据库 本来就要关闭了。这两种情况下，你不会太关注“性能”问题。所以这里，我们主要来分析一下前 两种场景下的性能问题。</p>
+<p>第一种是“<strong>redo log写满了，要flush脏页</strong>”，这种情况是InnoDB要尽量避免的。因为出现这种情况 的时候，整个系统就不能再接受更新了，所有的更新都必须堵住。如果你从监控上看，这时候更 新数会跌为0。</p>
+<p>第二种是“内存不够用了，要先将脏页写到磁盘”，这种情况其实是常态。</p>
+<p>InnoDB用缓冲池 (buffer pool)管理内存，缓冲池中的内存页有三种状态:</p>
+<ul>
+<li>第一种是，还没有使用的;</li>
+<li>第二种是，使用了并且是干净页;</li>
+<li>第三种是，使用了并且是脏页。</li>
+</ul>
+<p><strong>InnoDB的策略是尽量使用内存，因此对于一个长时间运行的库来说，未被使用的页面很少。</strong></p>
+<p>而当要读入的数据页没有在内存的时候，就必须到缓冲池中申请一个数据页。</p>
+<p>这时候只能把最久不使用的数据页从内存中淘汰掉: </p>
+<ul>
+<li><p>如果要淘汰的是一个干净页，就直接释放出来复用;</p>
+</li>
+<li><p>但如果是脏页呢，就必须将脏页先刷到磁盘，变成干净页后才能复用。 所以，刷脏页虽然是常态，但是出现以下这两种情况，都是会明显影响性能的:</p>
+<ul>
+<li><p>一个查询要淘汰的脏页个数太多，会导致查询的响应时间明显变长;</p>
+</li>
+<li><p>日志写满，更新全部堵住，写性能跌为0，这种情况对敏感业务来说，是不能接受的。 </p>
+</li>
+</ul>
+<p>所以，InnoDB需要有控制脏页比例的机制，来尽量避免上面的这两种情况。</p>
+</li>
+</ul>
+<h2 id="InnoDB刷脏页的控制策略"><a href="#InnoDB刷脏页的控制策略" class="headerlink" title="InnoDB刷脏页的控制策略"></a>InnoDB刷脏页的控制策略</h2><p>接下来，我就来和你说说InnoDB脏页的控制策略，以及和这些策略相关的参数。</p>
+<p>首先，<strong>你要正确地告诉InnoDB所在主机的IO能力</strong>，这样InnoDB才能知道需要全力刷脏页的时 候，可以刷多快。</p>
+<p>这就要用到 <code>innodb_io_capacity</code> 这个参数了，它会告诉InnoDB你的磁盘能力。这个值我<strong>建议你设置成磁盘的IOPS</strong>。</p>
+<p>磁盘的IOPS可以通过fio这个工具来测试，下面的语句是我用来测试磁盘随机 读写的命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fio -filename=$filename -direct=1 -iodepth 1 -thread -rw=randrw -ioengine=psync -bs=16k -size=500M -numjobs=10 -runtime=10 -group_reporting -name=mytest </span><br></pre></td></tr></table></figure>
+
+<p>其实，因为没能正确地设置innodb_io_capacity参数，而导致的性能问题也比比皆是。之前，就曾有其他公司的开发负责人找我看一个库的性能问题，<strong>说MySQL的写入速度很慢，TPS很低， 但是数据库主机的IO压力并不大</strong>。经过一番排查，发现罪魁祸首就是这个参数的设置出了问题。</p>
+<p>他的主机磁盘用的是SSD，但是innodb_io_capacity的值设置的是300。于是，InnoDB认为这个 系统的能力就这么差，所以刷脏页刷得特别慢，甚至比脏页生成的速度还慢，这样就造成了<strong>脏页累积</strong>，影响了查询和更新性能。</p>
+<p>虽然我们现在已经定义了“全力刷脏页”的行为，但平时总不能一直是全力刷吧? 毕竟磁盘能力不能只用来刷脏页，还需要服务用户请求。所以接下来，我们就一起看看InnoDB怎么控制引擎按 照“全力”的百分比来刷脏页。</p>
+<h3 id="根据我前面提到的知识点，试想一下，如果你来设计策略控制刷脏页的速度，会参考哪些因素呢"><a href="#根据我前面提到的知识点，试想一下，如果你来设计策略控制刷脏页的速度，会参考哪些因素呢" class="headerlink" title="根据我前面提到的知识点，试想一下，如果你来设计策略控制刷脏页的速度，会参考哪些因素呢?"></a>根据我前面提到的知识点，试想一下，如果你来设计策略控制刷脏页的速度，会参考哪些因素呢?</h3><p>这个问题可以这么想，如果刷太慢，会出现什么情况?  首先是内存脏页太多，其次是redo log写满。</p>
+<p>所以，InnoDB的刷盘速度就是要参考这两个因素:一个是脏页比例，一个是redo log写盘速度。</p>
+<p>InnoDB会根据这两个因素先单独算出两个数字。 </p>
+<p>参数 <code>innodb_max_dirty_pages_pct</code> 是脏页比例上限，默认值是75%。InnoDB会根据当前的脏页比例(假设为M)，算出一个范围在0到100之间的数字，计算这个数字的伪代码类似这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">F1(M) &#123;</span><br><span class="line">  if M&gt;=innodb_max_dirty_pages_pct then</span><br><span class="line">      return 100;</span><br><span class="line">  return 100*M/innodb_max_dirty_pages_pct;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>InnoDB每次写入的日志都有一个序号，当前写入的序号跟checkpoint对应的序号之间的差值， 我们假设为N。InnoDB会根据这个N算出一个范围在0到100之间的数字，这个计算公式可以记为 F2(N)。F2(N)算法比较复杂，你只要知道N越大，算出来的值越大就好了。</p>
+<p>然后，根据上述算得的F1(M)和F2(N)两个值，取其中较大的值记为R，之后引擎就可以按照 <code>innodb_io_capacity</code> 定义的能力**乘以R%**来控制刷脏页的速度。</p>
+<p>上述的计算流程比较抽象，不容易理解，所以我画了一个简单的流程图。图中的F1、F2就是上 面我们通过脏页比例和redo log写入速度算出来的两个值。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-20c9667918f63b5caa0ca3397366d407a73.png"></p>
+<p>现在你知道了，InnoDB会在后台刷脏页，而刷脏页的过程是要将内存页写入磁盘。</p>
+<p>所以，无论是你的查询语句在需要内存的时候可能要求淘汰一个脏页，还是由于刷脏页的逻辑会占用IO资源并可能影响到了你的更新语句，都可能是造成你从业务端感知到MySQL“抖”了一下的原因。</p>
+<p>要尽量避免这种情况，你就要合理地设置innodb_io_capacity的值，并且平时要多关注脏页比例，<strong>不要让它经常接近75%。</strong></p>
+<p>其中，脏页比例是通过<code>Innodb_buffer_pool_pages_dirty/Innodb_buffer_pool_pages_total</code>得到 的，具体的命令参考下面的代码:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> VARIABLE_VALUE <span class="keyword">into</span> <span class="variable">@a</span> <span class="keyword">from</span> global_status <span class="keyword">where</span> VARIABLE_NAME <span class="operator">=</span> <span class="string">&#x27;Innodb_buffer_pool_pages_dirty&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> VARIABLE_VALUE <span class="keyword">into</span> <span class="variable">@b</span> <span class="keyword">from</span> global_status <span class="keyword">where</span> VARIABLE_NAME <span class="operator">=</span> <span class="string">&#x27;Innodb_buffer_pool_pages_total&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="variable">@a</span><span class="operator">/</span><span class="variable">@b</span>;</span><br></pre></td></tr></table></figure>
+
+<p>接下来，我们再看一个有趣的策略。</p>
+<p>一旦一个查询请求需要在执行过程中先flush掉一个脏页时，这个查询就可能要比平时慢了。而MySQL中的一个机制，可能让你的查询会更慢：在准备刷一个脏页的时候，如果这个数据页旁边的数据页刚好是脏页，就会把这个“邻居”也带着一起刷掉；而且这个把“邻居”拖下水的逻辑还可以继续蔓延，也就是对于每个邻居数据页，如果跟它相邻的数据页也还是脏页的话，也会被放到一起刷。</p>
+<p>在InnoDB中，<code>innodb_flush_neighbors</code> 参数就是用来控制这个行为的，值为1的时候会有上述的“连坐”机制，值为0时表示不找邻居，自己刷自己的。</p>
+<p>找“邻居”这个优化在机械硬盘时代是很有意义的，可以减少很多随机IO。机械硬盘的随机IOPS一般只有几百，相同的逻辑操作减少随机IO就意味着系统性能的大幅度提升。</p>
+<p>而如果使用的是SSD这类IOPS比较高的设备的话，<strong>我就建议你把innodb_flush_neighbors的值设置成0</strong>。因为这时候IOPS往往不是瓶颈，而“只刷自己”，就能更快地执行完必要的刷脏页操作，减少SQL语句响应时间。</p>
+<p><strong>在MySQL 8.0中，innodb_flush_neighbors参数的默认值已经是0了。</strong></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>今天这篇文章，我延续第2篇中介绍的WAL的概念，和你解释了这个机制后续需要的刷脏页操作和执行时机。利用WAL技术，数据库将随机写转换成了顺序写，大大提升了数据库的性能。</p>
+<p>但是，由此也带来了内存脏页的问题。脏页会被后台线程自动flush，也会由于数据页淘汰而触发flush，而刷脏页的过程由于会占用资源，可能会让你的更新和查询语句的响应时间长一些。在文章里，我也给你介绍了控制刷脏页的方法和对应的监控方式。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>一个内存配置为128GB、innodb_io_capacity设置为20000的大规格实例，正常会建议你将redo log设置成4个1GB的文件。</p>
+<p>但如果你在配置的时候不慎将redo log设置成了1个100M的文件，会发生什么情况呢？又为什么会出现这样的情况呢？</p>
+]]></content>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字符串字段如何创建索引</title>
+    <url>/wiki/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AD%97%E6%AE%B5%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95/</url>
+    <content><![CDATA[<h1 id="怎么给字符串字段添加索引"><a href="#怎么给字符串字段添加索引" class="headerlink" title="怎么给字符串字段添加索引"></a>怎么给字符串字段添加索引</h1><p>现在，几乎所有的系统都支持邮箱登录，如何在邮箱这样的字段上建立合理的索引，是我们今天 要讨论的问题。</p>
+<p>假设，你现在维护一个支持邮箱登录的系统，用户表是这么定义的:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">table</span> SUser(</span><br><span class="line">ID <span class="type">bigint</span> unsigned <span class="keyword">primary</span> key,</span><br><span class="line">email <span class="type">varchar</span>(<span class="number">64</span>),</span><br><span class="line">...</span><br><span class="line">)engine<span class="operator">=</span>innodb;</span><br></pre></td></tr></table></figure>
+
+<p>由于要使用邮箱登录，所以业务代码中一定会出现类似于这样的语句:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> f1, f2 <span class="keyword">from</span> SUser <span class="keyword">where</span> email<span class="operator">=</span><span class="string">&#x27;xxx&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>从第4和第5篇讲解索引的文章中，我们可以知道，如果email这个字段上没有索引，那么这个语 句就只能做全表扫描。</p>
+<p>同时，MySQL是支持前缀索引的，也就是说，你可以定义字符串的一部分作为索引。默认地，<strong>如果你创建索引的语句不指定前缀长度，那么索引就会包含整个字符串。</strong></p>
+<p>比如，这两个在email字段上创建索引的语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; alter table SUser add index index1(email);</span><br><span class="line">或</span><br><span class="line">mysql&gt; alter table SUser add index index2(email(6));</span><br></pre></td></tr></table></figure>
+
+<p>第一个语句创建的index1索引里面，包含了每个记录的整个字符串;而第二个语句创建的index2 索引里面，对于每个记录都是只取前6个字节。</p>
+<p>那么，这两种不同的定义在数据结构和存储上有什么区别呢?如图2和3所示，就是这两个索引 的示意图。</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-fa537bde10fbcdecaf1b58576ec108c66f9.png"></p>
+<p>索引2 👇</p>
+<p><img src="https://oscimg.oschina.net/oscnet/up-68ada8a9dc6378cf9e9b3d35b9aab0a0bef.png"></p>
+<p>从图中你可以看到，由于email(6)这个索引结构中每个邮箱字段都只取前6个字节(即:zhangs)，所以占用的空间会更小，这就是使用前缀索引的优势。</p>
+<p>但，这同时带来的损失是，<strong>可能会增加额外的记录扫描次数</strong>。</p>
+<p>接下来，我们再看看下面这个语句，在这两个索引定义下分别是怎么执行的。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,name,email <span class="keyword">from</span> SUser <span class="keyword">where</span> email<span class="operator">=</span><span class="string">&#x27;zhangssxyz@xxx.com&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果使用的是index1(即email整个字符串的索引结构)，执行顺序是这样的:</p>
+<ul>
+<li><p>从index1索引树找到满足索引值是’<a href="mailto:&#122;&#104;&#x61;&#x6e;&#103;&#115;&#115;&#120;&#121;&#x7a;&#64;&#120;&#x78;&#x78;&#x2e;&#x63;&#111;&#x6d;">&#122;&#104;&#x61;&#x6e;&#103;&#115;&#115;&#120;&#121;&#x7a;&#64;&#120;&#x78;&#x78;&#x2e;&#x63;&#111;&#x6d;</a>’的这条记录，取得ID2的值;</p>
+</li>
+<li><p>到主键上查到主键值是ID2的行，判断email的值是正确的，将这行记录加入结果集;</p>
+</li>
+<li><p>取index1索引树上刚刚查到的位置的下一条记录，发现已经不满足 email=‘<a href="mailto:&#122;&#104;&#97;&#x6e;&#x67;&#115;&#x73;&#120;&#121;&#x7a;&#x40;&#120;&#x78;&#120;&#x2e;&#99;&#x6f;&#109;">&#122;&#104;&#97;&#x6e;&#x67;&#115;&#x73;&#120;&#121;&#x7a;&#x40;&#120;&#x78;&#120;&#x2e;&#99;&#x6f;&#109;</a>’的条件了，循环结束。</p>
+</li>
+</ul>
+<p>这个过程中，只需要回主键索引取一次数据，所以系统认为只扫描了一行。</p>
+</li>
+<li><p>如果使用的是index2(即email(6)索引结构)，执行顺序是这样的:</p>
+<ul>
+<li>从index2索引树找到满足索引值是’zhangs’的记录，找到的第一个是ID1;</li>
+<li>到主键上查到主键值是ID1的行，判断出email的值不是’<a href="mailto:&#x7a;&#x68;&#97;&#110;&#103;&#115;&#x73;&#120;&#x79;&#x7a;&#x40;&#120;&#120;&#x78;&#46;&#99;&#111;&#109;">&#x7a;&#x68;&#97;&#110;&#103;&#115;&#x73;&#120;&#x79;&#x7a;&#x40;&#120;&#120;&#x78;&#46;&#99;&#111;&#109;</a>’，这行记录丢 弃;</li>
+<li>取index2上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出ID2，再到ID索引上取 整行然后判断，这次值对了，将这行记录加入结果集;</li>
+<li>重复上一步，直到在idxe2上取到的值不是’zhangs’时，循环结束。</li>
+</ul>
+<p>在这个过程中，要回主键索引取4次数据，也就是扫描了4行。</p>
+</li>
+</ul>
+<p><strong>通过这个对比，你很容易就可以发现，使用前缀索引后，可能会导致查询语句读数据的次数变多。</strong></p>
+<blockquote>
+<p>但是，对于这个查询语句来说，如果你定义的index2不是email(6)而是email(7)，也就是说取 email字段的前7个字节来构建索引的话，即满足前缀’zhangss’的记录只有一个，也能够直接查到 ID2，只扫描一行就结束了。</p>
+</blockquote>
+<p><font color=blue>也就是说使用前缀索引，定义好长度，就可以做到既节省空间，又不用额外增加太多的查 询成本。</font></p>
+<h2 id="如何定义前缀索引的长度呢"><a href="#如何定义前缀索引的长度呢" class="headerlink" title="如何定义前缀索引的长度呢"></a>如何定义前缀索引的长度呢</h2><p>于是，你就有个问题:当要给字符串创建前缀索引时，有什么方法能够确定我应该使用多长的前缀呢?</p>
+<p>实际上，我们在建立索引时关注的是区分度，区分度越高越好。因为区分度越高，意味着重复的 键值越少。因此，我们可以通过统计索引上有多少个不同的值来判断要使用多长的前缀。</p>
+<p>首先，你可以使用下面这个语句，算出这个列上有多少个不同的值:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> <span class="built_in">count</span>(<span class="keyword">distinct</span> email) <span class="keyword">as</span> L <span class="keyword">from</span> SUser;</span><br></pre></td></tr></table></figure>
+
+<p>然后，依次选取不同长度的前缀来看这个值，比如我们要看一下4~7个字节的前缀索引，可以用 这个语句:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span></span><br><span class="line"><span class="built_in">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(email,<span class="number">4</span>))<span class="keyword">as</span> L4, <span class="built_in">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(email,<span class="number">5</span>))<span class="keyword">as</span> L5, <span class="built_in">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(email,<span class="number">6</span>))<span class="keyword">as</span> L6, <span class="built_in">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(email,<span class="number">7</span>))<span class="keyword">as</span> L7,</span><br><span class="line"><span class="keyword">from</span> SUser;</span><br></pre></td></tr></table></figure>
+
+<p>当然，使用前缀索引很可能会损失区分度，所以你需要预先设定一个可以接受的损失比例，比如 5%。然后，在返回的L4~L7中，找出不小于 L * 95%的值，假设这里L6、L7都满足，你就可以 选择前缀长度为6。</p>
+<h2 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h2><p>前面我们说了使用前缀索引可能会增加扫描行数，这会影响到性能。其实，前缀索引的影响不止 如此，我们再看一下另外一个场景。</p>
+<p>你先来看看这个SQL语句:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,email <span class="keyword">from</span> SUser <span class="keyword">where</span> email<span class="operator">=</span><span class="string">&#x27;zhangssxyz@xxx.com&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>与前面例子中的SQL语句</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> id,name,email <span class="keyword">from</span> SUser <span class="keyword">where</span> email<span class="operator">=</span><span class="string">&#x27;zhangssxyz@xxx.com&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>相比，这个语句只要求返回id和email字段。</p>
+<p>所以，如果使用index1(即email整个字符串的索引结构)的话，可以利用覆盖索引，从index1查 到结果后直接就返回了，不需要回到ID索引再去查一次。而如果使用index2(即email(6)索引结 构)的话，就不得不回到ID索引再去判断email字段的值。</p>
+<p><strong>即使你将index2的定义修改为email(18)的前缀索引，这时候虽然index2已经包含了所有的信息， 但InnoDB还是要回到id索引再查一下，因为系统并不确定前缀索引的定义是否截断了完整信息。</strong></p>
+<p><font color=red>也就是说，使用前缀索引就用不上覆盖索引对查询性能的优化了，这也是你在选择是否使用前缀 索引时需要考虑的一个因素。</font></p>
+<h2 id="其他方式"><a href="#其他方式" class="headerlink" title="其他方式"></a>其他方式</h2><p>对于类似于邮箱这样的字段来说，使用前缀索引的效果可能还不错。但是，遇到前缀的区分度不够好的情况时，我们要怎么办呢?</p>
+<p>比如，我们国家的身份证号，一共18位，其中前6位是地址码，所以同一个县的人的身份证号前</p>
+<p>6位一般会是相同的。 假设你维护的数据库是一个市的公民信息系统，这时候如果对身份证号做长度为6的前缀索引的话，这个索引的区分度就非常低了。 按照我们前面说的方法，可能你需要创建长度为12以上的前缀索引，才能够满足区分度要求。</p>
+<p>但是，索引选取的越长，占用的磁盘空间就越大，相同的数据页能放下的索引值就越少，搜索的 效率也就会越低。</p>
+<p>那么，如果我们能够确定业务需求里面只有按照身份证进行等值查询的需求，还有没有别的处理 方法呢?这种方法，既可以占用更小的空间，也能达到相同的查询效率。</p>
+<p>答案是，有的。</p>
+<h3 id="第一种方式是使用倒序存储"><a href="#第一种方式是使用倒序存储" class="headerlink" title="第一种方式是使用倒序存储"></a>第一种方式是使用倒序存储</h3><p>如果你存储身份证号的时候把它倒过来存，每次查询的时候，你 可以这么写:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">select</span> field_list <span class="keyword">from</span> t <span class="keyword">where</span> id_card <span class="operator">=</span> reverse(<span class="string">&#x27;input_id_card_string&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>由于身份证号的最后6位没有地址码这样的重复逻辑，所以最后这6位很可能就提供了足够的区 分度。当然了，实践中你不要忘记使用count(distinct)方法去做个验证。</p>
+<h3 id="第二种方式是使用hash字段"><a href="#第二种方式是使用hash字段" class="headerlink" title="第二种方式是使用hash字段"></a>第二种方式是使用hash字段</h3><p>你可以在表上再创建一个整数字段，来保存身份证的校验码， 同时在这个字段上创建索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql&gt; alter table t add id_card_crc int unsigned, add index(id_card_crc);</span><br></pre></td></tr></table></figure>
+
+<p>然后每次插入新记录的时候，都同时用crc32()这个函数得到校验码填到这个新字段。由于校验码 可能存在冲突，也就是说两个不同的身份证号通过crc32()函数得到的结果可能是相同的，所以你 的查询语句where部分要判断id_card的值是否精确相同。</p>
+<p>这样，<strong>索引的长度变成了4个字节</strong>，比原来小了很多。</p>
+<p>接下来，我们再一起看看使用倒序存储和使用hash字段这两种方法的异同点。</p>
+<h3 id="首先，它们的相同点是，"><a href="#首先，它们的相同点是，" class="headerlink" title="首先，它们的相同点是，"></a>首先，它们的相同点是，</h3><p>都不支持范围查询。倒序存储的字段上创建的索引是按照倒序字符串的 方式排序的，已经没有办法利用索引方式查出身份证号码在[ID_X, ID_Y]的所有市民了。同样 地，hash字段的方式也只能支持等值查询。</p>
+<h3 id="它们的区别，"><a href="#它们的区别，" class="headerlink" title="它们的区别，"></a>它们的区别，</h3><p>主要体现在以下三个方面:</p>
+<ol>
+<li>从占用的额外空间来看，倒序存储方式在主键索引上，不会消耗额外的存储空间，而hash字 段方法需要增加一个字段。当然，倒序存储方式使用4个字节的前缀长度应该是不够的，如 果再长一点，这个消耗跟额外这个hash字段也差不多抵消了。</li>
+<li>在CPU消耗方面，倒序方式每次写和读的时候，都需要额外调用一次reverse函数，而hash 字段的方式需要额外调用一次crc32()函数。如果只从这两个函数的计算复杂度来看的 话，reverse函数额外消耗的CPU资源会更小些。</li>
+<li>从查询效率上看，使用hash字段方式的查询性能相对更稳定一些。因为crc32算出来的值虽 然有冲突的概率，但是概率非常小，可以认为每次查询的平均扫描行数接近1。而倒序存储 方式毕竟还是用的前缀索引的方式，也就是说还是会增加扫描行数。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在今天这篇文章中，我跟你聊了聊字符串字段创建索引的场景。我们来回顾一下，你可以使用的 方式有:</p>
+<ol>
+<li>直接创建完整索引，这样可能比较占用空间;</li>
+<li>创建前缀索引，节省空间，但会增加查询扫描次数，并且不能使用覆盖索引;</li>
+<li>倒序存储，再创建前缀索引，用于绕过字符串本身前缀的区分度不够的问题;</li>
+<li>创建hash字段索引，查询性能稳定，有额外的存储和计算消耗，跟第三种方式一样，都不支持范围扫描。</li>
+</ol>
+<p>在实际应用中，你要根据业务字段的特点选择使用哪种方式。</p>
+<hr>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>好了，又到了最后的问题时间。</p>
+<p>如果你在维护一个学校的学生信息数据库，学生登录名的统一格式是”学号@gmail.com”, 而学号的规则是:十五位的数字，其中前三位是所在城市编号、第四到第六位是学校编号、第七位到第 十位是入学年份、最后五位是顺序编号。</p>
+<p>系统登录的时候都需要学生输入登录名和密码，验证正确后才能继续使用系统。就只考虑登录验证这个行为的话，你会怎么设计这个登录名的索引呢?</p>
+<p>由于这个学号的规则，无论是正向还是反向的前缀索引，重复度都比较高。因为维护的只是一个学校的，因此前面6位（其中，前三位是所在城市编号、第四到第六位是学校编号）其实是固定的，邮箱后缀都是@gamil.com，因此可以只存入学年份加顺序编号，它们的长度是9位。</p>
+<p>而其实在此基础上，可以用数字类型来存这9位数字。比如201100001，这样只需要占4个字节。其实这个就是一种hash，只是它用了最简单的转换规则：字符串转数字的规则，而刚好我们设定的这个背景，可以保证这个转换后结果的唯一性。</p>
+]]></content>
+  </entry>
 </search>
